@@ -1,0 +1,32 @@
+<template>
+  <div>
+    Recover account by enter you mobile phone number
+  </div>
+</template>
+
+<script lang="ts">
+import Vue from 'vue'
+import Component from 'vue-class-component';
+import {Prop, Watch} from 'vue-property-decorator'
+
+@Component({})
+export default class PhoneNumber extends Vue {
+    //@Prop() msg: string = '';
+
+    //Cycle hooks
+    mounted () {
+    }
+
+    //Computed properties
+    get computedMsg () {
+        return '';
+    }
+
+    //Methods
+    methodFunction () {
+    }
+}
+</script>
+
+<style scoped lang="scss">
+</style>
