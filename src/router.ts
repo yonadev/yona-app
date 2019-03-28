@@ -12,27 +12,27 @@ import Activities from './views/Welcome/Activities.vue'
 import Choose from './views/Welcome/Choose.vue'
 
 //Welcome modole
-import AbstractLogin from './views/login/AbstractLogin.vue'
-import Pincode from './views/login/Pincode.vue'
-import Locked from './views/login/Locked.vue'
-import WaitLocked from './views/login/WaitLocked.vue'
-import AddDevice from './views/login/AddDevice.vue'
+import AbstractLogin from './views/Login/AbstractLogin.vue'
+import Pincode from './views/Login/Pincode.vue'
+import Locked from './views/Login/Locked.vue'
+import WaitLocked from './views/Login/WaitLocked.vue'
+import AddDevice from './views/Login/AddDevice.vue'
 
     //Welcome -> recover submodule
-    import AbstractRecoverAccount from './views/login/RecoverAccount/AbstractRecoverAccount.vue'
-    import PhoneNumber from './views/login/RecoverAccount/PhoneNumber.vue'
-    import RecoverSms from './views/login/RecoverAccount/RecoverSms.vue'
+    import AbstractRecoverAccount from './views/Login/RecoverAccount/AbstractRecoverAccount.vue'
+    import PhoneNumber from './views/Login/RecoverAccount/PhoneNumber.vue'
+    import RecoverSms from './views/Login/RecoverAccount/RecoverSms.vue'
 
 //Signup modole
-import AbstractSignUp from './views/signup/AbstractSignUp.vue'
-import Names from './views/signup/Names.vue'
-import AccountInfo from './views/signup/AccountInfo.vue'
-import SmsValidation from './views/signup/SmsValidation.vue'
+import AbstractSignUp from './views/Signup/AbstractSignUp.vue'
+import Names from './views/Signup/Names.vue'
+import AccountInfo from './views/Signup/AccountInfo.vue'
+import SmsValidation from './views/Signup/SmsValidation.vue'
 
     //Signup -> pincode submodule
-    import AbstractSetPinCode from './views/signup/Pincode/AbstractSetPinCode.vue'
-    import SetPinCode from './views/signup/Pincode/SetPinCode.vue'
-    import ConfirmPinCode from './views/signup/Pincode/ConfirmPinCode.vue'
+    import AbstractSetPinCode from './views/Signup/Pincode/AbstractSetPinCode.vue'
+    import SetPinCode from './views/Signup/Pincode/SetPinCode.vue'
+    import ConfirmPinCode from './views/Signup/Pincode/ConfirmPinCode.vue'
 
 //Me module
 import AbstractMe from './views/Me/AbstractMe.vue'
