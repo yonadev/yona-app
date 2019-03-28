@@ -1,6 +1,8 @@
 <template>
   <div>
-    Limits
+    <h3>Add a timeframe -> select the time range for this challenge</h3>
+
+    <router-view></router-view>
   </div>
 </template>
 
@@ -10,7 +12,7 @@ import Component from 'vue-class-component';
 import {Prop, Watch} from 'vue-property-decorator'
 
 @Component({})
-export default class Limits extends Vue {
+export default class TimeFrameRange extends Vue {
     //@Prop() msg: string = '';
 
     //Cycle hooks

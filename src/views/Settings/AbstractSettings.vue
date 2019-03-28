@@ -1,6 +1,7 @@
 <template>
   <div>
-    Activities
+    SETTINGS
+    <router-view></router-view>
   </div>
 </template>
 
@@ -10,7 +11,7 @@ import Component from 'vue-class-component';
 import {Prop, Watch} from 'vue-property-decorator'
 
 @Component({})
-export default class Activities extends Vue {
+export default class AbstractSettings extends Vue {
     //@Prop() msg: string = '';
 
     //Cycle hooks

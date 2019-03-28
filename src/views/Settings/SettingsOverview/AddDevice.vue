@@ -1,6 +1,6 @@
 <template>
   <div>
-    Share
+    Add device
   </div>
 </template>
 
@@ -10,7 +10,7 @@ import Component from 'vue-class-component';
 import {Prop, Watch} from 'vue-property-decorator'
 
 @Component({})
-export default class Share extends Vue {
+export default class AddDevice extends Vue {
     //@Prop() msg: string = '';
 
     //Cycle hooks

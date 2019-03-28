@@ -5,10 +5,7 @@ import Start from './views/Start.vue'
 
 //Welcome modole
 import AbstractWelcome from './views/Welcome/AbstractWelcome.vue'
-import Transparency from './views/Welcome/Transparency.vue'
-import Share from './views/Welcome/Share.vue'
-import Limits from './views/Welcome/Limits.vue'
-import Activities from './views/Welcome/Activities.vue'
+import Tour from './views/Welcome/Tour.vue'
 import Choose from './views/Welcome/Choose.vue'
 
 //Welcome modole
@@ -51,6 +48,50 @@ import FriendAdd from './views/Friends/Add.vue'
     import Statistics from './views/Friends/Friend/Statistics.vue'
     import FriendsProfile from './views/Friends/Friend/Profile.vue'
 
+//Challenges module
+import AbstractChallenges from './views/Challenges/AbstractChallenges.vue'
+import ChallengesTabs from './views/Challenges/ChallengesTabs.vue'
+
+    //Submodule Challenges -> TimeBuckets
+    import AbstractTimeBuckets from './views/Challenges/TimeBuckets/AbstractTimeBuckets.vue'
+    import TimeBucketsList from './views/Challenges/TimeBuckets/TimeBucketsList.vue'
+
+
+        //Submodule Challenges -> TimeBucket -> TimeBucketAdd
+        import AbstractTimeBucketAdd from './views/Challenges/TimeBuckets/TimeBucketAdd/AbstractTimeBucketAdd.vue'
+        import TimeBucketsAdd from './views/Challenges/TimeBuckets/TimeBucketAdd/TimeBucketsAdd.vue'
+        import TimeBucketsCredit from './views/Challenges/TimeBuckets/TimeBucketAdd/TimeBucketsCredit.vue'
+
+    //Submodule Challenges -> TimeFrames
+    import AbstractTimeFrames from './views/Challenges/TimeFrames/AbstractTimeFrames.vue'
+    import TimeFramesList from './views/Challenges/TimeFrames/TimeFramesList.vue'
+
+        //Submodule Challenges -> TimeFrame -> TimeFrameAdd
+        import AbstractTimeFrameAdd from './views/Challenges/TimeFrames/TimeFrameAdd/AbstractTimeFrameAdd.vue'
+        import TimeFrameAdd from './views/Challenges/TimeFrames/TimeFrameAdd/TimeFrameAdd.vue'
+        import TimeFrameRange from './views/Challenges/TimeFrames/TimeFrameAdd/TimeFrameRange.vue'
+
+    //Submodule Challenges -> NoGo's
+    import AbstractNoGos from './views/Challenges/NoGos/AbstractNoGos.vue'
+    import NoGosList from './views/Challenges/NoGos/NoGosList.vue'
+
+        //Submodule Challenges -> NoGo's -> NoGoAdd
+        import AbstractNoGoAdd from './views/Challenges/NoGos/NoGoAdd/AbstractNoGoAdd.vue'
+        import NoGoAdd from './views/Challenges/NoGos/NoGoAdd/NoGoAdd.vue'
+
+//Settings module
+import AbstractSettings from './views/Settings/AbstractSettings.vue'
+import Settings from './views/Settings/Settings.vue'
+
+    import AbstractSettingsOverview from './views/Settings/SettingsOverview/AbstractSettingsOverview.vue'
+        import SettingsOverview from './views/Settings/SettingsOverview/SettingsOverview.vue'
+        import ChangePinCode from './views/Settings/SettingsOverview/ChangePinCode.vue'
+        import SettingsAddDevice from './views/Settings/SettingsOverview/AddDevice.vue'
+        import Unsubscribe from './views/Settings/SettingsOverview/Unsubscribe.vue'
+
+    import About from './views/Settings/About/About.vue'
+    import Help from './views/Settings/Help/Help.vue'
+
 Vue.use(Router);
 
 export default new Router({
@@ -65,24 +106,9 @@ export default new Router({
             component: AbstractWelcome,
             children: [
                 {
-                    path: 'transparency',
-                    name: 'Transparency',
-                    component: Transparency
-                },
-                {
-                    path: 'share',
-                    name: 'Share',
-                    component: Share
-                },
-                {
-                    path: 'limits',
-                    name: 'Limits',
-                    component: Limits
-                },
-                {
-                    path: 'activities',
-                    name: 'Activities',
-                    component: Activities
+                    path: 'tour',
+                    name: 'Tour',
+                    component: Tour
                 },
                 {
                     path: 'choose',
@@ -227,6 +253,142 @@ export default new Router({
                     ]
                 }
             ]
-        }
+        },
+        {
+            path: '/challenges',
+            component: AbstractChallenges,
+            children: [
+                {
+                    path: '',
+                    name: 'ChallengesTabs',
+                    component: ChallengesTabs,
+                    children: [
+                        {
+                            path: 'timebuckets',
+                            component: AbstractTimeBuckets,
+                            children: [
+                                {
+                                    path: '',
+                                    name: 'TimeBucketsList',
+                                    component: TimeBucketsList
+                                },
+                                {
+                                    path: 'add',
+                                    component: AbstractTimeBucketAdd,
+                                    children: [
+                                        {
+                                            path: '',
+                                            name: 'TimeBucketsAdd',
+                                            component: TimeBucketsAdd
+                                        },
+                                        {
+                                            path: 'credit',
+                                            name: 'TimeBucketsCredit',
+                                            component: TimeBucketsCredit
+                                        }
+                                    ]
+                                },
+                            ]
+                        },
+                        {
+                            path: 'timeframes',
+                            component: AbstractTimeFrames,
+                            children: [
+                                {
+                                    path: '',
+                                    name: 'TimeFramesList',
+                                    component: TimeFramesList
+                                },
+                                {
+                                    path: 'add',
+                                    component: AbstractTimeFrameAdd,
+                                    children: [
+                                        {
+                                            path: '',
+                                            name: 'TimeFrameAdd',
+                                            component: TimeFrameAdd
+                                        },
+                                        {
+                                            path: 'timerange',
+                                            name: 'TimeFrameRange',
+                                            component: TimeFrameRange
+                                        }
+                                    ]
+                                },
+                            ]
+                        },
+                        {
+                            path: 'nogos',
+                            component: AbstractNoGos,
+                            children: [
+                                {
+                                    path: '',
+                                    name: 'NoGosList',
+                                    component: NoGosList
+                                },
+                                {
+                                    path: 'add',
+                                    component: AbstractNoGoAdd,
+                                    children: [
+                                        {
+                                            path: '',
+                                            name: 'NoGoAdd',
+                                            component: NoGoAdd
+                                        }
+                                    ]
+                                },
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            path: '/settings',
+            component: AbstractSettings,
+            children: [
+                {
+                    path: '',
+                    name: 'Settings',
+                    component: Settings
+                },
+                {
+                    path: 'overview',
+                    component: AbstractSettingsOverview,
+                    children: [
+                        {
+                            path: '',
+                            name: 'SettingsOverview',
+                            component: SettingsOverview
+                        },
+                        {
+                            path: 'changepin',
+                            name: 'ChangePinCode',
+                            component: ChangePinCode
+                        },
+                        {
+                            path: 'adddevice',
+                            name: 'SettingsAddDevice',
+                            component: SettingsAddDevice
+                        },
+                        {
+                            path: 'unsubscribe',
+                            name: 'Unsubscribe',
+                            component: Unsubscribe
+                        }
+                    ]
+                },
+                {
+                    path: 'about',
+                    name: 'About',
+                    component: About
+                },
+                {
+                    path: 'help',
+                    name: 'Help',
+                    component: Help
+                }
+            ]
+        },
     ]
 })
