@@ -11,6 +11,8 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  height:100%;
+  position: relative;
 }
 #nav {
   padding: 30px;
@@ -21,5 +23,14 @@
       color: #42b983;
     }
   }
+}
+html{
+  height:100%;
+  position: relative;
+}
+body{
+  height:100%;
+  position: relative;
+  margin: 0;
 }
 </style>

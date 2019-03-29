@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <router-view></router-view>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script lang="ts">
@@ -28,5 +26,5 @@ export default class AbstractWelcome extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 </style>

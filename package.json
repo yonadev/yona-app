@@ -13,6 +13,7 @@
     "emulate": "vue-cli-service build --dest /www/dist && cordova run android"
   },
   "dependencies": {
+    "bulma": "^0.7.4",
     "cordova-android": "^8.0.0",
     "cordova-plugin-whitelist": "^1.3.3",
     "vue": "^2.6.6",
