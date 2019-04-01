@@ -6,6 +6,8 @@ import store from './store'
 //partial import bulma
 import "./sass/import_bulma.scss"
 
+import "../node_modules/tiny-slider/src/tiny-slider.scss"
+
 Vue.config.productionTip = false
 
 new Vue({
