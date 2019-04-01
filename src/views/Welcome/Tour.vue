@@ -72,6 +72,7 @@ export default class Tour extends Vue {
 </script>
 
 <style lang="scss">
+  @import "../../sass/variables";
   #tour{
     height:100%;
     position: relative;
@@ -89,41 +90,41 @@ export default class Tour extends Vue {
       //Set colors
       &.slide-0{
         .tour-title{
-          color:#e8308a;
+          color:$color-purple;
         }
         .image-wrapper{
           svg polygon{
-            fill:#e8308a;
+            fill:$color-purple;
           }
         }
       }
       &.slide-1{
         .tour-title{
-          color:#95c11f;
+          color:$color-green;
         }
         .image-wrapper{
           svg polygon{
-            fill:#95c11f;
+            fill:$color-green;
           }
         }
       }
       &.slide-2{
         .tour-title{
-          color:#1d71b8;
+          color:$color-blue;
         }
         .image-wrapper{
           svg polygon{
-            fill:#1d71b8;
+            fill:$color-blue;
           }
         }
       }
       &.slide-3{
         .tour-title{
-          color:#f9b233;
+          color:$color-yellow;
         }
         .image-wrapper{
           svg polygon{
-            fill:#f9b233;
+            fill:$color-yellow;
           }
         }
       }
@@ -141,16 +142,16 @@ export default class Tour extends Vue {
         padding:0;
         &.tns-nav-active{
           &:first-child{
-            background-color:#e8308a;
+            background-color:$color-purple;
           }
           &:nth-child(2){
-            background-color:#95c11f;
+            background-color:$color-green;
           }
           &:nth-child(3){
-            background-color:#1d71b8;
+            background-color:$color-blue;
           }
           &:nth-child(4){
-            background-color:#f9b233;
+            background-color:$color-yellow;
           }
         }
       }
@@ -197,7 +198,7 @@ export default class Tour extends Vue {
         width: 100%;
         height: auto;
         polygon{
-          fill:#6c2a58;
+          fill:$color-purple-dark;
         }
       }
     }
