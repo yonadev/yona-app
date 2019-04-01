@@ -1,31 +1,28 @@
 <template>
   <div id="tour">
-    <div v-for="(slide, index) in slides" class="slide" :key="index+1" :class="['slide-'+index, {'active': index===0}]">
-      <div class="dots has-text-centered">
-        <div v-for="n in 4" :class="{'active': index === (n-1)}" :key="'dot-'+n"></div>
-      </div>
-
-      <p class="tour-title has-text-centered">
-        {{slide.title}}
-      </p>
-
-      <div class="image-wrapper">
-        <img class="tour-image" :src="require('@/assets/tour_images/tour_image_'+index+'.svg')" />
-        <p class="tour-text">
-          {{slide.text}}
+    <div id="tour-slider">
+      <div v-for="(slide, index) in slides" class="slide" :key="index+1" :class="['slide-'+index, {'': index===0}]">
+        <p class="tour-title has-text-centered">
+          {{slide.title}}
         </p>
-        <svg class="tour-svg" x="0px" y="0px" viewBox="0 0 200 1000">
-          <polygon points="0,0 325,200 1000,1000 0,1000" />
-        </svg>
-      </div>
 
-      <button class="skip-tour">
-        <img class="skip-icon" src="../../assets/tour_images/icon_next.svg" />
-        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 200 160">
-          <polygon points="0,160 240,240 240,0" />
-        </svg>
-      </button>
+        <div class="image-wrapper">
+          <img class="tour-image" :src="require('@/assets/tour_images/tour_image_'+index+'.svg')" />
+          <p class="tour-text">
+            {{slide.text}}
+          </p>
+          <svg class="tour-svg" x="0px" y="0px" viewBox="0 0 200 1000">
+            <polygon points="0,0 325,200 1000,1000 0,1000" />
+          </svg>
+        </div>
+      </div>
     </div>
+    <button class="skip-tour">
+      <img class="skip-icon" src="../../assets/tour_images/icon_next.svg" />
+      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 200 160">
+        <polygon points="0,160 240,240 240,0" />
+      </svg>
+    </button>
   </div>
 </template>
 
@@ -33,6 +30,7 @@
 import Vue from 'vue'
 import Component from 'vue-class-component';
 import {Prop, Watch} from 'vue-property-decorator'
+import { tns } from '../../../node_modules/tiny-slider/src/tiny-slider'
 
 @Component({})
 export default class Tour extends Vue {
@@ -46,6 +44,18 @@ export default class Tour extends Vue {
 
   //Cycle hooks
   mounted () {
+      tns({
+          mode: "gallery",
+          container: '#tour-slider',
+          items: 1,
+          slideBy: 1,
+          nav: true,
+          controls: false,
+          mouseDrag: true,
+          autoplay:true,
+          autoplayTimeout: 4000,
+          autoplayButtonOutput: false
+      });
   }
 
   //Computed properties
@@ -60,13 +70,17 @@ export default class Tour extends Vue {
 </script>
 
 <style lang="scss">
-  
   #tour{
     height:100%;
     position: relative;
     overflow: hidden;
+    .tns-outer{
+      height:100%;
+      #tour-slider-mw{
+        height:100%;
+      }
+    }
     .slide{
-      display:none;
       &.active{
         display:block;
       }
@@ -80,11 +94,6 @@ export default class Tour extends Vue {
             fill:#e8308a;
           }
         }
-        .dots{
-          div.active{
-            background-color:#e8308a;
-          }
-        }
       }
       &.slide-1{
         .tour-title{
@@ -93,11 +102,6 @@ export default class Tour extends Vue {
         .image-wrapper{
           svg polygon{
             fill:#95c11f;
-          }
-        }
-        .dots{
-          div.active{
-            background-color:#95c11f;
           }
         }
       }
@@ -110,11 +114,6 @@ export default class Tour extends Vue {
             fill:#1d71b8;
           }
         }
-        .dots{
-          div.active{
-            background-color:#1d71b8;
-          }
-        }
       }
       &.slide-3{
         .tour-title{
@@ -125,22 +124,33 @@ export default class Tour extends Vue {
             fill:#f9b233;
           }
         }
-        .dots{
-          div.active{
-            background-color:#f9b233;
-          }
-        }
       }
     }
-    .dots{
+    .tns-nav{
       margin:30px 0;
-      div{
+      button{
         height:8px;
         width:8px;
         background-color:#d8d8d8;
         display:inline-block;
         margin:0 10px;
         border-radius:100%;
+        border:none;
+        padding:0;
+        &.tns-nav-active{
+          &:first-child{
+            background-color:#e8308a;
+          }
+          &:nth-child(2){
+            background-color:#95c11f;
+          }
+          &:nth-child(3){
+            background-color:#1d71b8;
+          }
+          &:nth-child(4){
+            background-color:#f9b233;
+          }
+        }
       }
     }
     .tour-title{
