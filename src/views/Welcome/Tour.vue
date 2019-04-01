@@ -17,12 +17,14 @@
         </div>
       </div>
     </div>
-    <button class="skip-tour">
-      <img class="skip-icon" src="../../assets/tour_images/icon_next.svg" />
-      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 200 160">
-        <polygon points="0,160 240,240 240,0" />
-      </svg>
-    </button>
+    <router-link :to="{name: 'Choose'}">
+      <button class="skip-tour" >
+        <img class="skip-icon" src="../../assets/tour_images/icon_next.svg" />
+        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 200 160">
+          <polygon points="0,160 240,240 240,0" />
+        </svg>
+      </button>
+    </router-link>
   </div>
 </template>
 
@@ -35,7 +37,7 @@ import { tns } from '../../../node_modules/tiny-slider/src/tiny-slider'
 @Component({})
 export default class Tour extends Vue {
 
-  @Prop() slides: Array = [
+  @Prop() slides: Array <Object> = [
       { "title": "Transparantie", "text": "Persoonlijke keuze om transparant te zijn..." },
       { "title": "Delen", "text": "Je doelen delen met de persoon die je vertrouwt" },
       { "title": "Grenzen", "text": "Grenzen afspreken en daar anderen in betrekken" },
