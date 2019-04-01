@@ -7,7 +7,7 @@
         </p>
 
         <div class="image-wrapper">
-          <img class="tour-image" :src="require('@/assets/tour_images/tour_image_'+index+'.svg')" />
+          <img class="tour-image" :src="require('@/assets/images/welcome/tour_image_'+index+'.svg')" />
           <p class="tour-text">
             {{slide.text}}
           </p>
@@ -19,7 +19,7 @@
     </div>
     <router-link :to="{name: 'Choose'}">
       <button class="skip-tour" >
-        <img class="skip-icon" src="../../assets/tour_images/icon_next.svg" />
+        <img class="skip-icon" src="../../assets/images/welcome/icon_next.svg" />
         <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 200 160">
           <polygon points="0,160 240,240 240,0" />
         </svg>
