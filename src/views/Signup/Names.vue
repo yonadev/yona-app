@@ -8,7 +8,7 @@
         <img src="../../assets/images/signup/account/add_avatar.svg"/>
       </div>
     </div>
-    <div class="input-fields">
+    <div class="wrapper">
       <input-floating-label id="firstname" label="VOORNAAM" v-model="firstname" type="text" icon="icn_name.svg"></input-floating-label>
       <input-floating-label id="lastname" label="ACHTERNAAM" v-model="lastname" type="text" icon="icn_name.svg"></input-floating-label>
 

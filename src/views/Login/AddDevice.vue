@@ -8,7 +8,7 @@
         <img src="../../assets/images/signup/account/icn_avatar.svg"/>
       </div>
     </div>
-    <div class="input-fields">
+    <div class="wrapper">
       <p class="disclaimer">
         Je hebt nog niet eerder ingelogd op dit apparaat. Ga naar je primaire device (waarschijnlijk je mobiel), open Yona, vervolgens naar instellingen en klik op ‘apparaat toevoegen’. Vul vervolgens onderstaande velden in.
       </p>

@@ -8,7 +8,7 @@
         <img src="../../../assets/images/signup/account/icn_avatar.svg"/>
       </div>
     </div>
-    <div class="input-fields">
+    <div class="wrapper">
       <p class="disclaimer">
         Wanneer je je telefoon bent kwijtgeraakt en Yona niet op een andere apparaat hebt aangemeld, kan je hier opnieuw registreren. Let op: al je gegevens gaan verloren.
       </p>

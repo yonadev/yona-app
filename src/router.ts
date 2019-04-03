@@ -31,6 +31,11 @@ import SmsValidation from './views/Signup/SmsValidation.vue'
     import SetPinCode from './views/Signup/Pincode/SetPinCode.vue'
     import ConfirmPinCode from './views/Signup/Pincode/ConfirmPinCode.vue'
 
+    //Signup -> permission module
+    import AbstractPermissions from './views/Signup/Permissions/AbstractPermissions.vue'
+    import Intro from './views/Signup/Permissions/Intro.vue'
+    import GivePermission from './views/Signup/Permissions/GivePermission.vue'
+
 //Me module
 import AbstractMe from './views/Me/AbstractMe.vue'
 import Me from './views/Me/Me.vue'
@@ -193,7 +198,23 @@ export default new Router({
                             component: ConfirmPinCode
                         }
                     ]
-                }
+                },
+              {
+                path: 'permissions',
+                component: AbstractPermissions,
+                children: [
+                  {
+                    path: '/',
+                    name: 'Intro',
+                    component: Intro
+                  },
+                  {
+                    path: ':id',
+                    name: "GivePermission",
+                    component: GivePermission
+                  }
+                ]
+              }
             ]
         },
         {

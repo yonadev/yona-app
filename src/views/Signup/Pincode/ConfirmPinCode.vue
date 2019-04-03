@@ -1,15 +1,15 @@
 <template>
-  <div id="pincode" class="colored-background purple-dark pincode-template">
+  <div id="confirm-pincode" class="colored-background purple-dark pincode-template">
     <div class="nav-title">
       PINCODE
     </div>
     <div class="wrapper">
-      <img src="../../../assets/images/signup/account/icn_secure.svg"/>
+      <img class="icon-img" src="../../../assets/images/signup/account/icn_secure.svg"/>
       <p class="icon-title">
         Bevestig pincode
       </p>
       <div class="progress-bar">
-        <div class="progress" style="width:100%;"></div>
+        <div class="progress"></div>
       </div>
       <p class="icon-text">
         Vul je pincode nog een keer in ter bevestiging.
@@ -42,4 +42,12 @@
   }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+  #confirm-pincode{
+    .progress-bar{
+      .progress{
+        width:100%;
+      }
+    }
+  }
+</style>

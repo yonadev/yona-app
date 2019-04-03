@@ -8,7 +8,7 @@
         <img src="../../assets/images/signup/account/add_avatar.svg"/>
       </div>
     </div>
-    <div class="input-fields">
+    <div class="wrapper">
       <input-floating-label id="mobile" label="MOBIEL TELEFOONNUMMER" type="number" v-model="mobile" icon="icn_mobile.svg"></input-floating-label>
       <input-floating-label id="nickname" label="NICK NAME" type="text" v-model="nickname" icon="icn_nickname.svg"></input-floating-label>
 

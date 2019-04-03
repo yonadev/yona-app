@@ -4,12 +4,12 @@
       PINCODE
     </div>
     <div class="wrapper">
-      <img src="../../../assets/images/signup/account/icn_account_created.svg"/>
+      <img class="icon-img" src="../../../assets/images/signup/account/icn_account_created.svg"/>
       <p class="icon-title">
         Account is aangemaakt
       </p>
       <div class="progress-bar">
-        <div class="progress" style="width:66%;"></div>
+        <div class="progress"></div>
       </div>
       <p class="icon-text">
         Voor een goede beveiliging is het verplicht om de Yona app te voorzien van een pincode.
@@ -43,4 +43,12 @@
   }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+  #pincode{
+    .progress-bar{
+      .progress{
+        width:66%;
+      }
+    }
+  }
+</style>

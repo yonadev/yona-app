@@ -4,7 +4,7 @@
       INLOGGEN
     </div>
     <div class="wrapper">
-      <img src="../../assets/images/login/icn_y.png"/>
+      <img class="icon-img" src="../../assets/images/login/icn_y.png"/>
       <p class="icon-title">
         You are not alone
       </p>
@@ -36,7 +36,7 @@ export default class Login extends Vue {
     if(val === "1111")
       this.$router.push({'name': 'Locked'});
     else if(val === "0000")
-      this.$router.push({'name': 'Locked'});
+      this.$router.push({'name': 'Intro'});
   }
 }
 </script>

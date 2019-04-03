@@ -35,8 +35,7 @@ import { tns } from '../../../node_modules/tiny-slider/src/tiny-slider'
 
 @Component({})
 export default class Tour extends Vue {
-
-  @Prop() slides: Array <Object> = [
+  private slides: Array <Object> = [
       { "title": "Transparantie", "text": "Persoonlijke keuze om transparant te zijn..." },
       { "title": "Delen", "text": "Je doelen delen met de persoon die je vertrouwt" },
       { "title": "Grenzen", "text": "Grenzen afspreken en daar anderen in betrekken" },
@@ -57,15 +56,6 @@ export default class Tour extends Vue {
           autoplayTimeout: 4000,
           autoplayButtonOutput: false
       });
-  }
-
-  //Computed properties
-  get computedMsg () : string {
-      return '';
-  }
-
-  //Methods
-  methodFunction () {
   }
 }
 </script>

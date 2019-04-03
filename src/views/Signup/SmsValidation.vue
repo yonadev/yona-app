@@ -1,15 +1,15 @@
 <template>
-  <div id="pincode" class="colored-background purple-dark pincode-template">
+  <div id="sms-validation" class="colored-background purple-dark pincode-template">
     <div class="nav-title">
       DOE MEE
     </div>
     <div class="wrapper">
-      <img src="../../assets/images/signup/account/add_avatar.svg"/>
+      <img class="icon-img" src="../../assets/images/signup/account/add_avatar.svg"/>
       <p class="icon-title">
         Account wordt aangemaakt
       </p>
       <div class="progress-bar">
-        <div class="progress" style="width:33%;"></div>
+        <div class="progress"></div>
       </div>
       <p class="icon-text">
         Als extra beveiliging ontvang je een code per SMS, graag deze code hieronder invullen.
@@ -47,4 +47,12 @@
   }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+  #sms-validation{
+    .progress-bar{
+      .progress{
+        width:33%;
+      }
+    }
+  }
+</style>
