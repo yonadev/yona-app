@@ -1,0 +1,38 @@
+.pincode-template{
+  .wrapper{
+    padding:0 25px;
+    img{
+      width:120px;
+    }
+    .progress-bar{
+      position:relative;
+      height:2px;
+      width:100%;
+      background-color:#8A2F66;
+      .progress{
+        background-color:$color-purple;
+        position:absolute;
+        height:2px;
+      }
+    }
+    p.icon-title{
+      font-weight:300;
+      color:#fff;
+      font-size:2rem;
+      margin-bottom:30px;
+    }
+    p.icon-text{
+      color:#fff;
+      font-size:1.2rem;
+      line-height: 1.6rem;
+      margin-bottom:30px;
+      margin-top:20px;
+    }
+    .reset{
+      margin-top:25px;
+      font-weight:normal;
+      font-size:1.2rem;
+      color:#b897ae;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+.header-template {
+  .header-icon{
+    margin-top:15px;
+    margin-bottom:50px;
+  }
+  .input-fields{
+    padding:0 30px 30px;
+    box-sizing: border-box;
+    background: #fff;
+    width:100%;
+    .control{
+      margin-top: 30px;
+      .icon{
+        width:auto;
+      }
+    }
+    .disclaimer{
+      margin-top:30px;
+      text-align: left;
+    }
+  }
+}

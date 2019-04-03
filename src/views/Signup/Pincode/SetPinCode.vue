@@ -1,32 +1,46 @@
 <template>
-  <div>
-    Enter pincode for new account
+  <div id="pincode" class="colored-background purple-dark pincode-template">
+    <div class="nav-title">
+      PINCODE
+    </div>
+    <div class="wrapper">
+      <img src="../../../assets/images/signup/account/icn_account_created.svg"/>
+      <p class="icon-title">
+        Account is aangemaakt
+      </p>
+      <div class="progress-bar">
+        <div class="progress" style="width:66%;"></div>
+      </div>
+      <p class="icon-text">
+        Voor een goede beveiliging is het verplicht om de Yona app te voorzien van een pincode.
+        Stel je pincode hieronder in.
+      </p>
+      <pin-code v-model="password" :length="length"></pin-code>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component';
-import {Prop, Watch} from 'vue-property-decorator'
+  import Vue from 'vue'
+  import { Watch, Component } from 'vue-property-decorator'
+  import PinCode from '../../../components/PinCode.vue';
 
-@Component({})
-export default class SetPinCode extends Vue {
-    //@Prop() msg: string = '';
-
-    //Cycle hooks
-    mounted () {
+  @Component({
+    components:{
+      PinCode
     }
+  })
+  export default class SetPinCode extends Vue {
+    private password: number = 0;
+    private length: number = 4;
 
-    //Computed properties
-    get computedMsg () {
-        return '';
+    @Watch('password')
+    onChildChanged(val: number) {
+      if(val.toString().length === this.length){
+        this.$router.push({'name': 'ConfirmPinCode'});
+      }
     }
-
-    //Methods
-    methodFunction () {
-    }
-}
+  }
 </script>
 
-<style scoped lang="scss">
-</style>
+<style lang="scss"></style>

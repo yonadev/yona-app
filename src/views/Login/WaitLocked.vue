@@ -1,32 +1,42 @@
 <template>
-  <div>
-    You have to wait because your account is locked due security reasons
+  <div id="locked" class="colored-background purple-dark pincode-template">
+    <div class="nav-title">
+      INLOGGEN
+    </div>
+    <div class="wrapper">
+      <img src="../../assets/images/signup/account/icn_secure.svg"/>
+      <p class="icon-title">
+        Je moet even wachten
+      </p>
+      <p class="icon-text">
+        Om veiligheidsredenen is je account geblokkeerd. Activeren kan 24 uur nadat je een nieuwe PIN code hebt aangevraagd.
+      </p>
+      <timer time="April 5, 2019"></timer>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component';
-import {Prop, Watch} from 'vue-property-decorator'
+  import Vue from 'vue';
+  import { Component } from 'vue-property-decorator';
+  import Timer from '../../components/Timer.vue';
 
-@Component({})
-export default class WaitLocked extends Vue {
-    //@Prop() msg: string = '';
-
-    //Cycle hooks
-    mounted () {
+  @Component({
+    components:{
+      Timer
     }
-
-    //Computed properties
-    get computedMsg () {
-        return '';
-    }
-
-    //Methods
-    methodFunction () {
-    }
-}
+  })
+  export default class WaitLocked extends Vue {}
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+  #locked{
+    .button{
+      box-sizing: border-box;
+      margin-top:5px;
+      padding:10px;
+      height:auto;
+      width:100%;
+    }
+  }
 </style>

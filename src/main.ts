@@ -3,8 +3,10 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-//partial import bulma
-import "./sass/import_bulma.scss"
+//partial import bulma, import global, import fonts
+import "./sass/libraries/import_bulma.scss"
+import './sass/fonts/fonts.scss'
+import "./sass/global.scss"
 
 import "../node_modules/tiny-slider/src/tiny-slider.scss"
 

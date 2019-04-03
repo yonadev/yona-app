@@ -1,0 +1,16 @@
+@import "../variables";
+
+.colored-background{
+  height:100%;
+  &.purple-dark {
+    background: $color-purple-dark url("../assets/images/colored-bg/triangle_top.svg") no-repeat;
+  }
+  .nav-title{
+    font-weight:500;
+    font-size:1.2rem;
+    text-align: left;
+    padding:30px;
+    margin:0;
+    color:#fff;
+  }
+}

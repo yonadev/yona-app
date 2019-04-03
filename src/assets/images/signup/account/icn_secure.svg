@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="80" height="64" viewBox="0 0 80 64">
+    <defs>
+        <circle id="a" cx="22" cy="22" r="22"/>
+        <mask id="d" width="44" height="44" x="0" y="0" fill="#fff">
+            <use xlink:href="#a"/>
+        </mask>
+        <rect id="b" width="20" height="16" y="6.5" rx="2"/>
+        <mask id="e" width="20" height="16" x="0" y="0" fill="#fff">
+            <use xlink:href="#b"/>
+        </mask>
+        <circle id="c" cx="10" cy="15.526" r="2"/>
+        <mask id="f" width="4" height="4" x="0" y="0" fill="#fff">
+            <use xlink:href="#c"/>
+        </mask>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <use stroke="#FFF" stroke-width="3" mask="url(#d)" transform="translate(18 18)" xlink:href="#a"/>
+        <g stroke="#FFF" transform="translate(30 27.5)">
+            <use stroke-linecap="round" stroke-width="3" mask="url(#e)" xlink:href="#b"/>
+            <use stroke-width="2" mask="url(#f)" xlink:href="#c"/>
+            <path stroke-linecap="square" d="M10 11.526v2.5"/>
+            <path stroke-width="1.5" d="M5 6.5V4.89C5 2.194 7.243 0 10 0s5 2.194 5 4.89V6.5"/>
+        </g>
+        <path d="M27.5 26h25v25h-25z"/>
+        <path d="M0 0h80v64H0z"/>
+    </g>
+</svg>

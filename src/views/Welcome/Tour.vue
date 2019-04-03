@@ -7,7 +7,7 @@
         </p>
 
         <div class="image-wrapper">
-          <img class="tour-image" :src="require('@/assets/images/welcome/tour_image_'+index+'.svg')" />
+          <img class="tour-image" :src="require('@/assets/images/welcome/tour/tour_image_'+index+'.svg')" />
           <p class="tour-text">
             {{slide.text}}
           </p>
@@ -18,8 +18,8 @@
       </div>
     </div>
     <router-link :to="{name: 'Choose'}">
-      <button class="skip-tour" >
-        <img class="skip-icon" src="../../assets/images/welcome/icon_next.svg" />
+      <button class="skip-tour">
+        <img class="skip-icon" src="../../assets/images/welcome/tour/icon_next.svg" />
         <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 200 160">
           <polygon points="0,160 240,240 240,0" />
         </svg>
@@ -30,8 +30,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import Component from 'vue-class-component';
-import {Prop, Watch} from 'vue-property-decorator'
+import {Prop, Watch, Component} from 'vue-property-decorator'
 import { tns } from '../../../node_modules/tiny-slider/src/tiny-slider'
 
 @Component({})

@@ -10,7 +10,7 @@ import Choose from './views/Welcome/Choose.vue'
 
 //Welcome modole
 import AbstractLogin from './views/Login/AbstractLogin.vue'
-import Pincode from './views/Login/Pincode.vue'
+import Login from './views/Login/Login.vue'
 import Locked from './views/Login/Locked.vue'
 import WaitLocked from './views/Login/WaitLocked.vue'
 import AddDevice from './views/Login/AddDevice.vue'
@@ -122,9 +122,9 @@ export default new Router({
             component: AbstractLogin,
             children: [
                 {
-                    path: 'pincode',
-                    name: 'Pincode',
-                    component: Pincode
+                    path: 'login',
+                    name: 'Login',
+                    component: Login
                 },
                 {
                     path: 'locked',
