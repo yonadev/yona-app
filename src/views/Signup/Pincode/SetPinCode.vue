@@ -15,15 +15,17 @@
         Voor een goede beveiliging is het verplicht om de Yona app te voorzien van een pincode.
         Stel je pincode hieronder in.
       </p>
-      <pin-code v-model="password" :length="length"></pin-code>
+      <pin-code :pincode.sync="password" :length="length"></pin-code>
     </div>
   </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
+  import { State, Action } from 'vuex-class';
   import { Watch, Component } from 'vue-property-decorator'
   import PinCode from '../../../components/PinCode.vue';
+  import {LoginState} from "../../../store/login/types";
 
   @Component({
     components:{
@@ -31,12 +33,15 @@
     }
   })
   export default class SetPinCode extends Vue {
-    private password: number = 0;
-    private length: number = 4;
+    @State('login') login!: LoginState;
+    @Action('setPincode', {namespace: 'login'}) setPincode: any;
+    password: number | null = null;
+    length: number = 4;
 
     @Watch('password')
-    onChildChanged(val: number) {
-      if(val.toString().length === this.length){
+    onChildChanged(val: number | null) {
+      if(val && val.toString().length === this.length){
+        this.setPincode({pinCode: val})
         this.$router.push({'name': 'ConfirmPinCode'});
       }
     }

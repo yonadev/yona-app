@@ -14,7 +14,7 @@
       <p class="icon-text">
         Als extra beveiliging ontvang je een code per SMS, graag deze code hieronder invullen.
       </p>
-      <pin-code v-model="password" :length="length"></pin-code>
+      <pin-code :pincode.sync="password" :length="length"></pin-code>
       <router-link :to="{'name': ''}">
         <p class="reset">
           Stuur code opnieuw
@@ -35,12 +35,12 @@
     }
   })
   export default class SmsValidation extends Vue {
-    private password: number = 0;
-    private length: number = 4;
+    password: number | null = null;
+    length: number = 4;
 
     @Watch('password')
-    onChildChanged(val: number, oldVal: number) {
-      if(val.toString().length === this.length){
+    onChildChanged(val: number | null) {
+      if(val && val.toString().length === this.length){
         this.$router.push({'name': 'SetPinCode'});
       }
     }

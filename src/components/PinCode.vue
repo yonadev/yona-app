@@ -3,13 +3,13 @@
     <label for="pin-input">
       <ul>
         <li class="field-wrap" v-for="(item, index) in length" :key="index">
-          <span v-if="value[index]">&#11044;</span>
+          <span v-if="pincode && pincode[index]">&#11044;</span>
         </li>
       </ul>
     </label>
-    <input ref="input" class="input-code" @keyup="handleInput($event)" v-model="value"
+    <input ref="input" class="input-code" @keyup="handleInput($event)" :value="pincode"
            id="pin-input" name="pin-input" type="number" :maxlength="length"
-           autocorrect="off" autocomplete="off" autocapitalize="off">
+           autocomplete="off" autocapitalize="off">
   </div>
 </template>
 
@@ -20,7 +20,7 @@
   @Component({})
   export default class PinCode extends Vue {
     @Prop() length: number = 4;
-    private value: string = '';
+    @Prop() pincode!: number;
 
     hideKeyboard () {
       if(document.activeElement instanceof HTMLElement)
@@ -29,15 +29,11 @@
         this.$refs.input.blur() // android
     }
 
-    handleSubmit () {
-      this.$emit('input', this.value)
-    }
-
     handleInput (e: any) {
-      if (e.target.value.length >= this.length) {
+      if (e.target.value.length >= this.length)
         this.hideKeyboard()
-      }
-      this.handleSubmit()
+
+      this.$emit('update:pincode', e.target.value)
     }
   }
 </script>

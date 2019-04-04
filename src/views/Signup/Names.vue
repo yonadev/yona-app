@@ -34,8 +34,8 @@ import InputFloatingLabel from '../../components/InputFloatingLabel.vue';
   }
 })
 export default class Names extends Vue {
-  private firstname: string = '';
-  private lastname: string = '';
+  firstname: string = '';
+  lastname: string = '';
 }
 </script>
 

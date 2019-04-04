@@ -14,7 +14,10 @@
       <p class="icon-text">
         Vul je pincode nog een keer in ter bevestiging.
       </p>
-      <pin-code v-model="password" :length="length"></pin-code>
+      <p class="icon-text" v-if="error">
+        De pincode komt niet overeen!
+      </p>
+      <pin-code :pincode.sync="password" :length="length"></pin-code>
     </div>
   </div>
 </template>
@@ -23,6 +26,8 @@
   import Vue from 'vue'
   import { Watch, Component } from 'vue-property-decorator'
   import PinCode from '../../../components/PinCode.vue';
+  import { State } from 'vuex-class';
+  import {LoginState} from "../../../store/login/types";
 
   @Component({
     components:{
@@ -30,13 +35,20 @@
     }
   })
   export default class ConfirmPinCode extends Vue {
-    private password: number = 0;
+    @State('login') login!: LoginState;
+    private password: number | null = null;
     private length: number = 4;
+    private error: boolean = false;
 
     @Watch('password')
-    onChildChanged(val: number) {
-      if(val.toString().length === this.length){
-        this.$router.push({'name': 'Dashboard'});
+    onChildChanged(val: number | null) {
+      if(val && val.toString().length === this.length){
+        if(val === this.login.pinCode)
+          this.$router.push({'name': 'Dashboard'});
+        else{
+          this.error = true;
+          this.password = null;
+        }
       }
     }
   }

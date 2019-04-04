@@ -8,7 +8,7 @@
       <p class="icon-title">
         You are not alone
       </p>
-      <pin-code v-model="password" :length="4"></pin-code>
+      <pin-code :pincode.sync="password" :length="length"></pin-code>
       <router-link :to="{'name': 'WaitLocked'}">
         <p class="reset">
           PIN reset
@@ -29,14 +29,17 @@ import PinCode from '../../components/PinCode.vue';
   }
 })
 export default class Login extends Vue {
-  private password: number = 0
+  password: number | null = null;
+  length: number = 4;
 
   @Watch('password')
   onChildChanged(val: string) {
-    if(val === "1111")
-      this.$router.push({'name': 'Locked'});
-    else if(val === "0000")
-      this.$router.push({'name': 'Intro'});
+    if(val && val.toString().length === this.length) {
+      if (val === "1111")
+        this.$router.push({'name': 'Intro'});
+      else
+        this.$router.push({'name': 'Locked'});
+    }
   }
 }
 </script>

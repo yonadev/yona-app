@@ -39,16 +39,15 @@
     }
   })
   export default class AccountInfo extends Vue {
-    private mobile: string = '';
-    private nickname: string = '';
-    private choose: boolean = false;
+    mobile: string = '';
+    nickname: string = '';
+    choose: boolean = false;
 
     checkTelNumber () {
-      if(this.mobile === '1111'){
+      if(this.mobile === '1111')
         this.choose = true;
-      } else {
+      else
         this.$router.push({'name': 'SmsValidation'});
-      }
     }
   }
 </script>
