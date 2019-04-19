@@ -5,12 +5,17 @@
   &.purple-dark {
     background: $color-purple-dark url("../assets/images/colored-bg/triangle_top.svg") no-repeat;
   }
-  .nav-title{
-    font-weight:500;
-    font-size:1.2rem;
+  .nav-title {
+    font-weight: 500;
+    font-size: 1.2rem;
     text-align: left;
-    padding:30px;
-    margin:0;
-    color:#fff;
+    padding: 30px 15px 30px 30px;
+    margin: 0;
+    color: #fff;
+
+    .nav-icon {
+      float: right;
+      margin-top: -6px;
+    }
   }
 }

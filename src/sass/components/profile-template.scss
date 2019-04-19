@@ -1,0 +1,31 @@
+.profile-template{
+
+  .heading{
+    .nav-title{
+      height: 20px;
+    }
+  }
+
+  .wrapper{
+    padding:0 25px;
+    img.profile-img{
+      width:120px;
+      border-radius: 50%;
+      border: 2px solid #915C80;
+    }
+    p.icon-title{
+      font-weight:300;
+      color:#fff;
+      font-size:2rem;
+      margin-bottom:5px;
+    }
+    p.icon-text{
+      color:#f3f3f3;
+      opacity: .5;
+      font-size:1.2rem;
+      line-height: 1.6rem;
+      margin-bottom:30px;
+      margin-top:0;
+    }
+  }
+}
