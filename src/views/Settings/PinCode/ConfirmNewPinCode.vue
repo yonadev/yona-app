@@ -1,10 +1,10 @@
 <template>
-  <div id="confirm-pincode" class="colored-background purple-dark pincode-template">
+  <div id="confirm-new-pincode" class="colored-background yellow pincode-template">
     <div class="nav-title">
-      PINCODE
+      WIJZIG PINCODE
     </div>
     <div class="wrapper">
-      <img class="icon-img" src="../../../assets/images/signup/account/icn_secure.svg"/>
+      <img class="icon-img" src="../../../assets/images/signup/account/icn_account_created.svg"/>
       <p class="icon-title">
         Bevestig pincode
       </p>
@@ -12,7 +12,7 @@
         <div class="progress"></div>
       </div>
       <p class="icon-text">
-        Vul je pincode nog een keer in ter bevestiging.
+        Vul je pincode nogmaals in ter bevestiging.
       </p>
       <p class="icon-text" v-if="error">
         De pincode komt niet overeen!
@@ -44,7 +44,7 @@
     onChildChanged(val: number | null) {
       if(val && val.toString().length === this.length){
         if(val === this.account.pinCode)
-          this.$router.push({'name': 'Dashboard'});
+          this.$router.push({'name': 'Settings'});
         else{
           this.error = true;
           this.password = null;
@@ -55,7 +55,7 @@
 </script>
 
 <style lang="scss">
-  #confirm-pincode{
+  #confirm-new-pincode{
     .progress-bar{
       .progress{
         width:100%;

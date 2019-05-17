@@ -39,6 +39,8 @@
 </script>
 
 <style lang="scss">
+  @import "../sass/variables";
+
   .pincode{
     ul{
       padding:0;
@@ -54,6 +56,11 @@
         padding: 15px;
         box-sizing: border-box;
         color:#2f2f2f;
+        @media(max-width: $xxs-maxwidth){
+          width:55px;
+          height:55px;
+          margin:7px;
+        }
       }
     }
     .input-code{

@@ -1,11 +1,14 @@
 @import "variables";
 
+//Components
 @import "components/colored-background";
 @import "components/bottom-buttons";
+@import "components/tabs";
+
+//Templates
 @import "components/header-template";
 @import "components/pincode-template";
 @import "components/profile-template";
-
 
 html{
   height:100%;
@@ -34,6 +37,10 @@ a{
   color: #2c3e50;
   height:100%;
   position: relative;
+  background-color:#f3f3f3;
+  .bottom-margin-menu{
+    margin-bottom: 50px;
+  }
 }
 #nav {
   padding: 30px;

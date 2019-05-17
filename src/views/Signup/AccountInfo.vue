@@ -9,8 +9,8 @@
       </div>
     </div>
     <div class="wrapper">
-      <input-floating-label id="mobile" label="MOBIEL TELEFOONNUMMER" type="number" v-model="mobile" icon="icn_mobile.svg"></input-floating-label>
-      <input-floating-label id="nickname" label="NICK NAME" type="text" v-model="nickname" icon="icn_nickname.svg"></input-floating-label>
+      <input-floating-label :validate="{required: true, mobile: true}" name="Telefoonnummer" id="mobile" class="with-border-input" label="MOBIEL TELEFOONNUMMER" type="tel" :value.sync="mobile" icon="icn_mobile.svg"></input-floating-label>
+      <input-floating-label :validate="{required: true}" name="Nickname" id="nickname" class="with-border-input" label="NICK NAME" type="text" :value.sync="nickname" icon="icn_nickname.svg"></input-floating-label>
 
       <p class="disclaimer">
         We gebruiken je mobile nummer voor een veilige registratie. Je nickname is verplicht en zorgt voor een nog betere privacy.
@@ -30,8 +30,11 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import { Component } from 'vue-property-decorator'
+  import { Watch, Component } from 'vue-property-decorator'
   import InputFloatingLabel from '../../components/InputFloatingLabel.vue';
+  import {Action, State} from "vuex-class";
+  import {AccountState} from "../../store/account/types";
+  import axios from "../../utils/axios/axios"
 
   @Component({
     components:{
@@ -39,15 +42,61 @@
     }
   })
   export default class AccountInfo extends Vue {
-    mobile: string = '';
-    nickname: string = '';
+    @State('account') account!: AccountState;
+    @Action('setProperty', {namespace: 'account'}) setProperty: any;
+    mobile: string | null = '';
+    nickname: string | null = '';
     choose: boolean = false;
 
+    mounted(){
+      this.mobile = this.account.phonenumber
+      this.nickname = this.account.nickname;
+    }
+
     checkTelNumber () {
-      if(this.mobile === '1111')
-        this.choose = true;
-      else
-        this.$router.push({'name': 'SmsValidation'});
+      let self = this
+      this.$validator.validate().then(async valid => {
+        if (valid) {
+          let response: any = await axios.post('/users/', {
+            firstName: this.account.firstname,
+            lastName: this.account.lastname,
+            mobileNumber: this.account.phonenumber,
+            nickname: this.account.nickname
+          }).catch((error) => {
+            if(error.response.data.code === 'error.user.exists'){
+              self.choose = true
+            }
+          });
+
+          if(response) {
+            if (response.status === 201) {
+              //Successfull
+              this.$router.push({'name': 'SmsValidation'});
+
+            } else if (response.status !== 201) {
+              //Probably a field missing
+              this.choose = true;
+            }
+          }
+        }
+      });
+    }
+
+    @Watch('mobile')
+    mobileChanged(val: string | null) {
+      if(val){
+        if(val.charAt(0) == '0') {
+          val = '+31' + val.substr(1)
+          this.mobile = val
+        }
+
+        this.setProperty({phonenumber: val})
+      }
+    }
+    @Watch('nickname')
+    nicknameChanged(val: string | null) {
+      if(val)
+        this.setProperty({nickname: val})
     }
   }
 </script>

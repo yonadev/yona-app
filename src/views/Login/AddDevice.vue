@@ -13,8 +13,8 @@
         Je hebt nog niet eerder ingelogd op dit apparaat. Ga naar je primaire device (waarschijnlijk je mobiel), open Yona, vervolgens naar instellingen en klik op ‘apparaat toevoegen’. Vul vervolgens onderstaande velden in.
       </p>
 
-      <input-floating-label id="mobile" label="MOBIEL TELEFOONNUMMER" v-model="mobile" type="number" icon="icn_mobile.svg"></input-floating-label>
-      <input-floating-label id="passcode" label="PASSCODE" v-model="passcode" type="text" icon="icn_name.svg"></input-floating-label>
+      <input-floating-label id="mobile" class="with-border-input" label="MOBIEL TELEFOONNUMMER" :value.sync="mobile" type="number" icon="icn_mobile.svg"></input-floating-label>
+      <input-floating-label id="passcode" class="with-border-input" label="PASSCODE" :value.sync="passcode" type="text" icon="icn_name.svg"></input-floating-label>
     </div>
     <div class="is-centered bottom-aligned">
       <router-link class="button" :to="{name: 'SetPinCode'}">INLOGGEN</router-link>

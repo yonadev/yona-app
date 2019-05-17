@@ -1,19 +1,18 @@
 <template>
-  <div id="pincode" class="colored-background purple-dark pincode-template">
+  <div id="change-pincode" class="colored-background yellow pincode-template">
     <div class="nav-title">
-      PINCODE
+      WIJZIG PINCODE
     </div>
     <div class="wrapper">
       <img class="icon-img" src="../../../assets/images/signup/account/icn_account_created.svg"/>
       <p class="icon-title">
-        Account is aangemaakt
+        Nieuwe pincode
       </p>
       <div class="progress-bar">
         <div class="progress"></div>
       </div>
       <p class="icon-text">
-        Voor een goede beveiliging is het verplicht om de Yona app te voorzien van een pincode.
-        Stel je pincode hieronder in.
+        Vul je nieuwe pincode in.
       </p>
       <pin-code :pincode.sync="password" :length="length"></pin-code>
     </div>
@@ -22,19 +21,19 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import { State, Action } from 'vuex-class';
   import { Watch, Component } from 'vue-property-decorator'
   import PinCode from '../../../components/PinCode.vue';
-  import {AccountState} from "../../../store/account/types";
+  import {Action, State} from 'vuex-class';
+  import {LoginState} from "../../../store/account/types";
 
   @Component({
     components:{
       PinCode
     }
   })
-  export default class SetPinCode extends Vue {
-    @State('account') account!: AccountState;
-    @Action('setPincode', {namespace: 'account'}) setPincode: any;
+  export default class ChangePinCode extends Vue {
+    @State('login') login!: LoginState;
+    @Action('setPincode', {namespace: 'login'}) setPincode: any;
     password: number | null = null;
     length: number = 4;
 
@@ -42,18 +41,22 @@
     onChildChanged(val: number | null) {
       if(val && val.toString().length === this.length){
         this.setPincode({pinCode: val})
-        this.$router.push({'name': 'ConfirmPinCode'});
+        this.$router.push({'name': 'ConfirmNewPinCode'});
       }
     }
   }
 </script>
 
 <style lang="scss">
-  #pincode{
+  #change-pincode{
     .progress-bar{
       .progress{
         width:66%;
       }
+    }
+    .reset{
+      color:#fff;
+      opacity:0.5;
     }
   }
 </style>

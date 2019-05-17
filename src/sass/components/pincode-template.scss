@@ -1,6 +1,26 @@
 .pincode-template{
+  &.yellow{
+    .wrapper {
+      .progress-bar {
+        background-color: rgba(255, 255, 255, 0.4);;
+        .progress {
+          background-color: $color-purple;
+        }
+      }
+    }
+  }
+  &.purple-dark{
+    .wrapper {
+      .progress-bar {
+        background-color: #8A2F66;
+        .progress {
+          background-color: $color-purple;
+        }
+      }
+    }
+  }
   .wrapper{
-    padding:0 25px;
+    padding:0 20px;
     img.icon-img{
       width:120px;
     }
@@ -8,9 +28,7 @@
       position:relative;
       height:2px;
       width:100%;
-      background-color:#8A2F66;
       .progress{
-        background-color:$color-purple;
         position:absolute;
         height:2px;
       }

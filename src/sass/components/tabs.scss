@@ -1,0 +1,22 @@
+.tabs{
+  ul{
+    padding:0;
+    margin-bottom:0;
+    border-bottom:0;
+    a{
+      border-bottom:0;
+      color:#fff;
+      opacity:0.4;
+      padding:10px;
+      margin-bottom:5px;
+    }
+    .is-active{
+      a{
+        border-bottom:solid 5px #fff;
+        color:#fff;
+        opacity: 1;
+        margin-bottom:0;
+      }
+    }
+  }
+}

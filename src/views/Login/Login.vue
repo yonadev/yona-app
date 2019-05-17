@@ -35,7 +35,7 @@ export default class Login extends Vue {
   @Watch('password')
   onChildChanged(val: string) {
     if(val && val.toString().length === this.length) {
-      if (val === "1111")
+      if (val === "1234")
         this.$router.push({'name': 'Intro'});
       else
         this.$router.push({'name': 'Locked'});

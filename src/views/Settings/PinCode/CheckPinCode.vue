@@ -1,23 +1,28 @@
 <template>
-  <div id="confirm-pincode" class="colored-background purple-dark pincode-template">
+  <div id="check-pincode" class="colored-background yellow pincode-template">
     <div class="nav-title">
-      PINCODE
+      WIJZIG PINCODE
     </div>
     <div class="wrapper">
       <img class="icon-img" src="../../../assets/images/signup/account/icn_secure.svg"/>
       <p class="icon-title">
-        Bevestig pincode
+        Huidige pincode
       </p>
       <div class="progress-bar">
         <div class="progress"></div>
       </div>
       <p class="icon-text">
-        Vul je pincode nog een keer in ter bevestiging.
+        Om je pincode te wijzigen vragen we je eerst je oude pincode in te voeren.
       </p>
       <p class="icon-text" v-if="error">
-        De pincode komt niet overeen!
+        De pincode is onjuist!
       </p>
       <pin-code :pincode.sync="password" :length="length"></pin-code>
+      <router-link :to="{'name': 'ChangeLocked'}">
+        <p class="reset">
+          PIN reset
+        </p>
+      </router-link>
     </div>
   </div>
 </template>
@@ -27,24 +32,24 @@
   import { Watch, Component } from 'vue-property-decorator'
   import PinCode from '../../../components/PinCode.vue';
   import { State } from 'vuex-class';
-  import {AccountState} from "../../../store/account/types";
+  import {LoginState} from "../../../store/account/types";
 
   @Component({
     components:{
       PinCode
     }
   })
-  export default class ConfirmPinCode extends Vue {
-    @State('account') account!: AccountState;
+  export default class CheckPinCode extends Vue {
+    @State('login') login!: LoginState;
     private password: number | null = null;
     private length: number = 4;
     private error: boolean = false;
 
     @Watch('password')
-    onChildChanged(val: number | null) {
+    onChildChanged(val: number) {
       if(val && val.toString().length === this.length){
-        if(val === this.account.pinCode)
-          this.$router.push({'name': 'Dashboard'});
+        if(val == this.login.pinCode)
+          this.$router.push({'name': 'ChangePinCode'});
         else{
           this.error = true;
           this.password = null;
@@ -55,11 +60,15 @@
 </script>
 
 <style lang="scss">
-  #confirm-pincode{
+  #check-pincode{
     .progress-bar{
       .progress{
-        width:100%;
+        width:33%;
       }
+    }
+    .reset{
+      color:#fff;
+      opacity:0.5;
     }
   }
 </style>

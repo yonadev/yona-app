@@ -9,24 +9,27 @@
       </div>
     </div>
     <div class="wrapper">
-      <input-floating-label id="firstname" label="VOORNAAM" v-model="firstname" type="text" icon="icn_name.svg"></input-floating-label>
-      <input-floating-label id="lastname" label="ACHTERNAAM" v-model="lastname" type="text" icon="icn_name.svg"></input-floating-label>
+      <input-floating-label :validate="{required: true}" name="Voornaam" id="firstname" :disabled="false" class="with-border-input" label="VOORNAAM" :value.sync="firstname" type="text" icon="icn_name.svg"></input-floating-label>
+      <input-floating-label :validate="{required: true}" name="Achternaam" id="lastname" class="with-border-input" label="ACHTERNAAM" :value.sync="lastname" type="text" icon="icn_name.svg"></input-floating-label>
 
       <p class="disclaimer">
         Yona respecteert en beschermt je privacy. Alle gevoelige informatie is beveiligd met encryptie.
       </p>
     </div>
+
     <div class="is-centered bottom-aligned">
       <router-link class="button" :to="{name: 'Choose'}">VORIGE</router-link>
-      <router-link class="button" :to="{name: 'AccountInfo'}">VOLGENDE</router-link>
+      <div @click="validateFields()" class="button">VOLGENDE</div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import Component from 'vue-class-component';
 import InputFloatingLabel from '../../components/InputFloatingLabel.vue';
+import {Action, State} from "vuex-class";
+import {AccountState} from "../../store/account/types";
+import {Watch, Component, Provide} from 'vue-property-decorator'
 
 @Component({
   components:{
@@ -34,8 +37,34 @@ import InputFloatingLabel from '../../components/InputFloatingLabel.vue';
   }
 })
 export default class Names extends Vue {
-  firstname: string = '';
-  lastname: string = '';
+  @State('account') account!: AccountState;
+  @Action('setProperty', {namespace: 'account'}) setProperty: any;
+  firstname: string | null = '';
+  lastname: string | null = '';
+
+  mounted(){
+    this.firstname = this.account.firstname;
+    this.lastname = this.account.lastname;
+  }
+
+  validateFields(){
+    this.$validator.validate().then(valid => {
+      if (valid) {
+        this.$router.push({'name': 'AccountInfo'});
+      }
+    });
+  }
+
+  @Watch('firstname')
+  firstnameChanged(val: string | null) {
+    if(val)
+      this.setProperty({firstname: val})
+  }
+  @Watch('lastname')
+  lastnameChanged(val: string | null) {
+    if(val)
+      this.setProperty({lastname: val})
+  }
 }
 </script>
 

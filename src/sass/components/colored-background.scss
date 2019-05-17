@@ -3,7 +3,13 @@
 .colored-background{
   height:100%;
   &.purple-dark {
-    background: $color-purple-dark url("../assets/images/colored-bg/triangle_top.svg") no-repeat;
+    background: $color-purple-dark url("../assets/images/colored-bg/triangle_top_purple.svg") no-repeat;
+  }
+  &.yellow{
+    background: $color-yellow url("../assets/images/colored-bg/triangle_top_yellow.svg") no-repeat;
+  }
+  &.blue{
+    background: $color-blue url("../assets/images/colored-bg/triangle_top_blue.svg") no-repeat;
   }
   .nav-title {
     font-weight: 500;

@@ -13,7 +13,7 @@
         Wanneer je je telefoon bent kwijtgeraakt en Yona niet op een andere apparaat hebt aangemeld, kan je hier opnieuw registreren. Let op: al je gegevens gaan verloren.
       </p>
 
-      <input-floating-label id="mobile" label="MOBIEL TELEFOONNUMMER" v-model="mobile" type="number" icon="icn_mobile.svg"></input-floating-label>
+      <input-floating-label id="mobile" class="with-border-input" label="MOBIEL TELEFOONNUMMER" :value.sync="mobile" type="number" icon="icn_mobile.svg"></input-floating-label>
     </div>
     <div class="is-centered bottom-aligned">
       <router-link class="button" :to="{name: 'RecoverSms'}">INLOGGEN</router-link>

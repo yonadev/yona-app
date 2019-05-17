@@ -1,7 +1,12 @@
 .header-template {
+  height:100%;
+  background-color:#fff;
+  .colored-background{
+    height:auto;
+  }
   .header-icon{
-    margin-top:15px;
-    margin-bottom:50px;
+    padding-top:15px;
+    padding-bottom:50px;
   }
   .wrapper{
     padding:0 30px 30px;
@@ -9,7 +14,6 @@
     background: #fff;
     width:100%;
     .control{
-      margin-top: 30px;
       .icon{
         width:auto;
       }

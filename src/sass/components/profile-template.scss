@@ -1,15 +1,8 @@
 .profile-template{
-
-  .heading{
-    .nav-title{
-      height: 20px;
-    }
-  }
-
   .wrapper{
     padding:0 25px;
     img.profile-img{
-      width:120px;
+      width:95px;
       border-radius: 50%;
       border: 2px solid #915C80;
     }
@@ -18,6 +11,7 @@
       color:#fff;
       font-size:2rem;
       margin-bottom:5px;
+      margin-top:10px;
     }
     p.icon-text{
       color:#f3f3f3;

@@ -1,31 +1,19 @@
 <template>
   <div>
     <router-view></router-view>
+    <bottom-menu active_page="challenges"></bottom-menu>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
-import {Prop, Watch} from 'vue-property-decorator'
+import BottomMenu from "../../components/BottomMenu";
 
-@Component({})
-export default class AbstractChallenges extends Vue {
-    //@Prop() msg: string = '';
-
-    //Cycle hooks
-    mounted () {
-    }
-
-    //Computed properties
-    get computedMsg () {
-        return '';
-    }
-
-    //Methods
-    methodFunction () {
-    }
-}
+@Component({
+  components: {BottomMenu}
+})
+export default class AbstractChallenges extends Vue {}
 </script>
 
 <style scoped lang="scss">
