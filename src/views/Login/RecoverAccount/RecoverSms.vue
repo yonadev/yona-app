@@ -28,6 +28,9 @@
   import Vue from 'vue'
   import { Watch, Component } from 'vue-property-decorator'
   import PinCode from '../../../components/PinCode.vue';
+  import axios from "../../../utils/axios/axios"
+  import {State} from "vuex-class";
+  import {AccountState} from "../../../store/account/types";
 
   @Component({
     components:{
@@ -35,13 +38,38 @@
     }
   })
   export default class RecoverSms extends Vue {
+    @State('account') account!: AccountState;
     password: number | null = null;
     length: number = 4;
 
     @Watch('password')
     onChildChanged(val: number) {
-      if(val.toString().length === this.length)
-        this.$router.push({'name': 'SetPinCode'});
+      if(val.toString().length === this.length) {
+        let self = this
+        this.$validator.validate().then(async valid => {
+          if (valid) {
+            let response: any = await axios.post('http://192.168.1.9:8082/users/?overwriteUserConfirmationCode='+val, {
+              firstName: this.account.firstname,
+              lastName: this.account.lastname,
+              mobileNumber: this.account.phonenumber,
+              nickname: this.account.nickname
+            }).catch((error) => {
+              console.log(error)
+            });
+
+            if(response) {
+              if (response.status === 201) {
+                //Successfull
+                this.$router.push({'name': 'SetPinCode'});
+              } else {
+                //Error
+              }
+            }
+
+            self.password = null
+          }
+        });
+      }
     }
   }
 </script>

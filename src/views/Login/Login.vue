@@ -8,6 +8,9 @@
       <p class="icon-title">
         You are not alone
       </p>
+      <p v-if="error" class="has-text-white-ter">
+        Onjuiste pincode! U heeft nog {{account.loginAttempts}} pogingen.
+      </p>
       <pin-code :pincode.sync="password" :length="length"></pin-code>
       <router-link :to="{'name': 'WaitLocked'}">
         <p class="reset">
@@ -22,6 +25,8 @@
 import Vue from 'vue'
 import { Watch, Component } from 'vue-property-decorator';
 import PinCode from '../../components/PinCode.vue';
+import {Action, State} from "vuex-class";
+import {AccountState} from "../../store/account/types";
 
 @Component({
   components:{
@@ -29,16 +34,32 @@ import PinCode from '../../components/PinCode.vue';
   }
 })
 export default class Login extends Vue {
+  @State('account') account!: AccountState;
+  @Action('setProperty', {namespace: 'account'}) setProperty: any;
   password: number | null = null;
   length: number = 4;
+  error: boolean = false;
+
+  mounted () {
+    if (this.account.loginAttempts <= 1) {
+      this.$router.push({'name': 'Locked'});
+    }
+  }
 
   @Watch('password')
   onChildChanged(val: string) {
     if(val && val.toString().length === this.length) {
-      if (val === "1234")
+      if(val == this.account.pinCode){
         this.$router.push({'name': 'Intro'});
-      else
+        this.setProperty({loginAttempts: 5})
+      } else if (this.account.loginAttempts > 1) {
+        this.error = true;
+        this.setProperty({loginAttempts: this.account.loginAttempts-1})
+      } else {
         this.$router.push({'name': 'Locked'});
+      }
+
+      this.password = null;
     }
   }
 }

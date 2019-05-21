@@ -28,6 +28,9 @@
   import Vue from 'vue'
   import { Watch, Component } from 'vue-property-decorator'
   import PinCode from '../../components/PinCode.vue';
+  import axios from "../../utils/axios/axios"
+  import {State} from "vuex-class";
+  import {LinksState} from "../../store/links/types";
 
   @Component({
     components:{
@@ -35,13 +38,26 @@
     }
   })
   export default class SmsValidation extends Vue {
+    @State('links') links!: LinksState;
     password: number | null = null;
     length: number = 4;
 
     @Watch('password')
-    onChildChanged(val: number | null) {
+    async onChildChanged(val: number | null) {
       if(val && val.toString().length === this.length){
-        this.$router.push({'name': 'SetPinCode'});
+        let response: any = await axios.post(this.links.links['yona:confirmMobileNumber'].href, {
+          code: this.password
+        }).catch((error) => {
+          if(error){
+            console.log(error)
+          }
+        });
+
+        if(response.status == 200){
+          this.$router.push({'name': 'SetPinCode'});
+        }
+
+        this.password = null;
       }
     }
   }

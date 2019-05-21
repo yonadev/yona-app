@@ -21,6 +21,7 @@
       <span class="button" @click="checkTelNumber">VOLGENDE</span>
     </div>
 
+    <!-- ToDo: Make it a cordova modal -->
     <div class="is-centered" v-if="choose">
       <router-link class="button" :to="{name: 'AddDevice'}">Apparaat toevoegen</router-link>
       <router-link class="button" :to="{name: 'PhoneNumber'}">Opnieuw registreren</router-link>
@@ -35,6 +36,7 @@
   import {Action, State} from "vuex-class";
   import {AccountState} from "../../store/account/types";
   import axios from "../../utils/axios/axios"
+  import {HeaderState} from "../../store/header/types";
 
   @Component({
     components:{
@@ -43,7 +45,9 @@
   })
   export default class AccountInfo extends Vue {
     @State('account') account!: AccountState;
+    @State('header') header!: HeaderState;
     @Action('setProperty', {namespace: 'account'}) setProperty: any;
+    @Action('setLinks', {namespace: 'links'}) setLinks: any;
     mobile: string | null = '';
     nickname: string | null = '';
     choose: boolean = false;
@@ -57,7 +61,7 @@
       let self = this
       this.$validator.validate().then(async valid => {
         if (valid) {
-          let response: any = await axios.post('/users/', {
+          let response: any = await axios.post('http://192.168.1.9:8082/users/', {
             firstName: this.account.firstname,
             lastName: this.account.lastname,
             mobileNumber: this.account.phonenumber,
@@ -72,7 +76,6 @@
             if (response.status === 201) {
               //Successfull
               this.$router.push({'name': 'SmsValidation'});
-
             } else if (response.status !== 201) {
               //Probably a field missing
               this.choose = true;

@@ -10,14 +10,14 @@
     </div>
     <div class="wrapper">
       <p class="disclaimer">
-        Je hebt nog niet eerder ingelogd op dit apparaat. Ga naar je primaire device (waarschijnlijk je mobiel), open Yona, vervolgens naar instellingen en klik op ‘apparaat toevoegen’. Vul vervolgens onderstaande velden in.
+        Je hebt nog niet eerder ingelogd op dit apparaat. Ga naar je primaire device (waarschijnlijk je mobiel), open Yona, vervolgens naar instellingen en klik op ‘apparaat toevoegen’. Vul vervolgens onderstaande veld(en) in.
       </p>
 
-      <input-floating-label id="mobile" class="with-border-input" label="MOBIEL TELEFOONNUMMER" :value.sync="mobile" type="number" icon="icn_mobile.svg"></input-floating-label>
+      <input-floating-label :validate="{required: true, mobile: true}" name="Telefoonnummer" id="mobile" class="with-border-input" label="MOBIEL TELEFOONNUMMER" type="tel" :value.sync="mobile" icon="icn_mobile.svg"></input-floating-label>
       <input-floating-label id="passcode" class="with-border-input" label="PASSCODE" :value.sync="passcode" type="text" icon="icn_name.svg"></input-floating-label>
     </div>
     <div class="is-centered bottom-aligned">
-      <router-link class="button" :to="{name: 'SetPinCode'}">INLOGGEN</router-link>
+      <div class="button" @click="checkPasscode">INLOGGEN</div>
     </div>
   </div>
 </template>
@@ -26,6 +26,10 @@
   import Vue from 'vue'
   import Component from 'vue-class-component';
   import InputFloatingLabel from '../../components/InputFloatingLabel.vue';
+  import {Watch} from "vue-property-decorator";
+  import axios from "../../utils/axios/axios"
+  import {State} from "vuex-class";
+  import {LinksState} from "../../store/links/types";
 
   @Component({
     components:{
@@ -33,8 +37,49 @@
     }
   })
   export default class AddDevice extends Vue {
+    @State('links') links!: LinksState;
     private mobile: string = '';
+    private mobile_exists = false;
     private passcode: string = '';
+
+    @Watch('mobile')
+    async mobileChanged(val: string | null) {
+      if(val){
+        if(val.charAt(0) == '0') {
+          val = '+31' + val.substr(1)
+          this.mobile = val
+        }
+      }
+    }
+
+    async checkPasscode () {
+      let response: any = await axios.get('http://192.168.1.9:8082/newDeviceRequests/'+this.mobile).catch((error) => {
+        console.log(error)
+      });
+
+      if(response.status == 200) {
+        this.mobile_exists = true;
+
+        let response: any = await axios.post(this.links.links['yona:registerDevice'].href, {
+          "operatingSystem": "ANDROID",
+          "appVersion": "1.1 build 83",
+          "appVersionCode": 31,
+          "name": "My new phone",
+        }, {
+          headers: {
+            "Yona-NewDeviceRequestPassword": this.passcode
+          }
+        }).catch((error) => {
+          console.log(error)
+        });
+
+        if(response.status == 201) {
+          this.$router.push({"name": "SetPinCode"});
+        }
+      }else{
+
+      }
+    }
   }
 </script>
 

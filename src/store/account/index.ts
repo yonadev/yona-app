@@ -7,7 +7,8 @@ const state: AccountState = {
   lastname: '',
   phonenumber: '',
   nickname: '',
-  pinCode: 0
+  pinCode: 0,
+  loginAttempts: 5
 };
 
 const actions: ActionTree<AccountState, RootState> = {
