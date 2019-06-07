@@ -26,8 +26,8 @@
   import Vue from 'vue'
   import { Watch, Component } from 'vue-property-decorator'
   import PinCode from '../../../components/PinCode.vue';
-  import { State } from 'vuex-class';
-  import {AccountState} from "../../../store/account/types";
+  import {Action, State} from 'vuex-class';
+  import {LoginState} from "../../../store/login/types";
 
   @Component({
     components:{
@@ -35,7 +35,8 @@
     }
   })
   export default class ConfirmPinCode extends Vue {
-    @State('account') account!: AccountState;
+    @State('login') login!: LoginState;
+    @Action('resetLock', {namespace: 'login'}) resetLock: any;
     private password: number | null = null;
     private length: number = 4;
     private error: boolean = false;
@@ -43,9 +44,10 @@
     @Watch('password')
     onChildChanged(val: number | null) {
       if(val && val.toString().length === this.length){
-        if(val === this.account.pinCode)
+        if(val === this.login.pinCode) {
+          this.resetLock();
           this.$router.push({'name': 'Dashboard'});
-        else{
+        }else{
           this.error = true;
           this.password = null;
         }

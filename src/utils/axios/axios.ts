@@ -22,8 +22,9 @@ instance.interceptors.request.use(function (config) {
 
 // Add a response interceptor
 instance.interceptors.response.use(function (response) {
+
   // Do something with response data
-  if(response.data) {
+  if(response.data.yonaPassword) {
     store.dispatch("header/setHeaderPassword", {yonaPassword: response.data.yonaPassword});
 
     if(response.data._links){

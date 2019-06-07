@@ -22,10 +22,9 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import { State, Action } from 'vuex-class';
+  import { Action } from 'vuex-class';
   import { Watch, Component } from 'vue-property-decorator'
   import PinCode from '../../../components/PinCode.vue';
-  import {AccountState} from "../../../store/account/types";
 
   @Component({
     components:{
@@ -33,8 +32,7 @@
     }
   })
   export default class SetPinCode extends Vue {
-    @State('account') account!: AccountState;
-    @Action('setPincode', {namespace: 'account'}) setPincode: any;
+    @Action('setPincode', {namespace: 'login'}) setPincode: any;
     password: number | null = null;
     length: number = 4;
 

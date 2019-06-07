@@ -5,6 +5,7 @@ import { RootState } from './types';
 import { account } from './account/index';
 import { header } from "./header/index";
 import { links } from "./links/index";
+import { login } from "./login/index";
 
 const debug = process.env.NODE_ENV !== 'production'
 
@@ -19,7 +20,8 @@ const store: StoreOptions<RootState> = {
   modules: {
     account: account,
     header: header,
-    links: links
+    links: links,
+    login: login
   },
   plugins: [vuexLocal.plugin],
   strict: debug

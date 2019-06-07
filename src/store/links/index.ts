@@ -3,12 +3,11 @@ import { LinksState } from './types';
 import { RootState } from '../types';
 
 const state: LinksState = {
-  links: []
+  links: {}
 };
 
 const actions: ActionTree<LinksState, RootState> = {
   setLinks({commit}, data): any{
-    console.log(data)
     commit('setLinks', data)
   }
 };

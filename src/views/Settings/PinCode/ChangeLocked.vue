@@ -8,6 +8,7 @@
       <p class="icon-title">
         Je account is geblokkeerd
       </p>
+
       <p class="icon-text">
         Om veiligheidsredenen is je account geblokkeerd. Gebruik de ‘PIN reset’ knop hieronder om je account opnieuw te activeren.
       </p>

@@ -8,7 +8,6 @@ const state: HeaderState = {
 
 const actions: ActionTree<HeaderState, RootState> = {
   setHeaderPassword({commit}, data): any{
-    console.log(data)
     commit('setHeaderPassword', data)
   }
 };

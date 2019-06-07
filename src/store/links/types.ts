@@ -1,3 +1,3 @@
 export interface LinksState {
-  links: [] | null;
+  links: {} | null;
 }

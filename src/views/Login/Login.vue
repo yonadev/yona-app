@@ -9,7 +9,7 @@
         You are not alone
       </p>
       <p v-if="error" class="has-text-white-ter">
-        Onjuiste pincode! U heeft nog {{account.loginAttempts}} pogingen.
+        Onjuiste pincode! U heeft nog {{login.loginAttempts}} pogingen.
       </p>
       <pin-code :pincode.sync="password" :length="length"></pin-code>
       <router-link :to="{'name': 'WaitLocked'}">
@@ -26,7 +26,7 @@ import Vue from 'vue'
 import { Watch, Component } from 'vue-property-decorator';
 import PinCode from '../../components/PinCode.vue';
 import {Action, State} from "vuex-class";
-import {AccountState} from "../../store/account/types";
+import {LoginState} from "../../store/login/types";
 
 @Component({
   components:{
@@ -34,14 +34,14 @@ import {AccountState} from "../../store/account/types";
   }
 })
 export default class Login extends Vue {
-  @State('account') account!: AccountState;
-  @Action('setProperty', {namespace: 'account'}) setProperty: any;
+  @State('login') login!: LoginState;
+  @Action('setProperty', {namespace: 'login'}) setProperty: any;
   password: number | null = null;
   length: number = 4;
   error: boolean = false;
 
   mounted () {
-    if (this.account.loginAttempts <= 1) {
+    if (this.login.loginAttempts <= 1) {
       this.$router.push({'name': 'Locked'});
     }
   }
@@ -49,12 +49,12 @@ export default class Login extends Vue {
   @Watch('password')
   onChildChanged(val: string) {
     if(val && val.toString().length === this.length) {
-      if(val == this.account.pinCode){
+      if(val == this.login.pinCode){
         this.$router.push({'name': 'Intro'});
         this.setProperty({loginAttempts: 5})
-      } else if (this.account.loginAttempts > 1) {
+      } else if (this.login.loginAttempts > 1) {
         this.error = true;
-        this.setProperty({loginAttempts: this.account.loginAttempts-1})
+        this.setProperty({loginAttempts: this.login.loginAttempts-1})
       } else {
         this.$router.push({'name': 'Locked'});
       }

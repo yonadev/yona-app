@@ -6,34 +6,22 @@ const state: AccountState = {
   firstname: '',
   lastname: '',
   phonenumber: '',
-  nickname: '',
-  pinCode: 0,
-  loginAttempts: 5
+  nickname: ''
 };
 
 const actions: ActionTree<AccountState, RootState> = {
-  setPincode({commit}, data): any{
-    commit('setPincode', data)
-  },
   setProperty({commit}, data): any{
     commit('setProperty', data)
   }
 };
 
 const mutations: MutationTree<AccountState> = {
-  setPincode(state, payload: AccountState) {
-    state.pinCode = payload.pinCode;
-  },
   setProperty(state, payload: AccountState){
     Object.assign(state, payload)
   }
 };
 
-const getters: GetterTree<AccountState, RootState> = {
-  pinCode(state) {
-    return state.pinCode;
-  }
-};
+const getters: GetterTree<AccountState, RootState> = {};
 
 const namespaced: boolean = true;
 export const account: Module<AccountState, RootState> = {

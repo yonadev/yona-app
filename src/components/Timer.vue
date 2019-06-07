@@ -20,7 +20,6 @@
   export default class PinCode extends Vue {
     @Prop() time!: string;
     private now: number = Math.trunc((new Date()).getTime() / 1000);
-    private timeFormatted: number = Math.trunc(Date.parse(this.time) / 1000);
 
     mounted () {
       window.setInterval(() => {
@@ -29,15 +28,15 @@
     }
 
     get seconds() {
-      return (this.timeFormatted - this.now) % 60;
+      return (this.time - this.now) % 60;
     }
 
     get minutes() {
-      return Math.trunc((this.timeFormatted - this.now) / 60) % 60;
+      return Math.trunc((this.time - this.now) / 60) % 60;
     }
 
     get hours() {
-      return Math.trunc((this.timeFormatted - this.now) / 60 / 60);
+      return Math.trunc((this.time - this.now) / 60 / 60);
     }
   }
 

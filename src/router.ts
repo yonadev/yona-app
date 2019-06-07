@@ -13,6 +13,7 @@ import AbstractLogin from './views/Login/AbstractLogin.vue'
 import Login from './views/Login/Login.vue'
 import Locked from './views/Login/Locked.vue'
 import WaitLocked from './views/Login/WaitLocked.vue'
+import ValidateLocked from './views/Login/ValidateLocked.vue'
 import AddDevice from './views/Login/AddDevice.vue'
 
     //Welcome -> recover submodule
@@ -145,6 +146,11 @@ export default new Router({
                     name: 'WaitLocked',
                     component: WaitLocked
                 },
+                  {
+                    path: 'validatelocked',
+                    name: 'ValidateLocked',
+                    component: ValidateLocked
+                  },
                 {
                     path: 'add',
                     name: 'AddDevice',

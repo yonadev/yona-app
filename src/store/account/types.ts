@@ -3,6 +3,4 @@ export interface AccountState {
   lastname: string | null;
   phonenumber: string | null;
   nickname: string | null;
-  pinCode: number | null;
-  loginAttempts: number | null;
 }

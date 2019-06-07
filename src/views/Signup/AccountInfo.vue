@@ -47,7 +47,6 @@
     @State('account') account!: AccountState;
     @State('header') header!: HeaderState;
     @Action('setProperty', {namespace: 'account'}) setProperty: any;
-    @Action('setLinks', {namespace: 'links'}) setLinks: any;
     mobile: string | null = '';
     nickname: string | null = '';
     choose: boolean = false;

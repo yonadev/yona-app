@@ -32,7 +32,7 @@
   import { Watch, Component } from 'vue-property-decorator'
   import PinCode from '../../../components/PinCode.vue';
   import { State } from 'vuex-class';
-  import {LoginState} from "../../../store/account/types";
+  import {LoginState} from "../../../store/login/types";
 
   @Component({
     components:{

@@ -57,7 +57,7 @@
       let self = this
       this.$validator.validate().then(async valid => {
         if (valid) {
-          let response: any = await axios.post('http://192.168.1.9:8082/admin/requestUserOverwrite/?mobileNumber="'+this.mobile+'"').catch((error) => {
+          let response: any = await axios.post('http://192.168.1.9:8082/admin/requestUserOverwrite/?mobileNumber='+encodeURIComponent(this.mobile)).catch((error) => {
             console.log(error)
           });
 
