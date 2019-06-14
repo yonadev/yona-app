@@ -53,31 +53,31 @@
     }
 
     async checkPasscode () {
-      let response: any = await axios.get('http://192.168.1.9:8082/newDeviceRequests/'+this.mobile).catch((error) => {
+      let get_response: any = await axios.get('http://192.168.1.9:8082/newDeviceRequests/'+this.mobile).catch((error) => {
         console.log(error)
       });
 
-      if(response.status == 200) {
+      if(get_response.status == 200) {
         this.mobile_exists = true;
 
-        let response: any = await axios.post(this.links.links['yona:registerDevice'].href, {
-          "operatingSystem": "ANDROID",
-          "appVersion": "1.1 build 83",
-          "appVersionCode": 31,
-          "name": "My new phone",
-        }, {
-          headers: {
-            "Yona-NewDeviceRequestPassword": this.passcode
+        if(this.passcode) {
+          let response: any = await axios.post(get_response.data._links['yona:registerDevice'].href, {
+            "operatingSystem": "ANDROID",
+            "appVersion": "1.1 build 83",
+            "appVersionCode": 31,
+            "name": "My new phone",
+          }, {
+            headers: {
+              "Yona-NewDeviceRequestPassword": this.passcode
+            }
+          }).catch((error) => {
+            console.log(error)
+          });
+
+          if (response.status == 201) {
+            this.$router.push({"name": "SetPinCode"});
           }
-        }).catch((error) => {
-          console.log(error)
-        });
-
-        if(response.status == 201) {
-          this.$router.push({"name": "SetPinCode"});
         }
-      }else{
-
       }
     }
   }

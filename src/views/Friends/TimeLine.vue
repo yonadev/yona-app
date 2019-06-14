@@ -4,7 +4,7 @@
       <div class="nav-title">
         VRIENDEN
       </div>
-      <div v-if="!edit" class="tabs is-fullwidth">
+      <div class="tabs is-fullwidth">
         <ul>
           <li :class="{'is-active': active_tab === 'timeline'}">
             <a @click.prevent="active_tab = 'timeline'">Timeline</a>

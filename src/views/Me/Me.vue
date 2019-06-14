@@ -3,10 +3,10 @@
     <div class="colored-background purple-dark">
       <div class="nav-title">
         <router-link :to="{name: 'Profile'}">
-          <img class="small-profile-img" :src="require('../../assets/images/users/' + profilePic )" /> DASHBOARD
+          <img class="small-profile-img" :src="profilePic" /> DASHBOARD
         </router-link>
       </div>
-      <div v-if="!edit" class="tabs is-fullwidth">
+      <div class="tabs is-fullwidth">
         <ul>
           <li :class="{'is-active': active_tab === 'per_day'}">
             <a @click.prevent="active_tab = 'per_day'">Per dag</a>
@@ -29,11 +29,18 @@
 <script lang="ts">
   import Vue from 'vue'
   import Component from 'vue-class-component';
+  import {State} from "vuex-class";
+  import {AccountState} from "../../store/account/types";
 
   @Component({})
   export default class Me extends Vue {
-    profilePic: string = 'maria1.jpg';
+    @State('account') account!: AccountState;
     active_tab: string = 'per_day';
+    profilePic: string | null = '';
+
+    mounted () {
+      this.profilePic = this.account.userphoto;
+    }
   }
 </script>
 

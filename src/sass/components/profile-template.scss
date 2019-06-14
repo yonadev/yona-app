@@ -1,10 +1,13 @@
 .profile-template{
   .wrapper{
     padding:0 25px;
-    img.profile-img{
+    .profile-img{
       width:95px;
+      min-height:95px;
       border-radius: 50%;
       border: 2px solid #915C80;
+      display:inline-block;
+      background-color:#915C80;
     }
     p.icon-title{
       font-weight:300;

@@ -12,11 +12,9 @@
         Onjuiste pincode! U heeft nog {{login.loginAttempts}} pogingen.
       </p>
       <pin-code :pincode.sync="password" :length="length"></pin-code>
-      <router-link :to="{'name': 'WaitLocked'}">
-        <p class="reset">
-          PIN reset
-        </p>
-      </router-link>
+      <p class="reset" @click="pinReset">
+        PIN reset
+      </p>
     </div>
   </div>
 </template>
@@ -25,8 +23,11 @@
 import Vue from 'vue'
 import { Watch, Component } from 'vue-property-decorator';
 import PinCode from '../../components/PinCode.vue';
+import axios from "../../utils/axios/axios"
 import {Action, State} from "vuex-class";
+import {toSeconds, parse} from 'iso8601-duration';
 import {LoginState} from "../../store/login/types";
+import {LinksState} from "../../store/links/types";
 
 @Component({
   components:{
@@ -35,7 +36,9 @@ import {LoginState} from "../../store/login/types";
 })
 export default class Login extends Vue {
   @State('login') login!: LoginState;
+  @State('links') links!: LinksState;
   @Action('setProperty', {namespace: 'login'}) setProperty: any;
+  @Action('setUserData', {namespace: 'account'}) setUserData: any;
   password: number | null = null;
   length: number = 4;
   error: boolean = false;
@@ -46,10 +49,55 @@ export default class Login extends Vue {
     }
   }
 
+  async pinReset () {
+    if(this.links.links["yona:requestPinReset"]) {
+      let response = await axios.post(this.links.links["yona:requestPinReset"].href, {}
+      ).catch((error) => {
+        console.log(error)
+      });
+
+      if(response) {
+        let date = new Date();
+        let seconds = parseInt(date.getTime()/1000)
+        seconds += toSeconds(parse(response.data.delay))
+
+        this.setProperty({locked_timer: seconds})
+
+        if (response.status === 200) {
+          //Successfull
+          this.$router.push({'name': 'WaitLocked'});
+        }
+      }
+    }
+  }
+
   @Watch('password')
-  onChildChanged(val: string) {
+  async onChildChanged(val: string) {
     if(val && val.toString().length === this.length) {
       if(val == this.login.pinCode){
+        let user_response: any = await axios.get(this.links.links['self'].href).catch((error) => {
+          console.log(error)
+        });
+
+        if(user_response)
+          this.setUserData(user_response.data)
+
+        let photo_response: any = await axios.get(this.links.links['yona:userPhoto'].href, {
+          responseType: 'blob'
+        }).catch((error) => {
+          console.log(error)
+        });
+
+        let self = this
+
+        if (FileReader && photo_response.data) {
+          var fr = new FileReader();
+          fr.onload = await function () {
+            self.setProperty({userphoto: fr.result})
+          }
+          fr.readAsDataURL(photo_response.data);
+        }
+
         this.$router.push({'name': 'Intro'});
         this.setProperty({loginAttempts: 5})
       } else if (this.login.loginAttempts > 1) {

@@ -3,4 +3,5 @@ export interface AccountState {
   lastname: string | null;
   phonenumber: string | null;
   nickname: string | null;
+  userphoto: string | null;
 }

@@ -27,7 +27,7 @@
   import InputFloatingLabel from '../../../components/InputFloatingLabel.vue';
   import axios from "../../../utils/axios/axios"
   import {Watch} from "vue-property-decorator";
-  import {State} from "vuex-class";
+  import {Action, State} from "vuex-class";
   import {AccountState} from "../../../store/account/types";
 
   @Component({
@@ -37,6 +37,7 @@
   })
   export default class PhoneNumber extends Vue {
     @State('account') account!: AccountState;
+    @Action('setProperty', {namespace: 'account'}) setProperty: any;
     private mobile: string = '';
 
     mounted () {
@@ -57,7 +58,9 @@
       let self = this
       this.$validator.validate().then(async valid => {
         if (valid) {
-          let response: any = await axios.post('http://192.168.1.9:8082/admin/requestUserOverwrite/?mobileNumber='+encodeURIComponent(this.mobile)).catch((error) => {
+          this.setProperty({phonenumber: self.mobile})
+
+          let response: any = await axios.post('http://192.168.1.9:8082/admin/requestUserOverwrite/?mobileNumber='+encodeURIComponent(self.mobile)).catch((error) => {
             console.log(error)
           });
 

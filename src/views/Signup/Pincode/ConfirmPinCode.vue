@@ -46,7 +46,7 @@
       if(val && val.toString().length === this.length){
         if(val === this.login.pinCode) {
           this.resetLock();
-          this.$router.push({'name': 'Dashboard'});
+          this.$router.push({'name': 'Me'});
         }else{
           this.error = true;
           this.password = null;

@@ -14,12 +14,16 @@
       <p class="icon-text">
         Als extra beveiliging ontvang je een code per SMS, graag deze code hieronder invullen.
       </p>
-      <pin-code :pincode.sync="password" :length="length"></pin-code>
-      <router-link :to="{'name': ''}">
-        <p class="reset">
-          Stuur code opnieuw
-        </p>
-      </router-link>
+      <p v-if="error && attempts !== null" class="has-text-white-ter">
+        Onjuiste SMS code! U heeft nog {{attempts}} resterende pogingen.
+      </p>
+      <p v-else-if="attempts === null" class="has-text-white-ter">
+        U heeft geen pogingen meer, vraag een nieuwe SMS code aan!
+      </p>
+      <pin-code v-if="attempts !== null" :pincode.sync="password" :length="length"></pin-code>
+      <p class="reset" @click="resendCode">
+        Stuur code opnieuw
+      </p>
     </div>
   </div>
 </template>
@@ -41,10 +45,21 @@
     @State('account') account!: AccountState;
     password: number | null = null;
     length: number = 4;
+    attempts: number = 0;
+    error: boolean = false;
+
+    async resendCode(){
+      await axios.post('http://192.168.1.9:8082/admin/requestUserOverwrite/?mobileNumber='+encodeURIComponent(this.account.phonenumber)).catch((error) => {
+        console.log(error)
+      });
+      this.password = null
+      this.error = false
+      this.attempts = 0
+    }
 
     @Watch('password')
     onChildChanged(val: number) {
-      if(val.toString().length === this.length) {
+      if(val && val.toString().length === this.length) {
         let self = this
         this.$validator.validate().then(async valid => {
           if (valid) {
@@ -55,6 +70,16 @@
               nickname: this.account.nickname
             }).catch((error) => {
               console.log(error)
+              if(error){
+                self.password = null
+                if(error.response.status == 400){
+                  self.error = true
+                  if(error.response.data.remainingAttempts >= 0)
+                    self.attempts = error.response.data.remainingAttempts
+                  else
+                    self.attempts = null
+                }
+              }
             });
 
             if(response) {
