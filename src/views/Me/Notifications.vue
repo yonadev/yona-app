@@ -1,32 +1,38 @@
 <template>
-  <div>
-    Your notifications
+  <div id="notification" class="header-template">
+    <div class="colored-background purple-dark">
+      <div class="nav-title">
+        MELDINGEN
+      </div>
+    </div>
+    <div class="wrapper grey-bg">
+      Meldingen
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
-import {Prop, Watch} from 'vue-property-decorator'
+import {State} from "vuex-class";
+import {LinksState} from "../../store/links/types";
+import axios from "../../utils/axios/axios"
 
 @Component({})
 export default class Notifications extends Vue {
-    //@Prop() msg: string = '';
+  @State('links') links!: LinksState;
 
-    //Cycle hooks
-    mounted () {
-    }
+  async mounted () {
+    console.log(this.links.links)
+    let response = await axios.get(this.links.links["yona:messages"].href
+    ).catch((error) => {
+      console.log(error)
+    });
 
-    //Computed properties
-    get computedMsg () {
-        return '';
-    }
-
-    //Methods
-    methodFunction () {
-    }
+    console.log(response)
+  }
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 </style>

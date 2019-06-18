@@ -3,7 +3,10 @@
     <div class="colored-background purple-dark">
       <div class="nav-title">
         <router-link :to="{name: 'Profile'}">
-          <img class="small-profile-img" :src="profilePic" /> DASHBOARD
+          <img class="small-top-icon profile-img" :src="profilePic" /> DASHBOARD
+        </router-link>
+        <router-link class="" :to="{name: 'Notifications'}">
+          <img class="small-top-icon is-pulled-right" src="../../assets/images/icons/icn_notification.svg" />
         </router-link>
       </div>
       <div class="tabs is-fullwidth">
@@ -46,15 +49,19 @@
 
 <style lang="scss">
   #me{
-    .small-profile-img{
+    .small-top-icon{
       vertical-align: middle;
       top: -2px;
-      width:30px;
-      height:30px;
+      width:25px;
+      height:25px;
       border-radius: 50%;
       position:relative;
-      background-color:#000;
-      margin-right: 20px;
+      &.profile-img {
+        width:30px;
+        height:30px;
+        background-color:#000;
+        margin-right: 20px;
+      }
     }
     .nav-title{
       padding:30px 15px 10px 15px;
