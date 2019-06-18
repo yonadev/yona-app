@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-view></router-view>
+    <router-view class="bottom-margin-menu"></router-view>
     <bottom-menu active_page="friends"></bottom-menu>
   </div>
 </template>

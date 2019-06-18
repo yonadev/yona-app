@@ -3,6 +3,9 @@
     <div class="colored-background blue">
       <div class="nav-title">
         VRIENDEN
+        <router-link :to="{'name': 'FriendAdd'}">
+          <img class="icon-img is-pulled-right" src="../../assets/images/icons/icn_add.svg"/>
+        </router-link>
       </div>
       <div class="tabs is-fullwidth">
         <ul>
@@ -16,10 +19,10 @@
       </div>
     </div>
     <div class="wrapper grey-bg" v-if="active_tab === 'timeline'">
-      Per dag
+      Tijdlijn
     </div>
     <div class="wrapper grey-bg" v-if="active_tab === 'overview'">
-      Per week
+      {{buddies}}
     </div>
   </div>
 </template>
@@ -27,10 +30,29 @@
 <script lang="ts">
   import Vue from 'vue'
   import Component from 'vue-class-component';
+  import {State} from "vuex-class";
+  import {LinksState} from "../../store/links/types";
+  import axios from "../../utils/axios/axios"
 
   @Component({})
   export default class TimeLine extends Vue {
+    @State('links') links!: LinksState;
+    buddies: {};
     active_tab: string = 'timeline';
+
+    async mounted () {
+      let response: any = await axios.get(this.links.links['yona:dailyActivityReportsWithBuddies'].href).catch((error) => {
+        console.log(error)
+      });
+
+      console.log(response)
+
+      let buddies_response: any = await axios.get(this.links.embedded['yona:buddies']._links.self.href).catch((error) => {
+        console.log(error)
+      });
+
+      this.buddies = buddies_response.data._embedded['yona:buddies'];
+    }
   }
 </script>
 
