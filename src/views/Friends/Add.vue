@@ -86,7 +86,7 @@
       if(response){
         console.log(response)
 
-        this.$router.push({'name': 'ChangePinCode'});
+        this.$router.push({'name': 'TimeLine'});
       }
     }
   }

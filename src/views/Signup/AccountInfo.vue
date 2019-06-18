@@ -55,7 +55,7 @@
       this.mobile = this.account.phonenumber
       this.nickname = this.account.nickname;
     }
-
+//https://app.load.yona.nu
     checkTelNumber () {
       let self = this
       this.$validator.validate().then(async valid => {

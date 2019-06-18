@@ -37,7 +37,7 @@
   @Component({})
   export default class TimeLine extends Vue {
     @State('links') links!: LinksState;
-    buddies: {};
+    buddies: {} = {};
     active_tab: string = 'timeline';
 
     async mounted () {
@@ -51,7 +51,8 @@
         console.log(error)
       });
 
-      this.buddies = buddies_response.data._embedded['yona:buddies'];
+      if(buddies_response.data._embedded)
+        this.buddies = buddies_response.data._embedded['yona:buddies'];
     }
   }
 </script>

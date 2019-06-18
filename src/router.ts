@@ -42,6 +42,7 @@ import AbstractMe from './views/Me/AbstractMe.vue'
 import Me from './views/Me/Me.vue'
 import Profile from './views/Me/Profile.vue'
 import Notifications from './views/Me/Notifications.vue'
+import FriendRequest from './views/Me/FriendRequest.vue'
 
 //Friends module
 import AbstractFriends from './views/Friends/AbstractFriends.vue'
@@ -245,7 +246,13 @@ export default new Router({
                     path: 'notifications',
                     name: 'Notifications',
                     component: Notifications
-                }
+                },
+              {
+                path: 'friendrequest',
+                name: 'FriendRequest',
+                component: FriendRequest,
+                props: true
+              }
             ]
         },
         {
