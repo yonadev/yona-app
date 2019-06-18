@@ -32,6 +32,10 @@ instance.interceptors.response.use(function (response) {
     if(response.data._links){
       store.dispatch("links/setLinks", {links: response.data._links})
     }
+
+    if(response.data._embedded){
+      store.dispatch("links/setEmbedded", {embedded: response.data._embedded})
+    }
   }
 
   return response;
