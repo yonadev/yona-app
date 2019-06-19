@@ -25,7 +25,7 @@
       <div class="top-label">
         <strong>VERBONDEN</strong>
       </div>
-      <div class="grey-bg-div" v-for="(buddy, index) in buddies" :key="'accepted'+index">
+      <div v-for="(buddy, index) in buddies" :key="'accepted'+index" :class="{'grey-bg-div': buddy && buddy.receivingStatus === 'ACCEPTED'}">
         <div v-if="buddy && buddy.receivingStatus === 'ACCEPTED'" class="columns is-mobile">
           <div class="column is-2">
             <div class="img-wrapper">
@@ -49,7 +49,7 @@
         <div v-if="buddy && buddy.receivingStatus === 'REQUESTED'" class="columns is-mobile">
           <div class="column is-2">
             <div class="img-wrapper">
-              <img :ref="'image'+index" :src="getPhoto(buddy._embedded['yona:user']._links['yona:userPhoto'].href, 'image'+index)" />
+              <div class="img-placeholder"></div>
             </div>
           </div>
           <div class="column">
@@ -57,7 +57,7 @@
               <strong>{{buddy._embedded['yona:user'].firstName}} {{buddy._embedded['yona:user'].lastName}}</strong>
             </span>
             <span class="is-block has-text-left date">
-              Laatst gezien: {{buddy._embedded['yona:user'].appLastOpenedDate}}
+              Heeft nog niet geaccepteerd
             </span>
           </div>
         </div>
@@ -108,17 +108,9 @@
 </script>
 
 <style lang="scss">
+  @import "../../sass/variables";
+
   #friends-timeline{
-    .small-profile-img{
-      vertical-align: middle;
-      top: -2px;
-      width:30px;
-      height:30px;
-      border-radius: 50%;
-      position:relative;
-      background-color:#000;
-      margin-right: 20px;
-    }
     .nav-title{
       padding:30px 15px 10px 15px;
     }
@@ -155,6 +147,11 @@
             text-align: center;
             z-index: 1;
             max-width:100%;
+          }
+          .img-placeholder{
+            width:100%;
+            height:100%;
+            background-color:$color-purple-dark;
           }
         }
         .title{

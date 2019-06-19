@@ -252,6 +252,12 @@ export default new Router({
                     component: FriendAdd
                 },
                 {
+                    path: 'profile',
+                    name: 'FriendsProfile',
+                    component: FriendsProfile,
+                    props: true
+                },
+                {
                     path: ':id',
                     component: AbstractFriend,
                     children: [
@@ -259,12 +265,6 @@ export default new Router({
                             path: 'statistics',
                             name: 'Statistics',
                             component: Statistics
-                        },
-                        {
-                            path: 'profile',
-                            name: 'FriendsProfile',
-                            component: FriendsProfile,
-                            props: true
                         }
                     ]
                 }
