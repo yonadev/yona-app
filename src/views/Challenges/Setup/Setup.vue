@@ -1,8 +1,6 @@
 <template>
   <div>
-    <h3>List of all timebuckets</h3>
-
-    <router-view></router-view>
+    <h3>Setup challenge</h3>
   </div>
 </template>
 
@@ -12,7 +10,7 @@ import Component from 'vue-class-component';
 import {Prop, Watch} from 'vue-property-decorator'
 
 @Component({})
-export default class TimeBucketsList extends Vue {
+export default class Setup extends Vue {
     //@Prop() msg: string = '';
 
     //Cycle hooks
