@@ -88,7 +88,7 @@ export default class FriendsProfile extends Vue {
       console.log(error)
     });
 
-    if(buddy.response == 200){
+    if(buddy.status == 200){
       this.$router.push({'name': 'TimeLine'});
     }
   }
