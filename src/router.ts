@@ -59,32 +59,9 @@ import FriendAdd from './views/Friends/Add.vue'
 import AbstractChallenges from './views/Challenges/AbstractChallenges.vue'
 import ChallengesTabs from './views/Challenges/ChallengesTabs.vue'
 
-    //Submodule Challenges -> TimeBuckets
-    import AbstractTimeBuckets from './views/Challenges/TimeBuckets/AbstractTimeBuckets.vue'
-    import TimeBucketsList from './views/Challenges/TimeBuckets/TimeBucketsList.vue'
+    //Submodule Challenges -> Setup
+    import ChallengesSetup from './views/Challenges/Setup/Setup.vue'
 
-
-        //Submodule Challenges -> TimeBucket -> TimeBucketAdd
-        import AbstractTimeBucketAdd from './views/Challenges/TimeBuckets/TimeBucketAdd/AbstractTimeBucketAdd.vue'
-        import TimeBucketsAdd from './views/Challenges/TimeBuckets/TimeBucketAdd/TimeBucketsAdd.vue'
-        import TimeBucketsCredit from './views/Challenges/TimeBuckets/TimeBucketAdd/TimeBucketsCredit.vue'
-
-    //Submodule Challenges -> TimeFrames
-    import AbstractTimeFrames from './views/Challenges/TimeFrames/AbstractTimeFrames.vue'
-    import TimeFramesList from './views/Challenges/TimeFrames/TimeFramesList.vue'
-
-        //Submodule Challenges -> TimeFrame -> TimeFrameAdd
-        import AbstractTimeFrameAdd from './views/Challenges/TimeFrames/TimeFrameAdd/AbstractTimeFrameAdd.vue'
-        import TimeFrameAdd from './views/Challenges/TimeFrames/TimeFrameAdd/TimeFrameAdd.vue'
-        import TimeFrameRange from './views/Challenges/TimeFrames/TimeFrameAdd/TimeFrameRange.vue'
-
-    //Submodule Challenges -> NoGo's
-    import AbstractNoGos from './views/Challenges/NoGos/AbstractNoGos.vue'
-    import NoGosList from './views/Challenges/NoGos/NoGosList.vue'
-
-        //Submodule Challenges -> NoGo's -> NoGoAdd
-        import AbstractNoGoAdd from './views/Challenges/NoGos/NoGoAdd/AbstractNoGoAdd.vue'
-        import NoGoAdd from './views/Challenges/NoGos/NoGoAdd/NoGoAdd.vue'
 
 //Settings module
 import AbstractSettings from './views/Settings/AbstractSettings.vue'
@@ -300,85 +277,12 @@ export default new Router({
                 {
                     path: '',
                     name: 'ChallengesTabs',
-                    component: ChallengesTabs,
-                    children: [
-                        {
-                            path: 'timebuckets',
-                            component: AbstractTimeBuckets,
-                            children: [
-                                {
-                                    path: '',
-                                    name: 'TimeBucketsList',
-                                    component: TimeBucketsList
-                                },
-                                {
-                                    path: 'add',
-                                    component: AbstractTimeBucketAdd,
-                                    children: [
-                                        {
-                                            path: '',
-                                            name: 'TimeBucketsAdd',
-                                            component: TimeBucketsAdd
-                                        },
-                                        {
-                                            path: 'credit',
-                                            name: 'TimeBucketsCredit',
-                                            component: TimeBucketsCredit
-                                        }
-                                    ]
-                                },
-                            ]
-                        },
-                        {
-                            path: 'timeframes',
-                            component: AbstractTimeFrames,
-                            children: [
-                                {
-                                    path: '',
-                                    name: 'TimeFramesList',
-                                    component: TimeFramesList
-                                },
-                                {
-                                    path: 'add',
-                                    component: AbstractTimeFrameAdd,
-                                    children: [
-                                        {
-                                            path: '',
-                                            name: 'TimeFrameAdd',
-                                            component: TimeFrameAdd
-                                        },
-                                        {
-                                            path: 'timerange',
-                                            name: 'TimeFrameRange',
-                                            component: TimeFrameRange
-                                        }
-                                    ]
-                                },
-                            ]
-                        },
-                        {
-                            path: 'nogos',
-                            component: AbstractNoGos,
-                            children: [
-                                {
-                                    path: '',
-                                    name: 'NoGosList',
-                                    component: NoGosList
-                                },
-                                {
-                                    path: 'add',
-                                    component: AbstractNoGoAdd,
-                                    children: [
-                                        {
-                                            path: '',
-                                            name: 'NoGoAdd',
-                                            component: NoGoAdd
-                                        }
-                                    ]
-                                },
-                            ]
-                        }
-                    ]
+                    component: ChallengesTabs
+                },
+                {
+                    path: 'setup',
+                    name: 'ChallengesSetup',
+                    component: ChallengesSetup
                 }
             ]
         },
