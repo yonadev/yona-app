@@ -7,7 +7,7 @@
     </div>
     <div class="wrapper grey-bg">
       <div class="grey-bg-div notification" v-for="(notification, index) in notifications" :key="index" :class="{'is-not-read': !notification.isRead}">
-        <router-link class="columns is-mobile" :to="{name: 'FriendRequest', params: {notification: notification}}" v-if="notification && notification['@type'] === 'BuddyConnectRequestMessage'">
+        <div v-if="notification && notification['@type'] === 'BuddyConnectRequestMessage'" class="columns is-mobile" @click="goTo(notification)">
           <div class="column is-2">
             <div class="img-wrapper">
               <img :ref="'image'+index" :src="getPhoto(notification._links['yona:userPhoto'].href, 'image'+index)" />
@@ -21,7 +21,13 @@
               {{notification._embedded['yona:user'].firstName}} {{notification._embedded['yona:user'].lastName}}
           </span>
           </div>
-        </router-link>
+          <div class="column is-2">
+            <div class="img-wrapper">
+              <img v-if="notification.status === 'ACCEPTED'" src="../../assets/images/icons/icn_accepted.svg"/>
+              <img v-else-if="notification.status === 'REJECTED'" src="../../assets/images/icons/icn_rejected.svg"/>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -59,6 +65,12 @@ export default class Notifications extends Vue {
 
     this.$refs[index][0].src = await URL.createObjectURL(photo_response.data)
   }
+
+  goTo(notification){
+    if(notification['@type'] === 'BuddyConnectRequestMessage' && notification.status === 'REQUESTED'){
+      this.$router.push({name: 'FriendRequest', params: {notification: notification}});
+    }
+  }
 }
 </script>
 
@@ -90,6 +102,8 @@ export default class Notifications extends Vue {
             margin: auto;
             left: 0;
             right: 0;
+            top: 0;
+            bottom: 0;
             text-align: center;
             z-index: 1;
             max-width:100%;
@@ -97,7 +111,7 @@ export default class Notifications extends Vue {
         }
         .title{
           margin-bottom:5px;
-          margin-top:10px;
+          margin-top:8px;
         }
         .name{
           opacity:0.6;
