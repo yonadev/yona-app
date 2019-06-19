@@ -28,7 +28,7 @@
             </div>
           </div>
         </div>
-        <div v-else-if="notification && notification['@type'] === 'BuddyConnectResponseMessage'" class="columns is-mobile">
+        <div v-else-if="notification && notification['@type'] === 'BuddyConnectResponseMessage'" class="columns is-mobile" @click="goTo(notification)">
           <div class="column is-2">
             <div class="img-wrapper">
               <img :ref="'image'+index" :src="getPhoto(notification._links['yona:userPhoto'].href, 'image'+index)" />
@@ -83,18 +83,20 @@ export default class Notifications extends Vue {
   }
 
   async goTo(notification){
-    if(!notification.isRead) {
+    /* if(!notification.isRead) {
       let read_response: any = await axios.post(notification._links['yona:markRead'].href, {
         "properties": {}
       }).catch((error) => {
         console.log(error)
       });
-    }
+    } */
+
+    console.log(notification)
 
     if(notification['@type'] === 'BuddyConnectRequestMessage' && notification.status === 'REQUESTED'){
       this.$router.push({name: 'FriendRequest', params: {notification: notification}});
     } else if (notification['@type'] === 'BuddyConnectResponseMessage') {
-      this.$router.push({name: 'Profile', params: {notification: notification}});
+      this.$router.push({name: 'FriendsProfile', params: {link: notification._links['yona:buddy'].href}});
     }
   }
 }

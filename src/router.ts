@@ -286,7 +286,8 @@ export default new Router({
                         {
                             path: 'profile',
                             name: 'FriendsProfile',
-                            component: FriendsProfile
+                            component: FriendsProfile,
+                            props: true
                         }
                     ]
                 }

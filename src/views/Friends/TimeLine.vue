@@ -22,8 +22,11 @@
       Tijdlijn
     </div>
     <div class="wrapper grey-bg" v-if="active_tab === 'overview'">
-      <div class="grey-bg-div" v-for="(buddy, index) in buddies" :key="index">
-        <div class="columns is-mobile">
+      <div class="top-label">
+        <strong>VERBONDEN</strong>
+      </div>
+      <div class="grey-bg-div" v-for="(buddy, index) in buddies" :key="'accepted'+index">
+        <div v-if="buddy && buddy.receivingStatus === 'ACCEPTED'" class="columns is-mobile">
           <div class="column is-2">
             <div class="img-wrapper">
               <img :ref="'image'+index" :src="getPhoto(buddy._embedded['yona:user']._links['yona:userPhoto'].href, 'image'+index)" />
@@ -34,7 +37,27 @@
               <strong>{{buddy._embedded['yona:user'].firstName}} {{buddy._embedded['yona:user'].lastName}}</strong>
             </span>
             <span class="is-block has-text-left date">
-              {{buddy._embedded['yona:user'].appLastOpenedDate}}
+              Laatst gezien: {{buddy._embedded['yona:user'].appLastOpenedDate}}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="top-label">
+        <strong>VERZOEKEN</strong>
+      </div>
+      <div v-for="(buddy, index) in buddies" :key="'requested'+index" :class="{'grey-bg-div': buddy && buddy.receivingStatus === 'REQUESTED'}">
+        <div v-if="buddy && buddy.receivingStatus === 'REQUESTED'" class="columns is-mobile">
+          <div class="column is-2">
+            <div class="img-wrapper">
+              <img :ref="'image'+index" :src="getPhoto(buddy._embedded['yona:user']._links['yona:userPhoto'].href, 'image'+index)" />
+            </div>
+          </div>
+          <div class="column">
+            <span class="is-block has-text-left title">
+              <strong>{{buddy._embedded['yona:user'].firstName}} {{buddy._embedded['yona:user'].lastName}}</strong>
+            </span>
+            <span class="is-block has-text-left date">
+              Laatst gezien: {{buddy._embedded['yona:user'].appLastOpenedDate}}
             </span>
           </div>
         </div>
@@ -103,6 +126,13 @@
       padding:0;
       &.grey-bg{
         background-color:#f3f3f3;
+      }
+      .top-label{
+        background:#e7e7e7;
+        padding: 17px;
+        font-size: 11px;
+        opacity: 0.6;
+        border-bottom:1px solid #d5d5d5;
       }
       .grey-bg-div{
         background-image: linear-gradient(#f7f7f7, #fcfcfc);
