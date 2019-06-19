@@ -48,16 +48,7 @@ export default class Notifications extends Vue {
   avatar: string | null = '';
 
   async mounted () {
-    console.log(this.notification)
     if(this.notification) {
-      if(!this.notification.isRead) {
-        let read_response: any = await axios.post(this.notification._links['yona:markRead'].href, {
-          "properties": {}
-        }).catch((error) => {
-          console.log(error)
-        });
-      }
-
       let photo_response: any = await axios.get(this.notification._links['yona:userPhoto'].href, {
         responseType: 'blob'
       }).catch((error) => {
@@ -83,7 +74,7 @@ export default class Notifications extends Vue {
   async reject(){
     let response: any = await axios.post(this.notification._links['yona:reject'].href, {
       "properties": {
-        "message": "accepted"
+        "message": "rejected"
       }
     }).catch((error) => {
       console.log(error)

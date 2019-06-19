@@ -11,7 +11,7 @@ import {Prop, Watch} from 'vue-property-decorator'
 
 @Component({})
 export default class Profile extends Vue {
-    //@Prop() msg: string = '';
+    @Prop() msg: string = '';
 
     //Cycle hooks
     mounted () {

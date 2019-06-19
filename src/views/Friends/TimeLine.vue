@@ -22,7 +22,23 @@
       Tijdlijn
     </div>
     <div class="wrapper grey-bg" v-if="active_tab === 'overview'">
-      {{buddies}}
+      <div class="grey-bg-div" v-for="(buddy, index) in buddies" :key="index">
+        <div class="columns is-mobile">
+          <div class="column is-2">
+            <div class="img-wrapper">
+              <img :ref="'image'+index" :src="getPhoto(buddy._embedded['yona:user']._links['yona:userPhoto'].href, 'image'+index)" />
+            </div>
+          </div>
+          <div class="column">
+            <span class="is-block has-text-left title">
+              <strong>{{buddy._embedded['yona:user'].firstName}} {{buddy._embedded['yona:user'].lastName}}</strong>
+            </span>
+            <span class="is-block has-text-left date">
+              {{buddy._embedded['yona:user'].appLastOpenedDate}}
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -54,6 +70,17 @@
       if(buddies_response.data._embedded)
         this.buddies = buddies_response.data._embedded['yona:buddies'];
     }
+
+    async getPhoto(href, index){
+      let photo_response: any = await axios.get(href, {
+        responseType: 'blob'
+      }).catch((error) => {
+        console.log(error)
+      });
+
+      this.$refs[index][0].src = await URL.createObjectURL(photo_response.data)
+    }
+
   }
 </script>
 
@@ -73,8 +100,40 @@
       padding:30px 15px 10px 15px;
     }
     .wrapper{
+      padding:0;
       &.grey-bg{
         background-color:#f3f3f3;
+      }
+      .grey-bg-div{
+        background-image: linear-gradient(#f7f7f7, #fcfcfc);
+        padding:15px 25px 15px 25px;
+        .img-wrapper{
+          width:50px;
+          height:50px;
+          -webkit-border-radius: 100%;
+          -moz-border-radius: 100%;
+          border-radius: 100%;
+          overflow: hidden;
+          position: relative;
+          img{
+            position: absolute;
+            margin: auto;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            text-align: center;
+            z-index: 1;
+            max-width:100%;
+          }
+        }
+        .title{
+          margin-bottom:5px;
+          margin-top:8px;
+        }
+        .date{
+          opacity:0.6;
+        }
       }
     }
   }

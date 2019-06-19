@@ -28,6 +28,22 @@
             </div>
           </div>
         </div>
+        <div v-else-if="notification && notification['@type'] === 'BuddyConnectResponseMessage'" class="columns is-mobile">
+          <div class="column is-2">
+            <div class="img-wrapper">
+              <img :ref="'image'+index" :src="getPhoto(notification._links['yona:userPhoto'].href, 'image'+index)" />
+            </div>
+          </div>
+          <div class="column">
+            <span class="is-block has-text-left title">
+              <strong v-if="notification.status === 'REJECTED'">Vriendenverzoek afgewezen</strong>
+              <strong v-else-if="notification.status === 'ACCEPTED'">Vriendenverzoek geaccepteerd</strong>
+            </span>
+            <span class="is-block has-text-left name">
+              {{notification.nickname}}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -66,9 +82,19 @@ export default class Notifications extends Vue {
     this.$refs[index][0].src = await URL.createObjectURL(photo_response.data)
   }
 
-  goTo(notification){
+  async goTo(notification){
+    if(!notification.isRead) {
+      let read_response: any = await axios.post(notification._links['yona:markRead'].href, {
+        "properties": {}
+      }).catch((error) => {
+        console.log(error)
+      });
+    }
+
     if(notification['@type'] === 'BuddyConnectRequestMessage' && notification.status === 'REQUESTED'){
       this.$router.push({name: 'FriendRequest', params: {notification: notification}});
+    } else if (notification['@type'] === 'BuddyConnectResponseMessage') {
+      this.$router.push({name: 'Profile', params: {notification: notification}});
     }
   }
 }
