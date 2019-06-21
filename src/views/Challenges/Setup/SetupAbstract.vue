@@ -5,22 +5,25 @@
             <div class="colored-background green">
 
                 <div class="nav-title">
-                    <router-link :to="{name: 'ChallengesTabs'}">
-                        <span v-if="challenges.setupType === 'credit'">Tegoed vastleggen</span>
+                    <router-link :to="{name: 'ChallengesOverview', params: {type: 'credit'}}">
+                        <span v-if="activeSetup === 'credit'">Tegoed vastleggen</span>
+                        <span v-if="activeSetup === 'timezone'">Tijdzone vastleggen</span>
+                        <span v-if="activeSetup === 'nogo'">Nogo vastleggen</span>
                     </router-link>
                 </div>
 
                 <div class="setupHeader">
 
                     <div class="challengeTypeIcon">
-                        <img :src="require('../../../assets/images/challenges/icn_challenge_timebucket.svg')" />
+                        <img v-if="activeSetup === 'credit'" :src="require('../../../assets/images/challenges/icn_challenge_timebucket.svg')" />
+                        <img v-if="activeSetup === 'timezone'" :src="require('../../../assets/images/challenges/icn_challenge_timezone.svg')" />
+                        <img v-if="activeSetup === 'nogo'" :src="require('../../../assets/images/challenges/icn_challenge_nogo.svg')" />
                     </div>
 
-                    <h3>{{setupData.title}}</h3>
-                    <p>{{setupData.text}}</p>
+                    <h3>{{headerData.title}}</h3>
+                    <p>{{headerData.text}}</p>
 
                 </div>
-
 
             </div>
         </div>
@@ -46,33 +49,97 @@ import 'vue-slider-component/theme/antd.css'
 })
 export default class Setup extends Vue {
     @State('challenges') challenges!: ChallengesState;
-    //@Prop() msg: string = '';
-    setupData: Object = {
+    headerData: Object = {
         title: '',
         text: '',
     };
 
+    activeSetup = '';
+    activeCategory = '';
+
     mounted () {
-        switch(this.challenges.setupCategory)
+        this.activeSetup = this.$route.params.type;
+        this.activeCategory = this.$route.params.category;
+
+        switch(this.$route.params.category)
         {
             case "games":
-                this.setupData.title = 'Spellen';
-                this.setupData.text = 'Bepaal hier hoeveel tijd je aan games wilt besteden';
+                this.headerData.title = 'Spellen';
+
+                switch(this.activeSetup)
+                {
+                    case "credit":
+                        this.headerData.text = 'Bepaal hier hoeveel tijd je aan games wilt besteden';
+                        break;
+
+                    case "timezone":
+                        this.headerData.text = 'Bepaal hier wanneer je wel of geen tijd aan games wilt besteden';
+                        break;
+
+                    case "nogo":
+                        this.headerData.text = 'Hiermee geef je aan dat je op geen enkele manier wilt gamen';
+                        break;
+                }
                 break;
 
             case "social":
-                this.setupData.title = 'Sociale Media';
-                this.setupData.text = 'Bepaal hier hoeveel tijd je aan sociale media wilt besteden';
+                this.headerData.title = 'Sociale Media';
+
+                switch(this.activeSetup)
+                {
+                    case "credit":
+                        this.headerData.text = 'Bepaal hier hoeveel tijd je aan sociale media wilt besteden';
+                        break;
+
+                    case "timezone":
+                        this.headerData.text = 'Bepaal hier wanneer je wel of geen tijd aan sociale media wilt besteden';
+                        break;
+
+                    case "nogo":
+                        this.headerData.text = 'Hiermee geef je aan dat je op geen enkele manier gebruik wilt maken van sociale media';
+                        break;
+                }
+
                 break;
 
             case "dating":
-                this.setupData.title = 'Dating';
-                this.setupData.text = 'Bepaal hier hoeveel tijd je aan dating wilt besteden';
+                this.headerData.title = 'Dating';
+
+                switch(this.activeSetup)
+                {
+                    case "credit":
+                        this.headerData.text = 'Bepaal hier hoeveel tijd je aan dating wilt besteden';
+                        break;
+
+                    case "timezone":
+                        this.headerData.text = 'Bepaal hier wanneer je wel of geen tijd aan dating wilt besteden';
+                        break;
+
+                    case "nogo":
+                        this.headerData.text = 'Hiermee geef je aan dat je op geen enkele manier gebruik wilt maken van dating services';
+                        break;
+                }
+
                 break;
 
             case "gamble":
-                this.setupData.title = 'Gokken';
-                this.setupData.text = 'Bepaal hier hoeveel tijd je aan gokken wilt besteden';
+                this.headerData.title = 'Gokken';
+
+                switch(this.activeSetup)
+                {
+                    case "credit":
+                        this.headerData.text = 'Bepaal hier hoeveel tijd je aan gokken wilt besteden';
+                        break;
+
+                    case "timezone":
+                        this.headerData.text = 'Bepaal hier wanneer je wel of geen tijd aan gokken wilt besteden';
+                        break;
+
+                    case "nogo":
+                        this.headerData.text = 'Hiermee geef je aan dat je op geen enkele manier gebruik wilt maken van online gokken';
+                        break;
+                }
+
                 break;
         }
     }

@@ -66,7 +66,9 @@ import ChallengesTabs from './views/Challenges/ChallengesTabs.vue'
 
     //Submodule Challenges -> Setup
     import ChallengesSetupAbstract from './views/Challenges/Setup/SetupAbstract.vue'
-    import ChallengesSetup from './views/Challenges/Setup/Setup.vue'
+    import ChallengesSetupCredit from './views/Challenges/Setup/SetupCredit.vue'
+    import ChallengesSetupTimezone from './views/Challenges/Setup/SetupTimezone.vue'
+    import ChallengesSetupNogo from './views/Challenges/Setup/SetupNogo.vue'
 
 
 //Settings module
@@ -308,9 +310,19 @@ export default new Router({
                     component: ChallengesSetupAbstract,
                     children: [
                         {
-                            path: ':type/:category',
-                            name: 'ChallengesSetup',
-                            component: ChallengesSetup
+                            path: ':type/credit',
+                            name: 'ChallengesSetupCredit',
+                            component: ChallengesSetupCredit
+                        },
+                        {
+                            path: ':type/timezone',
+                            name: 'ChallengesSetupTimezone',
+                            component: ChallengesSetupTimezone
+                        },
+                        {
+                            path: ':type/nogo',
+                            name: 'ChallengesSetupNogo',
+                            component: ChallengesSetupNogo
                         }
                     ]
                 }
