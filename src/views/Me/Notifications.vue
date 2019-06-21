@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="wrapper grey-bg">
-      <div class="grey-bg-div notification" v-for="(notification, index) in notifications" :key="index" :class="{'is-not-read': !notification.isRead}">
+      <div v-for="(notification, index) in notifications" :key="index" :class="{'is-not-read': !notification.isRead, 'grey-bg-div notification': notification['@type'] !== 'BuddyInfoChangeMessage'}">
         <div v-if="notification && notification['@type'] === 'BuddyConnectRequestMessage'" class="columns is-mobile" @click="goTo(notification)">
           <div class="column is-2">
             <div class="img-wrapper">
