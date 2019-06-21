@@ -49,10 +49,13 @@ import 'vue-slider-component/theme/antd.css'
 })
 export default class Setup extends Vue {
     @State('challenges') challenges!: ChallengesState;
-    headerData: Object = {
-        title: '',
-        text: '',
-    };
+    headerData: {
+        text: string,
+        title: string
+    } = {
+        text: "",
+        title: ""
+    }
 
     activeSetup = '';
     activeCategory = '';
