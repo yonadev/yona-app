@@ -64,35 +64,14 @@ import Component from 'vue-class-component';
 import subActive from '../../utils/router/subActive'
 //import {Prop, Watch} from 'vue-property-decorator'
 //import {Action, State} from "vuex-class";
-//import {ChallengesState} from "../../store/challenges/types";
+//import {ChallengesState} from "@/store/challenges/types";
 
 @Component({})
 export default class Add extends Vue {
-
-    //@State('challenges') challenges!: ChallengesState;
-    //@Action('setSetupType', {namespace: 'challenges'}) setSetupType: any;
-    //@Action('setCategory', {namespace: 'challenges'}) setCategory: any;
-
     sub = subActive;
 
     //Cycle hooks
     mounted () {
-        subActive.subIsActive(['/wqdwed'])
-    }
-
-    beforeRouteUpdate(to, from, next) {
-        console.log('beforeRouteUpdate')
-        next() // needs to be called to confirm the navigation
-    }
-
-    beforeRouteEnter(to, from, next) {
-        console.log('beforeRouteEnter')
-        next() // needs to be called to confirm the navigation
-    }
-
-    beforeRouteLeave(to, from, next) {
-        console.log('beforeRouteLeave')
-        next() // needs to be called to confirm the navigation
     }
 }
 </script>

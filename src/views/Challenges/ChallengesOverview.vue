@@ -34,11 +34,10 @@
 import Vue from 'vue'
 import Component from 'vue-class-component';
 import {Action, State} from "vuex-class";
-import {ChallengesState} from "../../store/challenges/types";
+import {ChallengesState} from "@/store/challenges/types";
 
 @Component({})
 export default class Add extends Vue{
-
     @State('challenges') challenges!: ChallengesState;
     @Action('setSetupType', {namespace: 'challenges'}) setSetupType: any;
     @Action('setCategory', {namespace: 'challenges'}) setCategory: any;
@@ -63,79 +62,14 @@ export default class Add extends Vue{
 
         this.$router.push({'name': 'ChallengesSetup'});
     }
+
+    beforeRouteUpdate(to, from, next) {
+        console.log('beforeRouteUpdate')
+        next() // needs to be called to confirm the navigation
+    }
+
+    fetchChallenges(){
+        
+    }
 }
 </script>
-
-<style lang="scss">
-    @import "../../sass/variables";
-    #challenges{
-
-        .wrapper{
-            padding:0;
-
-            .challenge-header{
-                padding:20px 0 20px 25px;
-                text-align: left;
-                position: relative;
-                max-width: 100%;
-                width: 100%;
-                background-color: $list-background;
-
-                .text{
-                    float: left;
-                    width: 65%;
-                    padding-top: 10px;
-                }
-
-                .add-button{
-                    float: left;
-                    width: 35%;
-
-                    a{
-                        display: block;
-                    }
-                }
-            }
-
-            .grey-bg-button{
-                background-image: linear-gradient($list-item-gradient-two, $list-item-gradient-one);
-                padding:20px 25px 20px 25px;
-                text-align: left;
-            }
-        }
-
-        ul{
-            li{
-                a{
-                    display: block;
-                    .tabImage{
-                        width: 100%;
-                        position: relative;
-
-                        img{
-                            max-height: 42px;
-                        }
-
-                        .counter{
-                            position: absolute;
-                            top: 0;
-                            left: 50px;
-                            border: 1px solid #FFF;
-                            background-color: $color-green;
-                            padding: 3px 4px;
-                            border-radius: 15px;
-                            min-width: 20px;
-                            text-align: center;
-                        }
-                    }
-
-                    .tabTitle{
-                        width: 100%;
-                        position: relative;
-                        padding-top: 10px;
-                    }
-                }
-            }
-        }
-    }
-</style>

@@ -1,8 +1,8 @@
 import Vue from 'vue'
+import "@/utils/router/hooks";
 import App from './App.vue'
 import router from './router'
-import "./utils/validate/validate";
-import "./utils/router/hooks";
+import "@/utils/validate/validate";
 
 import store from './store/index'
 
