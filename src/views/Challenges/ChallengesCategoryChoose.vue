@@ -54,7 +54,21 @@ export default class ChallengesCategoryChoose extends Vue{
     }
 
     chooseCategory( category ){
-        this.$router.push({'name': 'ChallengesSetup', params: {type: this.typeOverview, category: category }});
+
+        switch (this.typeOverview) {
+            case "credit":
+                this.$router.push({'name': 'ChallengesSetupCredit', params: { type: 'credit', category: category }});
+                break;
+
+            case "timezone":
+                this.$router.push({'name': 'ChallengesSetupTimezone', params: { type: 'timezone', category: category }});
+                break;
+
+            case "nogo":
+                this.$router.push({'name': 'ChallengesSetupNogo', params: { type: 'nogo', category: category }});
+                break;
+        }
+
     }
 }
 </script>

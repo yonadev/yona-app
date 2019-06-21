@@ -308,19 +308,20 @@ export default new Router({
                 {
                     path: 'setup',
                     component: ChallengesSetupAbstract,
+                    props: true,
                     children: [
                         {
-                            path: ':type/credit',
+                            path: 'credit/:category',
                             name: 'ChallengesSetupCredit',
                             component: ChallengesSetupCredit
                         },
                         {
-                            path: ':type/timezone',
+                            path: 'timezone/:category',
                             name: 'ChallengesSetupTimezone',
                             component: ChallengesSetupTimezone
                         },
                         {
-                            path: ':type/nogo',
+                            path: 'nogo/:category',
                             name: 'ChallengesSetupNogo',
                             component: ChallengesSetupNogo
                         }

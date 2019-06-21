@@ -42,6 +42,11 @@ import {ChallengesState} from "../../../store/challenges/types";
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/antd.css'
 
+interface HeaderDataInterface {
+    text: string | '',
+    title: string | ''
+}
+
 @Component({
     components:{
         VueSlider
@@ -49,10 +54,9 @@ import 'vue-slider-component/theme/antd.css'
 })
 export default class Setup extends Vue {
     @State('challenges') challenges!: ChallengesState;
-    headerData: {
-        text: string,
-        title: string
-    } = {
+    @Prop() type!: string;
+
+    headerData: HeaderDataInterface = {
         text: "",
         title: ""
     }
@@ -61,7 +65,7 @@ export default class Setup extends Vue {
     activeCategory = '';
 
     mounted () {
-        this.activeSetup = this.$route.params.type;
+        this.activeSetup = this.type;
         this.activeCategory = this.$route.params.category;
 
         switch(this.$route.params.category)
