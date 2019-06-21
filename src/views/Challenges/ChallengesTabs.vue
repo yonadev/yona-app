@@ -10,117 +10,50 @@
 
       <div class="tabs is-fullwidth">
         <ul>
-          <li :class="{'is-active': active_tab === 'credit'}">
-            <a @click.prevent="active_tab = 'credit'">
-              <div class="tabImage">
-                <img :src="require('../../assets/images/challenges/icn_challenge_timebucket.svg')" />
-                <div class="counter">2</div>
-              </div>
-              <div class="tabTitle">
-                Tegoed
-              </div>
-            </a>
-          </li>
-          <li :class="{'is-active': active_tab === 'timezone'}">
-            <a @click.prevent="active_tab = 'timezone'">
-              <div class="tabImage">
-                <img :src="require('../../assets/images/challenges/icn_challenge_timezone.svg')" />
-                <div class="counter">3</div>
-              </div>
-              <div class="tabTitle">
-                Tijdzone
-              </div>
-            </a>
-          </li>
-          <li :class="{'is-active': active_tab === 'nogos'}">
-            <a @click.prevent="active_tab = 'nogos'">
-              <div class="tabImage">
-                <img :src="require('../../assets/images/challenges/icn_challenge_nogo.svg')" />
-                <div class="counter">1</div>
-              </div>
-              <div class="tabTitle">
-                NO GO
-              </div>
-            </a>
-          </li>
+            <router-link tag="li" :to="{name: 'ChallengesOverview', params: {type: 'credit'}}" active-class="is-active" :class="{'router-link-exact-active is-active router-link-active': sub.subIsActive(['/challenges/credit/chooseCategory'])}">
+                <a>
+                    <div class="tabImage">
+                        <img :src="require('../../assets/images/challenges/icn_challenge_timebucket.svg')" />
+                        <div class="counter">2</div>
+                    </div>
+                    <div class="tabTitle">
+                        Tegoed
+                    </div>
+                </a>
+            </router-link>
+            <router-link tag="li" :to="{name: 'ChallengesOverview', params: {type: 'timezone'}}" active-class="is-active" :class="{'router-link-exact-active is-active router-link-active': sub.subIsActive(['/challenges/timezone/chooseCategory'])}">
+                <a>
+                    <div class="tabImage">
+                        <img :src="require('../../assets/images/challenges/icn_challenge_timezone.svg')" />
+                        <div class="counter">3</div>
+                    </div>
+                    <div class="tabTitle">
+                        Tijdzone
+                    </div>
+                </a>
+            </router-link>
+            <router-link tag="li" :to="{name: 'ChallengesOverview', params: {type: 'nogo'}}" active-class="is-active" :class="{'router-link-exact-active is-active router-link-active': sub.subIsActive(['/challenges/nogo/chooseCategory'])}">
+                <a>
+                    <div class="tabImage">
+                        <img :src="require('../../assets/images/challenges/icn_challenge_nogo.svg')" />
+                        <div class="counter">1</div>
+                    </div>
+                    <div class="tabTitle">
+                        NO GO
+                    </div>
+                </a>
+            </router-link>
         </ul>
       </div>
 
     </div>
-    <div class="wrapper grey-bg" v-if="active_tab === 'credit'">
 
-        <div class="challenge-header">
-            <div class="text">
-                Stel je zelf een doel door een dagelijks tegoed vast te stellen
-            </div>
-            <div class="add-button">
-                <router-link :to="{name: 'CheckPinCode'}">
-                    <img :src="require('../../assets/images/challenges/add_circel.svg')" />
-                </router-link>
-            </div>
+      <div class="wrapper grey-bg">
 
-            <br clear="left"/>
-        </div>
+          <router-view></router-view>
 
-        <router-link :to="{name: 'CheckPinCode'}">
-            <div class="grey-bg-button">
-                <strong>Social</strong>
-                <p>Je kunt per dag 30 minuten op social media doorbrengen</p>
-            </div>
-        </router-link>
+      </div>
 
-        <router-link :to="{name: 'CheckPinCode'}">
-            <div class="grey-bg-button">
-                <strong>Dating</strong>
-                <p>Je kunt per dag 20 minuten daten</p>
-            </div>
-        </router-link>
-
-    </div>
-    <div class="wrapper grey-bg" v-if="active_tab === 'timezone'">
-        <div class="challenge-header">
-            <div class="text">
-                Bepaal zelf wanneer je wel of niet tijd wilt besteden.
-            </div>
-            <div class="add-button">
-                <router-link :to="{name: 'CheckPinCode'}">
-                    <img :src="require('../../assets/images/challenges/add_circel.svg')" />
-                </router-link>
-            </div>
-
-            <br clear="left"/>
-        </div>
-
-        <router-link :to="{name: 'CheckPinCode'}">
-            <div class="grey-bg-button">
-                <strong>Games</strong>
-                <p>Toegestaan tussen 07:00 en 08:00 en tussen 17:00 en 21:00</p>
-            </div>
-        </router-link>
-    </div>
-    <div class="wrapper grey-bg" v-if="active_tab === 'nogos'">
-        <div class="challenge-header">
-            <div class="text">
-                Hier leg je vast waar je helemaal niet wilt komen.
-            </div>
-            <div class="add-button">
-                <router-link :to="{name: 'CheckPinCode'}">
-                    <img :src="require('../../assets/images/challenges/add_circel.svg')" />
-                </router-link>
-            </div>
-
-            <br clear="left"/>
-        </div>
-
-        <router-link :to="{name: 'CheckPinCode'}">
-            <div class="grey-bg-button">
-                <strong>Adult</strong>
-                <p>Vermijd adult gerelateerde content</p>
-            </div>
-        </router-link>
-    </div>
-
-    <router-view></router-view>
   </div>
 
 </template>
@@ -128,23 +61,38 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
-import {Prop, Watch} from 'vue-property-decorator'
+import subActive from '../../utils/router/subActive'
+//import {Prop, Watch} from 'vue-property-decorator'
+//import {Action, State} from "vuex-class";
+//import {ChallengesState} from "../../store/challenges/types";
 
 @Component({})
 export default class Add extends Vue {
-    active_tab: string = 'credit';
+
+    //@State('challenges') challenges!: ChallengesState;
+    //@Action('setSetupType', {namespace: 'challenges'}) setSetupType: any;
+    //@Action('setCategory', {namespace: 'challenges'}) setCategory: any;
+
+    sub = subActive;
 
     //Cycle hooks
     mounted () {
+        subActive.subIsActive(['/wqdwed'])
     }
 
-    //Computed properties
-    get computedMsg () {
-        return '';
+    beforeRouteUpdate(to, from, next) {
+        console.log('beforeRouteUpdate')
+        next() // needs to be called to confirm the navigation
     }
 
-    //Methods
-    methodFunction () {
+    beforeRouteEnter(to, from, next) {
+        console.log('beforeRouteEnter')
+        next() // needs to be called to confirm the navigation
+    }
+
+    beforeRouteLeave(to, from, next) {
+        console.log('beforeRouteLeave')
+        next() // needs to be called to confirm the navigation
     }
 }
 </script>

@@ -12,7 +12,7 @@
         </router-link>
       </div>
       <div class="column">
-        <router-link :to="{name: 'ChallengesTabs'}">
+        <router-link :to="{name: 'ChallengesContent', params: {type: 'credit'}}">
           <img :src="require('../assets/images/menu/icn_challenge'+ (active_page === 'challenges' ? '_active' : '' ) +'.svg')">
         </router-link>
       </div>

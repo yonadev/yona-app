@@ -59,7 +59,13 @@ import FriendAdd from './views/Friends/Add.vue'
 import AbstractChallenges from './views/Challenges/AbstractChallenges.vue'
 import ChallengesTabs from './views/Challenges/ChallengesTabs.vue'
 
+    //Challenge tab components
+    import ChallengesOverview from './views/Challenges/ChallengesOverview.vue'
+    import ChallengesContent from './views/Challenges/ChallengesContent.vue'
+    import ChallengesCategoryChoose from './views/Challenges/ChallengesCategoryChoose.vue'
+
     //Submodule Challenges -> Setup
+    import ChallengesSetupAbstract from './views/Challenges/Setup/SetupAbstract.vue'
     import ChallengesSetup from './views/Challenges/Setup/Setup.vue'
 
 
@@ -276,13 +282,37 @@ export default new Router({
             children: [
                 {
                     path: '',
-                    name: 'ChallengesTabs',
-                    component: ChallengesTabs
+                    component: ChallengesTabs,
+                    children: [
+                        {
+                            path: ':type',
+                            name: 'ChallengesContent',
+                            component: ChallengesContent,
+                            children: [
+                                {
+                                    path: 'overview',
+                                    name: 'ChallengesOverview',
+                                    component: ChallengesOverview
+                                },
+                                {
+                                    path: 'chooseCategory',
+                                    name: 'ChallengesCategoryChoose',
+                                    component: ChallengesCategoryChoose
+                                }
+                            ]
+                        }
+                    ]
                 },
                 {
                     path: 'setup',
-                    name: 'ChallengesSetup',
-                    component: ChallengesSetup
+                    component: ChallengesSetupAbstract,
+                    children: [
+                        {
+                            path: ':type/:category',
+                            name: 'ChallengesSetup',
+                            component: ChallengesSetup
+                        }
+                    ]
                 }
             ]
         },

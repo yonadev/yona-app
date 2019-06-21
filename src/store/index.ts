@@ -6,6 +6,7 @@ import { account } from './account/index';
 import { header } from "./header/index";
 import { links } from "./links/index";
 import { login } from "./login/index";
+import { challenges } from "./challenges/index";
 
 const debug = process.env.NODE_ENV !== 'production'
 
@@ -21,7 +22,8 @@ const store: StoreOptions<RootState> = {
     account: account,
     header: header,
     links: links,
-    login: login
+    login: login,
+    challenges: challenges
   },
   plugins: [vuexLocal.plugin],
   strict: debug
