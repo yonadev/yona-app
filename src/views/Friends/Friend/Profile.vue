@@ -63,7 +63,7 @@ export default class FriendsProfile extends Vue {
   mobileNumber: string | null = '';
 
   async mounted () {
-    let buddy = await axios.get(this.link).catch((error) => {
+    let buddy: any = await axios.get(this.link).catch((error) => {
       console.log(error)
     });
 
@@ -84,7 +84,7 @@ export default class FriendsProfile extends Vue {
   }
 
   async removeFriend(){
-    let buddy = await axios.delete(this.link).catch((error) => {
+    let buddy: any = await axios.delete(this.link).catch((error) => {
       console.log(error)
     });
 

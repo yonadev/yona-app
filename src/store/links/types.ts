@@ -1,4 +1,8 @@
 export interface LinksState {
-  links: {} | null;
+  links: {
+    [key: string] : {
+      href: string
+    }
+  } | null;
   embedded: {} | null;
 }
