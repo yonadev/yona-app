@@ -94,6 +94,7 @@
       position: relative;
       box-sizing: border-box;
       input {
+        width:90%;
         font-family: $font-family;
         font-weight: 500;
         letter-spacing: 1px;
@@ -103,12 +104,14 @@
         border: 0 !important;
         height: 35px;
         background-color:transparent;
+        outline:0!important;
         &[disabled]{
           background-color:transparent;
         }
       }
       label {
         bottom: 0;
+        text-align:left;
         color: rgba(0, 0, 0, .26);
         font-weight: 500;
         pointer-events: none;
