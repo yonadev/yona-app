@@ -17,7 +17,6 @@ const vuexLocal : {plugin: Plugin<RootState>} = new VuexPersistence({
 Vue.use(Vuex);
 
 const store: StoreOptions<RootState> = {
-  state: {},
   modules: {
     account: account,
     header: header,

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import "@/utils/router/hooks";
 import App from './App.vue'
 import router from './router'
+import AuthGuard from "./router/guard";
 import "@/utils/validate/validate";
 
 import moment from 'moment'
@@ -16,6 +17,8 @@ import './sass/fonts/fonts.scss'
 import "./sass/global.scss"
 
 import "../node_modules/tiny-slider/src/tiny-slider.scss"
+
+Vue.use(AuthGuard, { router, store });
 
 Vue.config.productionTip = false
 

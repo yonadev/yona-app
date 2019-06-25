@@ -25,7 +25,6 @@ import { Watch, Component } from 'vue-property-decorator';
 import PinCode from '../../components/PinCode.vue';
 import axios from "../../utils/axios/axios"
 import {Action, State} from "vuex-class";
-import {toSeconds, parse} from 'iso8601-duration';
 import {LoginState} from "../../store/login/types";
 import {LinksState} from "../../store/links/types";
 
@@ -36,41 +35,15 @@ import {LinksState} from "../../store/links/types";
 })
 export default class Login extends Vue {
   @State('login') login!: LoginState;
+  @Action('setLoggedIn', {namespace: 'login'}) setLoggedIn: any;
+  @Action('increaseLoginAttempts', {namespace: 'login'}) increaseLoginAttempts: any;
   @State('links') links!: LinksState;
   @Action('setProperty', {namespace: 'login'}) setProperty: any;
   @Action('setUserData', {namespace: 'account'}) setUserData: any;
+  @Action('pinReset', {namespace: 'login'}) pinReset: any;
   password: number | null = null;
   length: number = 4;
   error: boolean = false;
-
-  mounted () {
-    if (this.login.loginAttempts && this.login.loginAttempts <= 1) {
-      this.$router.push({'name': 'Locked'});
-    }
-  }
-
-  async pinReset () {
-    if(this.links.links && this.links.links["yona:requestPinReset"]) {
-      let response = await axios.post(this.links.links["yona:requestPinReset"].href, {}
-      ).catch((error) => {
-        console.log(error)
-      });
-
-      if(response) {
-        let date = new Date();
-
-        let seconds = Math.round(date.getTime()/1000)
-        seconds += toSeconds(parse(response.data.delay))
-
-        this.setProperty({locked_timer: seconds})
-
-        if (response.status === 200) {
-          //Successfull
-          this.$router.push({'name': 'WaitLocked'});
-        }
-      }
-    }
-  }
 
   @Watch('password')
   async onChildChanged(val: number) {
@@ -100,16 +73,12 @@ export default class Login extends Vue {
             fr.readAsDataURL(photo_response.data);
           }
 
-          this.$router.push({'name': 'Intro'});
-          this.setProperty({loginAttempts: 5})
+          this.setLoggedIn();
         }
-      } else if (this.login.loginAttempts && this.login.loginAttempts > 1) {
+      }  else {
         this.error = true;
-        this.setProperty({loginAttempts: this.login.loginAttempts-1})
-      } else {
-        this.$router.push({'name': 'Locked'});
+        this.increaseLoginAttempts();
       }
-
       this.password = null;
     }
   }
