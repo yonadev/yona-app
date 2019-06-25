@@ -86,7 +86,7 @@
 <style lang="scss">
   .ui-control{
     min-height: 45px;
-    padding: 15px 25px;
+    padding: 15px 20px;
     .top-labels{
       display:flex;
       align-items: center;
