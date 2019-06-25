@@ -43,11 +43,11 @@ export default class Add extends Vue{
     @Action('setCategory', {namespace: 'challenges'}) setCategory: any;
 
     typeOverview: string = '';
-    setupActive: boolean = false;
 
     //Cycle hooks
     mounted () {
         this.typeOverview = this.$route.params.type;
+        this.fetchChallenges();
     }
 
     //Methods
@@ -64,12 +64,15 @@ export default class Add extends Vue{
     }
 
     beforeRouteUpdate(to, from, next) {
-        console.log('beforeRouteUpdate')
-        next() // needs to be called to confirm the navigation
+        console.log('beforeRouteUpdate');
+        next();
+
+        this.typeOverview = this.$route.params.type;
+        this.fetchChallenges();
     }
 
     fetchChallenges(){
-        
+        console.log('fetch '+this.typeOverview+' challenges')
     }
 }
 </script>

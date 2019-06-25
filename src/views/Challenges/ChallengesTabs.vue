@@ -87,8 +87,6 @@ export default class Add extends Vue {
                 padding:20px 0 20px 25px;
                 text-align: left;
                 position: relative;
-                max-width: 100%;
-                width: 100%;
                 background-color: $list-background;
 
                 .text{
