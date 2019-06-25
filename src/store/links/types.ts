@@ -4,5 +4,14 @@ export interface LinksState {
       href: string
     }
   } | null;
-  embedded: {} | null;
+  embedded: {
+    [key: string]: {
+      _embedded: {},
+      _links: {
+        [key: string]: {
+          href: string
+        }
+      }
+    }
+  } | null;
 }

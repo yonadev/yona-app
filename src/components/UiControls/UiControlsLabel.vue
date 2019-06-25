@@ -1,5 +1,5 @@
 <template>
-  <div id="ui-controls">
+  <div class="ui-controls">
     <div class="top-label">
       <strong>{{getDayLabel(day_activities.date)}}</strong>
     </div>
@@ -12,8 +12,7 @@
 <script lang="ts">
   import Vue from 'vue'
   import {Prop, Component} from 'vue-property-decorator'
-  import UiControl from "./UiControl";
-  //import axios from "../../utils/axios/axios"
+  import UiControl from "./UiControl.vue";
 
   @Component({
     components: {
@@ -21,9 +20,9 @@
     }
   })
   export default class UiControlsLabel extends Vue {
-    @Prop() day_activities: string;
+    @Prop() day_activities!: string;
 
-    getDayLabel(date){
+    getDayLabel(date: any){
       let now = new Date()
       let date_obj = new Date(date)
       let days = ["ZONDAG", "MAANDAG", "DINSDAG", "WOENSDAG", "DONDERDAG", "VRIJDAG", "ZATERDAG"];
@@ -42,9 +41,7 @@
 </script>
 
 <style lang="scss">
-  @import "../../sass/variables";
-
-  #ui-controls{
+  .ui-controls{
     min-height:50px;
   }
 </style>

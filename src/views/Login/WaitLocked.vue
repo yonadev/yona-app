@@ -36,7 +36,7 @@
         let now = Math.trunc((new Date()).getTime() / 1000);
 
         //Locktime expired go to validate screen
-        if(now > this.login.locked_timer){
+        if(this.login.locked_timer && now > this.login.locked_timer){
           this.$router.push({'name': 'ValidateLocked'});
           clearInterval(isLocked)
         }

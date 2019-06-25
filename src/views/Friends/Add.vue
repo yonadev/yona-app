@@ -66,27 +66,26 @@
     }
 
     async addFriend(){
-      let response: any = await axios.post(this.links.embedded['yona:buddies']._links.self.href, {
-        "sendingStatus": "REQUESTED",
-        "receivingStatus": "REQUESTED",
-        "message": this.message,
-        "_embedded": {
-          "yona:user": {
-            "firstName": this.firstname,
-            "lastName": this.lastname,
-            "mobileNumber": this.mobile,
-            "emailAddress": this.email,
-            "nickname": this.nickname
+      if(this.links.embedded) {
+        let response: any = await axios.post(this.links.embedded['yona:buddies']._links.self.href, {
+          "sendingStatus": "REQUESTED",
+          "receivingStatus": "REQUESTED",
+          "message": this.message,
+          "_embedded": {
+            "yona:user": {
+              "firstName": this.firstname,
+              "lastName": this.lastname,
+              "mobileNumber": this.mobile,
+              "emailAddress": this.email,
+              "nickname": this.nickname
+            }
           }
-        }
-      }).catch((error) => {
-        console.log(error)
-      });
+        }).catch((error) => {
+          console.log(error)
+        });
 
-      if(response){
-        console.log(response)
-
-        this.$router.push({'name': 'TimeLine'});
+        if (response)
+          this.$router.push({'name': 'TimeLine'});
       }
     }
   }

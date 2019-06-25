@@ -18,7 +18,7 @@
 
   @Component({})
   export default class PinCode extends Vue {
-    @Prop() time!: string;
+    @Prop() time!: number;
     private now: number = Math.trunc((new Date()).getTime() / 1000);
 
     mounted () {

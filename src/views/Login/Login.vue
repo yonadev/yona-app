@@ -44,13 +44,13 @@ export default class Login extends Vue {
   error: boolean = false;
 
   mounted () {
-    if (this.login.loginAttempts <= 1) {
+    if (this.login.loginAttempts && this.login.loginAttempts <= 1) {
       this.$router.push({'name': 'Locked'});
     }
   }
 
   async pinReset () {
-    if(this.links.links["yona:requestPinReset"]) {
+    if(this.links.links && this.links.links["yona:requestPinReset"]) {
       let response = await axios.post(this.links.links["yona:requestPinReset"].href, {}
       ).catch((error) => {
         console.log(error)
@@ -58,7 +58,8 @@ export default class Login extends Vue {
 
       if(response) {
         let date = new Date();
-        let seconds = parseInt(date.getTime()/1000)
+
+        let seconds = Math.round(date.getTime()/1000)
         seconds += toSeconds(parse(response.data.delay))
 
         this.setProperty({locked_timer: seconds})
@@ -72,35 +73,37 @@ export default class Login extends Vue {
   }
 
   @Watch('password')
-  async onChildChanged(val: string) {
+  async onChildChanged(val: number) {
     if(val && val.toString().length === this.length) {
-      if(val == this.login.pinCode){
-        let user_response: any = await axios.get(this.links.links['self'].href).catch((error) => {
-          console.log(error)
-        });
+      if(val === this.login.pinCode){
+        if(this.links.links) {
+          let user_response: any = await axios.get(this.links.links['self'].href).catch((error) => {
+            console.log(error)
+          });
 
-        if(user_response)
-          this.setUserData(user_response.data)
+          if (user_response)
+            this.setUserData(user_response.data)
 
-        let photo_response: any = await axios.get(this.links.links['yona:userPhoto'].href, {
-          responseType: 'blob'
-        }).catch((error) => {
-          console.log(error)
-        });
+          let photo_response: any = await axios.get(this.links.links['yona:userPhoto'].href, {
+            responseType: 'blob'
+          }).catch((error) => {
+            console.log(error)
+          });
 
-        let self = this
+          let self = this
 
-        if (FileReader && photo_response.data) {
-          var fr = new FileReader();
-          fr.onload = await function () {
-            self.setProperty({userphoto: fr.result})
+          if (FileReader && photo_response.data) {
+            var fr = new FileReader();
+            fr.onload = await function () {
+              self.setProperty({userphoto: fr.result})
+            }
+            fr.readAsDataURL(photo_response.data);
           }
-          fr.readAsDataURL(photo_response.data);
-        }
 
-        this.$router.push({'name': 'Intro'});
-        this.setProperty({loginAttempts: 5})
-      } else if (this.login.loginAttempts > 1) {
+          this.$router.push({'name': 'Intro'});
+          this.setProperty({loginAttempts: 5})
+        }
+      } else if (this.login.loginAttempts && this.login.loginAttempts > 1) {
         this.error = true;
         this.setProperty({loginAttempts: this.login.loginAttempts-1})
       } else {

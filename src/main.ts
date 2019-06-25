@@ -4,6 +4,10 @@ import App from './App.vue'
 import router from './router'
 import "@/utils/validate/validate";
 
+import moment from 'moment'
+moment.locale('nl')
+moment.weekdays(false)
+
 import store from './store/index'
 
 //partial import bulma, import global, import fonts

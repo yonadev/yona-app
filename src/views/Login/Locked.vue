@@ -35,15 +35,15 @@
     mounted () {
       let now = Math.trunc((new Date()).getTime() / 1000);
 
-      if(this.login.locked_timer > now){ //Still waiting on the timer
+      if(this.login.locked_timer && this.login.locked_timer > now){ //Still waiting on the timer
         this.$router.push({'name': 'WaitLocked'});
-      } else if(this.login.locked_timer > 0) { //Timer is over
+      } else if(this.login.locked_timer && this.login.locked_timer > 0) { //Timer is over
         this.$router.push({'name': 'ValidateLocked'});
       }
     }
 
     async pinReset () {
-      if(this.links.links["yona:requestPinReset"]) {
+      if(this.links.links && this.links.links["yona:requestPinReset"]) {
         let response = await axios.post(this.links.links["yona:requestPinReset"].href, {}
         ).catch((error) => {
           console.log(error)
@@ -51,7 +51,7 @@
 
         if(response) {
           let date = new Date();
-          let seconds = parseInt(date.getTime()/1000)
+          let seconds = Math.round(date.getTime()/1000)
           seconds += toSeconds(parse(response.data.delay))
 
           this.setProperty({locked_timer: seconds})

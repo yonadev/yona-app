@@ -26,7 +26,9 @@
       </div>
     </div>
     <div class="wrapper grey-bg" v-if="active_tab === 'per_week'">
-      Per week
+      <div v-for="(week_activities, index) in all_week_activities" :key="'week'+index">
+        <week-score-label :week_activities="week_activities"></week-score-label>
+      </div>
     </div>
   </div>
 </template>
@@ -35,14 +37,16 @@
   import Vue from 'vue'
   import Component from 'vue-class-component';
   import {State} from "vuex-class";
-  import {AccountState} from "../../store/account/types";
-  import {LinksState} from "../../store/links/types";
-  import axios from "../../utils/axios/axios"
-  import UiControlsLabel from "../../components/UiControls/UiControlsLabel";
+  import {AccountState} from "@/store/account/types";
+  import {LinksState} from "@/store/links/types";
+  import axios from "@/utils/axios/axios"
+  import UiControlsLabel from "@/components/UiControls/UiControlsLabel.vue";
+  import WeekScoreLabel from "@/components/WeekScore/WeekScoreLabel.vue";
 
   @Component({
     components: {
-      UiControlsLabel
+      UiControlsLabel,
+      WeekScoreLabel
     }
   })
   export default class Me extends Vue {
@@ -50,18 +54,27 @@
     @State('links') links!: LinksState;
     active_tab: string = 'per_day';
     profilePic: string | null = '';
-    all_day_activities: [{}] = [];
-    week_activities: {} = {};
+    all_day_activities: [{}] = [{}];
+    all_week_activities: {} = {};
 
     async mounted () {
       this.profilePic = this.account.userphoto;
 
-      let response: any = await axios.get(this.links.links['yona:dailyActivityReports'].href).catch((error) => {
-        console.log(error)
-      });
+      if(this.links.links) {
+        let [
+          daily_response,
+          weekly_response
+        ] = await Promise.all([
+          axios.get(this.links.links['yona:dailyActivityReports'].href),
+          axios.get(this.links.links['yona:weeklyActivityReports'].href)
+        ]);
 
-      if(response.status == 200)
-        this.all_day_activities = response.data._embedded['yona:dayActivityOverviews']
+        if (daily_response.status == 200)
+          this.all_day_activities = daily_response.data._embedded['yona:dayActivityOverviews']
+
+        if (weekly_response.status == 200)
+          this.all_week_activities = weekly_response.data._embedded['yona:weekActivityOverviews']
+      }
     }
   }
 </script>
