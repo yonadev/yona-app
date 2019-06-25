@@ -56,7 +56,13 @@ import 'vue-slider-component/theme/antd.css'
 export default class Setup extends Vue {
     @State('challenges') challenges!: ChallengesState;
     //@Prop() msg: string = '';
-    setupData: Object = {
+    setupData: {
+        title: string,
+        text: string,
+        credit: {
+            amount: number
+        }
+    } = {
         title: '',
         text: '',
         credit: {

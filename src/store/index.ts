@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VuexPersistence from 'vuex-persist';
-import Vuex, { StoreOptions } from 'vuex';
+import Vuex, { StoreOptions, Plugin } from 'vuex';
 import { RootState } from './types';
 import { account } from './account/index';
 import { header } from "./header/index";
@@ -10,7 +10,7 @@ import { challenges } from "./challenges/index";
 
 const debug = process.env.NODE_ENV !== 'production'
 
-const vuexLocal = new VuexPersistence({
+const vuexLocal : {plugin: Plugin<RootState>} = new VuexPersistence({
   storage: window.localStorage
 })
 

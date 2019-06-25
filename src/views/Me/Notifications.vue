@@ -68,8 +68,8 @@
 import Vue from 'vue'
 import Component from 'vue-class-component';
 import {State} from "vuex-class";
-import {LinksState} from "../../store/links/types";
-import axios from "../../utils/axios/axios"
+import {LinksState} from "@/store/links/types";
+import axios from "@/utils/axios/axios"
 
 @Component({})
 export default class Notifications extends Vue {
@@ -77,27 +77,30 @@ export default class Notifications extends Vue {
   notifications: {} = {};
 
   async mounted () {
-    let response = await axios.get(this.links.links["yona:messages"].href
-    ).catch((error) => {
-      console.log(error)
-    });
+    if(this.links.links && this.links.links["yona:messages"]) {
+      let response: any = await axios.get(this.links.links["yona:messages"].href
+      ).catch((error) => {
+        console.log(error)
+      });
 
-    if(response.data._embedded) {
-      this.notifications = response.data._embedded['yona:messages']
+      if (response.data._embedded) {
+        this.notifications = response.data._embedded['yona:messages']
+      }
     }
   }
 
-  async getPhoto(href, index){
+  async getPhoto(href: any, index: any){
     let photo_response: any = await axios.get(href, {
       responseType: 'blob'
     }).catch((error) => {
       console.log(error)
     });
 
-    this.$refs[index][0].src = await URL.createObjectURL(photo_response.data)
+    if(this.$refs[index])
+      (this.$refs[index] as any)[0].src = await URL.createObjectURL(photo_response.data)
   }
 
-  async goTo(notification){
+  async goTo(notification: any){
     if(!notification.isRead) {
       let read_response: any = await axios.post(notification._links['yona:markRead'].href, {
         "properties": {}

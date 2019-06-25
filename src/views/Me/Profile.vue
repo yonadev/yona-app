@@ -56,12 +56,12 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
-import InputFloatingLabel from '../../components/InputFloatingLabel.vue';
+import InputFloatingLabel from '@/components/InputFloatingLabel.vue';
 import {Action, State} from "vuex-class";
-import {AccountState} from "../../store/account/types";
+import {AccountState} from "@/store/account/types";
 import {Watch} from "vue-property-decorator";
-import {LinksState} from "../../store/links/types";
-import axios from "../../utils/axios/axios"
+import {LinksState} from "@/store/links/types";
+import axios from "@/utils/axios/axios"
 
 @Component({
   components:{
@@ -79,7 +79,7 @@ export default class Profile extends Vue {
   lastname: string | null = '';
   mobile: string | null = '';
   nickname: string | null = '';
-  profilePic: string | null = '';
+  profilePic: string | ArrayBuffer | null = '';
 
   async mounted(){
     this.firstname = this.account.firstname;
@@ -92,7 +92,7 @@ export default class Profile extends Vue {
   //Methods
   async switchMode () {
     if(this.edit){
-      if(this.links.links['edit'].href) {
+      if(this.links.links && this.links.links['edit']) {
         let response: any = await axios.put(this.links.links['edit'].href, {
           "firstName": this.firstname,
           "lastName": this.lastname,
@@ -110,31 +110,36 @@ export default class Profile extends Vue {
   }
 
   async submitPhoto () {
-    let file = document.getElementById('profile-image');
+    let file: any = document.getElementById('profile-image');
+
+    if(!file)
+      return false;
 
     let formData = new FormData();
     formData.append( 'file', file.files[0] );
 
-    let response: any = await axios.put(this.links.links['yona:editUserPhoto'].href, formData).catch((error) => {
-      console.log(error)
-    });
-
-    if(response.status == 200){
-      let photo_response: any = await axios.get(response.data._links['yona:userPhoto'].href, {
-        responseType: 'blob'
-      }).catch((error) => {
+    if(this.links.links && this.links.links['yona:editUserPhoto']) {
+      let response: any = await axios.put(this.links.links['yona:editUserPhoto'].href, formData).catch((error) => {
         console.log(error)
       });
 
-      let self = this
+      if (response.status == 200) {
+        let photo_response: any = await axios.get(response.data._links['yona:userPhoto'].href, {
+          responseType: 'blob'
+        }).catch((error) => {
+          console.log(error)
+        });
 
-      if (FileReader && photo_response.data) {
-        var fr = new FileReader();
-        fr.onload = await function () {
-          self.setProperty({userphoto: fr.result})
-          self.profilePic = fr.result
+        let self = this
+
+        if (FileReader && photo_response.data) {
+          var fr = new FileReader();
+          fr.onload = await function () {
+            self.setProperty({userphoto: fr.result})
+            self.profilePic = fr.result
+          }
+          fr.readAsDataURL(photo_response.data);
         }
-        fr.readAsDataURL(photo_response.data);
       }
     }
   }

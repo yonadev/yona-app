@@ -51,11 +51,11 @@ export default class Add extends Vue{
     }
 
     //Methods
-    chooseSetup ( setupType ) {
+    chooseSetup ( setupType: any ) {
         this.$router.push({name: 'ChallengesCategoryChoose'});
     }
 
-    chooseCategory( category ){
+    chooseCategory( category: any ){
         this.setCategory({
             category: category
         });
@@ -63,7 +63,7 @@ export default class Add extends Vue{
         this.$router.push({'name': 'ChallengesSetup'});
     }
 
-    beforeRouteUpdate(to, from, next) {
+    beforeRouteUpdate(to: any, from: any, next: any) {
         console.log('beforeRouteUpdate');
         next();
 

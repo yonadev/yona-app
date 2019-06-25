@@ -53,7 +53,7 @@ export default class ChallengesCategoryChoose extends Vue{
         this.typeOverview = this.$route.params.type;
     }
 
-    chooseCategory( category ){
+    chooseCategory( category: any ){
 
         switch (this.typeOverview) {
             case "credit":

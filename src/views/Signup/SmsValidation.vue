@@ -27,10 +27,10 @@
 <script lang="ts">
   import Vue from 'vue'
   import { Watch, Component } from 'vue-property-decorator'
-  import PinCode from '../../components/PinCode.vue';
-  import axios from "../../utils/axios/axios"
+  import PinCode from '@/components/PinCode.vue';
+  import axios from "@/utils/axios/axios"
   import {State} from "vuex-class";
-  import {LinksState} from "../../store/links/types";
+  import {LinksState} from "@/store/links/types";
 
   @Component({
     components:{
@@ -45,16 +45,18 @@
     @Watch('password')
     async onChildChanged(val: number | null) {
       if(val && val.toString().length === this.length){
-        let response: any = await axios.post(this.links.links['yona:confirmMobileNumber'].href, {
-          code: this.password
-        }).catch((error) => {
-          if(error){
-            console.log(error)
-          }
-        });
+        if(this.links.links) {
+          let response: any = await axios.post(this.links.links['yona:confirmMobileNumber'].href, {
+            code: this.password
+          }).catch((error) => {
+            if (error) {
+              console.log(error)
+            }
+          });
 
-        if(response.status == 200){
-          this.$router.push({'name': 'SetPinCode'});
+          if (response.status == 200) {
+            this.$router.push({'name': 'SetPinCode'});
+          }
         }
 
         this.password = null;

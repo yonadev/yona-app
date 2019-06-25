@@ -42,9 +42,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
-import {Prop, Watch} from 'vue-property-decorator'
 import {State} from "vuex-class";
-import {ChallengesState} from "../../../store/challenges/types";
+import {ChallengesState} from "@/store/challenges/types";
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/antd.css'
 
@@ -56,7 +55,13 @@ import 'vue-slider-component/theme/antd.css'
 export default class Setup extends Vue {
     @State('challenges') challenges!: ChallengesState;
     //@Prop() msg: string = '';
-    setupData: Object = {
+    setupData: {
+        title: string,
+        text: string,
+        credit: {
+            amount: number
+        }
+    } = {
         title: '',
         text: '',
         credit: {

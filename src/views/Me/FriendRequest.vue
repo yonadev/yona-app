@@ -44,11 +44,14 @@ import {Prop} from "vue-property-decorator";
 @Component({})
 export default class Notifications extends Vue {
   @State('links') links!: LinksState;
-  @Prop() notification!: string;
+  @Prop() notification!: any;
   avatar: string | null = '';
 
   async mounted () {
     if(this.notification) {
+
+      console.log(this.notification)
+
       let photo_response: any = await axios.get(this.notification._links['yona:userPhoto'].href, {
         responseType: 'blob'
       }).catch((error) => {

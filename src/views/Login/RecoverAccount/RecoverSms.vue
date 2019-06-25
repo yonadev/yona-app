@@ -31,10 +31,10 @@
 <script lang="ts">
   import Vue from 'vue'
   import { Watch, Component } from 'vue-property-decorator'
-  import PinCode from '../../../components/PinCode.vue';
-  import axios from "../../../utils/axios/axios"
+  import PinCode from '@/components/PinCode.vue';
+  import axios from "@/utils/axios/axios"
   import {State} from "vuex-class";
-  import {AccountState} from "../../../store/account/types";
+  import {AccountState} from "@/store/account/types";
 
   @Component({
     components:{
@@ -45,7 +45,7 @@
     @State('account') account!: AccountState;
     password: number | null = null;
     length: number = 4;
-    attempts: number = 0;
+    attempts: number | null = 0;
     error: boolean = false;
 
     async resendCode(){

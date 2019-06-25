@@ -70,8 +70,8 @@
   import Vue from 'vue'
   import Component from 'vue-class-component';
   import {State} from "vuex-class";
-  import {LinksState} from "../../store/links/types";
-  import axios from "../../utils/axios/axios"
+  import {LinksState} from "@/store/links/types";
+  import axios from "@/utils/axios/axios"
 
   @Component({})
   export default class TimeLine extends Vue {
@@ -80,28 +80,30 @@
     active_tab: string = 'timeline';
 
     async mounted () {
-      let response: any = await axios.get(this.links.links['yona:dailyActivityReportsWithBuddies'].href).catch((error) => {
-        console.log(error)
-      });
+      if(this.links.links && this.links.links['yona:dailyActivityReportsWithBuddies']) {
+        let response: any = await axios.get(this.links.links['yona:dailyActivityReportsWithBuddies'].href).catch((error) => {
+          console.log(error)
+        });
 
-      console.log(response)
+        if(this.links.embedded && this.links.embedded['yona:buddies']) {
+          let buddies_response: any = await axios.get(this.links.embedded['yona:buddies']._links.self.href).catch((error) => {
+            console.log(error)
+          });
 
-      let buddies_response: any = await axios.get(this.links.embedded['yona:buddies']._links.self.href).catch((error) => {
-        console.log(error)
-      });
-
-      if(buddies_response.data._embedded)
-        this.buddies = buddies_response.data._embedded['yona:buddies'];
+          if (buddies_response.data._embedded)
+            this.buddies = buddies_response.data._embedded['yona:buddies'];
+        }
+      }
     }
 
-    async getPhoto(href, index){
+    async getPhoto(href: any, index: any){
       let photo_response: any = await axios.get(href, {
         responseType: 'blob'
       }).catch((error) => {
         console.log(error)
       });
 
-      this.$refs[index][0].src = await URL.createObjectURL(photo_response.data)
+      (this.$refs[index] as any)[0].src = await URL.createObjectURL(photo_response.data)
     }
 
   }

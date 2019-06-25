@@ -31,7 +31,7 @@
 
   @Component({})
   export default class BottomMenu extends Vue {
-    @Prop() active_page: string;
+    @Prop({default: ''}) active_page!: string;
   }
 </script>
 

@@ -31,10 +31,10 @@
 <script lang="ts">
   import Vue from 'vue'
   import { Watch, Component } from 'vue-property-decorator'
-  import PinCode from '../../components/PinCode.vue';
-  import axios from "../../utils/axios/axios"
+  import PinCode from '@/components/PinCode.vue';
+  import axios from "@/utils/axios/axios"
   import {State} from "vuex-class";
-  import {LinksState} from "../../store/links/types";
+  import {LinksState} from "@/store/links/types";
 
   @Component({
     components:{
@@ -45,7 +45,7 @@
     @State('links') links!: LinksState;
     password: number | null = null;
     length: number = 4;
-    attempts: number = 0;
+    attempts: number | null = 0;
     loading: boolean = false;
     error: boolean = false;
 
@@ -54,22 +54,26 @@
     }
 
     async resendCode () {
-      await axios.post(this.links.links['yona:resendPinResetConfirmationCode'].href, {}).catch((error) => {
-        if(error){
-          console.log(error)
-        }
-      });
-      this.password = null
-      this.error = false
-      this.attempts = 0
+      if(this.links.links && this.links.links['yona:resendPinResetConfirmationCode']) {
+        await axios.post(this.links.links['yona:resendPinResetConfirmationCode'].href, {}).catch((error) => {
+          if (error) {
+            console.log(error)
+          }
+        });
+        this.password = null
+        this.error = false
+        this.attempts = 0
+      }
     }
 
     async getLinks(){
       //Get new links
-      await axios.get(this.links.links["self"].href
-      ).catch((error) => {
-        console.log(error)
-      });
+      if(this.links.links && this.links.links['self']) {
+        await axios.get(this.links.links["self"].href
+        ).catch((error) => {
+          console.log(error)
+        });
+      }
     }
 
     @Watch('password')
@@ -78,35 +82,37 @@
       if(val && val.toString().length === this.length){
         this.loading = true;
 
-        let response: any = await axios.post(this.links.links['yona:verifyPinReset'].href, {
-          code: this.password
-        }).catch((error) => {
-          if(error){
-            self.password = null
-            self.loading = false
-            if(error.response.status == 400){
-              self.error = true
-              if(error.response.data.remainingAttempts >= 0)
-                self.attempts = error.response.data.remainingAttempts
-              else
-                self.attempts = null
-            }
-          }
-        });
-
-        if(response) {
-          if (response.status == 200) {
-            await axios.post(this.links.links['yona:clearPinReset'].href, {
-              code: this.password
-            }).catch((error) => {
-              if (error) {
-                console.log(error)
+        if(this.links.links && this.links.links['yona:verifyPinReset']) {
+          let response: any = await axios.post(this.links.links['yona:verifyPinReset'].href, {
+            code: this.password
+          }).catch((error) => {
+            if (error) {
+              self.password = null
+              self.loading = false
+              if (error.response.status == 400) {
+                self.error = true
+                if (error.response.data.remainingAttempts >= 0)
+                  self.attempts = error.response.data.remainingAttempts
+                else
+                  self.attempts = null
               }
-            });
+            }
+          });
 
-            await this.getLinks()
+          if (response) {
+            if (response.status == 200) {
+              await axios.post(this.links.links['yona:clearPinReset'].href, {
+                code: this.password
+              }).catch((error) => {
+                if (error) {
+                  console.log(error)
+                }
+              });
 
-            this.$router.push({'name': 'SetPinCode'});
+              await this.getLinks()
+
+              this.$router.push({'name': 'SetPinCode'});
+            }
           }
         }
 

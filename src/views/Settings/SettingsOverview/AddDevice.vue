@@ -20,11 +20,11 @@
 import Vue from 'vue'
 import Component from 'vue-class-component';
 import {State} from "vuex-class";
-import {HeaderState} from "../../../store/header/types";
-import {AccountState} from "../../../store/account/types";
-import axios from "../../../utils/axios/axios"
-import BottomMenu from "../../../components/BottomMenu";
-import {LinksState} from "../../../store/links/types";
+import {HeaderState} from "@/store/header/types";
+import {AccountState} from "@/store/account/types";
+import axios from "@/utils/axios/axios"
+import BottomMenu from "@/components/BottomMenu.vue";
+import {LinksState} from "@/store/links/types";
 
 @Component({
   components: {BottomMenu}
@@ -39,7 +39,7 @@ export default class AddDevice extends Vue {
     //Create an OTP of 6 mixed-case alphanumeric characters
     this.OTP = AddDevice.createOTP()
 
-    if(this.links.links["yona:newDeviceRequest"]) {
+    if(this.links.links && this.links.links["yona:newDeviceRequest"]) {
       let response: any = await axios.put(this.links.links["yona:newDeviceRequest"].href, {
         newDeviceRequestPassword: this.OTP
       }).catch((error) => {
@@ -50,7 +50,7 @@ export default class AddDevice extends Vue {
 
   //ToDo: This destroy also needs to be excecuted when user closes the app (Through cordova maybe?)
   async beforeDestroy () {
-    if(this.links.links["yona:newDeviceRequest"]) {
+    if(this.links.links && this.links.links["yona:newDeviceRequest"]) {
       let response: any = await axios.delete(this.links.links["yona:newDeviceRequest"].href).catch((error) => {
         console.log(error)
       });

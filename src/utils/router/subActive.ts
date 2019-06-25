@@ -5,7 +5,7 @@ export default {
     subIsActive: (paths: string[]) => {
         let r: Router = RouterCurrent;
         return paths.some(path => {
-            return r.history.current.fullPath.indexOf(path) === 0
+            return (r as any).history.current.fullPath.indexOf(path) === 0
         })
     }
 };

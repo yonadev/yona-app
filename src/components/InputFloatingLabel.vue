@@ -24,6 +24,7 @@
 <script lang="ts">
   import Vue from 'vue'
   import {Prop, Component, Inject} from 'vue-property-decorator'
+  import {Validator} from "vee-validate";
 
   @Component({})
   export default class InputFloatingLabel extends Vue {
@@ -38,7 +39,7 @@
     @Prop() name!: string;
     private isFocused: boolean = false;
 
-    @Inject('$validator') $validator
+    @Inject('$validator') $validator! : Validator;
 
     get model () : string {
       return this.value;
