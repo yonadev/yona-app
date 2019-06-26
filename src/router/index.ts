@@ -66,9 +66,7 @@ import ChallengesTabs from '../views/Challenges/ChallengesTabs.vue'
 
     //Submodule Challenges -> Setup
     import ChallengesSetupAbstract from '../views/Challenges/Setup/SetupAbstract.vue'
-    import ChallengesSetupCredit from '../views/Challenges/Setup/SetupCredit.vue'
-    import ChallengesSetupTimezone from '../views/Challenges/Setup/SetupTimezone.vue'
-    import ChallengesSetupNogo from '../views/Challenges/Setup/SetupNogo.vue'
+    import ChallengesSetup from '../views/Challenges/Setup/Setup.vue'
 
 
 //Settings module
@@ -290,16 +288,19 @@ export default new Router({
                             path: ':type',
                             name: 'ChallengesContent',
                             component: ChallengesContent,
+                            props: true,
                             children: [
                                 {
                                     path: 'overview',
                                     name: 'ChallengesOverview',
-                                    component: ChallengesOverview
+                                    component: ChallengesOverview,
+                                    props: true
                                 },
                                 {
                                     path: 'chooseCategory',
                                     name: 'ChallengesCategoryChoose',
-                                    component: ChallengesCategoryChoose
+                                    component: ChallengesCategoryChoose,
+                                    props: true
                                 }
                             ]
                         }
@@ -311,19 +312,10 @@ export default new Router({
                     props: true,
                     children: [
                         {
-                            path: 'credit/:category',
-                            name: 'ChallengesSetupCredit',
-                            component: ChallengesSetupCredit
-                        },
-                        {
-                            path: 'timezone/:category',
-                            name: 'ChallengesSetupTimezone',
-                            component: ChallengesSetupTimezone
-                        },
-                        {
-                            path: 'nogo/:category',
-                            name: 'ChallengesSetupNogo',
-                            component: ChallengesSetupNogo
+                            path: ':type/:category',
+                            name: 'ChallengesSetup',
+                            component: ChallengesSetup,
+                            props: true
                         }
                     ]
                 }
