@@ -7,8 +7,8 @@
                   Stel je zelf een doel door een dagelijks tegoed vast te stellen
               </div>
               <div class="add-button">
-                  <a @click="chooseSetup('credit')">
-                      <img :src="require('../../assets/images/challenges/add_circel.svg')" />
+                  <a @click="chooseSetup()">
+                      <img :src="require('@/assets/images/challenges/add_circel.svg')" />
                   </a>
               </div>
 
@@ -51,7 +51,7 @@ export default class Add extends Vue{
     }
 
     //Methods
-    chooseSetup ( setupType: any ) {
+    chooseSetup () {
         this.$router.push({name: 'ChallengesCategoryChoose'});
     }
 

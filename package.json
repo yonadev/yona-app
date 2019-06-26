@@ -23,9 +23,11 @@
     "vee-validate": "^2.2.11",
     "vue": "^2.6.6",
     "vue-class-component": "^6.0.0",
+    "vue-hammerjs": "^1.0.2",
     "vue-property-decorator": "^8.2.1",
     "vue-router": "^3.0.3",
     "vue-slider-component": "^3.0.32",
+    "vue2-touch-events": "^2.0.0",
     "vuex": "^3.1.1",
     "vuex-class": "^0.3.2",
     "vuex-persist": "^2.0.1"

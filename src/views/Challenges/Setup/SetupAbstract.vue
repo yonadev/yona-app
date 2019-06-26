@@ -1,5 +1,5 @@
 <template>
-    <div id="challengesSetup">
+    <div id="challengesAbstractSetup">
 
         <div class="header-template">
             <div class="colored-background green">
@@ -15,9 +15,9 @@
                 <div class="setupHeader">
 
                     <div class="challengeTypeIcon">
-                        <img v-if="activeSetup === 'credit'" :src="require('../../../assets/images/challenges/icn_challenge_timebucket.svg')" />
-                        <img v-if="activeSetup === 'timezone'" :src="require('../../../assets/images/challenges/icn_challenge_timezone.svg')" />
-                        <img v-if="activeSetup === 'nogo'" :src="require('../../../assets/images/challenges/icn_challenge_nogo.svg')" />
+                        <img v-if="activeSetup === 'credit'" :src="require('@/assets/images/challenges/icn_challenge_timebucket.svg')" />
+                        <img v-if="activeSetup === 'timezone'" :src="require('@/assets/images/challenges/icn_challenge_timezone.svg')" />
+                        <img v-if="activeSetup === 'nogo'" :src="require('@/assets/images/challenges/icn_challenge_nogo.svg')" />
                     </div>
 
                     <h3>{{headerData.title}}</h3>
@@ -155,7 +155,7 @@ export default class Setup extends Vue {
 
 <style lang="scss">
     @import "../../../sass/variables";
-    #challengesSetup{
+    #challengesAbstractSetup{
         .setupHeader{
             width: 200px;
             margin: 0 auto;

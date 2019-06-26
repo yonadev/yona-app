@@ -1,11 +1,11 @@
 <template>
     <div id="challengesSetup">
 
-        <div class="wrapper grey-bg" v-if="challenges.setupType === 'credit'">
+        <div class="wrapper grey-bg">
 
             <div class="slider-container">
                 <div class="columns is-mobile">
-                    <div class="column creditColumn">
+                    <div class="column challengeInfoColumn">
                         <strong>Tegoed</strong>
                         <p>minuten tegoed per dag</p>
                     </div>
@@ -23,7 +23,7 @@
 
             <div class="slider-container">
 
-                <a class="button is-rounded is-fullwidth add-friend">Challenge opslaan</a>
+                <a class="button is-rounded is-fullwidth save-challenge-btn">Challenge opslaan</a>
 
             </div>
 
@@ -55,16 +55,11 @@ import 'vue-slider-component/theme/antd.css'
 })
 export default class Setup extends Vue {
     @State('challenges') challenges!: ChallengesState;
-    //@Prop() msg: string = '';
     setupData: {
-        title: string,
-        text: string,
         credit: {
             amount: number
         }
     } = {
-        title: '',
-        text: '',
         credit: {
             amount: 30
         }
@@ -78,28 +73,7 @@ export default class Setup extends Vue {
 
     //Cycle hooks
     mounted () {
-        switch(this.challenges.setupCategory)
-        {
-            case "games":
-                this.setupData.title = 'Spellen';
-                this.setupData.text = 'Bepaal hier hoeveel tijd je aan games wilt besteden';
-                break;
 
-            case "social":
-                this.setupData.title = 'Sociale Media';
-                this.setupData.text = 'Bepaal hier hoeveel tijd je aan sociale media wilt besteden';
-                break;
-
-            case "dating":
-                this.setupData.title = 'Dating';
-                this.setupData.text = 'Bepaal hier hoeveel tijd je aan dating wilt besteden';
-                break;
-
-            case "gamble":
-                this.setupData.title = 'Gokken';
-                this.setupData.text = 'Bepaal hier hoeveel tijd je aan gokken wilt besteden';
-                break;
-        }
     }
 }
 </script>
@@ -136,7 +110,7 @@ export default class Setup extends Vue {
             padding: 30px;
             background-image: linear-gradient($list-item-gradient-two, $list-item-gradient-one);
 
-            .creditColumn{
+            .challengeInfoColumn{
                 text-align: left;
                 strong{
                     font-size: 14px;
@@ -181,7 +155,7 @@ export default class Setup extends Vue {
             }
         }
 
-        .add-friend{
+        .save-challenge-btn{
             border-color: $color-blue;
             color:$color-blue;
             background-color:transparent;

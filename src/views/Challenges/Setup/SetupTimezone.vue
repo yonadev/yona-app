@@ -1,20 +1,61 @@
 <template>
-    <div id="challengesSetup">
+    <div id="challengesTimezoneSetup">
 
-        <div class="wrapper grey-bg" v-if="challenges.setupType === 'credit'">
+        <div class="wrapper grey-bg">
 
-            <div class="slider-container">
+            <div class="timezones-container">
                 <div class="columns is-mobile">
-                    <div class="column creditColumn">
-                        <strong>Tegoed</strong>
-                        <p>minuten tegoed per dag</p>
+                    <div class="column challengeInfoColumn">
+                        <strong>Tijdzone</strong>
+                        <p>waarbinnen gebruik is toegestaan</p>
                     </div>
-                    <div class="column is-one-third creditAmountColumn">
-                        <span>{{setupData.credit.amount}}</span>
+                    <div class="column is-one-fifth creditAmountColumn">
+                        <a @click="addTimezoneEntry()">
+                            <img :src="require('@/assets/images/challenges/add_circel.svg')" />
+                        </a>
                     </div>
                 </div>
 
-                <VueSlider v-model="setupData.credit.amount" v-bind="sliderOption" class="challenge-slider"></VueSlider>
+            </div>
+
+        </div>
+
+        <div class="wrapper grey-bg">
+
+            <div class="timezone-entries">
+
+                <!--<div class="item-wrapper" v-for="entry in setupData.items" :key="entry.id" v-touch:swipe.left="showDelete(entry)">-->
+                <div class="item-wrapper" v-for="entry in setupData.items" :key="entry.id">
+                    <div class="item-inner">
+
+                        <div class="item-inner-wrapper">
+                            <div class="item-slot">
+
+                                <img :src="require('@/assets/images/icons/icn_bounds.svg')" />
+
+                            </div>
+                            <div class="item-time-from">
+                                <div class="time-entry-content">
+                                    <div class="label">van</div>
+                                    <div class="time-value">{{entry.from}}</div>
+                                </div>
+                            </div>
+                            <div class="item-time-end">
+                                <div class="time-entry-content">
+                                    <div class="label">tot</div>
+                                    <div class="time-value">{{entry.to}}</div>
+                                </div>
+                            </div>
+                            <div class="item-delete">
+                                <a @click="deleteTimezoneEntry(entry)">
+                                    <img :src="require('@/assets/images/icons/icn_trash.svg')" />
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -23,7 +64,7 @@
 
             <div class="slider-container">
 
-                <a class="button is-rounded is-fullwidth add-friend">Challenge opslaan</a>
+                <a class="button is-rounded is-fullwidth save-challenge-btn">Challenge opslaan</a>
 
             </div>
 
@@ -44,98 +85,74 @@ import Vue from 'vue'
 import Component from 'vue-class-component';
 import {State} from "vuex-class";
 import {ChallengesState} from "@/store/challenges/types";
-import VueSlider from 'vue-slider-component'
-import 'vue-slider-component/theme/antd.css'
+import Vue2TouchEvents from 'vue2-touch-events'
+Vue.use(Vue2TouchEvents);
+
+interface timeEntry {
+    id: number,
+    from: string,
+    to: string,
+    swiped: boolean
+}
 
 @Component({
-    components:{
-        VueSlider
-    }
 })
 export default class Setup extends Vue {
     @State('challenges') challenges!: ChallengesState;
     //@Prop() msg: string = '';
     setupData: {
-        title: string,
-        text: string,
-        credit: {
-            amount: number
-        }
+        items: timeEntry[]
     } = {
-        title: '',
-        text: '',
-        credit: {
-            amount: 30
-        }
-    };
-
-    sliderOption: Object = {
-        min: 0,
-        max: 240,
-        tooltip: 'none'
+        items: [
+            {
+                id: 1,
+                from: '08:30',
+                to: '10:00',
+                swiped: false
+            },
+            {
+                id: 2,
+                from: '20:30',
+                to: '23:00',
+                swiped: false
+            }
+        ]
     };
 
     //Cycle hooks
     mounted () {
-        switch(this.challenges.setupCategory)
-        {
-            case "games":
-                this.setupData.title = 'Spellen';
-                this.setupData.text = 'Bepaal hier hoeveel tijd je aan games wilt besteden';
-                break;
 
-            case "social":
-                this.setupData.title = 'Sociale Media';
-                this.setupData.text = 'Bepaal hier hoeveel tijd je aan sociale media wilt besteden';
-                break;
+    }
 
-            case "dating":
-                this.setupData.title = 'Dating';
-                this.setupData.text = 'Bepaal hier hoeveel tijd je aan dating wilt besteden';
-                break;
+    showDelete( rowData: timeEntry )
+    {
+        console.log('swiped left')
+        rowData.swiped = true
+    }
 
-            case "gamble":
-                this.setupData.title = 'Gokken';
-                this.setupData.text = 'Bepaal hier hoeveel tijd je aan gokken wilt besteden';
-                break;
-        }
+    addTimezoneEntry(){
+        this.setupData.items.push({
+            id: Math.random(),
+            from: '08:30',
+            to: '10:00',
+            swiped: false
+        });
+    }
+
+    deleteTimezoneEntry(entry: timeEntry){
+        this.setupData.items.splice(this.setupData.items.indexOf(entry), 1);
     }
 }
 </script>
 
 <style lang="scss">
     @import "../../../sass/variables";
-    #challengesSetup{
-        .setupHeader{
-            width: 200px;
-            margin: 0 auto;
-            padding-bottom: 20px;
-            color: #FFF;
-            p{
-                margin-top: -10px;
-            }
-            .challengeTypeIcon{
-                background-color: #8cb818;
-                width: 100px;
-                height: 100px;
-                display: block;
-                position: relative;
-                margin: 0 auto;
-                border-radius: 50px;
-
-                img {
-                    position: absolute;
-                    top: 25px;
-                    left: 26px;
-                }
-            }
-        }
-
-        .slider-container{
+    #challengesTimezoneSetup{
+        .timezones-container{
             padding: 30px;
-            background-image: linear-gradient($list-item-gradient-two, $list-item-gradient-one);
+            background-color: #f3f3f3;
 
-            .creditColumn{
+            .challengeInfoColumn{
                 text-align: left;
                 strong{
                     font-size: 14px;
@@ -150,37 +167,103 @@ export default class Setup extends Vue {
                 text-align: right;
             }
 
-            .challenge-slider{
-
-                margin-top: -8px;
-
-                .vue-slider-process{
-                    background-color: #95c11f;
-                }
-
-                .vue-slider-rail{
-                    background-color: #e7e7e7;
-                }
-
-                .vue-slider-dot{
-                    width: 18px !important;
-                    height: 18px !important;
-                    .vue-slider-dot-handle{
-                        background-color: #95c11f;
-                        border: 2px solid #95c11f;
-                    }
-                }
-
-            }
-
-            &.contains-container{
+            /*&.contains-container{
                 background-color: #e7e7e7 !important;
                 background-image: none;
                 clip-path: polygon(0 20%, 100% 0%, 100% 100%, 0% 100%);
+            }*/
+        }
+
+        @mixin time-value-style {
+            .time-entry-content{
+                .label{
+                    color: #A8A8A8;
+                    width: 100%;
+                    padding: 8px 0 0 10px;
+                    text-align: left;
+                    font-size: 16px;
+                }
+
+                .time-value{
+                    width: 100%;
+                    font-size: 32px;
+                    text-align: left;
+                    padding-left: 10px;
+                    font-family: Oswald, sans-serif;
+                }
             }
         }
 
-        .add-friend{
+        .timezone-entries{
+            background-color: #f3f3f3;
+            margin-bottom: 20px;
+            .item-wrapper{
+                max-width: 100%;
+                width: 100%;
+                overflow-x: scroll;
+
+                .item-inner{
+                    background-image: linear-gradient(#fcfcfc, #f7f7f7);
+                    height: 80px;
+                    width: 125%;
+                    display: block;
+                    position: relative;
+
+                    &.swiped{
+                        margin-left: -25%;
+                        transition: 1s;
+                    }
+
+                    .item-inner-wrapper{
+                        width: 100%;
+                        height: 80px;
+                        position: relative;
+                        display:flex;
+
+                        .item-slot{
+                            width: 25%;
+                            display: inline-block;
+                            border-right: 1px solid #f3f3f3;
+
+                            img{
+                                color: #f3f3f3;
+                                margin-top: 36%;
+                            }
+                        }
+                        .item-time-from{
+                            width: 37.5%;
+                            display: inline-block;
+                            border-right: 1px solid #f3f3f3;
+
+                            @include time-value-style;
+                        }
+                        .item-time-end{
+                            width: 37.5%;
+                            display: inline-block;
+
+                            border-right: 1px solid #f3f3f3;
+                            @include time-value-style;
+                        }
+                        .item-delete{
+                            width: 25%;
+                            display: inline-block;
+                            background-color: $color-purple;
+
+                            a{
+                                display: block;
+
+                                img{
+                                    color: #f3f3f3;
+                                    margin-top: 36%;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .save-challenge-btn{
             border-color: $color-blue;
             color:$color-blue;
             background-color:transparent;
