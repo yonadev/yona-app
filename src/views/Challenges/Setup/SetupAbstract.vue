@@ -6,18 +6,17 @@
 
                 <div class="nav-title">
                     <router-link :to="{name: 'ChallengesOverview', params: {type: 'credit'}}">
-                        <span v-if="activeSetup === 'credit'">Tegoed vastleggen</span>
-                        <span v-if="activeSetup === 'timezone'">Tijdzone vastleggen</span>
-                        <span v-if="activeSetup === 'nogo'">Nogo vastleggen</span>
+                        <span v-if="type === 'credit'">Tegoed vastleggen</span>
+                        <span v-else-if="type === 'timezone'">Tijdzone vastleggen</span>
+                        <span v-else-if="type === 'nogo'">Nogo vastleggen</span>
                     </router-link>
                 </div>
 
                 <div class="setupHeader">
-
                     <div class="challengeTypeIcon">
-                        <img v-if="activeSetup === 'credit'" :src="require('@/assets/images/challenges/icn_challenge_timebucket.svg')" />
-                        <img v-if="activeSetup === 'timezone'" :src="require('@/assets/images/challenges/icn_challenge_timezone.svg')" />
-                        <img v-if="activeSetup === 'nogo'" :src="require('@/assets/images/challenges/icn_challenge_nogo.svg')" />
+                        <img v-if="type === 'credit'" :src="require('@/assets/images/challenges/icn_challenge_timebucket.svg')" />
+                        <img v-else-if="type === 'timezone'" :src="require('@/assets/images/challenges/icn_challenge_timezone.svg')" />
+                        <img v-else-if="type === 'nogo'" :src="require('@/assets/images/challenges/icn_challenge_nogo.svg')" />
                     </div>
 
                     <h3>{{headerData.title}}</h3>
@@ -55,25 +54,21 @@ interface HeaderDataInterface {
 export default class Setup extends Vue {
     @State('challenges') challenges!: ChallengesState;
     @Prop() type!: string;
+    @Prop() category!: string;
 
     headerData: HeaderDataInterface = {
         text: "",
         title: ""
     }
 
-    activeSetup = '';
-    activeCategory = '';
-
     mounted () {
-        this.activeSetup = this.type;
-        this.activeCategory = this.$route.params.category;
 
-        switch(this.$route.params.category)
+        switch(this.category)
         {
             case "games":
                 this.headerData.title = 'Spellen';
 
-                switch(this.activeSetup)
+                switch(this.type)
                 {
                     case "credit":
                         this.headerData.text = 'Bepaal hier hoeveel tijd je aan games wilt besteden';
@@ -92,7 +87,7 @@ export default class Setup extends Vue {
             case "social":
                 this.headerData.title = 'Sociale Media';
 
-                switch(this.activeSetup)
+                switch(this.type)
                 {
                     case "credit":
                         this.headerData.text = 'Bepaal hier hoeveel tijd je aan sociale media wilt besteden';
@@ -112,7 +107,7 @@ export default class Setup extends Vue {
             case "dating":
                 this.headerData.title = 'Dating';
 
-                switch(this.activeSetup)
+                switch(this.type)
                 {
                     case "credit":
                         this.headerData.text = 'Bepaal hier hoeveel tijd je aan dating wilt besteden';
@@ -132,7 +127,7 @@ export default class Setup extends Vue {
             case "gamble":
                 this.headerData.title = 'Gokken';
 
-                switch(this.activeSetup)
+                switch(this.type)
                 {
                     case "credit":
                         this.headerData.text = 'Bepaal hier hoeveel tijd je aan gokken wilt besteden';
