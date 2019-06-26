@@ -25,10 +25,52 @@
             <div class="timezone-entries">
 
                 <!--<div class="item-wrapper" v-for="entry in setupData.items" :key="entry.id" v-touch:swipe.left="showDelete(entry)">-->
+                <swipe-list
+                    ref="list"
+                    :items="setupData.items"
+                    item-key="id"
+                >
+                    <template v-slot="{ item, index}">
+                        <!-- item is the corresponding object from the array -->
+                        <!-- index is clearly the index -->
+                        <!-- revealLeft is method which toggles the left side -->
+                        <!-- revealRight is method which toggles the right side -->
+                        <!-- close is method which closes an opened side -->
+                        <div ref="content" class="item-wrapper">
+                            <!-- style content how ever you like -->
+                              <div class="item-inner">
+                                <div class="item-slot">
+
+                                    <img :src="require('@/assets/images/icons/icn_bounds.svg')" />
+
+                                </div>
+                                <div class="item-time-from">
+                                    <div class="time-entry-content">
+                                        <div class="label">van</div>
+                                        <div class="time-value">{{item.from}}</div>
+                                    </div>
+                                </div>
+                                <div class="item-time-end">
+                                    <div class="time-entry-content">
+                                        <div class="label">tot</div>
+                                        <div class="time-value">{{item.to}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <!-- right swipe side template and v-slot:right"{ item }" is the item clearly -->
+                    <!-- remove if you dont wanna have right swipe side  -->
+                    <template v-slot:right="{ item }">
+                        <div class="item-delete">
+                            <a @click="deleteTimezoneEntry(item)">
+                                <img :src="require('@/assets/images/icons/icn_trash.svg')" />
+                            </a>
+                        </div>
+                    </template>
+                </swipe-list>
                 <div class="item-wrapper" v-for="entry in setupData.items" :key="entry.id">
                     <div class="item-inner">
-
-                        <div class="item-inner-wrapper">
                             <div class="item-slot">
 
                                 <img :src="require('@/assets/images/icons/icn_bounds.svg')" />
@@ -46,13 +88,6 @@
                                     <div class="time-value">{{entry.to}}</div>
                                 </div>
                             </div>
-                            <div class="item-delete">
-                                <a @click="deleteTimezoneEntry(entry)">
-                                    <img :src="require('@/assets/images/icons/icn_trash.svg')" />
-                                </a>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
 
@@ -85,8 +120,8 @@ import Vue from 'vue'
 import Component from 'vue-class-component';
 import {State} from "vuex-class";
 import {ChallengesState} from "@/store/challenges/types";
-import Vue2TouchEvents from 'vue2-touch-events'
-Vue.use(Vue2TouchEvents);
+
+import { SwipeList, SwipeOut } from 'vue-swipe-actions';
 
 interface timeEntry {
     id: number,
@@ -96,6 +131,7 @@ interface timeEntry {
 }
 
 @Component({
+    components: {SwipeList, SwipeOut}
 })
 export default class Setup extends Vue {
     @State('challenges') challenges!: ChallengesState;
@@ -147,6 +183,7 @@ export default class Setup extends Vue {
 
 <style lang="scss">
     @import "../../../sass/variables";
+    @import "~vue-swipe-actions/src/styles/vue-swipe-actions.css";
     #challengesTimezoneSetup{
         .timezones-container{
             padding: 30px;
@@ -197,70 +234,66 @@ export default class Setup extends Vue {
         .timezone-entries{
             background-color: #f3f3f3;
             margin-bottom: 20px;
-            .item-wrapper{
+            .swipeout-list{
                 max-width: 100%;
                 width: 100%;
-                overflow-x: scroll;
-
-                .item-inner{
+                .swipeout-list-item{
                     background-image: linear-gradient(#fcfcfc, #f7f7f7);
                     height: 80px;
-                    width: 125%;
+                    width: 100%;
                     display: block;
                     position: relative;
+                    flex: none;
 
-                    &.swiped{
-                        margin-left: -25%;
-                        transition: 1s;
+                    .item-slot{
+                        width: 25%;
+                        float:left;
+                        display: inline-block;
+                        border-right: 1px solid #f3f3f3;
+                        box-sizing: border-box;
+
+                        img{
+                            color: #f3f3f3;
+                            width: 24px;
+                            margin-top: 27px;
+                        }
+                    }
+                    .item-time-from, .item-time-end{
+                        width: 37.5%;
+                        float:left;
+                        display: inline-block;
+                        border-right: 1px solid #f3f3f3;
+                        box-sizing: border-box;
+                        @include time-value-style;
                     }
 
-                    .item-inner-wrapper{
-                        width: 100%;
-                        height: 80px;
-                        position: relative;
-                        display:flex;
+                    .item-time-end{
+                        border: none;
+                    }
 
-                        .item-slot{
-                            width: 25%;
-                            display: inline-block;
-                            border-right: 1px solid #f3f3f3;
+                    .swipeout-right {
+                        width: 25%;
 
-                            img{
-                                color: #f3f3f3;
-                                margin-top: 36%;
-                            }
-                        }
-                        .item-time-from{
-                            width: 37.5%;
-                            display: inline-block;
-                            border-right: 1px solid #f3f3f3;
-
-                            @include time-value-style;
-                        }
-                        .item-time-end{
-                            width: 37.5%;
-                            display: inline-block;
-
-                            border-right: 1px solid #f3f3f3;
-                            @include time-value-style;
-                        }
                         .item-delete{
-                            width: 25%;
-                            display: inline-block;
+                            text-align: center;
                             background-color: $color-purple;
-
+                            width: 100%;
                             a{
                                 display: block;
 
                                 img{
                                     color: #f3f3f3;
-                                    margin-top: 36%;
+                                    width: 24px;
+                                    margin-top: 27px;
                                 }
                             }
                         }
                     }
+
                 }
             }
+
+
         }
 
         .save-challenge-btn{
