@@ -24,25 +24,16 @@
 
             <div class="timezone-entries">
 
-                <!--<div class="item-wrapper" v-for="entry in setupData.items" :key="entry.id" v-touch:swipe.left="showDelete(entry)">-->
                 <swipe-list
                     ref="list"
                     :items="setupData.items"
                     item-key="id"
                 >
                     <template v-slot="{ item, index}">
-                        <!-- item is the corresponding object from the array -->
-                        <!-- index is clearly the index -->
-                        <!-- revealLeft is method which toggles the left side -->
-                        <!-- revealRight is method which toggles the right side -->
-                        <!-- close is method which closes an opened side -->
                         <div ref="content" class="item-wrapper">
-                            <!-- style content how ever you like -->
-                              <div class="item-inner">
+                            <div class="item-inner">
                                 <div class="item-slot">
-
                                     <img :src="require('@/assets/images/icons/icn_bounds.svg')" />
-
                                 </div>
                                 <div class="item-time-from">
                                     <div class="time-entry-content">
@@ -59,8 +50,7 @@
                             </div>
                         </div>
                     </template>
-                    <!-- right swipe side template and v-slot:right"{ item }" is the item clearly -->
-                    <!-- remove if you dont wanna have right swipe side  -->
+
                     <template v-slot:right="{ item }">
                         <div class="item-delete">
                             <a @click="deleteTimezoneEntry(item)">
@@ -69,27 +59,6 @@
                         </div>
                     </template>
                 </swipe-list>
-                <div class="item-wrapper" v-for="entry in setupData.items" :key="entry.id">
-                    <div class="item-inner">
-                            <div class="item-slot">
-
-                                <img :src="require('@/assets/images/icons/icn_bounds.svg')" />
-
-                            </div>
-                            <div class="item-time-from">
-                                <div class="time-entry-content">
-                                    <div class="label">van</div>
-                                    <div class="time-value">{{entry.from}}</div>
-                                </div>
-                            </div>
-                            <div class="item-time-end">
-                                <div class="time-entry-content">
-                                    <div class="label">tot</div>
-                                    <div class="time-value">{{entry.to}}</div>
-                                </div>
-                            </div>
-                    </div>
-                </div>
 
             </div>
 
