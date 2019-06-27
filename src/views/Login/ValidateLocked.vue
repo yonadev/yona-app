@@ -125,6 +125,7 @@
 
 <style lang="scss">
   #sms-validation{
+    position: relative;
     .progress-bar{
       .progress{
         width:33%;

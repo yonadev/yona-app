@@ -43,6 +43,7 @@ import Me from '../views/Me/Me.vue'
 import Profile from '../views/Me/Profile.vue'
 import Notifications from '../views/Me/Notifications.vue'
 import FriendRequest from '../views/Me/FriendRequest.vue'
+import DetailedViewDay from '../views/Me/DetailedViews/DetailedViewDay.vue'
 
 //Friends module
 import AbstractFriends from '../views/Friends/AbstractFriends.vue'
@@ -287,12 +288,17 @@ export default new Router({
                     name: 'Notifications',
                     component: Notifications
                 },
-              {
-                path: 'friendrequest',
-                name: 'FriendRequest',
-                component: FriendRequest,
-                props: true
-              }
+                {
+                    path: 'friendrequest',
+                    name: 'FriendRequest',
+                    component: FriendRequest,
+                    props: true
+                },
+                {
+                    path: 'detailed-day',
+                    name: 'DetailedViewDay',
+                    component: DetailedViewDay
+                }
             ]
         },
         {
