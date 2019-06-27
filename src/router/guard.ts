@@ -14,31 +14,18 @@ class RouteProtect {
   }
 
   checkRouter(to: any, from: any, next: any){
-    /*const registered = this.store.state.login.isRegistered;
+    const registered = this.store.state.login.isRegistered;
     const loggedIn = this.store.state.login.isLoggedIn;
     const locked = this.store.state.login.isLocked;
 
-    // Entering the secure area of the app
-    if (!to.meta.public) {
-      // Check if user is logged in
-      if (!loggedIn) {
-        console.log("Redirecting due to not being logged in");
-        return next({ path: "/" });
-      }
+    console.log(to);
 
-      // If user has not yet chosen a customer, redirect them there
-      if (customer === false && to.name !== "SelectCustomers") {
-        console.log("Redirecting due to no customer being selected");
-        return next({ name: "SelectCustomers" });
-      }
-
-      return next();
-    }
-
-    if (loggedIn === true && to.path !== "/") {
-      console.log("Redirecting due to being already logged in");
-      // is login page en is loggedin
-      return next({ path: "/" });
+    if (!registered && !to.meta.public) {
+      return next({name: "Tour"})
+    } else if(locked && !to.meta.locked) {
+      return next({name: "Locked"})
+    } else if(!loggedIn && registered && !locked) {
+      return next({name: "Login"})
     }
 
     // is login page en is not loggedin*/
