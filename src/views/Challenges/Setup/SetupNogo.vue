@@ -2,17 +2,23 @@
     <div id="challengesSetup">
         <div class="wrapper save-section">
 
-            <div class="slider-container">
+            <div class="wrapper over-all-footer">
+                <div class="wrapper grey-bg save-section">
 
-                <a class="button is-rounded is-fullwidth save-challenge-btn">Challenge opslaan</a>
+                    <a class="button is-rounded is-fullwidth save-challenge-btn">Challenge opslaan</a>
 
-            </div>
+                </div>
 
-            <div class="slider-container contains-container">
+                <div class="wrapper contains-container">
 
-                <p>De volgende apps zijn onderdeel van deze challenge:</p><br />
-                <p class="apps">Whatsapp, Facebook, Twitter, Pinterest, Instagram, Snapchat</p>
+                    <div class="columns is-mobile">
+                        <div class="column is-three-fifths is-offset-one-fifth">
+                            <p>De volgende apps zijn onderdeel van deze challenge:</p><br />
+                            <p class="apps">Whatsapp, Facebook, Twitter, Pinterest, Instagram, Snapchat</p>
+                        </div>
+                    </div>
 
+                </div>
             </div>
 
         </div>
@@ -42,43 +48,3 @@ export default class Setup extends Vue {
     }
 }
 </script>
-
-<style lang="scss">
-    @import "../../../sass/variables";
-    #challengesSetup{
-        .setupHeader{
-            width: 200px;
-            margin: 0 auto;
-            padding-bottom: 20px;
-            color: #FFF;
-            p{
-                margin-top: -10px;
-            }
-            .challengeTypeIcon{
-                background-color: #8cb818;
-                width: 100px;
-                height: 100px;
-                display: block;
-                position: relative;
-                margin: 0 auto;
-                border-radius: 50px;
-
-                img {
-                    position: absolute;
-                    top: 25px;
-                    left: 26px;
-                }
-            }
-        }
-
-        .save-challenge-btn{
-            border-color: $color-blue;
-            color:$color-blue;
-            background-color:transparent;
-            padding:5px 0;
-            font-size:14px;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-    }
-</style>

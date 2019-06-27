@@ -2,22 +2,19 @@
     <div id="challengesTimezoneSetup">
 
         <div class="wrapper grey-bg">
-
             <div class="timezones-container">
                 <div class="columns is-mobile">
                     <div class="column challengeInfoColumn">
                         <strong>Tijdzone</strong>
                         <p>waarbinnen gebruik is toegestaan</p>
                     </div>
-                    <div class="column is-one-fifth creditAmountColumn">
+                    <div class="column is-one-fifth add-tz-btn">
                         <a @click="addTimezoneEntry()">
                             <img :src="require('@/assets/images/challenges/add_circel.svg')" />
                         </a>
                     </div>
                 </div>
-
             </div>
-
         </div>
 
         <div class="wrapper grey-bg">
@@ -64,21 +61,19 @@
 
         </div>
 
-        <div class="wrapper save-section">
-
-            <div class="slider-container">
-
+        <div class="wrapper over-all-footer">
+            <div class="wrapper grey-bg save-section">
                 <a class="button is-rounded is-fullwidth save-challenge-btn">Challenge opslaan</a>
-
             </div>
 
-            <div class="slider-container contains-container">
-
-                <p>De volgende apps zijn onderdeel van deze challenge:</p><br />
-                <p class="apps">Whatsapp, Facebook, Twitter, Pinterest, Instagram, Snapchat</p>
-
+            <div class="wrapper contains-container">
+                <div class="columns is-mobile">
+                    <div class="column is-three-fifths is-offset-one-fifth">
+                        <p>De volgende apps zijn onderdeel van deze challenge:</p><br />
+                        <p class="apps">Whatsapp, Facebook, Twitter, Pinterest, Instagram, Snapchat</p>
+                    </div>
+                </div>
             </div>
-
         </div>
 
     </div>
@@ -124,17 +119,6 @@ export default class Setup extends Vue {
         ]
     };
 
-    //Cycle hooks
-    mounted () {
-
-    }
-
-    showDelete( rowData: timeEntry )
-    {
-        console.log('swiped left')
-        rowData.swiped = true
-    }
-
     addTimezoneEntry(){
         this.setupData.items.push({
             id: Math.random(),
@@ -168,35 +152,9 @@ export default class Setup extends Vue {
                 }
             }
 
-            .creditAmountColumn{
+            .add-tz-btn{
                 font-size: 30px;
                 text-align: right;
-            }
-
-            /*&.contains-container{
-                background-color: #e7e7e7 !important;
-                background-image: none;
-                clip-path: polygon(0 20%, 100% 0%, 100% 100%, 0% 100%);
-            }*/
-        }
-
-        @mixin time-value-style {
-            .time-entry-content{
-                .label{
-                    color: #A8A8A8;
-                    width: 100%;
-                    padding: 8px 0 0 10px;
-                    text-align: left;
-                    font-size: 16px;
-                }
-
-                .time-value{
-                    width: 100%;
-                    font-size: 32px;
-                    text-align: left;
-                    padding-left: 10px;
-                    font-family: Oswald, sans-serif;
-                }
             }
         }
 
@@ -233,7 +191,24 @@ export default class Setup extends Vue {
                         display: inline-block;
                         border-right: 1px solid #f3f3f3;
                         box-sizing: border-box;
-                        @include time-value-style;
+
+                        .time-entry-content{
+                            .label{
+                                color: #A8A8A8;
+                                width: 100%;
+                                padding: 8px 0 0 10px;
+                                text-align: left;
+                                font-size: 16px;
+                            }
+
+                            .time-value{
+                                width: 100%;
+                                font-size: 32px;
+                                text-align: left;
+                                padding-left: 10px;
+                                font-family: Oswald, sans-serif;
+                            }
+                        }
                     }
 
                     .item-time-end{
@@ -258,21 +233,8 @@ export default class Setup extends Vue {
                             }
                         }
                     }
-
                 }
             }
-
-
-        }
-
-        .save-challenge-btn{
-            border-color: $color-blue;
-            color:$color-blue;
-            background-color:transparent;
-            padding:5px 0;
-            font-size:14px;
-            text-transform: uppercase;
-            font-weight: bold;
         }
     }
 </style>
