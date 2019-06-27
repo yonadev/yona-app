@@ -30,7 +30,11 @@ const actions: ActionTree<LoginState, RootState> = {
   },
   setLoggedIn({commit}): void {
     commit('resetLock');
+    commit('setLoggedIn');
     router.push({'name': 'Intro'});
+  },
+  setRegistered({commit}): void {
+    commit('setRegistered');
   },
   async pinReset({commit, rootState, dispatch}) {
 
@@ -72,6 +76,12 @@ const mutations: MutationTree<LoginState> = {
   },
   setProperty(state, payload: LoginState){
     Object.assign(state, payload)
+  },
+  setRegistered(state) {
+    state.isRegistered = true;
+  },
+  setLoggedIn(state) {
+    state.isLoggedIn = true;
   },
   setLocked(state) {
     state.isLocked = true;

@@ -23,7 +23,7 @@ class RouteProtect {
     } else if(locked && !to.meta.locked) {
       return next({name: "Locked"})
     } else if(!loggedIn && registered && !locked) {
-      //return next({name: "Login"})
+      return next({name: "Login"})
     }
 
     // is login page en is not loggedin*/

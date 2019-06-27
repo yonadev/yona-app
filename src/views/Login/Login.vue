@@ -57,20 +57,22 @@ export default class Login extends Vue {
           if (user_response)
             this.setUserData(user_response.data)
 
-          let photo_response: any = await axios.get(this.links.links['yona:userPhoto'].href, {
-            responseType: 'blob'
-          }).catch((error) => {
-            console.log(error)
-          });
+          if(this.links.links['yona:userPhoto']) {
+            let photo_response: any = await axios.get(this.links.links['yona:userPhoto'].href, {
+              responseType: 'blob'
+            }).catch((error) => {
+              console.log(error)
+            });
 
-          let self = this
+            let self = this
 
-          if (FileReader && photo_response.data) {
-            var fr = new FileReader();
-            fr.onload = await function () {
-              self.setProperty({userphoto: fr.result})
+            if (FileReader && photo_response.data) {
+              var fr = new FileReader();
+              fr.onload = await function () {
+                self.setProperty({userphoto: fr.result})
+              }
+              fr.readAsDataURL(photo_response.data);
             }
-            fr.readAsDataURL(photo_response.data);
           }
 
           this.setLoggedIn();

@@ -7,8 +7,9 @@ const state: HeaderState = {
 };
 
 const actions: ActionTree<HeaderState, RootState> = {
-  setHeaderPassword({commit}, data): any{
+  setHeaderPassword({commit, dispatch}, data): any{
     commit('setHeaderPassword', data)
+    dispatch('login/setRegistered', {}, {root: true})
   }
 };
 
