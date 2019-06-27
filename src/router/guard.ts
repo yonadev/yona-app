@@ -18,6 +18,8 @@ class RouteProtect {
     const loggedIn = this.store.state.login.isLoggedIn;
     const locked = this.store.state.login.isLocked;
 
+    console.log({registered, loggedIn, locked})
+
     if (!registered && !to.meta.public) {
       return next({name: "Tour"})
     } else if(locked && !to.meta.locked) {
