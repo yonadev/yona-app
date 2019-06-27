@@ -175,5 +175,35 @@ export default class Setup extends Vue {
                 }
             }
         }
+
+        .over-all-footer{
+            background-color: $list-background;
+
+            .save-section{
+                background-color: $list-background;
+                margin-top: -8px;
+                padding: 30px 0 30px 0;
+
+                .save-challenge-btn{
+                    border-color: $color-blue;
+                    color:$color-blue;
+                    background-color:transparent;
+                    padding:5px 0;
+                    font-size:14px;
+                    text-transform: uppercase;
+                    font-weight: bold;
+                    width: 85%;
+                    margin:0 auto;
+                }
+            }
+
+            .contains-container{
+                background-color: $challenges-footer-bg;
+                margin-top: -8px;
+                padding: 50px 0 80px 0;
+                clip-path: polygon(0 23%, 100% 0%, 100% 100%, 0% 100%);
+                overflow: hidden;
+            }
+        }
     }
 </style>

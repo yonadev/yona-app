@@ -1,8 +1,7 @@
 <template>
-    <div id="challengesSetup">
+    <div id="challengesCreditSetup">
 
         <div class="wrapper grey-bg">
-
             <div class="slider-container">
                 <div class="columns is-mobile">
                     <div class="column challengeInfoColumn">
@@ -16,24 +15,21 @@
 
                 <VueSlider v-model="setupData.credit.amount" v-bind="sliderOption" class="challenge-slider"></VueSlider>
             </div>
-
         </div>
 
-        <div class="wrapper save-section">
-
-            <div class="slider-container">
-
+        <div class="wrapper over-all-footer">
+            <div class="wrapper grey-bg save-section">
                 <a class="button is-rounded is-fullwidth save-challenge-btn">Challenge opslaan</a>
-
             </div>
 
-            <div class="slider-container contains-container">
-
-                <p>De volgende apps zijn onderdeel van deze challenge:</p><br />
-                <p class="apps">Whatsapp, Facebook, Twitter, Pinterest, Instagram, Snapchat</p>
-
+            <div class="wrapper contains-container">
+                <div class="columns is-mobile">
+                    <div class="column is-three-fifths is-offset-one-fifth">
+                        <p>De volgende apps zijn onderdeel van deze challenge:</p><br />
+                        <p class="apps">Whatsapp, Facebook, Twitter, Pinterest, Instagram, Snapchat</p>
+                    </div>
+                </div>
             </div>
-
         </div>
 
     </div>
@@ -70,42 +66,12 @@ export default class Setup extends Vue {
         max: 240,
         tooltip: 'none'
     };
-
-    //Cycle hooks
-    mounted () {
-
-    }
 }
 </script>
 
 <style lang="scss">
     @import "../../../sass/variables";
-    #challengesSetup{
-        .setupHeader{
-            width: 200px;
-            margin: 0 auto;
-            padding-bottom: 20px;
-            color: #FFF;
-            p{
-                margin-top: -10px;
-            }
-            .challengeTypeIcon{
-                background-color: #8cb818;
-                width: 100px;
-                height: 100px;
-                display: block;
-                position: relative;
-                margin: 0 auto;
-                border-radius: 50px;
-
-                img {
-                    position: absolute;
-                    top: 25px;
-                    left: 26px;
-                }
-            }
-        }
-
+    #challengesCreditSetup{
         .slider-container{
             padding: 30px;
             background-image: linear-gradient($list-item-gradient-two, $list-item-gradient-one);
@@ -126,7 +92,6 @@ export default class Setup extends Vue {
             }
 
             .challenge-slider{
-
                 margin-top: -8px;
 
                 .vue-slider-process{
@@ -147,22 +112,6 @@ export default class Setup extends Vue {
                 }
 
             }
-
-            &.contains-container{
-                background-color: #e7e7e7 !important;
-                background-image: none;
-                clip-path: polygon(0 20%, 100% 0%, 100% 100%, 0% 100%);
-            }
-        }
-
-        .save-challenge-btn{
-            border-color: $color-blue;
-            color:$color-blue;
-            background-color:transparent;
-            padding:5px 0;
-            font-size:14px;
-            text-transform: uppercase;
-            font-weight: bold;
         }
     }
 </style>
