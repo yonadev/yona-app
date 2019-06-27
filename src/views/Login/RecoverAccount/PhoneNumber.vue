@@ -28,7 +28,7 @@
   import axios from "../../../utils/axios/axios"
   import {Watch} from "vue-property-decorator";
   import {Action, State} from "vuex-class";
-  import {AccountState} from "../../../store/account/types";
+  import {AccountState} from "@/store/account/types";
 
   @Component({
     components:{

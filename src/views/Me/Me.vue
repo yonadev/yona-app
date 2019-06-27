@@ -38,7 +38,7 @@
   import Component from 'vue-class-component';
   import {State} from "vuex-class";
   import {AccountState} from "@/store/account/types";
-  import {LinksState} from "@/store/links/types";
+  import {ApiState} from "@/store/api/types";
   import axios from "@/utils/axios/axios"
   import UiControlsLabel from "@/components/UiControls/UiControlsLabel.vue";
   import WeekScoreLabel from "@/components/WeekScore/WeekScoreLabel.vue";
@@ -51,7 +51,7 @@
   })
   export default class Me extends Vue {
     @State('account') account!: AccountState;
-    @State('links') links!: LinksState;
+    @State('api') api!: ApiState;
     active_tab: string = 'per_day';
     profilePic: string | null = '';
     all_day_activities: [{}] = [{}];
@@ -60,20 +60,20 @@
     async mounted () {
       this.profilePic = this.account.userphoto;
 
-      if(this.links.links) {
+      if(this.api.links) {
         let [
           daily_response,
           weekly_response
         ] = await Promise.all([
-          axios.get(this.links.links['yona:dailyActivityReports'].href),
-          axios.get(this.links.links['yona:weeklyActivityReports'].href)
+          axios.get(this.api.links['yona:dailyActivityReports'].href),
+          axios.get(this.api.links['yona:weeklyActivityReports'].href)
         ]);
 
         if (daily_response.status == 200)
-          this.all_day_activities = daily_response.data._embedded['yona:dayActivityOverviews']
+          this.all_day_activities = daily_response.data._embedded['yona:dayActivityOverviews'];
 
         if (weekly_response.status == 200)
-          this.all_week_activities = weekly_response.data._embedded['yona:weekActivityOverviews']
+          this.all_week_activities = weekly_response.data._embedded['yona:weekActivityOverviews'];
       }
     }
   }

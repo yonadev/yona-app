@@ -24,7 +24,7 @@
   import Vue from 'vue'
   import { Action } from 'vuex-class';
   import { Watch, Component } from 'vue-property-decorator'
-  import PinCode from '../../../components/PinCode.vue';
+  import PinCode from '@/components/PinCode.vue';
 
   @Component({
     components:{

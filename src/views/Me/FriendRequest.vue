@@ -36,22 +36,16 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
-import {State} from "vuex-class";
-import {LinksState} from "../../store/links/types";
 import axios from "../../utils/axios/axios"
 import {Prop} from "vue-property-decorator";
 
 @Component({})
 export default class Notifications extends Vue {
-  @State('links') links!: LinksState;
   @Prop() notification!: any;
   avatar: string | null = '';
 
   async mounted () {
     if(this.notification) {
-
-      console.log(this.notification)
-
       let photo_response: any = await axios.get(this.notification._links['yona:userPhoto'].href, {
         responseType: 'blob'
       }).catch((error) => {

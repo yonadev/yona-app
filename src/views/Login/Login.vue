@@ -25,8 +25,8 @@ import { Watch, Component } from 'vue-property-decorator';
 import PinCode from '../../components/PinCode.vue';
 import axios from "../../utils/axios/axios"
 import {Action, State} from "vuex-class";
-import {LoginState} from "../../store/login/types";
-import {LinksState} from "../../store/links/types";
+import {LoginState} from "@/store/login/types";
+import {ApiState} from "@/store/api/types";
 
 @Component({
   components:{
@@ -37,7 +37,7 @@ export default class Login extends Vue {
   @State('login') login!: LoginState;
   @Action('setLoggedIn', {namespace: 'login'}) setLoggedIn: any;
   @Action('increaseLoginAttempts', {namespace: 'login'}) increaseLoginAttempts: any;
-  @State('links') links!: LinksState;
+  @State('api') api!: ApiState;
   @Action('setProperty', {namespace: 'login'}) setProperty: any;
   @Action('setUserData', {namespace: 'account'}) setUserData: any;
   @Action('pinReset', {namespace: 'login'}) pinReset: any;
@@ -49,16 +49,16 @@ export default class Login extends Vue {
   async onChildChanged(val: number) {
     if(val && val.toString().length === this.length) {
       if(val === this.login.pinCode){
-        if(this.links.links) {
-          let user_response: any = await axios.get(this.links.links['self'].href).catch((error) => {
+        if(this.api.links) {
+          let user_response: any = await axios.get(this.api.links['self'].href).catch((error) => {
             console.log(error)
           });
 
           if (user_response)
             this.setUserData(user_response.data)
 
-          if(this.links.links['yona:userPhoto']) {
-            let photo_response: any = await axios.get(this.links.links['yona:userPhoto'].href, {
+          if(this.api.links['yona:userPhoto']) {
+            let photo_response: any = await axios.get(this.api.links['yona:userPhoto'].href, {
               responseType: 'blob'
             }).catch((error) => {
               console.log(error)

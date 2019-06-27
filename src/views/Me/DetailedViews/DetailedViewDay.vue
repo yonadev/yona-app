@@ -86,17 +86,17 @@
     }
 
     getDayLabel(date: any){
-      let now = new Date()
-      let date_obj = new Date(date)
+      let now = new Date();
+      let date_obj = new Date(date);
       let days = ["ZONDAG", "MAANDAG", "DINSDAG", "WOENSDAG", "DONDERDAG", "VRIJDAG", "ZATERDAG"];
       let months = ["JANUARI", "FEBRUARI", "MAART", "APRIL", "MEI", "JUNI", "JULI", "AUGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DECEMBER"];
 
       if(now.getDate() === date_obj.getDate())
         date = 'VANDAAG';
       else if((now.getDate()-1) === date_obj.getDate())
-        date = 'GISTEREN'
+        date = 'GISTEREN';
       else
-        date = days[date_obj.getDay()]+', '+date_obj.getDate()+' '+months[date_obj.getMonth()]
+        date = days[date_obj.getDay()]+', '+date_obj.getDate()+' '+months[date_obj.getMonth()];
 
       return date
     }

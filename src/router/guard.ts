@@ -24,7 +24,9 @@ class RouteProtect {
       return next({name: "Tour"})
     } else if(locked && !to.meta.locked) {
       return next({name: "Locked"})
-    } else if(!loggedIn && registered && !locked) {
+    } else if(to.name === 'Login' && !registered) {
+      return next({name: "AddDevice"})
+    } else if(!loggedIn && registered && !locked && to.name !== 'Login') {
       return next({name: "Login"})
     }
 

@@ -35,7 +35,7 @@ export default class Intro extends Vue {
       { "key": "store_files", "title": "Geef Yona toestemming om bestanden op te slaan", "text": "Yona wil bestanden op je telefoon bewaren. We zullen nooit bestanden van je telefoon bekijken of gegevens doorgeven aan derden.", "icon": "store_files_icon_small.svg", "is_allowed": false },
       { "key": "certificate", "title": "Accepteer Yona certificaat", "text": "Voor een veilige verbinding is het nodig een certificaat te installeren. Het certificaat zorgt ervoor dat je data nergens weg kan lekken.", "icon": "certificate_icon_small.svg", "is_allowed": false },
       { "key": "vpn", "title": "Activeer VPN verbinding", "text": "Bijna klaar. Nu het certificaat is geaccepteerd kan er een veilige VPN verbinding worden gemaakt. Ook hier is jouw toestemming nodig.", "icon": "vpn_profile_icon_small.svg", "is_allowed": false }
-  ]
+  ];
 
   mounted () {
 

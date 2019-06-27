@@ -37,7 +37,7 @@ import Vue from 'vue'
 import Component from 'vue-class-component';
 import {Prop, Watch} from 'vue-property-decorator'
 import {State} from "vuex-class";
-import {ChallengesState} from "../../../store/challenges/types";
+import {ChallengesState} from "@/store/challenges/types";
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/antd.css'
 

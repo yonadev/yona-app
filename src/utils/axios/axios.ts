@@ -13,7 +13,7 @@ let instance = axios.create({
 // Add a request interceptor
 instance.interceptors.request.use(function (config) {
   // Do something before request is sent
-  if(store.getters['header/yonaPassword'])
+  if(store.getters['links/yonaPassword'])
     config.headers["Yona-Password"] = store.getters['header/yonaPassword']
 
   return config;
@@ -27,7 +27,7 @@ instance.interceptors.response.use(function (response) {
 
   // Do something with response data
   if(response.data.yonaPassword) {
-    store.dispatch("header/setHeaderPassword", {yonaPassword: response.data.yonaPassword});
+    store.dispatch("links/setHeaderPassword", {yonaPassword: response.data.yonaPassword});
 
     if(response.data._links){
       store.dispatch("links/setLinks", {links: response.data._links})

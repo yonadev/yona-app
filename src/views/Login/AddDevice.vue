@@ -27,9 +27,7 @@
   import Component from 'vue-class-component';
   import InputFloatingLabel from '../../components/InputFloatingLabel.vue';
   import {Watch} from "vue-property-decorator";
-  import axios from "../../utils/axios/axios"
-  import {State} from "vuex-class";
-  import {LinksState} from "../../store/links/types";
+  import axios from "../../utils/axios/axios";
 
   @Component({
     components:{
@@ -37,7 +35,6 @@
     }
   })
   export default class AddDevice extends Vue {
-    @State('links') links!: LinksState;
     private mobile: string = '';
     private mobile_exists = false;
     private passcode: string = '';
@@ -46,7 +43,7 @@
     async mobileChanged(val: string | null) {
       if(val){
         if(val.charAt(0) == '0') {
-          val = '+31' + val.substr(1)
+          val = '+31' + val.substr(1);
           this.mobile = val
         }
       }

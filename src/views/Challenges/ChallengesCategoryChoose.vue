@@ -44,8 +44,7 @@ import {Prop} from 'vue-property-decorator'
 
 @Component({})
 export default class ChallengesCategoryChoose extends Vue{
-
-    @Prop() !type: string
+    @Prop() type!: string
 
     chooseCategory( category: any ){
         this.$router.push({'name': 'ChallengesSetup', params: { category: category, type: this.type }});

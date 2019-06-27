@@ -30,7 +30,7 @@
   import PinCode from '@/components/PinCode.vue';
   import axios from "@/utils/axios/axios"
   import {State} from "vuex-class";
-  import {LinksState} from "@/store/links/types";
+  import {ApiState} from "@/store/api/types";
 
   @Component({
     components:{
@@ -38,15 +38,15 @@
     }
   })
   export default class SmsValidation extends Vue {
-    @State('links') links!: LinksState;
+    @State('api') api!: ApiState;
     password: number | null = null;
     length: number = 4;
 
     @Watch('password')
     async onChildChanged(val: number | null) {
       if(val && val.toString().length === this.length){
-        if(this.links.links) {
-          let response: any = await axios.post(this.links.links['yona:confirmMobileNumber'].href, {
+        if(this.api.links) {
+          let response: any = await axios.post(this.api.links['yona:confirmMobileNumber'].href, {
             code: this.password
           }).catch((error) => {
             if (error) {

@@ -3,8 +3,7 @@ import VuexPersistence from 'vuex-persist';
 import Vuex, { StoreOptions, Plugin } from 'vuex';
 import { RootState } from './types';
 import { account } from './account/index';
-import { header } from "./header/index";
-import { links } from "./links/index";
+import { api } from "./api/index";
 import { login } from "./login/index";
 import { challenges } from "./challenges/index";
 
@@ -19,8 +18,7 @@ Vue.use(Vuex);
 const store: StoreOptions<RootState> = {
   modules: {
     account: account,
-    header: header,
-    links: links,
+    api: api,
     login: login,
     challenges: challenges
   },

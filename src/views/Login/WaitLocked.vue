@@ -19,9 +19,9 @@
 <script lang="ts">
   import Vue from 'vue';
   import { Component } from 'vue-property-decorator';
-  import Timer from '../../components/Timer.vue';
+  import Timer from '@/components/Timer.vue';
   import { State} from "vuex-class";
-  import {LoginState} from "../../store/login/types";
+  import {LoginState} from "@/store/login/types";
 
   @Component({
     components:{

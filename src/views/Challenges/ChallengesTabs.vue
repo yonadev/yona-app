@@ -61,18 +61,11 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
-import subActive from '../../utils/router/subActive'
-//import {Prop, Watch} from 'vue-property-decorator'
-//import {Action, State} from "vuex-class";
-//import {ChallengesState} from "@/store/challenges/types";
+import subActive from '@/utils/router/subActive'
 
 @Component({})
 export default class Add extends Vue {
     sub = subActive;
-
-    //Cycle hooks
-    mounted () {
-    }
 }
 </script>
 
