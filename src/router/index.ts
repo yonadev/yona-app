@@ -98,16 +98,25 @@ export default new Router({
         {
             path: '/welcome',
             component: AbstractWelcome,
+            meta: {
+                public: true
+            },
             children: [
                 {
                     path: 'tour',
                     name: 'Tour',
-                    component: Tour
+                    component: Tour,
+                    meta: {
+                        public: true
+                    }
                 },
                 {
                     path: 'choose',
                     name: 'Choose',
-                    component: Choose
+                    component: Choose,
+                    meta: {
+                        public: true
+                    }
                 }
             ]
         },
@@ -118,41 +127,68 @@ export default new Router({
                 {
                     path: 'login',
                     name: 'Login',
-                    component: Login
+                    component: Login,
+                    meta: {
+                        public: true
+                    }
                 },
                 {
                     path: 'locked',
                     name: 'Locked',
-                    component: Locked
+                    component: Locked,
+                    meta: {
+                        public: true,
+                        locked: true,
+                    }
                 },
                 {
                     path: 'wait',
                     name: 'WaitLocked',
-                    component: WaitLocked
+                    component: WaitLocked,
+                    meta: {
+                        public: true,
+                        locked: true
+                    }
                 },
                   {
                     path: 'validatelocked',
                     name: 'ValidateLocked',
-                    component: ValidateLocked
+                    component: ValidateLocked,
+                    meta: {
+                        public: true,
+                        locked: true
+                    }
                   },
                 {
                     path: 'add',
                     name: 'AddDevice',
-                    component: AddDevice
+                    component: AddDevice,
+                    meta: {
+                        public: true
+                    }
                 },
                 {
                     path: 'recover',
                     component: AbstractRecoverAccount,
+                    meta: {
+                        public: true
+                    },
                     children: [
                         {
                             path: '/',
                             name: 'PhoneNumber',
-                            component: PhoneNumber
+                            component: PhoneNumber,
+                            meta: {
+                                public: true
+                            }
                         },
                         {
                             path: 'sms',
                             name: 'RecoverSms',
-                            component: RecoverSms
+                            component: RecoverSms,
+                            meta: {
+                                public: true
+                            }
                         }
                     ]
                 }
@@ -161,35 +197,56 @@ export default new Router({
         {
             path: '/signup',
             component: AbstractSignUp,
+            meta: {
+                public: true
+            },
             children: [
                 {
                     path: 'names',
                     name: 'Names',
-                    component: Names
+                    component: Names,
+                    meta: {
+                        public: true
+                    }
                 },
                 {
                     path: 'accountinfo',
                     name: 'AccountInfo',
-                    component: AccountInfo
+                    component: AccountInfo,
+                    meta: {
+                        public: true
+                    }
                 },
                 {
                     path: 'validation',
                     name: 'SmsValidation',
-                    component: SmsValidation
+                    component: SmsValidation,
+                    meta: {
+                        public: true
+                    }
                 },
                 {
                     path: 'pincode',
                     component: AbstractSetPinCode,
+                    meta: {
+                        public: true
+                    },
                     children: [
                         {
                             path: '/',
                             name: 'SetPinCode',
-                            component: SetPinCode
+                            component: SetPinCode,
+                            meta: {
+                                public: true
+                            }
                         },
                         {
                             path: 'confirm',
                             name: 'ConfirmPinCode',
-                            component: ConfirmPinCode
+                            component: ConfirmPinCode,
+                            meta: {
+                                public: true
+                            }
                         }
                     ]
                 },
