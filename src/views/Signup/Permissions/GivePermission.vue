@@ -5,21 +5,21 @@
     </div>
     <div class="wrapper">
       <p class="icon-title">
-        Stap {{parseInt($route.params.id)+1}}
+        Stap {{parseInt(index)+1}}
       </p>
       <div class="progress-bar">
-        <div class="progress" :style="'width:'+(25*$route.params.id) +'%'"></div>
+        <div class="progress" :style="'width:'+(25*index) +'%'"></div>
       </div>
       <p class="icon-text">
-        {{permissions[$route.params.id].title}}
+        {{account.permissions[permission] ? account.permissions[permission].title : ''}}
       </p>
-      <img class="step-icon" :src="require('../../../assets/images/signup/permission/'+permissions[$route.params.id].icon)" />
+      <img class="step-icon" :src="(account.permissions[permission] && account.permissions[permission].icon ? require('@/assets/images/signup/permission/'+account.permissions[permission].icon) : '')" />
       <p class="step-text">
-        {{permissions[$route.params.id].text}}
+        {{account.permissions[permission] ? account.permissions[permission].text : ''}}
       </p>
     </div>
     <div class="is-centered bottom-aligned">
-      <router-link class="button" :to="{name: 'Intro'}">DOORGAAN</router-link>
+      <a class="button" @click="goNext">DOORGAAN</a>
     </div>
   </div>
 </template>
@@ -27,18 +27,37 @@
 <script lang="ts">
 import Vue from 'vue'
 import {Component} from 'vue-property-decorator'
+import {AccountState} from "@/store/account/types";
+import {Action, State} from "vuex-class";
 
 @Component({})
-export default class Intro extends Vue {
-  private permissions: Array <Object> = [
-      { "key": "tracking", "title": "Zet app-usage aan", "text": "Yona wil het gebruik van je apps graag kunnen meten. Deze data is compleet veilig en zal nooit gedeeld worden met derden.", "icon": "tracking_icon_small.svg", "is_allowed": false },
-      { "key": "store_files", "title": "Geef Yona toestemming om bestanden op te slaan", "text": "Yona wil bestanden op je telefoon bewaren. We zullen nooit bestanden van je telefoon bekijken of gegevens doorgeven aan derden.", "icon": "store_files_icon_small.svg", "is_allowed": false },
-      { "key": "certificate", "title": "Accepteer Yona certificaat", "text": "Voor een veilige verbinding is het nodig een certificaat te installeren. Het certificaat zorgt ervoor dat je data nergens weg kan lekken.", "icon": "certificate_icon_small.svg", "is_allowed": false },
-      { "key": "vpn", "title": "Activeer VPN verbinding", "text": "Bijna klaar. Nu het certificaat is geaccepteerd kan er een veilige VPN verbinding worden gemaakt. Ook hier is jouw toestemming nodig.", "icon": "vpn_profile_icon_small.svg", "is_allowed": false }
-  ];
+export default class GivePermission extends Vue {
+  @State('account') account!: AccountState;
+  @Action('setPermission', {namespace: 'account'}) setPermission: any;
+  permission: string = '';
+  index: number = 0;
 
   mounted () {
+    //Check permission
+    let i = 0;
+    for(let permission in this.account.permissions) {
+      if(!(this.account.permissions as any)[permission].is_allowed) {
+        this.index = i;
+        this.permission = permission;
+        break;
+      }
+      i++;
+    }
+  }
 
+  goNext(){
+    //ToDo: Ask for permission based on current permission
+    this.setPermission({
+      key: this.permission,
+      value: true
+    });
+
+    this.$router.push({'name': 'Intro'});
   }
 }
 </script>

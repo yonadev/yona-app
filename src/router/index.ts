@@ -256,12 +256,12 @@ export default new Router({
                 component: AbstractPermissions,
                 children: [
                   {
-                    path: '/',
+                    path: 'intro',
                     name: 'Intro',
                     component: Intro
                   },
                   {
-                    path: ':id',
+                    path: 'permission',
                     name: "GivePermission",
                     component: GivePermission
                   }
