@@ -15,6 +15,8 @@
               <br clear="left"/>
           </div>
 
+          <challenges-label v-for="(goal, index) in goals" :key="index" :goal="goal"></challenges-label>
+
           <div class="grey-bg-button">
               <strong>Social</strong>
               <p>Je kunt per dag 30 minuten op social media doorbrengen</p>
@@ -33,21 +35,30 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
+import axios from "@/utils/axios/axios";
 import {Action, State} from "vuex-class";
+import {ApiState} from "@/store/api/types";
+import {Prop} from 'vue-property-decorator'
 import {ChallengesState} from "@/store/challenges/types";
 
-@Component({})
+import ChallengesLabel from "@/components/Challenges/ChallengesLabel.vue";
+
+@Component({
+    components: {ChallengesLabel}
+})
 export default class Add extends Vue{
     @State('challenges') challenges!: ChallengesState;
+    @State('api') api!: ApiState;
+    @Prop() type!: string;
     @Action('setSetupType', {namespace: 'challenges'}) setSetupType: any;
-    @Action('setCategory', {namespace: 'challenges'}) setCategory: any;
 
-    typeOverview: string = '';
+    goalType: string = '';
+    goals!: any = null;
 
     //Cycle hooks
     mounted () {
-        this.typeOverview = this.$route.params.type;
-        this.fetchChallenges();
+        this.goalType = this.type;
+        this.fetchGoals();
     }
 
     //Methods
@@ -56,23 +67,21 @@ export default class Add extends Vue{
     }
 
     chooseCategory( category: any ){
-        this.setCategory({
-            category: category
-        });
-
         this.$router.push({'name': 'ChallengesSetup'});
     }
 
     beforeRouteUpdate(to: any, from: any, next: any) {
-        console.log('beforeRouteUpdate');
-        next();
-
-        this.typeOverview = this.$route.params.type;
-        this.fetchChallenges();
+        this.goalType = to.params.type;
+        next()
     }
 
-    fetchChallenges(){
-        console.log('fetch '+this.typeOverview+' challenges')
+    async fetchGoals(){
+
+        if(this.api.embedded['yona:goals'] &&
+            this.api.embedded['yona:goals']._embedded &&
+            this.api.embedded['yona:goals']._embedded['yona:goals']) {
+            this.goals = this.api.embedded['yona:goals']._embedded['yona:goals']
+        }
     }
 }
 </script>
