@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <span>
     <router-view></router-view>
     <bottom-menu active_page="settings"></bottom-menu>
-  </div>
+  </span>
 </template>
 
 <script lang="ts">

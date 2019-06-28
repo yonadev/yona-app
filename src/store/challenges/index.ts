@@ -2,7 +2,7 @@ import { Module, ActionTree, MutationTree, GetterTree } from 'vuex';
 import { ChallengesState } from './types';
 import { RootState } from '../types';
 
-const state: ChallengesState = {
+export const state: ChallengesState = {
   setupType: '',
   setupCategory: ''
 };

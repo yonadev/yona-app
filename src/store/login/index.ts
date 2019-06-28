@@ -5,7 +5,7 @@ import {toSeconds, parse} from 'iso8601-duration';
 import { LoginState } from './types';
 import { RootState } from '../types';
 
-const state: LoginState = {
+export const state: LoginState = {
   isRegistered: false,
   isLocked: false,
   isLoggedIn: false,

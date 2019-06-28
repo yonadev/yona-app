@@ -2,7 +2,7 @@ import { Module, ActionTree, MutationTree, GetterTree } from 'vuex';
 import { AccountState } from './types';
 import { RootState } from '../types';
 
-const state: AccountState = {
+export const state: AccountState = {
   firstname: '',
   lastname: '',
   phonenumber: '',

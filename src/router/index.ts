@@ -92,6 +92,7 @@ export default new Router({
     routes: [
         {
             path: '/',
+            redirect: '/welcome/tour',
             name: 'Start',
             component: Start
         },
@@ -391,14 +392,14 @@ export default new Router({
             component: AbstractSettings,
             children: [
                 {
-                    path: '',
-                    name: 'Settings',
-                    component: Settings
-                },
-                {
                     path: 'overview',
                     component: AbstractSettingsOverview,
                     children: [
+                        {
+                            path: '',
+                            name: 'Settings',
+                            component: Settings
+                        },
                         {
                             path: 'privacy',
                             name: 'Privacy',

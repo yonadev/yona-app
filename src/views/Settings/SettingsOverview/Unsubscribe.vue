@@ -1,21 +1,66 @@
 <template>
-  <div>
-    Unsubscribe
+  <div id="unsubscribe" class="header-template">
+    <div class="colored-background yellow">
+      <div class="nav-title">
+        UNSUBSCRIBE
+      </div>
+    </div>
+    <div class="wrapper">
+      <p>
+        Klik op de onderstaande knop om je uit te schrijven.
+      </p>
+
+      <a class="button is-rounded unsubscribe-button" @click="unsubscribe">UITSCHRIJVEN</a>
+    </div>
   </div>
 </template>
+
 
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
-import {Prop, Watch} from 'vue-property-decorator'
+import {State, Mutation} from "vuex-class";
+import {ApiState} from "@/store/api/types";
+import axios from "@/utils/axios/axios"
 
 @Component({})
 export default class Unsubscribe extends Vue {
-    //Cycle hooks
-    mounted () {
+  @State('api') api!: ApiState;
+  @Mutation('resetAll') resetAll: any;
+
+  async unsubscribe () {
+    if(this.api.links) {
+      let delete_response: any = await axios.delete(this.api.links['edit'].href).catch((error: any) => {
+        console.log(error)
+      })
+
+      if(delete_response)
+        this.resetAll()
+
+      this.$router.push({name: 'Tour'})
     }
+  }
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+  @import "../../../sass/variables";
+
+  #unsubscribe{
+    position: relative;
+    .nav-title{
+      padding:30px 15px 15px 30px;
+    }
+
+    .unsubscribe-button{
+      position: relative;
+      width:65%;
+      margin:20px 0;
+      border-color: $color-yellow;
+      color:$color-yellow;
+      background-color:transparent;
+      padding:5px 40px;
+      font-size:14px;
+    }
+  }
 </style>

@@ -1,45 +1,40 @@
 <template>
-  <span>
-    <div id="settings" class="header-template">
-      <div class="colored-background yellow">
-        <div class="nav-title">
-          SETTINGS
-        </div>
-      </div>
-      <div class="wrapper">
-        <router-link :to="{name: 'CheckPinCode'}">
-          <div class="grey-bg-button">
-            <strong>Wijzig pincode</strong>
-          </div>
-        </router-link>
-        <router-link :to="{name: 'Privacy'}">
-          <div class="grey-bg-button">
-            <strong>Privacy</strong>
-          </div>
-        </router-link>
-        <router-link :to="{name: 'SettingsAddDevice'}">
-          <div class="grey-bg-button">
-            <strong>Device toevoegen</strong>
-          </div>
-        </router-link>
-        <router-link :to="{name: 'Unsubscribe'}">
-          <div class="grey-bg-button">
-            <strong>Unsubscribe</strong>
-          </div>
-        </router-link>
+  <div id="settings" class="header-template">
+    <div class="colored-background yellow">
+      <div class="nav-title">
+        SETTINGS
       </div>
     </div>
-    <bottom-menu active_page="settings"></bottom-menu>
-  </span>
+    <div class="wrapper">
+      <router-link :to="{name: 'CheckPinCode'}">
+        <div class="grey-bg-button">
+          <strong>Wijzig pincode</strong>
+        </div>
+      </router-link>
+      <router-link :to="{name: 'Privacy'}">
+        <div class="grey-bg-button">
+          <strong>Privacy</strong>
+        </div>
+      </router-link>
+      <router-link :to="{name: 'SettingsAddDevice'}">
+        <div class="grey-bg-button">
+          <strong>Device toevoegen</strong>
+        </div>
+      </router-link>
+      <router-link :to="{name: 'Unsubscribe'}">
+        <div class="grey-bg-button">
+          <strong>Unsubscribe</strong>
+        </div>
+      </router-link>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
   import Component from 'vue-class-component';
-  import BottomMenu from "@/components/BottomMenu.vue";
 
   @Component({
-    components: {BottomMenu}
   })
   export default class Settings extends Vue {}
 </script>

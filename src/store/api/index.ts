@@ -2,7 +2,7 @@ import { Module, ActionTree, MutationTree, GetterTree } from 'vuex';
 import { ApiState } from './types';
 import { RootState } from '../types';
 
-const state: ApiState = {
+export const state: ApiState = {
   yonaPassword: '',
   links: {},
   embedded: {}

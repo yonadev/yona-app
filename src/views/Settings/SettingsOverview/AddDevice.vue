@@ -1,18 +1,16 @@
 <template>
-  <span>
-    <div id="settings" class="header-template">
-      <div class="colored-background yellow">
-        <div class="nav-title">
-          DEVICE TOEVOEGEN
-        </div>
-      </div>
-      <div class="wrapper">
-        <p>
-          Vul deze code in op de andere telefoon: {{OTP}}
-        </p>
+  <div id="settings" class="header-template">
+    <div class="colored-background yellow">
+      <div class="nav-title">
+        DEVICE TOEVOEGEN
       </div>
     </div>
-  </span>
+    <div class="wrapper">
+      <p>
+        Vul deze code in op de andere telefoon: {{OTP}}
+      </p>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -21,11 +19,9 @@ import Component from 'vue-class-component';
 import {State} from "vuex-class";
 import {AccountState} from "@/store/account/types";
 import axios from "@/utils/axios/axios"
-import BottomMenu from "@/components/BottomMenu.vue";
 import {ApiState} from "@/store/api/types";
 
 @Component({
-  components: {BottomMenu}
 })
 export default class AddDevice extends Vue {
   @State('account') account!: AccountState;
