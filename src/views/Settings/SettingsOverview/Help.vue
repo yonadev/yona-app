@@ -15,5 +15,4 @@ import {Prop, Watch} from 'vue-property-decorator'
 export default class Help extends Vue {}
 </script>
 
-<style scoped lang="scss">
-</style>
+<style lang="scss"></style>

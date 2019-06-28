@@ -12,7 +12,6 @@
         </p>
       </div>
     </div>
-    <bottom-menu active_page="settings"></bottom-menu>
   </span>
 </template>
 
@@ -68,4 +67,8 @@ export default class AddDevice extends Vue {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+  #settings{
+
+  }
+</style>

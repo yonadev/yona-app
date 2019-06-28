@@ -11,19 +11,8 @@ import {Prop, Watch} from 'vue-property-decorator'
 
 @Component({})
 export default class Unsubscribe extends Vue {
-    //@Prop() msg: string = '';
-
     //Cycle hooks
     mounted () {
-    }
-
-    //Computed properties
-    get computedMsg () {
-        return '';
-    }
-
-    //Methods
-    methodFunction () {
     }
 }
 </script>

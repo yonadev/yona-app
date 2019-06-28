@@ -72,20 +72,19 @@ import ChallengesTabs from '../views/Challenges/ChallengesTabs.vue'
 
 //Settings module
 import AbstractSettings from '../views/Settings/AbstractSettings.vue'
-import Settings from '../views/Settings/Settings.vue'
 
     import AbstractSettingsOverview from '../views/Settings/SettingsOverview/AbstractSettingsOverview.vue'
+        import Settings from '../views/Settings/SettingsOverview/Settings.vue'
         import SettingsAddDevice from '../views/Settings/SettingsOverview/AddDevice.vue'
         import Unsubscribe from '../views/Settings/SettingsOverview/Unsubscribe.vue'
+        import Privacy from '../views/Settings/SettingsOverview/Privacy.vue'
+        import Help from '../views/Settings/SettingsOverview/Help.vue'
 
     import ChangePinCode from '../views/Settings/PinCode/ChangePinCode.vue'
     import CheckPinCode from '../views/Settings/PinCode/CheckPinCode.vue'
     import ConfirmNewPinCode from '../views/Settings/PinCode/ConfirmNewPinCode.vue'
     import ChangeLocked from '../views/Settings/PinCode/ChangeLocked.vue'
     import ChangeWaitLocked from '../views/Settings/PinCode/ChangeWaitLocked.vue'
-
-    import Privacy from '../views/Settings/Privacy/Privacy.vue'
-    import Help from '../views/Settings/Help/Help.vue'
 
 Vue.use(Router);
 
@@ -401,29 +400,14 @@ export default new Router({
                     component: AbstractSettingsOverview,
                     children: [
                         {
-                            path: 'checkpin',
-                            name: 'CheckPinCode',
-                            component: CheckPinCode
+                            path: 'privacy',
+                            name: 'Privacy',
+                            component: Privacy
                         },
                         {
-                            path: 'changepin',
-                            name: 'ChangePinCode',
-                            component: ChangePinCode
-                        },
-                        {
-                            path: 'confirmpin',
-                            name: 'ConfirmNewPinCode',
-                            component: ConfirmNewPinCode
-                        },
-                        {
-                            path: 'changelocked',
-                            name: 'ChangeLocked',
-                            component: ChangeLocked
-                        },
-                        {
-                            path: 'changewaitlocked',
-                            name: 'ChangeWaitLocked',
-                            component: ChangeWaitLocked
+                            path: 'help',
+                            name: 'Help',
+                            component: Help
                         },
                         {
                             path: 'adddevice',
@@ -438,14 +422,29 @@ export default new Router({
                     ]
                 },
                 {
-                    path: 'privacy',
-                    name: 'Privacy',
-                    component: Privacy
+                    path: 'checkpin',
+                    name: 'CheckPinCode',
+                    component: CheckPinCode
                 },
                 {
-                    path: 'help',
-                    name: 'Help',
-                    component: Help
+                    path: 'changepin',
+                    name: 'ChangePinCode',
+                    component: ChangePinCode
+                },
+                {
+                    path: 'confirmpin',
+                    name: 'ConfirmNewPinCode',
+                    component: ConfirmNewPinCode
+                },
+                {
+                    path: 'changelocked',
+                    name: 'ChangeLocked',
+                    component: ChangeLocked
+                },
+                {
+                    path: 'changewaitlocked',
+                    name: 'ChangeWaitLocked',
+                    component: ChangeWaitLocked
                 }
             ]
         },
