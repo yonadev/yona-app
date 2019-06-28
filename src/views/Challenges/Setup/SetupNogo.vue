@@ -34,17 +34,11 @@ import {ChallengesState} from "@/store/challenges/types";
 @Component({})
 export default class Setup extends Vue {
     @State('challenges') challenges!: ChallengesState;
-    //@Prop() msg: string = '';
 
     sliderOption: Object = {
         min: 0,
         max: 240,
         tooltip: 'none'
     };
-
-    //Cycle hooks
-    mounted () {
-
-    }
 }
 </script>

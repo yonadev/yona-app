@@ -1,13 +1,11 @@
-import {LinksState} from "@/store/links/types";
+import {ApiState} from "@/store/api/types";
 import {LoginState} from "@/store/login/types";
 import {AccountState} from "@/store/account/types";
-import {HeaderState} from "@/store/header/types";
 import {ChallengesState} from "@/store/challenges/types";
 
 export interface RootState {
-    links: LinksState,
+    api: ApiState,
     login: LoginState,
     account: AccountState,
-    header: HeaderState,
     challenges: ChallengesState,
 }

@@ -26,10 +26,10 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import InputFloatingLabel from '../../components/InputFloatingLabel.vue';
+import InputFloatingLabel from '@/components/InputFloatingLabel.vue';
 import {Action, State} from "vuex-class";
-import {AccountState} from "../../store/account/types";
-import {Watch, Component, Provide} from 'vue-property-decorator'
+import {AccountState} from "@/store/account/types";
+import {Watch, Component} from 'vue-property-decorator'
 
 @Component({
   components:{

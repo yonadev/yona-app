@@ -4,7 +4,7 @@
       <strong>{{getDayLabel(day_activities.date)}}</strong>
     </div>
     <div v-for="(day_activity, index) in day_activities.dayActivities" :key="'activity'+index">
-      <ui-control :day_activity="day_activity"></ui-control>
+      <ui-control :day_activity="day_activity" type="simple"></ui-control>
     </div>
   </div>
 </template>
@@ -43,5 +43,13 @@
 <style lang="scss">
   .ui-controls{
     min-height:50px;
+    .top-label{
+      background:#e7e7e7;
+      padding: 17px;
+      font-size: 11px;
+      opacity: 0.6;
+      border-bottom:1px solid #d5d5d5;
+      border-top:1px solid #d5d5d5;
+    }
   }
 </style>

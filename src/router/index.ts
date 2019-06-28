@@ -43,6 +43,7 @@ import Me from '../views/Me/Me.vue'
 import Profile from '../views/Me/Profile.vue'
 import Notifications from '../views/Me/Notifications.vue'
 import FriendRequest from '../views/Me/FriendRequest.vue'
+import DetailedViewDay from '../views/Me/DetailedViews/DetailedViewDay.vue'
 
 //Friends module
 import AbstractFriends from '../views/Friends/AbstractFriends.vue'
@@ -71,11 +72,13 @@ import ChallengesTabs from '../views/Challenges/ChallengesTabs.vue'
 
 //Settings module
 import AbstractSettings from '../views/Settings/AbstractSettings.vue'
-import Settings from '../views/Settings/Settings.vue'
 
     import AbstractSettingsOverview from '../views/Settings/SettingsOverview/AbstractSettingsOverview.vue'
+        import Settings from '../views/Settings/SettingsOverview/Settings.vue'
         import SettingsAddDevice from '../views/Settings/SettingsOverview/AddDevice.vue'
         import Unsubscribe from '../views/Settings/SettingsOverview/Unsubscribe.vue'
+        import Privacy from '../views/Settings/SettingsOverview/Privacy.vue'
+        import Help from '../views/Settings/SettingsOverview/Help.vue'
 
     import ChangePinCode from '../views/Settings/PinCode/ChangePinCode.vue'
     import CheckPinCode from '../views/Settings/PinCode/CheckPinCode.vue'
@@ -83,15 +86,13 @@ import Settings from '../views/Settings/Settings.vue'
     import ChangeLocked from '../views/Settings/PinCode/ChangeLocked.vue'
     import ChangeWaitLocked from '../views/Settings/PinCode/ChangeWaitLocked.vue'
 
-    import Privacy from '../views/Settings/Privacy/Privacy.vue'
-    import Help from '../views/Settings/Help/Help.vue'
-
 Vue.use(Router);
 
 export default new Router({
     routes: [
         {
             path: '/',
+            redirect: '/welcome/tour',
             name: 'Start',
             component: Start
         },
@@ -129,7 +130,8 @@ export default new Router({
                     name: 'Login',
                     component: Login,
                     meta: {
-                        public: true
+                        public: true,
+                        login: true
                     }
                 },
                 {
@@ -147,7 +149,7 @@ export default new Router({
                     component: WaitLocked,
                     meta: {
                         public: true,
-                        locked: true
+                        pinReset: true
                     }
                 },
                   {
@@ -156,7 +158,7 @@ export default new Router({
                     component: ValidateLocked,
                     meta: {
                         public: true,
-                        locked: true
+                        pinReset: true
                     }
                   },
                 {
@@ -237,7 +239,8 @@ export default new Router({
                             name: 'SetPinCode',
                             component: SetPinCode,
                             meta: {
-                                public: true
+                                public: true,
+                                pinreset: true
                             }
                         },
                         {
@@ -245,7 +248,8 @@ export default new Router({
                             name: 'ConfirmPinCode',
                             component: ConfirmPinCode,
                             meta: {
-                                public: true
+                                public: true,
+                                pinreset: true
                             }
                         }
                     ]
@@ -255,12 +259,12 @@ export default new Router({
                 component: AbstractPermissions,
                 children: [
                   {
-                    path: '/',
+                    path: 'intro',
                     name: 'Intro',
                     component: Intro
                   },
                   {
-                    path: ':id',
+                    path: 'permission',
                     name: "GivePermission",
                     component: GivePermission
                   }
@@ -287,12 +291,17 @@ export default new Router({
                     name: 'Notifications',
                     component: Notifications
                 },
-              {
-                path: 'friendrequest',
-                name: 'FriendRequest',
-                component: FriendRequest,
-                props: true
-              }
+                {
+                    path: 'friendrequest',
+                    name: 'FriendRequest',
+                    component: FriendRequest,
+                    props: true
+                },
+                {
+                    path: 'detailed-day',
+                    name: 'DetailedViewDay',
+                    component: DetailedViewDay
+                }
             ]
         },
         {
@@ -383,38 +392,23 @@ export default new Router({
             component: AbstractSettings,
             children: [
                 {
-                    path: '',
-                    name: 'Settings',
-                    component: Settings
-                },
-                {
                     path: 'overview',
                     component: AbstractSettingsOverview,
                     children: [
                         {
-                            path: 'checkpin',
-                            name: 'CheckPinCode',
-                            component: CheckPinCode
+                            path: '',
+                            name: 'Settings',
+                            component: Settings
                         },
                         {
-                            path: 'changepin',
-                            name: 'ChangePinCode',
-                            component: ChangePinCode
+                            path: 'privacy',
+                            name: 'Privacy',
+                            component: Privacy
                         },
                         {
-                            path: 'confirmpin',
-                            name: 'ConfirmNewPinCode',
-                            component: ConfirmNewPinCode
-                        },
-                        {
-                            path: 'changelocked',
-                            name: 'ChangeLocked',
-                            component: ChangeLocked
-                        },
-                        {
-                            path: 'changewaitlocked',
-                            name: 'ChangeWaitLocked',
-                            component: ChangeWaitLocked
+                            path: 'help',
+                            name: 'Help',
+                            component: Help
                         },
                         {
                             path: 'adddevice',
@@ -429,14 +423,29 @@ export default new Router({
                     ]
                 },
                 {
-                    path: 'privacy',
-                    name: 'Privacy',
-                    component: Privacy
+                    path: 'checkpin',
+                    name: 'CheckPinCode',
+                    component: CheckPinCode
                 },
                 {
-                    path: 'help',
-                    name: 'Help',
-                    component: Help
+                    path: 'changepin',
+                    name: 'ChangePinCode',
+                    component: ChangePinCode
+                },
+                {
+                    path: 'confirmpin',
+                    name: 'ConfirmNewPinCode',
+                    component: ConfirmNewPinCode
+                },
+                {
+                    path: 'changelocked',
+                    name: 'ChangeLocked',
+                    component: ChangeLocked
+                },
+                {
+                    path: 'changewaitlocked',
+                    name: 'ChangeWaitLocked',
+                    component: ChangeWaitLocked
                 }
             ]
         },

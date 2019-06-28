@@ -70,23 +70,23 @@
   import Vue from 'vue'
   import Component from 'vue-class-component';
   import {State} from "vuex-class";
-  import {LinksState} from "@/store/links/types";
+  import {ApiState} from "@/store/api/types";
   import axios from "@/utils/axios/axios"
 
   @Component({})
   export default class TimeLine extends Vue {
-    @State('links') links!: LinksState;
+    @State('api') api!: ApiState;
     buddies: {} = {};
     active_tab: string = 'timeline';
 
     async mounted () {
-      if(this.links.links && this.links.links['yona:dailyActivityReportsWithBuddies']) {
-        let response: any = await axios.get(this.links.links['yona:dailyActivityReportsWithBuddies'].href).catch((error) => {
+      if(this.api.links && this.api.links['yona:dailyActivityReportsWithBuddies']) {
+        let response: any = await axios.get(this.api.links['yona:dailyActivityReportsWithBuddies'].href).catch((error) => {
           console.log(error)
         });
 
-        if(this.links.embedded && this.links.embedded['yona:buddies']) {
-          let buddies_response: any = await axios.get(this.links.embedded['yona:buddies']._links.self.href).catch((error) => {
+        if(this.api.embedded && this.api.embedded['yona:buddies']) {
+          let buddies_response: any = await axios.get(this.api.embedded['yona:buddies']._links.self.href).catch((error) => {
             console.log(error)
           });
 

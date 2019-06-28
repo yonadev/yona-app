@@ -85,6 +85,7 @@ import Component from 'vue-class-component';
 import {State} from "vuex-class";
 import {ChallengesState} from "@/store/challenges/types";
 
+//@ts-ignore
 import { SwipeList, SwipeOut } from 'vue-swipe-actions';
 
 interface timeEntry {
@@ -99,7 +100,7 @@ interface timeEntry {
 })
 export default class Setup extends Vue {
     @State('challenges') challenges!: ChallengesState;
-    //@Prop() msg: string = '';
+
     setupData: {
         items: timeEntry[]
     } = {

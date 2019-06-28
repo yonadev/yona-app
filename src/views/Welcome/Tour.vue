@@ -30,8 +30,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import {Prop, Watch, Component} from 'vue-property-decorator'
-import { tns } from '../../../node_modules/tiny-slider/src/tiny-slider'
+import {Component} from 'vue-property-decorator'
+import { tns } from '@/../node_modules/tiny-slider/src/tiny-slider'
 
 @Component({})
 export default class Tour extends Vue {

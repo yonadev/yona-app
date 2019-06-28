@@ -32,11 +32,10 @@
 <script lang="ts">
   import Vue from 'vue'
   import { Watch, Component } from 'vue-property-decorator'
-  import InputFloatingLabel from '../../components/InputFloatingLabel.vue';
+  import InputFloatingLabel from '@/components/InputFloatingLabel.vue';
   import {Action, State} from "vuex-class";
-  import {AccountState} from "../../store/account/types";
-  import axios from "../../utils/axios/axios"
-  import {HeaderState} from "../../store/header/types";
+  import {AccountState} from "@/store/account/types";
+  import axios from "@/utils/axios/axios"
 
   @Component({
     components:{
@@ -45,7 +44,6 @@
   })
   export default class AccountInfo extends Vue {
     @State('account') account!: AccountState;
-    @State('header') header!: HeaderState;
     @Action('setProperty', {namespace: 'account'}) setProperty: any;
     mobile: string | null = '';
     nickname: string | null = '';
@@ -55,7 +53,8 @@
       this.mobile = this.account.phonenumber
       this.nickname = this.account.nickname;
     }
-//https://app.load.yona.nu
+
+    //https://app.load.yona.nu = live server
     checkTelNumber () {
       let self = this
       this.$validator.validate().then(async valid => {

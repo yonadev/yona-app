@@ -25,9 +25,9 @@
 <script lang="ts">
   import Vue from 'vue'
   import { Watch, Component } from 'vue-property-decorator'
-  import PinCode from '../../../components/PinCode.vue';
+  import PinCode from '@/components/PinCode.vue';
   import {Action, State} from 'vuex-class';
-  import {LoginState} from "../../../store/login/types";
+  import {LoginState} from "@/store/login/types";
 
   @Component({
     components:{
@@ -37,6 +37,7 @@
   export default class ConfirmPinCode extends Vue {
     @State('login') login!: LoginState;
     @Action('resetLock', {namespace: 'login'}) resetLock: any;
+    @Action('setRegistered', {namespace: 'login'}) setRegistered: any;
     private password: number | null = null;
     private length: number = 4;
     private error: boolean = false;
@@ -46,7 +47,8 @@
       if(val && val.toString().length === this.length){
         if(val === this.login.pinCode) {
           this.resetLock();
-          this.$router.push({'name': 'Me'});
+          this.setRegistered();
+          this.$router.push({'name': 'Login'});
         }else{
           this.error = true;
           this.password = null;

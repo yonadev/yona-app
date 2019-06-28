@@ -20,16 +20,10 @@
 <script lang="ts">
   import Vue from 'vue';
   import { Component } from 'vue-property-decorator';
-  import {Action, State} from "vuex-class";
-  import {LinksState} from "../../store/links/types";
-  import axios from "../../utils/axios/axios"
-  import {toSeconds, parse} from 'iso8601-duration';
-  import {LoginState} from "../../store/login/types";
+  import {Action} from "vuex-class";
 
   @Component({})
   export default class Locked extends Vue {
-    @State('links') links!: LinksState;
-    @State('login') login!: LoginState;
     @Action('pinReset', {namespace: 'login'}) pinReset: any;
   }
 </script>

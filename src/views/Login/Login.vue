@@ -9,7 +9,7 @@
         You are not alone
       </p>
       <p v-if="error" class="has-text-white-ter">
-        Onjuiste pincode! U heeft nog {{login.loginAttempts}} pogingen.
+        Onjuiste pincode! U heeft nog {{5-login.loginAttempts}} pogingen.
       </p>
       <pin-code :pincode.sync="password" :length="length"></pin-code>
       <p class="reset" @click="pinReset">
@@ -25,8 +25,8 @@ import { Watch, Component } from 'vue-property-decorator';
 import PinCode from '../../components/PinCode.vue';
 import axios from "../../utils/axios/axios"
 import {Action, State} from "vuex-class";
-import {LoginState} from "../../store/login/types";
-import {LinksState} from "../../store/links/types";
+import {LoginState} from "@/store/login/types";
+import {ApiState} from "@/store/api/types";
 
 @Component({
   components:{
@@ -37,7 +37,7 @@ export default class Login extends Vue {
   @State('login') login!: LoginState;
   @Action('setLoggedIn', {namespace: 'login'}) setLoggedIn: any;
   @Action('increaseLoginAttempts', {namespace: 'login'}) increaseLoginAttempts: any;
-  @State('links') links!: LinksState;
+  @State('api') api!: ApiState;
   @Action('setProperty', {namespace: 'login'}) setProperty: any;
   @Action('setUserData', {namespace: 'account'}) setUserData: any;
   @Action('pinReset', {namespace: 'login'}) pinReset: any;
@@ -49,28 +49,32 @@ export default class Login extends Vue {
   async onChildChanged(val: number) {
     if(val && val.toString().length === this.length) {
       if(val === this.login.pinCode){
-        if(this.links.links) {
-          let user_response: any = await axios.get(this.links.links['self'].href).catch((error) => {
+        if(this.api.links) {
+          let user_response: any = await axios.get(this.api.links['self'].href).catch((error) => {
             console.log(error)
           });
 
           if (user_response)
             this.setUserData(user_response.data)
 
-          let photo_response: any = await axios.get(this.links.links['yona:userPhoto'].href, {
-            responseType: 'blob'
-          }).catch((error) => {
-            console.log(error)
-          });
+          if(this.api.links['yona:userPhoto']) {
+            let photo_response: any = await axios.get(this.api.links['yona:userPhoto'].href, {
+              responseType: 'blob'
+            }).catch((error) => {
+              console.log(error)
+            });
 
-          let self = this
+            let self = this
 
-          if (FileReader && photo_response.data) {
-            var fr = new FileReader();
-            fr.onload = await function () {
-              self.setProperty({userphoto: fr.result})
+            if (FileReader && photo_response.data) {
+              var fr = new FileReader();
+              fr.onload = await function () {
+                self.setProperty({userphoto: fr.result})
+              }
+              fr.readAsDataURL(photo_response.data);
             }
-            fr.readAsDataURL(photo_response.data);
+          } else if(user_response) {
+            this.setProperty({userphoto: user_response.data.firstName.charAt(0)+''+user_response.data.lastName.charAt(0)})
           }
 
           this.setLoggedIn();

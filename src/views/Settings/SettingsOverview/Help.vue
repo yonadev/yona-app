@@ -1,18 +1,18 @@
 <template>
   <div>
-    <router-view></router-view>
+    <ul>
+      Help
+    </ul>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
+import {Prop, Watch} from 'vue-property-decorator'
 
 @Component({})
-export default class AbstractFriend extends Vue {
-
-}
+export default class Help extends Vue {}
 </script>
 
-<style scoped lang="scss">
-</style>
+<style lang="scss"></style>

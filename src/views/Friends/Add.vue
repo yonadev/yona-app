@@ -36,9 +36,9 @@
   import Component from 'vue-class-component';
   import InputFloatingLabel from '../../components/InputFloatingLabel.vue';
   import {Watch} from 'vue-property-decorator'
-  import {LinksState} from "../../store/links/types";
+  import {ApiState} from "@/store/api/types";
   import {State} from "vuex-class";
-  import axios from "../../utils/axios/axios"
+  import axios from "@/utils/axios/axios"
 
   @Component({
     components:{
@@ -46,7 +46,7 @@
     }
   })
   export default class Add extends Vue {
-    @State('links') links!: LinksState;
+    @State('api') api!: ApiState;
     active_tab: string = 'manual';
     firstname: string | null = '';
     lastname: string | null = '';
@@ -66,8 +66,8 @@
     }
 
     async addFriend(){
-      if(this.links.embedded) {
-        let response: any = await axios.post(this.links.embedded['yona:buddies']._links.self.href, {
+      if(this.api.embedded) {
+        let response: any = await axios.post(this.api.embedded['yona:buddies']._links.self.href, {
           "sendingStatus": "REQUESTED",
           "receivingStatus": "REQUESTED",
           "message": this.message,

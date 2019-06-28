@@ -3,10 +3,13 @@
     <div class="colored-background purple-dark">
       <div class="nav-title">
         <router-link :to="{name: 'Profile'}">
-          <img class="small-top-icon profile-img" :src="profilePic" /> DASHBOARD
+          <img v-if="profilePic" class="small-top-icon profile-img" :src="profilePic" />
+          <div v-else class="small-top-icon profile-img">
+            <span class="text">{{this.account.firstname.charAt(0)}}{{this.account.lastname.charAt(0)}}</span>
+          </div> DASHBOARD
         </router-link>
         <router-link class="" :to="{name: 'Notifications'}">
-          <img class="small-top-icon is-pulled-right" src="../../assets/images/icons/icn_notification.svg" />
+          <img class="small-top-icon is-pulled-right" src="@/assets/images/icons/icn_notification.svg" />
         </router-link>
       </div>
       <div class="tabs is-fullwidth">
@@ -38,7 +41,7 @@
   import Component from 'vue-class-component';
   import {State} from "vuex-class";
   import {AccountState} from "@/store/account/types";
-  import {LinksState} from "@/store/links/types";
+  import {ApiState} from "@/store/api/types";
   import axios from "@/utils/axios/axios"
   import UiControlsLabel from "@/components/UiControls/UiControlsLabel.vue";
   import WeekScoreLabel from "@/components/WeekScore/WeekScoreLabel.vue";
@@ -51,7 +54,7 @@
   })
   export default class Me extends Vue {
     @State('account') account!: AccountState;
-    @State('links') links!: LinksState;
+    @State('api') api!: ApiState;
     active_tab: string = 'per_day';
     profilePic: string | null = '';
     all_day_activities: [{}] = [{}];
@@ -60,20 +63,20 @@
     async mounted () {
       this.profilePic = this.account.userphoto;
 
-      if(this.links.links) {
+      if(this.api.links) {
         let [
           daily_response,
           weekly_response
         ] = await Promise.all([
-          axios.get(this.links.links['yona:dailyActivityReports'].href),
-          axios.get(this.links.links['yona:weeklyActivityReports'].href)
+          axios.get(this.api.links['yona:dailyActivityReports'].href),
+          axios.get(this.api.links['yona:weeklyActivityReports'].href)
         ]);
 
         if (daily_response.status == 200)
-          this.all_day_activities = daily_response.data._embedded['yona:dayActivityOverviews']
+          this.all_day_activities = daily_response.data._embedded['yona:dayActivityOverviews'];
 
         if (weekly_response.status == 200)
-          this.all_week_activities = weekly_response.data._embedded['yona:weekActivityOverviews']
+          this.all_week_activities = weekly_response.data._embedded['yona:weekActivityOverviews'];
       }
     }
   }
@@ -84,15 +87,21 @@
     .small-top-icon{
       vertical-align: middle;
       top: -2px;
-      width:25px;
-      height:25px;
+      width: 25px;
+      height: 25px;
       border-radius: 50%;
-      position:relative;
+      position: relative;
       &.profile-img {
-        width:30px;
-        height:30px;
-        background-color:#000;
+        width: 30px;
+        height: 30px;
+        background-color: #915C80;
         margin-right: 20px;
+        display: inline-block;
+        .text{
+          padding:5px;
+          position: relative;
+          display: block;
+        }
       }
     }
     .nav-title{
@@ -102,14 +111,6 @@
       padding:0;
       &.grey-bg{
         background-color:#f3f3f3;
-      }
-      .top-label{
-        background:#e7e7e7;
-        padding: 17px;
-        font-size: 11px;
-        opacity: 0.6;
-        border-bottom:1px solid #d5d5d5;
-        border-top:1px solid #d5d5d5;
       }
     }
   }

@@ -1,4 +1,5 @@
-export interface LinksState {
+export interface ApiState {
+  yonaPassword: string,
   links: {
     [key: string] : {
       href: string

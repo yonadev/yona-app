@@ -19,9 +19,9 @@
 <script lang="ts">
   import Vue from 'vue';
   import { Component } from 'vue-property-decorator';
-  import Timer from '../../components/Timer.vue';
+  import Timer from '@/components/Timer.vue';
   import { State} from "vuex-class";
-  import {LoginState} from "../../store/login/types";
+  import {LoginState} from "@/store/login/types";
 
   @Component({
     components:{
@@ -31,7 +31,7 @@
   export default class WaitLocked extends Vue {
     @State('login') login!: LoginState;
 
-    async mounted () {
+    mounted () {
       let isLocked = window.setInterval(() => {
         let now = Math.trunc((new Date()).getTime() / 1000);
 

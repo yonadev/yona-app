@@ -68,17 +68,17 @@
 import Vue from 'vue'
 import Component from 'vue-class-component';
 import {State} from "vuex-class";
-import {LinksState} from "@/store/links/types";
+import {ApiState} from "@/store/api/types";
 import axios from "@/utils/axios/axios"
 
 @Component({})
 export default class Notifications extends Vue {
-  @State('links') links!: LinksState;
+  @State('api') api!: ApiState;
   notifications: {} = {};
 
   async mounted () {
-    if(this.links.links && this.links.links["yona:messages"]) {
-      let response: any = await axios.get(this.links.links["yona:messages"].href
+    if(this.api.links && this.api.links["yona:messages"]) {
+      let response: any = await axios.get(this.api.links["yona:messages"].href
       ).catch((error) => {
         console.log(error)
       });

@@ -11,7 +11,9 @@
 
         <div v-if="!edit" class="wrapper">
           <img v-if="profilePic" class="profile-img" :src="profilePic" />
-          <div v-else class="profile-img"></div>
+          <div v-else class="profile-img">
+            <span class="text">{{this.account.firstname.charAt(0)}}{{this.account.lastname.charAt(0)}}</span>
+          </div>
           <p class="icon-title">
             {{firstname}} {{lastname}}
           </p>
@@ -60,7 +62,7 @@ import InputFloatingLabel from '@/components/InputFloatingLabel.vue';
 import {Action, State} from "vuex-class";
 import {AccountState} from "@/store/account/types";
 import {Watch} from "vue-property-decorator";
-import {LinksState} from "@/store/links/types";
+import {ApiState} from "@/store/api/types";
 import axios from "@/utils/axios/axios"
 
 @Component({
@@ -70,11 +72,10 @@ import axios from "@/utils/axios/axios"
 })
 export default class Profile extends Vue {
   @State('account') account!: AccountState;
-  @State('links') links!: LinksState;
+  @State('api') api!: ApiState;
   @Action('setProperty', {namespace: 'account'}) setProperty: any;
   edit: boolean = false;
   active_tab: string = 'profile';
-
   firstname: string | null = '';
   lastname: string | null = '';
   mobile: string | null = '';
@@ -92,8 +93,8 @@ export default class Profile extends Vue {
   //Methods
   async switchMode () {
     if(this.edit){
-      if(this.links.links && this.links.links['edit']) {
-        let response: any = await axios.put(this.links.links['edit'].href, {
+      if(this.api.links && this.api.links['edit']) {
+        let response: any = await axios.put(this.api.links['edit'].href, {
           "firstName": this.firstname,
           "lastName": this.lastname,
           "mobileNumber": this.mobile,
@@ -118,8 +119,8 @@ export default class Profile extends Vue {
     let formData = new FormData();
     formData.append( 'file', file.files[0] );
 
-    if(this.links.links && this.links.links['yona:editUserPhoto']) {
-      let response: any = await axios.put(this.links.links['yona:editUserPhoto'].href, formData).catch((error) => {
+    if(this.api.links && this.api.links['yona:editUserPhoto']) {
+      let response: any = await axios.put(this.api.links['yona:editUserPhoto'].href, formData).catch((error) => {
         console.log(error)
       });
 
@@ -175,19 +176,29 @@ export default class Profile extends Vue {
       p.icon-text{
         margin-bottom:10px;
       }
-      .profile-img.edit{
-        position: relative;
-        width: 125px;
-        height: 125px;
-        margin: 30px auto 53px;
-        border: 3px solid #915C80;
-        border-radius: 50%;
-        overflow: hidden;
-        box-sizing: border-box;
-        background-color:transparent;
-        img{
-          height:100%;
-          max-width:100%;
+      .profile-img {
+        position:relative;
+        .text{
+          font-weight: 300;
+          color: #fff;
+          font-size: 2rem;
+          display: inline-block;
+          padding: 34px 30px;
+        }
+        &.edit{
+          position: relative;
+          width: 125px;
+          height: 125px;
+          margin: 30px auto 53px;
+          border: 3px solid #915C80;
+          border-radius: 50%;
+          overflow: hidden;
+          box-sizing: border-box;
+          background-color: transparent;
+          img {
+            height: 100%;
+            max-width: 100%;
+          }
         }
       }
       .profile-img-overlay{
