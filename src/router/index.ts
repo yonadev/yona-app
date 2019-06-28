@@ -130,7 +130,8 @@ export default new Router({
                     name: 'Login',
                     component: Login,
                     meta: {
-                        public: true
+                        public: true,
+                        login: true
                     }
                 },
                 {
@@ -148,7 +149,7 @@ export default new Router({
                     component: WaitLocked,
                     meta: {
                         public: true,
-                        locked: true
+                        pinReset: true
                     }
                 },
                   {
@@ -157,7 +158,7 @@ export default new Router({
                     component: ValidateLocked,
                     meta: {
                         public: true,
-                        locked: true
+                        pinReset: true
                     }
                   },
                 {
@@ -238,7 +239,8 @@ export default new Router({
                             name: 'SetPinCode',
                             component: SetPinCode,
                             meta: {
-                                public: true
+                                public: true,
+                                pinreset: true
                             }
                         },
                         {
@@ -246,7 +248,8 @@ export default new Router({
                             name: 'ConfirmPinCode',
                             component: ConfirmPinCode,
                             meta: {
-                                public: true
+                                public: true,
+                                pinreset: true
                             }
                         }
                     ]

@@ -33,7 +33,7 @@
   import { Watch, Component } from 'vue-property-decorator'
   import PinCode from '@/components/PinCode.vue';
   import axios from "@/utils/axios/axios"
-  import {State} from "vuex-class";
+  import {Action, State} from "vuex-class";
   import {ApiState} from "@/store/api/types";
 
   @Component({
@@ -43,6 +43,7 @@
   })
   export default class SmsValidation extends Vue {
     @State('api') api!: ApiState;
+    @Action('resetLock', {namespace: 'login'}) resetLock: any;
     password: number | null = null;
     length: number = 4;
     attempts: number | null = 0;
@@ -82,6 +83,8 @@
       if(val && val.toString().length === this.length){
         this.loading = true;
 
+        console.log(this.api.links)
+
         if(this.api.links && this.api.links['yona:verifyPinReset']) {
           let response: any = await axios.post(this.api.links['yona:verifyPinReset'].href, {
             code: this.password
@@ -110,6 +113,7 @@
               });
 
               await this.getLinks();
+              this.resetLock();
 
               this.$router.push({'name': 'SetPinCode'});
             }

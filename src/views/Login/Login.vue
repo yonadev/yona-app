@@ -9,7 +9,7 @@
         You are not alone
       </p>
       <p v-if="error" class="has-text-white-ter">
-        Onjuiste pincode! U heeft nog {{login.loginAttempts}} pogingen.
+        Onjuiste pincode! U heeft nog {{5-login.loginAttempts}} pogingen.
       </p>
       <pin-code :pincode.sync="password" :length="length"></pin-code>
       <p class="reset" @click="pinReset">

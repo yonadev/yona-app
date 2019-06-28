@@ -31,7 +31,7 @@
   export default class WaitLocked extends Vue {
     @State('login') login!: LoginState;
 
-    async mounted () {
+    mounted () {
       let isLocked = window.setInterval(() => {
         let now = Math.trunc((new Date()).getTime() / 1000);
 
