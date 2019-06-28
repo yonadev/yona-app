@@ -10,7 +10,12 @@
         <div v-if="notification && notification['@type'] === 'BuddyConnectRequestMessage'" class="columns is-mobile" @click="goTo(notification)">
           <div class="column is-2">
             <div class="img-wrapper">
-              <img :ref="'image'+index" :src="getPhoto(notification._links['yona:userPhoto'].href, 'image'+index)" />
+              <img v-if="notification._links['yona:userPhoto']" :ref="'image'+index" :src="getPhoto(notification._links['yona:userPhoto'].href, 'image'+index)" />
+              <div class="profile-img" v-else>
+                <span>
+                  {{notification.nickname.charAt(0)}}
+                </span>
+              </div>
             </div>
           </div>
           <div class="column">
@@ -31,7 +36,12 @@
         <div v-else-if="notification && notification['@type'] === 'BuddyConnectResponseMessage'" class="columns is-mobile" @click="goTo(notification)">
           <div class="column is-2">
             <div class="img-wrapper">
-              <img :ref="'image'+index" :src="getPhoto(notification._links['yona:userPhoto'].href, 'image'+index)" />
+              <img v-if="notification._links['yona:userPhoto']" :ref="'image'+index" :src="getPhoto(notification._links['yona:userPhoto'].href, 'image'+index)" />
+              <div class="profile-img" v-else>
+                <span>
+                  {{notification.nickname.charAt(0)}}
+                </span>
+              </div>
             </div>
           </div>
           <div class="column">
@@ -47,7 +57,12 @@
         <div v-else-if="notification && notification['@type'] === 'BuddyDisconnectMessage'" class="columns is-mobile" @click="goTo(notification)">
           <div class="column is-2">
             <div class="img-wrapper">
-              <img :ref="'image'+index" :src="getPhoto(notification._links['yona:userPhoto'].href, 'image'+index)" />
+              <img v-if="notification._links['yona:userPhoto']" :ref="'image'+index" :src="getPhoto(notification._links['yona:userPhoto'].href, 'image'+index)" />
+              <div class="profile-img" v-else>
+                <span>
+                  {{notification.nickname.charAt(0)}}
+                </span>
+              </div>
             </div>
           </div>
           <div class="column">
@@ -112,13 +127,15 @@ export default class Notifications extends Vue {
     if(notification['@type'] === 'BuddyConnectRequestMessage' && notification.status === 'REQUESTED'){
       this.$router.push({name: 'FriendRequest', params: {notification: notification}});
     } else if (notification['@type'] === 'BuddyConnectResponseMessage') {
-      this.$router.push({name: 'FriendsProfile', params: {link: notification._links['yona:buddy'].href}});
+      this.$router.push({name: 'FriendsProfile', query: {link: notification._links['yona:buddy'].href}});
     }
   }
 }
 </script>
 
 <style lang="scss">
+  @import "../../sass/variables";
+
   #notification{
     .nav-title{
       padding:30px 15px 15px 30px;
@@ -151,6 +168,19 @@ export default class Notifications extends Vue {
             text-align: center;
             z-index: 1;
             max-width:100%;
+          }
+          .profile-img{
+            height:50px;
+            width:50px;
+            background-color:$color-purple-dark;
+            color: #fff;
+            position: relative;
+            span{
+              padding: 12px 0;
+              position: relative;
+              display: block;
+              font-size:18px;
+            }
           }
         }
         .title{

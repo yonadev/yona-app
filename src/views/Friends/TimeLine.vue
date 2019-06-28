@@ -29,7 +29,12 @@
         <div v-if="buddy && buddy.receivingStatus === 'ACCEPTED'" class="columns is-mobile">
           <div class="column is-2">
             <div class="img-wrapper">
-              <img :ref="'image'+index" :src="getPhoto(buddy._embedded['yona:user']._links['yona:userPhoto'].href, 'image'+index)" />
+              <img v-if="buddy._embedded['yona:user']._links['yona:userPhoto']" :ref="'image'+index" :src="getPhoto(buddy._embedded['yona:user']._links['yona:userPhoto'].href, 'image'+index)" />
+              <div v-else class="profile-img">
+                <span>
+                  {{buddy._embedded['yona:user'].firstName.charAt(0)}}{{buddy._embedded['yona:user'].lastName.charAt(0)}}
+                </span>
+              </div>
             </div>
           </div>
           <div class="column">
@@ -154,6 +159,19 @@
             width:100%;
             height:100%;
             background-color:$color-purple-dark;
+          }
+          .profile-img{
+            height:50px;
+            width:50px;
+            background-color:$color-purple-dark;
+            color: #fff;
+            position: relative;
+            span{
+              padding: 12px 0;
+              position: relative;
+              display: block;
+              font-size:18px;
+            }
           }
         }
         .title{

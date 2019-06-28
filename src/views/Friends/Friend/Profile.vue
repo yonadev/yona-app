@@ -6,7 +6,11 @@
 
         <div class="wrapper">
           <img v-if="friendPic" class="profile-img" :src="friendPic" />
-          <div v-else class="profile-img"></div>
+          <div v-else class="profile-img">
+            <span>
+              {{firstName.charAt(0)}}{{lastName.charAt(0)}}
+            </span>
+          </div>
           <p class="icon-title">
             {{firstName}} {{lastName}}
           </p>
@@ -45,7 +49,6 @@
 import Vue from 'vue'
 import InputFloatingLabel from '@/components/InputFloatingLabel.vue';
 import Component from 'vue-class-component';
-import {Prop} from "vue-property-decorator";
 import axios from "@/utils/axios/axios"
 
 @Component({
@@ -54,7 +57,6 @@ import axios from "@/utils/axios/axios"
   }
 })
 export default class FriendsProfile extends Vue {
-  @Prop() link!: string;
   active_tab: string | null = 'profile';
   friendPic: string | null = '';
   firstName: string | null = '';
@@ -63,28 +65,32 @@ export default class FriendsProfile extends Vue {
   mobileNumber: string | null = '';
 
   async mounted () {
-    let buddy: any = await axios.get(this.link).catch((error) => {
-      console.log(error)
-    });
-
-    if(buddy.status == 200){
-      this.firstName = buddy.data._embedded['yona:user'].firstName
-      this.lastName = buddy.data._embedded['yona:user'].lastName
-      this.mobileNumber = buddy.data._embedded['yona:user'].mobileNumber
-      this.nickName = buddy.data._embedded['yona:user'].nickname
-
-      let photo_response: any = await axios.get(buddy.data._embedded['yona:user']._links['yona:userPhoto'].href, {
-        responseType: 'blob'
-      }).catch((error) => {
+    if(this.$route.query.link) {
+      let buddy: any = await axios.get((this.$route.query as any).link).catch((error) => {
         console.log(error)
       });
 
-      this.friendPic = await URL.createObjectURL(photo_response.data)
+      if (buddy.status == 200) {
+        this.firstName = buddy.data._embedded['yona:user'].firstName
+        this.lastName = buddy.data._embedded['yona:user'].lastName
+        this.mobileNumber = buddy.data._embedded['yona:user'].mobileNumber
+        this.nickName = buddy.data._embedded['yona:user'].nickname
+
+        if(buddy.data._embedded['yona:user']._links['yona:userPhoto']) {
+          let photo_response: any = await axios.get(buddy.data._embedded['yona:user']._links['yona:userPhoto'].href, {
+            responseType: 'blob'
+          }).catch((error) => {
+            console.log(error)
+          });
+
+          this.friendPic = await URL.createObjectURL(photo_response.data)
+        }
+      }
     }
   }
 
   async removeFriend(){
-    let buddy: any = await axios.delete(this.link).catch((error) => {
+    let buddy: any = await axios.delete((this.$route.query as any).link).catch((error) => {
       console.log(error)
     });
 
@@ -105,6 +111,12 @@ export default class FriendsProfile extends Vue {
       min-height:75px;
       border: 2px solid rgba(255, 255, 255, 0.4);
       background-color: rgba(255, 255, 255, 0.4);
+      span{
+        display:block;
+        color:#fff;
+        font-size:20px;
+        padding:25px 0;
+      }
     }
     .nav-title{
       padding:30px 15px 10px 15px;
