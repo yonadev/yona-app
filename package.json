@@ -6,16 +6,18 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --dest /www/dist",
+    "build": "vue-cli-service build --dest www",
     "lint": "vue-cli-service lint",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit",
-    "emulate": "vue-cli-service build --dest /www/dist && cordova run android"
+    "emulate": "vue-cli-service build --dest www && cordova run android",
+    "simulate": "vue-cli-service build --dest www && simulate"
   },
   "dependencies": {
     "axios": "^0.18.1",
     "bulma": "^0.7.5",
     "cordova-android": "^8.0.0",
+    "cordova-browser": "^6.0.0",
     "cordova-plugin-whitelist": "^1.3.3",
     "iso8601-duration": "^1.2.0",
     "moment": "^2.24.0",
@@ -64,7 +66,8 @@
       "cordova-plugin-whitelist": {}
     },
     "platforms": [
-      "android"
+      "android",
+      "browser"
     ]
   }
 }
