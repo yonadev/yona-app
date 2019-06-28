@@ -11,7 +11,9 @@
 
         <div v-if="!edit" class="wrapper">
           <img v-if="profilePic" class="profile-img" :src="profilePic" />
-          <div v-else class="profile-img"></div>
+          <div v-else class="profile-img">
+            <span class="text">{{this.account.firstname.charAt(0)}}{{this.account.lastname.charAt(0)}}</span>
+          </div>
           <p class="icon-title">
             {{firstname}} {{lastname}}
           </p>
@@ -174,19 +176,29 @@ export default class Profile extends Vue {
       p.icon-text{
         margin-bottom:10px;
       }
-      .profile-img.edit{
-        position: relative;
-        width: 125px;
-        height: 125px;
-        margin: 30px auto 53px;
-        border: 3px solid #915C80;
-        border-radius: 50%;
-        overflow: hidden;
-        box-sizing: border-box;
-        background-color:transparent;
-        img{
-          height:100%;
-          max-width:100%;
+      .profile-img {
+        position:relative;
+        .text{
+          font-weight: 300;
+          color: #fff;
+          font-size: 2rem;
+          display: inline-block;
+          padding: 34px 30px;
+        }
+        &.edit{
+          position: relative;
+          width: 125px;
+          height: 125px;
+          margin: 30px auto 53px;
+          border: 3px solid #915C80;
+          border-radius: 50%;
+          overflow: hidden;
+          box-sizing: border-box;
+          background-color: transparent;
+          img {
+            height: 100%;
+            max-width: 100%;
+          }
         }
       }
       .profile-img-overlay{

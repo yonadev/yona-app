@@ -73,6 +73,8 @@ export default class Login extends Vue {
               }
               fr.readAsDataURL(photo_response.data);
             }
+          } else if(user_response) {
+            this.setProperty({userphoto: user_response.data.firstName.charAt(0)+''+user_response.data.lastName.charAt(0)})
           }
 
           this.setLoggedIn();
