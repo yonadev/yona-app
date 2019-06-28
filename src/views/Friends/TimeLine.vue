@@ -7,7 +7,7 @@
           <img class="icon-img is-pulled-right" src="../../assets/images/icons/icn_add.svg"/>
         </router-link>
       </div>
-      <div class="tabs is-fullwidth">
+      <div class="tabs is-fullwidth" v-fixed-scroll>
         <ul>
           <li :class="{'is-active': active_tab === 'timeline'}">
             <a @click.prevent="active_tab = 'timeline'">Timeline</a>

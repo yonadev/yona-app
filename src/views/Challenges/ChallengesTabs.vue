@@ -8,7 +8,7 @@
         </router-link>
       </div>
 
-      <div class="tabs is-fullwidth">
+      <div class="tabs is-fullwidth" v-fixed-scroll>
         <ul>
             <router-link tag="li" :to="{name: 'ChallengesOverview', params: {type: 'credit'}}" active-class="is-active" :class="{'router-link-exact-active is-active router-link-active': sub.subIsActive(['/challenges/credit/chooseCategory'])}">
                 <a>

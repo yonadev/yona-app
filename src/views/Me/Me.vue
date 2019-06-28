@@ -12,7 +12,7 @@
           <img class="small-top-icon is-pulled-right" src="@/assets/images/icons/icn_notification.svg" />
         </router-link>
       </div>
-      <div class="tabs is-fullwidth">
+      <div class="tabs is-fullwidth" v-fixed-scroll>
         <ul>
           <li :class="{'is-active': active_tab === 'per_day'}">
             <a @click.prevent="active_tab = 'per_day'">Per dag</a>
