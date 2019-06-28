@@ -42,6 +42,12 @@
     min-height:100px;
     .top-label{
       text-transform: uppercase;
+      background:#e7e7e7;
+      padding: 17px;
+      font-size: 11px;
+      opacity: 0.6;
+      border-bottom:1px solid #d5d5d5;
+      border-top:1px solid #d5d5d5;
     }
   }
 </style>
