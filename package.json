@@ -2,7 +2,7 @@
   "name": "yona",
   "version": "0.0.1",
   "description": "App for Yona",
-  "author": "Arjan <arjan@b2it.nl>",
+  "author": "Arjan <arjan@b2it.nl>, Arien <arien@b2it.nl>, Anton <anton@b2it.nl>",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
