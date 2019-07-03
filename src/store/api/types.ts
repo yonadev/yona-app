@@ -1,4 +1,5 @@
 export interface ApiState {
+  host: string,
   yonaPassword: string,
   links: {
     [key: string] : {

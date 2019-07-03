@@ -35,6 +35,7 @@
   import axios from "@/utils/axios/axios"
   import {State} from "vuex-class";
   import {AccountState} from "@/store/account/types";
+  import {ApiState} from "@/store/api/types";
 
   @Component({
     components:{
@@ -43,13 +44,14 @@
   })
   export default class RecoverSms extends Vue {
     @State('account') account!: AccountState;
+    @State('api') api!: ApiState;
     password: number | null = null;
     length: number = 4;
     attempts: number | null = 0;
     error: boolean = false;
 
     async resendCode(){
-      await axios.post('http://192.168.1.9:8082/admin/requestUserOverwrite/?mobileNumber='+encodeURIComponent(this.account.phonenumber)).catch((error) => {
+      await axios.post(this.api.host + '/admin/requestUserOverwrite/?mobileNumber='+encodeURIComponent(this.account.phonenumber)).catch((error) => {
         console.log(error)
       });
       this.password = null
@@ -63,7 +65,7 @@
         let self = this
         this.$validator.validate().then(async valid => {
           if (valid) {
-            let response: any = await axios.post('http://192.168.1.9:8082/users/?overwriteUserConfirmationCode='+val, {
+            let response: any = await axios.post(this.api.host + '/users/?overwriteUserConfirmationCode='+val, {
               firstName: this.account.firstname,
               lastName: this.account.lastname,
               mobileNumber: this.account.phonenumber,

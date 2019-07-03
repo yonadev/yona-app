@@ -63,16 +63,7 @@
 
         <div class="wrapper over-all-footer">
             <div class="wrapper grey-bg save-section">
-                <a class="button is-rounded is-fullwidth save-challenge-btn">Challenge opslaan</a>
-            </div>
-
-            <div class="wrapper contains-container">
-                <div class="columns is-mobile">
-                    <div class="column is-three-fifths is-offset-one-fifth">
-                        <p>De volgende apps zijn onderdeel van deze challenge:</p><br />
-                        <p class="apps">Whatsapp, Facebook, Twitter, Pinterest, Instagram, Snapchat</p>
-                    </div>
-                </div>
+                <a class="button is-rounded is-fullwidth save-challenge-btn" :disabled="setupData.items.length == 0 || loading" @click="save">Challenge opslaan</a>
             </div>
         </div>
 
@@ -82,11 +73,12 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
-import {State} from "vuex-class";
-import {ChallengesState} from "@/store/challenges/types";
+import {Action, State} from "vuex-class";
+import {ChallengesState, Goal} from "@/store/challenges/types";
 
 //@ts-ignore
 import { SwipeList, SwipeOut } from 'vue-swipe-actions';
+import {Prop} from "vue-property-decorator";
 
 interface timeEntry {
     id: number,
@@ -99,25 +91,16 @@ interface timeEntry {
     components: {SwipeList, SwipeOut}
 })
 export default class Setup extends Vue {
-    @State('challenges') challenges!: ChallengesState;
+    @Action('saveGoal', {namespace: 'challenges'}) saveGoal: any;
+    @Prop() category!: string;
+    @Prop() goal!: Goal;
+
+    loading = false;
 
     setupData: {
         items: timeEntry[]
     } = {
-        items: [
-            {
-                id: 1,
-                from: '08:30',
-                to: '10:00',
-                swiped: false
-            },
-            {
-                id: 2,
-                from: '20:30',
-                to: '23:00',
-                swiped: false
-            }
-        ]
+        items: []
     };
 
     addTimezoneEntry(){
@@ -131,6 +114,22 @@ export default class Setup extends Vue {
 
     deleteTimezoneEntry(entry: timeEntry){
         this.setupData.items.splice(this.setupData.items.indexOf(entry), 1);
+    }
+
+    async save() {
+        this.loading = true;
+        await this.saveGoal({
+            '@type': 'TimeZoneGoal',
+            _links: {
+                'yona:activityCategory' : {
+                    href: this.category
+                }
+            },
+            zones: [
+                '08:30-10:00'
+            ]
+        })
+        this.$router.push({name: 'ChallengesOverview', params: {type: 'timezone'}})
     }
 }
 </script>

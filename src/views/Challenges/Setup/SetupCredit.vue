@@ -9,39 +9,29 @@
                         <p>minuten tegoed per dag</p>
                     </div>
                     <div class="column is-one-third creditAmountColumn">
-                        <span>{{setupData.credit.amount}}</span>
+                        <span>{{setupData.maxDurationMinutes}}</span>
                     </div>
                 </div>
-
-                <VueSlider v-model="setupData.credit.amount" v-bind="sliderOption" class="challenge-slider"></VueSlider>
+                <VueSlider v-model="setupData.maxDurationMinutes" v-bind="sliderOption" class="challenge-slider"></VueSlider>
             </div>
         </div>
 
         <div class="wrapper over-all-footer">
             <div class="wrapper grey-bg save-section">
-                <a class="button is-rounded is-fullwidth save-challenge-btn">Challenge opslaan</a>
-            </div>
-
-            <div class="wrapper contains-container">
-                <div class="columns is-mobile">
-                    <div class="column is-three-fifths is-offset-one-fifth">
-                        <p>De volgende apps zijn onderdeel van deze challenge:</p><br />
-                        <p class="apps">Whatsapp, Facebook, Twitter, Pinterest, Instagram, Snapchat</p>
-                    </div>
-                </div>
+                <a class="button is-rounded is-fullwidth save-challenge-btn" @click="save()" :disabled="setupData.maxDurationMinutes == 0 || loading">Challenge opslaan</a>
             </div>
         </div>
-
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
-import {State} from "vuex-class";
-import {ChallengesState} from "@/store/challenges/types";
+import {Action, State} from "vuex-class";
+import {ChallengesState, Goal} from "@/store/challenges/types";
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/antd.css'
+import {Prop} from "vue-property-decorator";
 
 @Component({
     components:{
@@ -49,15 +39,14 @@ import 'vue-slider-component/theme/antd.css'
     }
 })
 export default class Setup extends Vue {
-    @State('challenges') challenges!: ChallengesState;
+    @Action('saveGoal', {namespace: 'challenges'}) saveGoal: any;
+    @Prop() category!: string;
+    @Prop() goal!: Goal;
+
     setupData: {
-        credit: {
-            amount: number
-        }
+        maxDurationMinutes: number
     } = {
-        credit: {
-            amount: 30
-        }
+        maxDurationMinutes: 0
     };
 
     sliderOption: Object = {
@@ -65,6 +54,23 @@ export default class Setup extends Vue {
         max: 240,
         tooltip: 'none'
     };
+
+    loading: boolean = false;
+
+    async save() {
+        this.loading = true;
+        await this.saveGoal({
+            '@type': 'BudgetGoal',
+            _links: {
+                'yona:activityCategory' : {
+                    href: this.category
+                }
+            },
+            maxDurationMinutes: this.setupData.maxDurationMinutes
+        })
+        this.$router.push({name: 'ChallengesOverview', params: {type: 'credit'}})
+    }
+
 }
 </script>
 

@@ -9,29 +9,12 @@
               <br clear="left"/>
           </div>
 
-          <a @click="chooseCategory('social')">
+          <router-link v-for="(activityCategory, index) in unusedCategories" :key="index" :to="{'name': 'ChallengesSetup', params: { category: activityCategory._links.self.href, type: type }}">
               <div class="grey-bg-button">
-                  <strong>Sociale media</strong>
+                  <strong>{{activityCategory.name}}</strong>
               </div>
-          </a>
+          </router-link>
 
-          <a @click="chooseCategory('games')">
-              <div class="grey-bg-button">
-                  <strong>Games</strong>
-              </div>
-          </a>
-
-          <a @click="chooseCategory('dating')">
-              <div class="grey-bg-button">
-                  <strong>Dating</strong>
-              </div>
-          </a>
-
-          <a @click="chooseCategory('gamble')">
-              <div class="grey-bg-button">
-                  <strong>Gokken</strong>
-              </div>
-          </a>
       </div>
   </div>
 
@@ -41,13 +24,14 @@
 import Vue from 'vue'
 import Component from 'vue-class-component';
 import {Prop} from 'vue-property-decorator'
+import {Getter} from "vuex-class";
+import {ActivityCategory} from "@/store/challenges/types";
 
 @Component({})
 export default class ChallengesCategoryChoose extends Vue{
     @Prop() type!: string
 
-    chooseCategory( category: any ){
-        this.$router.push({'name': 'ChallengesSetup', params: { category: category, type: this.type }});
-    }
+    @Getter('unusedCategories', {namespace: 'challenges'})
+    public unusedCategories!: (href: string) => ActivityCategory[];
 }
 </script>

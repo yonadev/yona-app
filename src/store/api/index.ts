@@ -3,6 +3,7 @@ import { ApiState } from './types';
 import { RootState } from '../types';
 
 export const state: ApiState = {
+  host: 'https://app.prd.yona.nu',
   yonaPassword: '',
   links: {},
   embedded: {}

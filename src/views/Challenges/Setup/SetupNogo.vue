@@ -5,18 +5,7 @@
             <div class="wrapper over-all-footer">
                 <div class="wrapper grey-bg save-section">
 
-                    <a class="button is-rounded is-fullwidth save-challenge-btn">Challenge opslaan</a>
-
-                </div>
-
-                <div class="wrapper contains-container">
-
-                    <div class="columns is-mobile">
-                        <div class="column is-three-fifths is-offset-one-fifth">
-                            <p>De volgende apps zijn onderdeel van deze challenge:</p><br />
-                            <p class="apps">Whatsapp, Facebook, Twitter, Pinterest, Instagram, Snapchat</p>
-                        </div>
-                    </div>
+                    <a class="button is-rounded is-fullwidth save-challenge-btn" v-if="!goal" @click="save()" :disabled="loading">Challenge opslaan</a>
 
                 </div>
             </div>
@@ -28,17 +17,30 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
-import {State} from "vuex-class";
-import {ChallengesState} from "@/store/challenges/types";
+import {Action, State} from "vuex-class";
+import {ChallengesState, Goal} from "@/store/challenges/types";
+import {Prop} from "vue-property-decorator";
 
 @Component({})
 export default class Setup extends Vue {
-    @State('challenges') challenges!: ChallengesState;
+    @Action('saveGoal', {namespace: 'challenges'}) saveGoal: any;
+    @Prop() category!: string;
+    @Prop() goal!: Goal;
 
-    sliderOption: Object = {
-        min: 0,
-        max: 240,
-        tooltip: 'none'
-    };
+    loading: boolean = false;
+
+    async save() {
+        this.loading = true;
+        await this.saveGoal({
+            '@type': 'BudgetGoal',
+            _links: {
+                'yona:activityCategory' : {
+                    href: this.category
+                }
+            },
+            maxDurationMinutes: 0
+        })
+        this.$router.push({name: 'ChallengesOverview', params: {type: 'nogo'}})
+    }
 }
 </script>

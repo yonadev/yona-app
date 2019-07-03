@@ -3,24 +3,18 @@
 
         <div class="header-template">
             <div class="colored-background green">
-
                 <div class="nav-title">
-                    <router-link :to="{name: 'ChallengesOverview', params: {type: 'credit'}}">
-                        <span v-if="type === 'credit'">Tegoed vastleggen</span>
-                        <span v-else-if="type === 'timezone'">Tijdzone vastleggen</span>
-                        <span v-else-if="type === 'nogo'">Nogo vastleggen</span>
-                    </router-link>
+                    <span>{{title}}</span>
+                    <a @click="deleteG" v-if="goal_url && goal(goal_url)._links.edit">   DELETE ICONIO</a>
                 </div>
 
                 <div class="setupHeader">
                     <div class="challengeTypeIcon">
-                        <img v-if="type === 'credit'" :src="require('@/assets/images/challenges/icn_challenge_timebucket.svg')" />
-                        <img v-else-if="type === 'timezone'" :src="require('@/assets/images/challenges/icn_challenge_timezone.svg')" />
-                        <img v-else-if="type === 'nogo'" :src="require('@/assets/images/challenges/icn_challenge_nogo.svg')" />
+                        <img :src="icon" />
                     </div>
 
-                    <h3>{{headerData.title}}</h3>
-                    <p>{{headerData.text}}</p>
+                    <h3>{{activityCategory(category).name}}</h3>
+                    <p>{{headerText}}</p>
 
                 </div>
 
@@ -29,15 +23,26 @@
 
         <router-view></router-view>
 
+        <div class="wrapper over-all-footer">
+
+            <div class="wrapper contains-container">
+                <div class="columns is-mobile">
+                    <div class="column is-three-fifths is-offset-one-fifth">
+                        <p>{{activityCategory(category).description}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
-import {Prop, Watch} from 'vue-property-decorator'
-import {State} from "vuex-class";
-import {ChallengesState} from "@/store/challenges/types";
+import {Prop, Watch, } from 'vue-property-decorator'
+import {Action, Getter, State} from "vuex-class";
+import {ActivityCategory, ChallengesState, Goal} from "@/store/challenges/types";
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/antd.css'
 
@@ -55,95 +60,72 @@ export default class Setup extends Vue {
     @State('challenges') challenges!: ChallengesState;
     @Prop() type!: string;
     @Prop() category!: string;
+    @Prop() goal_url!: string;
+
+    @Action('deleteGoal', {namespace: 'challenges'}) deleteGoal: any;
+
+    @Getter('activityCategory', {namespace: 'challenges'})
+    public activityCategory!: (href: string) => ActivityCategory;
+
+    @Getter('goal', {namespace: 'challenges'})
+    public goal!: (href: string) => Goal;
 
     headerData: HeaderDataInterface = {
         text: "",
         title: ""
     }
 
-    mounted () {
-
-        switch(this.category)
+    get headerText(): string {
+        switch(this.type)
         {
-            case "games":
-                this.headerData.title = 'Spellen';
+            case "credit":
+                return `Bepaal hier hoeveel tijd je aan ${this.activityCategory(this.category).name} wilt besteden`;
 
-                switch(this.type)
-                {
-                    case "credit":
-                        this.headerData.text = 'Bepaal hier hoeveel tijd je aan games wilt besteden';
-                        break;
+            case "timezone":
+                return `Bepaal zelf wanneer je tijd aan ${this.activityCategory(this.category).name} kunt besteden`;
 
-                    case "timezone":
-                        this.headerData.text = 'Bepaal hier wanneer je wel of geen tijd aan games wilt besteden';
-                        break;
-
-                    case "nogo":
-                        this.headerData.text = 'Hiermee geef je aan dat je op geen enkele manier wilt gamen';
-                        break;
-                }
-                break;
-
-            case "social":
-                this.headerData.title = 'Sociale Media';
-
-                switch(this.type)
-                {
-                    case "credit":
-                        this.headerData.text = 'Bepaal hier hoeveel tijd je aan sociale media wilt besteden';
-                        break;
-
-                    case "timezone":
-                        this.headerData.text = 'Bepaal hier wanneer je wel of geen tijd aan sociale media wilt besteden';
-                        break;
-
-                    case "nogo":
-                        this.headerData.text = 'Hiermee geef je aan dat je op geen enkele manier gebruik wilt maken van sociale media';
-                        break;
-                }
-
-                break;
-
-            case "dating":
-                this.headerData.title = 'Dating';
-
-                switch(this.type)
-                {
-                    case "credit":
-                        this.headerData.text = 'Bepaal hier hoeveel tijd je aan dating wilt besteden';
-                        break;
-
-                    case "timezone":
-                        this.headerData.text = 'Bepaal hier wanneer je wel of geen tijd aan dating wilt besteden';
-                        break;
-
-                    case "nogo":
-                        this.headerData.text = 'Hiermee geef je aan dat je op geen enkele manier gebruik wilt maken van dating services';
-                        break;
-                }
-
-                break;
-
-            case "gamble":
-                this.headerData.title = 'Gokken';
-
-                switch(this.type)
-                {
-                    case "credit":
-                        this.headerData.text = 'Bepaal hier hoeveel tijd je aan gokken wilt besteden';
-                        break;
-
-                    case "timezone":
-                        this.headerData.text = 'Bepaal hier wanneer je wel of geen tijd aan gokken wilt besteden';
-                        break;
-
-                    case "nogo":
-                        this.headerData.text = 'Hiermee geef je aan dat je op geen enkele manier gebruik wilt maken van online gokken';
-                        break;
-                }
-
-                break;
+            case "nogo":
+                return 'Hiermee geef je aan dat je aan deze categorie geen tijd wilt besteden';
         }
+
+        return '';
+    }
+
+    get title(): string {
+        switch(this.type)
+        {
+            case "credit":
+                return `Tegoed vastleggen`;
+
+            case "timezone":
+                return `Tijdzone vastleggen`;
+
+            case "nogo":
+                return 'Nogo vastleggen';
+        }
+
+        return '';
+    }
+
+    get icon(): string {
+        switch(this.type)
+        {
+            case "credit":
+                return require('@/assets/images/challenges/icn_challenge_timebucket.svg');
+
+            case "timezone":
+                return require('@/assets/images/challenges/icn_challenge_timezone.svg');
+
+            case "nogo":
+                return require('@/assets/images/challenges/icn_challenge_nogo.svg');
+        }
+
+        return '';
+    }
+
+    async deleteG() {
+        await this.deleteGoal(this.goal(this.goal_url)._links.edit.href)
+        this.$router.push({name: 'ChallengesOverview', params: {type: this.type}})
     }
 }
 </script>

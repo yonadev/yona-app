@@ -351,24 +351,16 @@ export default new Router({
                     component: ChallengesTabs,
                     children: [
                         {
-                            path: ':type',
-                            name: 'ChallengesContent',
-                            component: ChallengesContent,
-                            props: true,
-                            children: [
-                                {
-                                    path: 'overview',
-                                    name: 'ChallengesOverview',
-                                    component: ChallengesOverview,
-                                    props: true
-                                },
-                                {
-                                    path: 'chooseCategory',
-                                    name: 'ChallengesCategoryChoose',
-                                    component: ChallengesCategoryChoose,
-                                    props: true
-                                }
-                            ]
+                            path: ':type/overview',
+                            name: 'ChallengesOverview',
+                            component: ChallengesOverview,
+                            props: true
+                        },
+                        {
+                            path: ':type/chooseCategory',
+                            name: 'ChallengesCategoryChoose',
+                            component: ChallengesCategoryChoose,
+                            props: true
                         }
                     ]
                 },
@@ -378,7 +370,7 @@ export default new Router({
                     props: true,
                     children: [
                         {
-                            path: ':type/:category',
+                            path: ':type/:category/:goal_url?',
                             name: 'ChallengesSetup',
                             component: ChallengesSetup,
                             props: true

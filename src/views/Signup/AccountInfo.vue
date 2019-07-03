@@ -36,6 +36,7 @@
   import {Action, State} from "vuex-class";
   import {AccountState} from "@/store/account/types";
   import axios from "@/utils/axios/axios"
+  import {ApiState} from "@/store/api/types";
 
   @Component({
     components:{
@@ -44,6 +45,8 @@
   })
   export default class AccountInfo extends Vue {
     @State('account') account!: AccountState;
+    @State('api') api!: ApiState;
+
     @Action('setProperty', {namespace: 'account'}) setProperty: any;
     mobile: string | null = '';
     nickname: string | null = '';
@@ -59,7 +62,7 @@
       let self = this
       this.$validator.validate().then(async valid => {
         if (valid) {
-          let response: any = await axios.post('http://192.168.1.9:8082/users/', {
+          let response: any = await axios.post(this.api.host + '/users/', {
             firstName: this.account.firstname,
             lastName: this.account.lastname,
             mobileNumber: this.account.phonenumber,

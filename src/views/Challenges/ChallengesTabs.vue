@@ -7,14 +7,13 @@
           CHALLENGES
         </router-link>
       </div>
-
       <div class="tabs is-fullwidth" v-fixed-scroll>
         <ul>
             <router-link tag="li" :to="{name: 'ChallengesOverview', params: {type: 'credit'}}" active-class="is-active" :class="{'router-link-exact-active is-active router-link-active': sub.subIsActive(['/challenges/credit/chooseCategory'])}">
                 <a>
                     <div class="tabImage">
                         <img :src="require('../../assets/images/challenges/icn_challenge_timebucket.svg')" />
-                        <div class="counter">2</div>
+                        <div class="counter" v-if="goalsByType('BudgetGoal').length > 0">{{goalsByType('BudgetGoal').length}}</div>
                     </div>
                     <div class="tabTitle">
                         Tegoed
@@ -25,7 +24,7 @@
                 <a>
                     <div class="tabImage">
                         <img :src="require('../../assets/images/challenges/icn_challenge_timezone.svg')" />
-                        <div class="counter">3</div>
+                        <div class="counter" v-if="goalsByType('TimeZoneGoal').length > 0">{{goalsByType('TimeZoneGoal').length}}</div>
                     </div>
                     <div class="tabTitle">
                         Tijdzone
@@ -36,7 +35,7 @@
                 <a>
                     <div class="tabImage">
                         <img :src="require('../../assets/images/challenges/icn_challenge_nogo.svg')" />
-                        <div class="counter">1</div>
+                        <div class="counter" v-if="goalsByType('NoGoGoal').length > 0">{{goalsByType('NoGoGoal').length}}</div>
                     </div>
                     <div class="tabTitle">
                         NO GO
@@ -61,50 +60,26 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
+import axios from "@/utils/axios/axios";
 import subActive from '@/utils/router/subActive'
+import {Action, Getter, State} from "vuex-class";
+import {ApiState} from "@/store/api/types";
+import {Goal} from "@/store/challenges/types";
 
 @Component({})
 export default class Add extends Vue {
+    @State('api') api!: ApiState;
+
+    @Getter('goalsByType', {namespace: 'challenges'})
+    public goalsByType!: (type: string) => Goal[];
     sub = subActive;
+
 }
 </script>
 
 <style lang="scss">
     @import "../../sass/variables";
     #challenges{
-
-        .wrapper{
-            padding:0;
-
-            .challenge-header{
-                padding:20px 0 20px 25px;
-                text-align: left;
-                position: relative;
-                background-color: $list-background;
-
-                .text{
-                    float: left;
-                    width: 65%;
-                    padding-top: 10px;
-                }
-
-                .add-button{
-                    float: left;
-                    width: 35%;
-
-                    a{
-                        display: block;
-                    }
-                }
-            }
-
-            .grey-bg-button{
-                background-image: linear-gradient($list-item-gradient-two, $list-item-gradient-one);
-                padding:20px 25px 20px 25px;
-                text-align: left;
-            }
-        }
-
         ul{
             li{
                 a{
@@ -120,12 +95,12 @@ export default class Add extends Vue {
                         .counter{
                             position: absolute;
                             top: 0;
-                            left: 50px;
+                            right: 50%;
+                            margin-right: -32px;
                             border: 1px solid #FFF;
                             background-color: $color-green;
-                            padding: 3px 4px;
+                            padding: 3px 7px;
                             border-radius: 15px;
-                            min-width: 20px;
                             text-align: center;
                         }
                     }

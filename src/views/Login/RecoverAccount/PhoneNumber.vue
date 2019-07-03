@@ -29,6 +29,7 @@
   import {Watch} from "vue-property-decorator";
   import {Action, State} from "vuex-class";
   import {AccountState} from "@/store/account/types";
+  import {ApiState} from "@/store/api/types";
 
   @Component({
     components:{
@@ -37,6 +38,7 @@
   })
   export default class PhoneNumber extends Vue {
     @State('account') account!: AccountState;
+    @State('api') api!: ApiState;
     @Action('setProperty', {namespace: 'account'}) setProperty: any;
     private mobile: string = '';
 
@@ -60,7 +62,7 @@
         if (valid) {
           this.setProperty({phonenumber: self.mobile})
 
-          let response: any = await axios.post('http://192.168.1.9:8082/admin/requestUserOverwrite/?mobileNumber='+encodeURIComponent(self.mobile)).catch((error) => {
+          let response: any = await axios.post(this.api.host + '/admin/requestUserOverwrite/?mobileNumber='+encodeURIComponent(self.mobile)).catch((error) => {
             console.log(error)
           });
 

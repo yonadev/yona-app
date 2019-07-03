@@ -28,6 +28,8 @@
   import InputFloatingLabel from '../../components/InputFloatingLabel.vue';
   import {Watch} from "vue-property-decorator";
   import axios from "../../utils/axios/axios";
+  import {State} from "vuex-class";
+  import {ApiState} from "@/store/api/types";
 
   @Component({
     components:{
@@ -38,6 +40,7 @@
     private mobile: string = '';
     private mobile_exists = false;
     private passcode: string = '';
+    @State('api') api!: ApiState;
 
     @Watch('mobile')
     async mobileChanged(val: string | null) {
@@ -50,7 +53,7 @@
     }
 
     async checkPasscode () {
-      let get_response: any = await axios.get('http://192.168.1.9:8082/newDeviceRequests/'+this.mobile).catch((error) => {
+      let get_response: any = await axios.get(this.api.host + '/newDeviceRequests/'+this.mobile).catch((error) => {
         console.log(error)
       });
 
@@ -62,7 +65,7 @@
             "operatingSystem": "ANDROID",
             "appVersion": "1.1 build 83",
             "appVersionCode": 31,
-            "name": "My new phone",
+            "name": "My new phone 2",
           }, {
             headers: {
               "Yona-NewDeviceRequestPassword": this.passcode

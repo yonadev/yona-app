@@ -1,51 +1,29 @@
 <template>
-  <div class="ui-controls">
-    <div class="top-label">
-      <strong>{{activityCategory.name}}</strong>
-      <strong>{{goal['@type']}}</strong>
-      <strong>{{goal.maxDurationMinutes}}</strong>
-    </div>
-  </div>
+    <router-link :to="{'name': 'ChallengesSetup', params: { category: goal._links['yona:activityCategory'].href, goal_url: goal._links.self.href, type}}">
+        <div class="grey-bg-button">
+            <strong>{{activityCategory(goal._links["yona:activityCategory"].href).name}}</strong>
+            <p v-if="goal['@type'] == 'BudgetGoal' && goal.maxDurationMinutes > 0">Je kunt per dag {{goal.maxDurationMinutes}} minuten aan deze categorie besteden</p>
+            <p v-else-if="goal['@type'] == 'TimeZoneGoal'">Toegestaan tussen {{goal.zones.join(' en ')}}</p>
+            <p v-else-if="goal['@type'] == 'BudgetGoal'">Hieraan wil je geen tijd besteden</p>
+        </div>
+    </router-link>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
   import {Prop, Component} from 'vue-property-decorator'
   import axios from "@/utils/axios/axios";
+  import {ActivityCategory, Goal} from "@/store/challenges/types";
+  import {Getter, State} from "vuex-class";
 
   @Component({})
 
   export default class ChallengesLabel extends Vue {
-    @Prop() goal!: {
-      '@type': string,
-      creationTime: string,
-      historyItem: boolean
-      maxDurationMinutes: number
-      _links: {
-        self: {
-          href: string
-        },
-        'yona:activityCategory': {
-          href: string
-        }
-      }
-    };
+    @Prop() goal!: Goal;
+    @Prop() type!: string;
 
-    activityCategory: {
-      applications: [any],
-      description: string,
-      name: string
-    } = {};
-
-    async mounted() {
-      const activityCategory : any = await axios.get(this.goal._links["yona:activityCategory"].href).catch(error => {
-        console.log(error)
-      });
-
-      if(activityCategory.status === 200) {
-        this.activityCategory = activityCategory.data
-      }
-    }
+    @Getter('activityCategory', {namespace: 'challenges'})
+    public activityCategory!: (href: string) => ActivityCategory;
 
   }
 </script>
