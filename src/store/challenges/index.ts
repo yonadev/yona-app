@@ -36,6 +36,15 @@ const actions: ActionTree<ChallengesState, RootState> = {
       }
     }
   },
+  async updateGoal ({commit, rootState, dispatch}, {url, data}) {
+    if(rootState.api.embedded != null) {
+      const response = await axios.put(url, data);
+      if(response.status == 200) {
+        dispatch('getGoals');
+        return true;
+      }
+    }
+  },
   async deleteGoal ({commit, rootState, dispatch}, goal_url) {
     if(rootState.api.embedded != null) {
       const response = await axios.delete(goal_url);
@@ -68,14 +77,14 @@ const getters: GetterTree<ChallengesState, RootState> = {
       })
     },
     goalsByType(state) {
-      return (type: string) => state.goals.filter(goal => {
+      return (type: string, historyItem: boolean = false) => state.goals.filter(goal => {
         switch(type) {
           case "NoGoGoal":
-            return goal['@type'] === 'BudgetGoal' && goal.maxDurationMinutes === 0;
+            return goal['@type'] === 'BudgetGoal' && typeof goal.maxDurationMinutes !== "undefined" && goal.maxDurationMinutes === 0 && goal.historyItem === historyItem;
           case "BudgetGoal":
-            return goal['@type'] === 'BudgetGoal' && goal.maxDurationMinutes && goal.maxDurationMinutes > 0;
+            return goal['@type'] === 'BudgetGoal' && typeof goal.maxDurationMinutes !== "undefined" && goal.maxDurationMinutes > 0 && goal.historyItem === historyItem;
           case "TimeZoneGoal":
-            return goal['@type'] === 'TimeZoneGoal';
+            return goal['@type'] === 'TimeZoneGoal' && goal.historyItem === historyItem;
         }
       })
     },

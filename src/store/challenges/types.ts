@@ -12,6 +12,7 @@ export interface Goal {
   '@type' : string,
   maxDurationMinutes?: number,
   zones?: string[],
+  historyItem: boolean,
   _links : {
     self: {
       href: string
@@ -23,6 +24,14 @@ export interface Goal {
       href: string
     }
   }
+}
+
+export interface BudgetGoal extends Goal {
+  maxDurationMinutes: number;
+}
+
+export interface TimeZoneGoal extends Goal {
+  zones: string[],
 }
 
 export interface ChallengesState {

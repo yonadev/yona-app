@@ -18,14 +18,14 @@
 import Vue from 'vue'
 import Component from 'vue-class-component';
 import {Action, State} from "vuex-class";
-import {ChallengesState, Goal} from "@/store/challenges/types";
+import {BudgetGoal, ChallengesState, Goal} from "@/store/challenges/types";
 import {Prop} from "vue-property-decorator";
 
 @Component({})
 export default class Setup extends Vue {
     @Action('saveGoal', {namespace: 'challenges'}) saveGoal: any;
     @Prop() category!: string;
-    @Prop() goal!: Goal;
+    @Prop() goal!: BudgetGoal;
 
     loading: boolean = false;
 

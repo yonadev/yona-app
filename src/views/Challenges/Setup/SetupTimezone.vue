@@ -74,7 +74,7 @@
 import Vue from 'vue'
 import Component from 'vue-class-component';
 import {Action, State} from "vuex-class";
-import {ChallengesState, Goal} from "@/store/challenges/types";
+import {ChallengesState, Goal, TimeZoneGoal} from "@/store/challenges/types";
 
 //@ts-ignore
 import { SwipeList, SwipeOut } from 'vue-swipe-actions';
@@ -92,8 +92,9 @@ interface timeEntry {
 })
 export default class Setup extends Vue {
     @Action('saveGoal', {namespace: 'challenges'}) saveGoal: any;
+    @Action('updateGoal', {namespace: 'challenges'}) updateGoal: any;
     @Prop() category!: string;
-    @Prop() goal!: Goal;
+    @Prop() goal!: TimeZoneGoal;
 
     loading = false;
 
@@ -102,6 +103,19 @@ export default class Setup extends Vue {
     } = {
         items: []
     };
+
+    mounted () {
+        if(this.goal) {
+            this.setupData.items = this.goal.zones.map(zone => {
+                return {
+                    id: Math.random(),
+                    from: zone.split('-')[0],
+                    to: zone.split('-')[1],
+                    swiped: false,
+                }
+            })
+        }
+    }
 
     addTimezoneEntry(){
         this.setupData.items.push({
@@ -118,17 +132,31 @@ export default class Setup extends Vue {
 
     async save() {
         this.loading = true;
-        await this.saveGoal({
-            '@type': 'TimeZoneGoal',
-            _links: {
-                'yona:activityCategory' : {
-                    href: this.category
-                }
-            },
-            zones: [
-                '08:30-10:00'
-            ]
-        })
+        if(this.goal && this.goal._links.edit) {
+            await this.updateGoal({url: this.goal._links.edit.href, data: {
+                '@type': 'TimeZoneGoal',
+                _links: {
+                    'yona:activityCategory': {
+                        href: this.category
+                    }
+                },
+                zones: this.setupData.items.map(zone => {
+                    return `${zone.from}-${zone.to}`;
+                })
+            }})
+        } else {
+            await this.saveGoal({
+                '@type': 'TimeZoneGoal',
+                _links: {
+                    'yona:activityCategory': {
+                        href: this.category
+                    }
+                },
+                zones: this.setupData.items.map(zone => {
+                    return `${zone.from}-${zone.to}`;
+                })
+            })
+        }
         this.$router.push({name: 'ChallengesOverview', params: {type: 'timezone'}})
     }
 }

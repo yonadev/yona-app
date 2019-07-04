@@ -62,10 +62,10 @@
 
         if(this.passcode) {
           let response: any = await axios.post(get_response.data._links['yona:registerDevice'].href, {
+            //Todo: implement Cordova device info
             "operatingSystem": "ANDROID",
             "appVersion": "1.1 build 83",
-            "appVersionCode": 31,
-            "name": "My new phone 2",
+            "appVersionCode": 31
           }, {
             headers: {
               "Yona-NewDeviceRequestPassword": this.passcode

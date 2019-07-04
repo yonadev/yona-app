@@ -5,7 +5,9 @@
             <div class="colored-background green">
                 <div class="nav-title">
                     <span>{{title}}</span>
-                    <a @click="deleteG" v-if="goal_url && goal(goal_url)._links.edit">   DELETE ICONIO</a>
+                    <a @click="deleteG" v-if="goal_url && goal(goal_url)._links.edit">
+                        <img class="small-top-icon is-pulled-right" :src="require('@/assets/images/icons/icn_trash.svg')" />
+                    </a>
                 </div>
 
                 <div class="setupHeader">
@@ -124,8 +126,13 @@ export default class Setup extends Vue {
     }
 
     async deleteG() {
-        await this.deleteGoal(this.goal(this.goal_url)._links.edit.href)
-        this.$router.push({name: 'ChallengesOverview', params: {type: this.type}})
+
+        const goal = this.goal(this.goal_url);
+
+        if(goal._links.edit) {
+            await this.deleteGoal(goal._links.edit.href)
+            this.$router.push({name: 'ChallengesOverview', params: {type: this.type}})
+        }
     }
 }
 </script>

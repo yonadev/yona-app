@@ -28,7 +28,7 @@
 import Vue from 'vue'
 import Component from 'vue-class-component';
 import {Action, State} from "vuex-class";
-import {ChallengesState, Goal} from "@/store/challenges/types";
+import {BudgetGoal, ChallengesState, Goal} from "@/store/challenges/types";
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/antd.css'
 import {Prop} from "vue-property-decorator";
@@ -40,8 +40,9 @@ import {Prop} from "vue-property-decorator";
 })
 export default class Setup extends Vue {
     @Action('saveGoal', {namespace: 'challenges'}) saveGoal: any;
+    @Action('updateGoal', {namespace: 'challenges'}) updateGoal: any;
     @Prop() category!: string;
-    @Prop() goal!: Goal;
+    @Prop() goal!: BudgetGoal;
 
     setupData: {
         maxDurationMinutes: number
@@ -57,17 +58,38 @@ export default class Setup extends Vue {
 
     loading: boolean = false;
 
+    mounted () {
+        if(this.goal) {
+            this.setupData.maxDurationMinutes = this.goal.maxDurationMinutes;
+        }
+    }
+
     async save() {
         this.loading = true;
-        await this.saveGoal({
-            '@type': 'BudgetGoal',
-            _links: {
-                'yona:activityCategory' : {
-                    href: this.category
+        if(this.goal && this.goal._links.edit) {
+            await this.updateGoal({
+                url: this.goal._links.edit.href,
+                data: {
+                    '@type': 'BudgetGoal',
+                    _links: {
+                        'yona:activityCategory': {
+                            href: this.category
+                        }
+                    },
+                    maxDurationMinutes: this.setupData.maxDurationMinutes
                 }
-            },
-            maxDurationMinutes: this.setupData.maxDurationMinutes
-        })
+            })
+        } else {
+            await this.saveGoal({
+                '@type': 'BudgetGoal',
+                _links: {
+                    'yona:activityCategory': {
+                        href: this.category
+                    }
+                },
+                maxDurationMinutes: this.setupData.maxDurationMinutes
+            })
+        }
         this.$router.push({name: 'ChallengesOverview', params: {type: 'credit'}})
     }
 
