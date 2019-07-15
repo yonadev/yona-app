@@ -14,17 +14,29 @@ import store from './store/index'
 Vue.directive('fixed-scroll', {
   inserted: function (el, binding) {
     let f = function (evt: any) {
-      if(el.getBoundingClientRect().top <= 0){
-        if(!document.getElementById('scrolling-clone')) {
+      let elementPosition;
+
+      if(!document.getElementById('placeholder-clone'))
+        elementPosition = el;
+      else
+        elementPosition = document.getElementById('placeholder-clone');
+
+      if(elementPosition && elementPosition.getBoundingClientRect().top <= 0){
+        if(!document.getElementById('placeholder-clone')) {
           let clone = el.cloneNode(true);
-          (clone as any).id = 'scrolling-clone';
-          if(el.parentElement)
-            el.parentElement.prepend(clone);
+
+          (clone as any).id = 'placeholder-clone';
+          if(el.parentElement) {
+            el.parentElement.append(clone);
+            el.id = 'scrolling-element';
+          }
         }
-      } else if(document.getElementById('scrolling-clone')) {
-        let element = document.getElementById('scrolling-clone');
-        if(element && element.parentNode)
+      } else if(document.getElementById('placeholder-clone')) {
+        let element = document.getElementById('placeholder-clone');
+        if(element && element.parentNode) {
           element.parentNode.removeChild(element);
+          el.id = '';
+        }
       }
     }
     window.addEventListener('scroll', f)
