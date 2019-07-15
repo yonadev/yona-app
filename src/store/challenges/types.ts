@@ -10,6 +10,7 @@ export interface ActivityCategory {
 }
 export interface Goal {
   '@type' : string,
+  creationTime: string,
   maxDurationMinutes?: number,
   zones?: string[],
   historyItem: boolean,

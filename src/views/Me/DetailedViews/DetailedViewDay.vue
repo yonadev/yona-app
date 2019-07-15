@@ -18,6 +18,9 @@
         </div>
       </div>
       <ui-control v-if="day_activity" :day_activity="day_activity" type="detailed"></ui-control>
+
+      {{day_activity}}
+
       <!-- ToDo: Add spread -->
     </div>
   </div>

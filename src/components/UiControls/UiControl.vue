@@ -1,55 +1,6 @@
 <template>
   <div class="ui-control" @click="detailedView">
-    <div v-if="type === 'detailed'">
-      <div class="columns is-mobile top-labels">
-        <div class="column has-text-left">
-          <strong>Score</strong>
-        </div>
-        <div class="column is-2 current-minutes">
-          {{day_activity.totalActivityDurationMinutes}}
-        </div>
-        <div class="column has-text-right">
-          <span class="minutes-budget">minuten tegoed</span>
-        </div>
-      </div>
-      <div class="bar">
-        <div v-if="!day_activity.totalMinutesBeyondGoal" class="filler" :style="'width:'+(day_activity.totalActivityDurationMinutes*100/goal.maxDurationMinutes)+'%'"></div>
-        <div v-else>
-
-        </div>
-      </div>
-      <div class="columns is-mobile">
-        <div class="column has-text-left" v-if="day_activity.totalMinutesBeyondGoal">
-          {{day_activity.totalMinutesBeyondGoal}}
-        </div>
-        <div class="column has-text-left">
-          0
-        </div>
-        <div class="column has-text-right">{{goal.maxDurationMinutes}}</div>
-      </div>
-    </div>
-    <div v-if="type === 'simple'">
-      <div v-if="goal['@type'] === 'BudgetGoal'">
-        <div class="columns is-mobile top-labels">
-          <div class="column has-text-left">
-            <strong>{{activityCategory.name}}</strong>
-          </div>
-          <div class="column is-2 current-minutes">
-            {{day_activity.totalActivityDurationMinutes}}
-          </div>
-          <div class="column has-text-right">
-            <span class="minutes-budget">minuten tegoed</span>
-          </div>
-        </div>
-        <div class="bar">
-
-        </div>
-        <div class="columns is-mobile">
-          <div class="column has-text-left">0</div>
-          <div class="column has-text-right">{{goal.maxDurationMinutes}}</div>
-        </div>
-      </div>
-    </div>
+    <Component :is="controlComponent" :goal="controlGoal" :activityCategory="controlCategory" :dayActivity="day_activity"></Component>
   </div>
 </template>
 
@@ -57,11 +8,22 @@
   import Vue from 'vue'
   import {Prop, Component} from 'vue-property-decorator'
   import axios from "@/utils/axios/axios"
+  import {ActivityCategory, Goal} from "@/store/challenges/types";
+  import {Getter} from "vuex-class";
+  import NoGoControl from "./Controls/NoGoControl.vue";
+  import SpreadControl from "./Controls/SpreadControl.vue";
+  import TimeBucketControl from "./Controls/TimeBucketControl.vue";
+  import TimeFrameControl from "./Controls/TimeFrameControl.vue";
 
   @Component({
-
+    components: {
+      NoGoControl,
+      SpreadControl,
+      TimeBucketControl,
+      TimeFrameControl
+    }
   })
-  export default class UiControls extends Vue {
+  export default class UiControl extends Vue {
     @Prop() type!: string;
     @Prop() day_activity!: {
       goalAccomplished: boolean,
@@ -73,52 +35,42 @@
         }
       }
     };
-    goal: {
-      '@type': string,
-      creationTime: string,
-      historyItem: boolean,
-      maxDurationMinutes: number,
-      _links: {
-        [key: string]:{
-          href: string
-        }
+
+    @Getter('goal', {namespace: 'challenges'})
+    public goal!: (href: string, historyItem: boolean) => Goal;
+
+    @Getter('activityCategory', {namespace: 'challenges'})
+    public activityCategory!: (href: string) => ActivityCategory;
+
+    public activityGoal!: Goal;
+
+    get controlGoal() {
+      if(typeof this.day_activity !== 'undefined') {
+        return this.goal(this.day_activity._links['yona:goal'].href, true)
       }
-    } = {
-      '@type': '',
-      creationTime: '',
-      historyItem: false,
-      maxDurationMinutes: 0,
-      _links: {}
-    };
-    activityCategory: {
-      name: string
-    } = {
-      name: ''
-    };
-
-    async mounted() {
-      //First get the goal so we can get the category
-      if (this.day_activity._links['yona:goal']) {
-        let goal_response: any = await axios.get(this.day_activity._links['yona:goal'].href).catch((error) => {
-          console.log(error)
-        });
-
-        if (goal_response.status === 200) {
-          this.goal = goal_response.data
-          this.goal.maxDurationMinutes = 30;
-          this.day_activity.totalActivityDurationMinutes = 25;
-          //this.day_activity.totalMinutesBeyondGoal = 5;
-
-          //Get the category
-          let category_response: any = await axios.get(this.goal._links['yona:activityCategory'].href).catch((error) => {
-            console.log(error)
-          });
-
-          if(category_response.status === 200)
-            this.activityCategory = category_response.data
-        }
-      }
+      return undefined;
     }
+
+    get controlCategory() {
+      if(typeof this.controlGoal !== 'undefined') {
+        return this.activityCategory(this.controlGoal._links["yona:activityCategory"].href)
+      }
+      return undefined;
+    }
+
+    get controlComponent() {
+      if(typeof this.controlGoal !== 'undefined' && typeof this.controlCategory !== 'undefined') {
+        if(this.controlGoal["@type"] === 'BudgetGoal' && this.controlGoal.maxDurationMinutes === 0) {
+          return NoGoControl;
+        } else if(this.controlGoal["@type"] === 'BudgetGoal') {
+          return TimeBucketControl;
+        } else {
+          return TimeFrameControl;
+        }
+      }
+      return undefined;
+    }
+
 
     detailedView(){
       if(this.type === 'simple')
@@ -130,21 +82,44 @@
 <style lang="scss">
   @import "../../sass/variables";
   .ui-control{
-    min-height: 45px;
-    padding: 15px 20px;
+    background: #f7f7f7; /* Old browsers */
+    background: -moz-linear-gradient(top, #f7f7f7 0%, #fcfcfc 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #f7f7f7 0%,#fcfcfc 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #f7f7f7 0%,#fcfcfc 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', endColorstr='#fcfcfc',GradientType=0 ); /* IE6-9 */
+
+    padding: 0 1.5rem;
     .top-labels{
       display:flex;
       align-items: center;
       margin-bottom: 0 !important;
+      margin-top: 0 !important;
+
+
+      > .column {
+        padding: 1.5rem .75rem;
+        line-height: 1 !important;
+      }
+
       .current-minutes{
         font-family: Oswald, sans-serif;
         font-size:28px;
+
+        &.warning {
+          color: $color-purple;
+        }
+
       }
       .minutes-budget{
         font-size:10px;
         opacity:0.6;
       }
     }
+
+    svg {
+      margin-bottom: 1.5rem;
+    }
+
     .bar{
       height:25px;
       width:100%;

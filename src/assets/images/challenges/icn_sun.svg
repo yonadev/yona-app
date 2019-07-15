@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="19px" height="19px" viewBox="0 0 19 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>46B7AB3A-8A44-459D-B75A-6846B93B4F86</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.4">
+        <g id="se_timezone_neg" transform="translate(-170.000000, -94.000000)">
+            <g id="Labels" transform="translate(26.000000, 91.000000)">
+                <g id="icn_sun" transform="translate(142.000000, 0.000000)">
+                    <g id="icon-sun" transform="translate(2.000000, 3.000000)" fill="#2F2F2F">
+                        <rect id="Rectangle-path" x="8.7296875" y="0" width="1.040625" height="3.2375"></rect>
+                        <rect id="Rectangle-path" x="8.7296875" y="15.03125" width="1.040625" height="3.46875"></rect>
+                        <rect id="Rectangle-path" x="15.2625" y="8.7296875" width="3.2375" height="1.040625"></rect>
+                        <rect id="Rectangle-path" x="0" y="8.7296875" width="3.46875" height="1.040625"></rect>
+                        <polygon id="Rectangle-path" points="15.8556828 14.8165321 15.168912 15.5033029 13.2148853 13.5492763 13.9016562 12.8625054"></polygon>
+                        <polygon id="Rectangle-path" points="5.63927464 4.59491727 4.95250377 5.28168814 2.99438919 3.32357356 3.68116006 2.63680269"></polygon>
+                        <polygon id="Rectangle-path" points="15.1662439 2.64465998 15.8530148 3.33143086 13.8989881 5.28545752 13.2122173 4.59868664"></polygon>
+                        <polygon id="Rectangle-path" points="4.94662366 12.8577336 5.63329741 13.5446016 3.67490591 15.5024392 2.98823216 14.8155712"></polygon>
+                        <path d="M9.25,13.6321875 C6.8334375,13.6321875 4.8678125,11.6665625 4.8678125,9.25 C4.8678125,6.8334375 6.8334375,4.8678125 9.25,4.8678125 C11.6665625,4.8678125 13.6321875,6.8334375 13.6321875,9.25 C13.6321875,11.6665625 11.6665625,13.6321875 9.25,13.6321875 L9.25,13.6321875 Z" id="Shape"></path>
+                    </g>
+                    <rect id="bounds" x="0" y="0" width="24" height="24"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

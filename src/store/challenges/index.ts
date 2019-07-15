@@ -80,11 +80,11 @@ const getters: GetterTree<ChallengesState, RootState> = {
       return (type: string, historyItem: boolean = false) => state.goals.filter(goal => {
         switch(type) {
           case "NoGoGoal":
-            return goal['@type'] === 'BudgetGoal' && typeof goal.maxDurationMinutes !== "undefined" && goal.maxDurationMinutes === 0 && goal.historyItem === historyItem;
+            return goal['@type'] === 'BudgetGoal' && typeof goal.maxDurationMinutes !== "undefined" && goal.maxDurationMinutes === 0 && (!goal.historyItem || historyItem);
           case "BudgetGoal":
-            return goal['@type'] === 'BudgetGoal' && typeof goal.maxDurationMinutes !== "undefined" && goal.maxDurationMinutes > 0 && goal.historyItem === historyItem;
+            return goal['@type'] === 'BudgetGoal' && typeof goal.maxDurationMinutes !== "undefined" && goal.maxDurationMinutes > 0 && (!goal.historyItem || historyItem);
           case "TimeZoneGoal":
-            return goal['@type'] === 'TimeZoneGoal' && goal.historyItem === historyItem;
+            return goal['@type'] === 'TimeZoneGoal' && (!goal.historyItem || historyItem);
         }
       })
     },
