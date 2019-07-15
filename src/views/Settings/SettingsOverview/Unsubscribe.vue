@@ -34,8 +34,7 @@ export default class Unsubscribe extends Vue {
         console.log(error)
       })
 
-      if(delete_response)
-        this.resetAll()
+      this.resetAll()
 
       this.$router.push({name: 'Tour'})
     }
