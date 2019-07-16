@@ -7,7 +7,7 @@
         </router-link>
       </div>
       <div class="column">
-        <router-link :to="{name: 'TimeLine'}">
+        <router-link :to="{name: 'FriendsTimeLine'}">
           <img :src="require('../assets/images/menu/icn_friends'+ (active_page === 'friends' ? '_active' : '' ) +'.svg')">
         </router-link>
       </div>

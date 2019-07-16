@@ -6,6 +6,7 @@ import { account, state as account_state } from './account/index';
 import { api, state as api_state } from "./api/index";
 import { login, state as login_state } from "./login/index";
 import { challenges, state as challenges_state } from "./challenges/index";
+import { buddies, state as buddies_state } from "./buddies/index";
 
 const debug = process.env.NODE_ENV !== 'production'
 
@@ -20,7 +21,8 @@ const initialState: RootState = {
   api: {...api_state},
   account: {...account_state},
   login: {...login_state},
-  challenges: {...challenges_state}
+  challenges: {...challenges_state},
+  buddies: {...buddies_state}
 }
 
 const store: StoreOptions<RootState> = {
@@ -28,7 +30,8 @@ const store: StoreOptions<RootState> = {
     account: account,
     api: api,
     login: login,
-    challenges: challenges
+    challenges: challenges,
+    buddies: buddies
   },
   mutations: {
     resetAll(state) {
@@ -36,6 +39,7 @@ const store: StoreOptions<RootState> = {
       Vue.set(state, 'account', initialState.account)
       Vue.set(state, 'login', initialState.login)
       Vue.set(state, 'challenges', initialState.challenges)
+      Vue.set(state, 'buddies', initialState.buddies)
     }
   },
   plugins: [vuexLocal.plugin],

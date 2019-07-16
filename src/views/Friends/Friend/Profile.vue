@@ -84,6 +84,8 @@ export default class FriendsProfile extends Vue {
           });
 
           this.friendPic = await URL.createObjectURL(photo_response.data)
+
+          console.log(this.friendPic)
         }
       }
     }

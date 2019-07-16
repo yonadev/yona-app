@@ -45,17 +45,6 @@ import Notifications from '../views/Me/Notifications.vue'
 import FriendRequest from '../views/Me/FriendRequest.vue'
 import DetailedViewDay from '../views/Me/DetailedViews/DetailedViewDay.vue'
 
-//Friends module
-import AbstractFriends from '../views/Friends/AbstractFriends.vue'
-import TimeLine from '../views/Friends/TimeLine.vue'
-import Overview from '../views/Friends/Overview.vue'
-import FriendAdd from '../views/Friends/Add.vue'
-
-    //Submodule Friends -> Friend
-    import AbstractFriend from '../views/Friends/Friend/AbstractFriend.vue'
-    import Statistics from '../views/Friends/Friend/Statistics.vue'
-    import FriendsProfile from '../views/Friends/Friend/Profile.vue'
-
 //Challenges module
 import AbstractChallenges from '../views/Challenges/AbstractChallenges.vue'
 import ChallengesTabs from '../views/Challenges/ChallengesTabs.vue'
@@ -306,37 +295,44 @@ export default new Router({
         },
         {
             path: '/friends',
-            component: AbstractFriends,
+            component: () => import('../views/Friends/AbstractFriends.vue'),
             children: [
                 {
                     path: '',
-                    name: 'TimeLine',
-                    component: TimeLine
-                },
-                {
-                    path: 'overview',
-                    name: 'Overview',
-                    component: Overview
+                    name: 'FriendsTabs',
+                    component: () => import('../views/Friends/FriendsTabs.vue'),
+                    children: [
+                        {
+                            path: 'timeline',
+                            name: 'FriendsTimeLine',
+                            component: () => import('../views/Friends/FriendsTimeLine.vue')
+                        },
+                        {
+                            path: 'overview',
+                            name: 'FriendsOverview',
+                            component: () => import('../views/Friends/FriendsOverview.vue')
+                        }
+                    ]
                 },
                 {
                     path: 'add',
                     name: 'FriendAdd',
-                    component: FriendAdd
+                    component: () => import('../views/Friends/Add.vue')
                 },
                 {
                     path: 'profile',
                     name: 'FriendsProfile',
-                    component: FriendsProfile,
+                    component: () => import('../views/Friends/Friend/Profile.vue'),
                     props: true
                 },
                 {
                     path: ':id',
-                    component: AbstractFriend,
+                    component: () => import('../views/Friends/Friend/AbstractFriend.vue'),
                     children: [
                         {
                             path: 'statistics',
                             name: 'Statistics',
-                            component: Statistics
+                            component: () => import('../views/Friends/Friend/Statistics.vue'),
                         }
                     ]
                 }

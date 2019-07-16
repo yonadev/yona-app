@@ -20,7 +20,7 @@ export interface Goal {
     },
     edit? : {
       href: string
-    }
+    },
     'yona:activityCategory' : {
       href: string
     }
