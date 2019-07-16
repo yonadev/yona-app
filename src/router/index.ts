@@ -37,14 +37,6 @@ import SmsValidation from '../views/Signup/SmsValidation.vue'
     import Intro from '../views/Signup/Permissions/Intro.vue'
     import GivePermission from '../views/Signup/Permissions/GivePermission.vue'
 
-//Me module
-import AbstractMe from '../views/Me/AbstractMe.vue'
-import Me from '../views/Me/Me.vue'
-import Profile from '../views/Me/Profile.vue'
-import Notifications from '../views/Me/Notifications.vue'
-import FriendRequest from '../views/Me/FriendRequest.vue'
-import DetailedViewDay from '../views/Me/DetailedViews/DetailedViewDay.vue'
-
 //Challenges module
 import AbstractChallenges from '../views/Challenges/AbstractChallenges.vue'
 import ChallengesTabs from '../views/Challenges/ChallengesTabs.vue'
@@ -263,33 +255,33 @@ export default new Router({
         },
         {
             path: '/me',
-            component: AbstractMe,
+            component: () => import('../views/Me/AbstractMe.vue'),
             children: [
                 {
                     path: '',
                     name: 'Me',
-                    component: Me
+                    component: () => import('../views/Me/Me.vue')
                 },
                 {
                     path: 'profile',
                     name: 'Profile',
-                    component: Profile
+                    component: () => import('../views/Me/Profile.vue')
                 },
                 {
                     path: 'notifications',
                     name: 'Notifications',
-                    component: Notifications
+                    component: () => import('../views/Me/Notifications.vue')
                 },
                 {
                     path: 'friendrequest',
                     name: 'FriendRequest',
-                    component: FriendRequest,
+                    component: () => import('../views/Me/FriendRequest.vue'),
                     props: true
                 },
                 {
                     path: 'detailed-day',
                     name: 'DetailedViewDay',
-                    component: DetailedViewDay
+                    component: () => import('../views/Me/DetailedViews/DetailedViewDay.vue')
                 }
             ]
         },
