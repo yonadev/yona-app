@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import { Module, ActionTree, MutationTree, GetterTree } from 'vuex';
 import { BuddiesState } from './types';
 import { RootState } from '../types';
@@ -15,22 +16,44 @@ const actions: ActionTree<BuddiesState, RootState> = {
       await dispatch('getBuddies');
     }
   },
-  async getBuddies ({commit, rootState}) {
+  async getBuddies({commit, dispatch, rootState}) {
     if(rootState.api.embedded != null) {
       const response = await axios.get(rootState.api.embedded['yona:buddies']._links.self.href);
       if (response.status == 200) {
         commit('setBuddies', response);
+        await dispatch('getBuddyImages');
         return true;
       }
     }
-  }
+  },
+  async getBuddyImages({commit, state}) {
+    Promise.all(
+      state.buddies.map(async (buddy, index) => {
+        if(buddy._embedded["yona:user"]._links["yona:userPhoto"]) {
+          const userPhotoResponse: any = await axios.get(buddy._embedded["yona:user"]._links["yona:userPhoto"].href, {
+            responseType: 'blob'
+          }).catch((error) => {
+            console.log(error)
+          });
+
+          if(userPhotoResponse) {
+            const userPhoto = await URL.createObjectURL(userPhotoResponse.data);
+            commit('setBuddyPhoto', {index, userPhoto})
+          } else {
+            //SVG stuff
+          }
+        }
+      })
+    )
+  },
 };
 
 const mutations: MutationTree<BuddiesState> = {
   setBuddies(state, {data}) {
-    console.log(data)
-
     state.buddies = data._embedded['yona:buddies'];
+  },
+  setBuddyPhoto(state, {index, userPhoto}) {
+    Vue.set(state.buddies[index]._embedded['yona:user'], 'photo',  userPhoto)
   }
 };
 

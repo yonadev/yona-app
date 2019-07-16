@@ -13,6 +13,7 @@ export interface Buddy {
   lastStatusChangeTime: string,
   _embedded: {
     'yona:user': {
+      photo?: string,
       firstName: string,
       lastName: string,
       mobileNumber: string,
@@ -21,6 +22,9 @@ export interface Buddy {
       appLastOpenedDate: string,
       _links: {
         self: {
+          href: string
+        },
+        "yona:userPhoto"? : {
           href: string
         }
       }
