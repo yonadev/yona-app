@@ -13,7 +13,7 @@
       </div>
       <bucket
         :goal="goal.maxDurationMinutes"
-        :spend="170">
+        :spend="dayActivity.totalActivityDurationMinutes">
       </bucket>
     </div>
 </template>
