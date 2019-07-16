@@ -3,7 +3,6 @@ function genColumn (_this, h) {
   const { goal, spend, size } = _this;
 
   let bar_width = 0;
-  let x = 0;
   let exceeded = false;
 
   if(spend <= goal) {
@@ -18,7 +17,7 @@ function genColumn (_this, h) {
         h('rect', {
             attrs: {
               id: `column-id-1`,
-              fill: 'green',
+              fill: '#95be18',
               x: bar_width,
               y: 0,
               width: width - bar_width,
@@ -39,7 +38,7 @@ function genColumn (_this, h) {
         h('rect', {
           attrs: {
             id: `column-id-1`,
-            fill: (exceeded ? 'red' : 'green'),
+            fill: (exceeded ? '#f43d89' : '#95be18'),
             transform: (exceeded ? "scale(-1, 1)" : ""),
             x: (exceeded ? bar_width * -1 : 0),
             y: 0,
@@ -63,7 +62,7 @@ function genColumn (_this, h) {
     return [h('rect', {
           attrs: {
             id: `column-id-1`,
-            fill: 'green',
+            fill: '#95be18',
             x: 0,
             y: 0,
             width: width,

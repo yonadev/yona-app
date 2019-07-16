@@ -1,5 +1,5 @@
 import Bucket from './components/bucket'
-import Labels from './components/labels'
+import Labels from './components/bucket_labels'
 
 export default {
   name: 'Columns',
