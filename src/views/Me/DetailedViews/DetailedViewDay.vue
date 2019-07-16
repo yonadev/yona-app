@@ -17,9 +17,11 @@
           <img svg-inline class="icn-next" :class="{'disabled': day_activity._links.next === undefined}" src="@/assets/images/icons/icn_back.svg" @click="goToOther(day_activity._links.next)" />
         </div>
       </div>
+
       <ui-control v-if="day_activity" :day_activity="day_activity" type="detailed"></ui-control>
 
       {{day_activity}}
+      {{goal}}
 
       <!-- ToDo: Add spread -->
     </div>
@@ -54,6 +56,7 @@
       _links: {}
     };
     category: string = '';
+    goal: {} = {};
     loading: boolean = false;
 
     async mounted() {
@@ -69,6 +72,8 @@
         let goal: any = await axios.get(this.day_activity._links['yona:goal'].href).catch((error) => {
           console.log(error)
         });
+
+        this.goal = goal.data;
 
         if(goal.status === 200){
           let category: any = await axios.get(goal.data._links['yona:activityCategory'].href).catch((error) => {
