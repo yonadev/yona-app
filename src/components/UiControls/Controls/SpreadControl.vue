@@ -2,34 +2,37 @@
     <div>
       <div class="columns is-mobile top-labels">
         <div class="column has-text-left">
-          <strong>{{activityCategory.name}}</strong>
+          <strong>{{title}}</strong>
         </div>
         <div class="column is-2 current-minutes">
-          {{dayActivity.totalMinutesBeyondGoal}}
+          {{dayActivity.totalActivityDurationMinutes}}
         </div>
         <div class="column has-text-right">
-          <span class="minutes-budget">minuten buiten tijd</span>
+          <span class="minutes-budget">minuten totaal</span>
         </div>
       </div>
-      <div class="bar">
-      </div>
-      <div class="columns is-mobile">
-        <div class="column has-text-left">0</div>
-        <div class="column has-text-right">{{goal.maxDurationMinutes}}</div>
-      </div>
+      <bars
+        :max="15"
+        :goal="[...(goal.spreadCells ? goal.spreadCells : [])]"
+        :data="dayActivity.spread">
+      </bars>
     </div>
 </template>
 
 <script lang="ts">
     import Vue from 'vue'
     import {Prop, Component} from 'vue-property-decorator'
-    import {ActivityCategory, TimeZoneGoal} from "@/store/challenges/types";
+    import {TimeZoneGoal} from "@/store/challenges/types";
+    import Bars from "./Charts/bars"
 
     @Component({
+      components: {
+        Bars
+      }
     })
     export default class SpreadControl extends Vue {
         @Prop() goal!: TimeZoneGoal;
-        @Prop() activityCategory!: ActivityCategory;
+        @Prop() title!: string;
         @Prop() dayActivity! : {
             totalActivityDurationMinutes: number,
             totalMinutesBeyondGoal: number

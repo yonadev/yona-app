@@ -6,10 +6,11 @@ export default {
 
     const icon_size = 12;
     const text_size = 9;
+    const height = 18;
 
     return h('g', {
       attrs: {
-        transform: `scale(1,1) translate(0,${size.height + size.height - icon_size} )`
+        transform: `scale(1,1) translate(0,${size.height + 4} )`
       }
     }, [
         h('image', {
@@ -30,7 +31,7 @@ export default {
             'font-size': text_size,
             id: `label-text-4`,
             x: (size.width / 6),
-            y: (size.height - icon_size) / 2
+            y: (height - icon_size) / 2
           }
         }, '04:00'),
         h('text', {
@@ -41,7 +42,7 @@ export default {
             'font-size': text_size,
             id: `label-text-8`,
             x: (size.width / 6) * 2,
-            y: (size.height - icon_size) / 2
+            y: (height - icon_size) / 2
           }
         }, '08:00'),
         h('image', {
@@ -62,7 +63,7 @@ export default {
             'font-size': text_size,
             id: `label-text-16`,
             x: (size.width / 6) * 4,
-            y: (size.height - icon_size) / 2
+            y: (height - icon_size) / 2
           }
         }, '16:00'),
         h('text', {
@@ -73,7 +74,7 @@ export default {
             'font-size': text_size,
             id: `label-text-20`,
             x: (size.width / 6) * 5,
-            y: (size.height - icon_size) / 2
+            y: (height - icon_size) / 2
           }
         }, '20:00'),
         h('image', {

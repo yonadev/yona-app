@@ -279,9 +279,10 @@ export default new Router({
                     props: true
                 },
                 {
-                    path: 'detailed-day',
+                    path: 'detailed-day/:activity_link',
                     name: 'DetailedViewDay',
-                    component: () => import('../views/Me/DetailedViews/DetailedViewDay.vue')
+                    component: () => import('../views/Me/DetailedViews/DetailedViewDay.vue'),
+                    props: true
                 }
             ]
         },

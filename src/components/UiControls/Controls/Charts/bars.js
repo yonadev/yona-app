@@ -1,4 +1,5 @@
-import Path from './components/bars'
+import Bars from './components/bars'
+import Labels from './components/labels'
 
 export default {
   name: 'Bars',
@@ -8,18 +9,17 @@ export default {
       type: Array,
       required: true
     },
-    autoDraw: Boolean,
+    goal: {
+      type: Array,
+      required: true
+    },
     blockSize: {
       type: Number,
       default: 15
     },
     growDuration: {
       type: Number,
-      default: 2
-    },
-    gradient: {
-      type: Array,
-      default: () => ['#000']
+      default: 0.5
     },
     max: {
       type: Number,
@@ -30,40 +30,38 @@ export default {
       default: Infinity
     },
     height: Number,
-    width: Number,
-    padding: {
-      type: Number,
-      default: 8
-    }
+    width: Number
   },
 
   render (h) {
     if (!this.data || this.data.length < 2) return
-    const { width, height, padding } = this
+    const { width, height } = this
     const viewWidth = width || 300
-    const viewHeight = height || 75
-    const boundary = {
-      minX: padding,
-      minY: padding,
-      maxX: viewWidth - padding,
-      maxY: viewHeight - padding
-    }
+    const viewHeight = height || 45
     const props = this.$props
 
-    props.boundary = boundary
-    props.id = 'vue-bars-' + this._uid
+    props.size = {
+      width: viewWidth,
+      height: viewHeight
+    }
+    props.id = 'vue-columns-' + this._uid
 
     return h('svg', {
       attrs: {
         width: width || '100%',
-        height: height || '25%',
-        viewBox: `0 0 ${viewWidth} ${viewHeight}`
+        height: height || '20%',
+        viewBox: `0 0 ${viewWidth} ${viewHeight + 18}`
       }
     }, [
-      h(Path, {
+      h(Bars, {
         props,
         ref: 'path'
+      }),
+      h(Labels, {
+        props,
+        ref: 'path_labels'
       })
+
     ])
   }
 }

@@ -6,12 +6,12 @@
       </div>
     </div>
     <div class="wrapper grey-bg">
-      <div class="top-label columns is-mobile">
+      <div class="top-label columns is-mobile"  v-if="day_activity">
         <div class="column has-text-left">
           <img svg-inline class="icn-back" :class="{'disabled': day_activity._links.prev === undefined}" src="@/assets/images/icons/icn_back.svg" @click="goToOther(day_activity._links.prev)" />
         </div>
         <div class="column">
-          <strong>{{getDayLabel(day_activity.date)}}</strong>
+          <strong >{{getDayLabel(day_activity.date)}}</strong>
         </div>
         <div class="column has-text-right">
           <img svg-inline class="icn-next" :class="{'disabled': day_activity._links.next === undefined}" src="@/assets/images/icons/icn_back.svg" @click="goToOther(day_activity._links.next)" />
@@ -19,20 +19,17 @@
       </div>
 
       <ui-control v-if="day_activity" :day_activity="day_activity" type="detailed"></ui-control>
-
-      {{day_activity}}
-      {{goal}}
-
-      <!-- ToDo: Add spread -->
     </div>
   </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
-  import {Component} from 'vue-property-decorator'
+  import {Component, Prop} from 'vue-property-decorator'
   import axios from "@/utils/axios/axios"
   import UiControl from "@/components/UiControls/UiControl.vue";
+  import {Getter} from "vuex-class";
+  import {ActivityCategory, Goal} from "@/store/challenges/types";
 
   @Component({
     components: {
@@ -40,7 +37,15 @@
     }
   })
   export default class DetailedViewDay extends Vue {
-    day_activity: {
+    @Prop() activity_link: string;
+
+    @Getter('goal', {namespace: 'challenges'})
+    public getGoal!: (href: string) => Goal;
+
+    @Getter('activityCategory', {namespace: 'challenges'})
+    public getActivityCategory!: (href: string) => ActivityCategory;
+
+    day_activity!: {
       goalAccomplished: boolean,
       totalActivityDurationMinutes: number,
       totalMinutesBeyondGoal: number,
@@ -49,48 +54,30 @@
           href: string
         }
       }
-    } = {
-      goalAccomplished: false,
-      totalActivityDurationMinutes: 0,
-      totalMinutesBeyondGoal: 0,
-      _links: {}
-    };
-    category: string = '';
-    goal: {} = {};
+    } = null;
+    category!: string = null;
     loading: boolean = false;
 
     async mounted() {
       this.loading = true;
 
-      let detailed_response: any = await axios.get((this.$route.query.href as string)).catch((error) => {
+      let detailed_response: any = await axios.get(this.activity_link).catch((error) => {
         console.log(error)
       });
 
       if(detailed_response.status === 200) {
         this.day_activity = detailed_response.data;
 
-        let goal: any = await axios.get(this.day_activity._links['yona:goal'].href).catch((error) => {
-          console.log(error)
-        });
+        const goal = this.getGoal(this.day_activity._links['yona:goal'].href);
+        this.category = this.getActivityCategory(goal._links['yona:activityCategory'].href).name
 
-        this.goal = goal.data;
-
-        if(goal.status === 200){
-          let category: any = await axios.get(goal.data._links['yona:activityCategory'].href).catch((error) => {
-            console.log(error)
-          });
-
-          if(category.status === 200){
-            this.category = category.data.name;
-            this.loading = false;
-          }
-        }
+        this.loading = false;
       }
     }
 
     goToOther(link: {href:string}){
       if(link && link.href)
-        this.$router.push({'name': 'DetailedViewDay', query: {href: link.href}})
+        this.$router.push({'name': 'DetailedViewDay', params: {activity_link: link.href}})
     }
 
     getDayLabel(date: any){

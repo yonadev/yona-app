@@ -2,7 +2,7 @@
     <div>
       <div class="columns is-mobile top-labels">
         <div class="column has-text-left">
-          <strong>{{activityCategory.name}}</strong>
+          <strong>{{title}}</strong>
         </div>
         <div class="column is-2 current-minutes">
           {{goal.maxDurationMinutes - dayActivity.totalActivityDurationMinutes}}
@@ -32,7 +32,7 @@
     })
     export default class TimeBucketControl extends Vue {
         @Prop() goal!: BudgetGoal;
-        @Prop() activityCategory!: ActivityCategory;
+        @Prop() title!: string;
         @Prop() dayActivity! : {
             totalActivityDurationMinutes: number
         };

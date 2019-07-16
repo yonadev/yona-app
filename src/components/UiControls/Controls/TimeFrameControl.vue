@@ -2,7 +2,7 @@
     <div>
       <div class="columns is-mobile top-labels">
         <div class="column has-text-left">
-          <strong>{{activityCategory.name}}</strong>
+          <strong>{{title}}</strong>
         </div>
         <div class="column is-2 current-minutes" :class="{warning: dayActivity.totalMinutesBeyondGoal > 0 }">
           {{dayActivity.totalMinutesBeyondGoal}}
@@ -36,7 +36,7 @@
     })
     export default class TimeFrameControl extends Vue {
         @Prop() goal!: TimeZoneGoal;
-        @Prop() activityCategory!: ActivityCategory;
+        @Prop() title!: string;
         @Prop() dayActivity! : {
             totalActivityDurationMinutes: number,
             totalMinutesBeyondGoal: number

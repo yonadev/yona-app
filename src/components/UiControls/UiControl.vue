@@ -1,13 +1,13 @@
 <template>
-  <div class="ui-control" @click="detailedView">
-    <Component :is="controlComponent" :goal="controlGoal" :activityCategory="controlCategory" :dayActivity="day_activity"></Component>
+  <div @click="detailedView">
+    <Component class="ui-control" :is="controlComponent" :goal="controlGoal" :title="controlCategory" :dayActivity="day_activity"></Component>
+    <spread-control v-if="type === 'detailed'" class="ui-control" :goal="controlGoal" :activityCategory="controlCategory" :dayActivity="day_activity" title="Spreiding"></spread-control>
   </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
   import {Prop, Component} from 'vue-property-decorator'
-  import axios from "@/utils/axios/axios"
   import {ActivityCategory, Goal} from "@/store/challenges/types";
   import {Getter} from "vuex-class";
   import NoGoControl from "./Controls/NoGoControl.vue";
@@ -52,10 +52,15 @@
     }
 
     get controlCategory() {
-      if(typeof this.controlGoal !== 'undefined') {
-        return this.activityCategory(this.controlGoal._links["yona:activityCategory"].href)
+      if(this.type === 'simple') {
+        if (typeof this.controlGoal !== 'undefined') {
+          return this.activityCategory(this.controlGoal._links["yona:activityCategory"].href).name
+        } else {
+          return null;
+        }
+      } else {
+        return 'Score';
       }
-      return undefined;
     }
 
     get controlComponent() {
@@ -74,7 +79,7 @@
 
     detailedView(){
       if(this.type === 'simple')
-        this.$router.push({'name': 'DetailedViewDay', query: {href: this.day_activity._links['yona:dayDetails'].href}})
+        this.$router.push({'name': 'DetailedViewDay', params: {activity_link: this.day_activity._links['yona:dayDetails'].href}})
     }
   }
 </script>
