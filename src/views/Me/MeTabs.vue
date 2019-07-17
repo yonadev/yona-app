@@ -3,7 +3,7 @@
     <div class="colored-background purple-dark">
       <div class="nav-title">
         <router-link :to="{name: 'Profile'}">
-          <img v-if="profilePic" class="small-top-icon profile-img" :src="profilePic" />
+          <profile-pic src="user_image"></profile-pic>
           DASHBOARD
         </router-link>
         <router-link class="" :to="{name: 'Notifications'}">
@@ -31,16 +31,13 @@
     import {State} from "vuex-class";
     import {AccountState} from "@/store/account/types";
     import Component from "vue-class-component";
+    import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
 
     @Component({
+      components: {ProfilePic}
     })
     export default class MeTabs extends Vue {
         @State('account') account!: AccountState;
-        profilePic: string | null = '';
-
-        mounted() {
-            this.profilePic = window.localStorage.getItem(this.account.userphoto);
-        }
     }
 </script>
 

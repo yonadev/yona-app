@@ -10,10 +10,7 @@
         </div>
 
         <div v-if="!edit" class="wrapper">
-          <img v-if="profilePic" class="profile-img" :src="profilePic" />
-          <div v-else class="profile-img">
-            <span class="text">{{account.firstname.charAt(0)}}{{account.lastname.charAt(0)}}</span>
-          </div>
+          <profile-pic src="user_image"></profile-pic>
           <p class="icon-title">
             {{account.firstname}} {{account.lastname}}
           </p>
@@ -23,7 +20,7 @@
         </div>
         <div v-if="edit" class="wrapper">
           <div class="profile-img edit">
-            <img v-if="profilePic" :src="profilePic" />
+            <profile-pic src="user_image"></profile-pic>
             <div class="profile-img-overlay"></div>
             <label for="profile-image">
               <img class="add-picture-icn" src="../../assets/images/profile/icn_add_picture.svg" />
@@ -64,9 +61,11 @@ import {AccountState} from "@/store/account/types";
 import {Watch} from "vue-property-decorator";
 import {ApiState} from "@/store/api/types";
 import axios from "@/utils/axios/axios"
+import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
 
 @Component({
   components:{
+    ProfilePic,
     InputFloatingLabel
   }
 })
@@ -80,14 +79,12 @@ export default class Profile extends Vue {
   lastname: string | null = '';
   mobile: string | null = '';
   nickname: string | null = '';
-  profilePic: string | ArrayBuffer | null = '';
 
   async mounted(){
     this.firstname = this.account.firstname;
     this.lastname = this.account.lastname;
     this.mobile = this.account.phonenumber;
     this.nickname = this.account.nickname;
-    this.profilePic = this.account.userphoto;
   }
 
   //Methods
@@ -134,9 +131,7 @@ export default class Profile extends Vue {
         if(photo_response) {
           //@ts-ignore
           const userPhoto = new Buffer(photo_response.data, 'binary').toString('base64')
-          window.localStorage.setItem(response.data._links['yona:userPhoto'].href, 'data:image/png;base64,' + userPhoto)
-          this.profilePic = 'data:image/png;base64,' + userPhoto;
-          this.setProperty({userphoto: response.data._links['yona:userPhoto'].href})
+          window.localStorage.setItem('user_image', 'data:image/png;base64,' + userPhoto)
         }
       }
     }

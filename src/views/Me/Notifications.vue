@@ -98,7 +98,7 @@ export default class Notifications extends Vue {
     }
   }
 
-  getLink(notification){
+  getLink(notification: any){
     if(notification['@type'] === 'BuddyInfoChangeMessage'){
       return notification._links['yona:user'].href;
     } else if(notification['@type']  === 'BuddyConnectRequestMessage') {
