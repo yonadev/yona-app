@@ -77,15 +77,7 @@ export default class FriendsProfile extends Vue {
         this.nickName = buddy.data._embedded['yona:user'].nickname
 
         if(buddy.data._embedded['yona:user']._links['yona:userPhoto']) {
-          let photo_response: any = await axios.get(buddy.data._embedded['yona:user']._links['yona:userPhoto'].href, {
-            responseType: 'blob'
-          }).catch((error) => {
-            console.log(error)
-          });
-
-          this.friendPic = await URL.createObjectURL(photo_response.data)
-
-          console.log(this.friendPic)
+          this.friendPic = window.localStorage.getItem(buddy.data._embedded['yona:user']._links['yona:userPhoto'].href)
         }
       }
     }

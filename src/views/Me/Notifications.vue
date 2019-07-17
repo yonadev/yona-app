@@ -11,11 +11,6 @@
           <div class="column is-2">
             <div class="img-wrapper">
               <img v-if="notification._links['yona:userPhoto']" :ref="'image'+index" :src="getPhoto(notification._links['yona:userPhoto'].href, 'image'+index)" />
-              <div class="profile-img" v-else>
-                <span>
-                  {{notification.nickname.charAt(0)}}
-                </span>
-              </div>
             </div>
           </div>
           <div class="column">
@@ -37,11 +32,6 @@
           <div class="column is-2">
             <div class="img-wrapper">
               <img v-if="notification._links['yona:userPhoto']" :ref="'image'+index" :src="getPhoto(notification._links['yona:userPhoto'].href, 'image'+index)" />
-              <div class="profile-img" v-else>
-                <span>
-                  {{notification.nickname.charAt(0)}}
-                </span>
-              </div>
             </div>
           </div>
           <div class="column">
@@ -58,11 +48,6 @@
           <div class="column is-2">
             <div class="img-wrapper">
               <img v-if="notification._links['yona:userPhoto']" :ref="'image'+index" :src="getPhoto(notification._links['yona:userPhoto'].href, 'image'+index)" />
-              <div class="profile-img" v-else>
-                <span>
-                  {{notification.nickname.charAt(0)}}
-                </span>
-              </div>
             </div>
           </div>
           <div class="column">
@@ -104,15 +89,8 @@ export default class Notifications extends Vue {
     }
   }
 
-  async getPhoto(href: any, index: any){
-    let photo_response: any = await axios.get(href, {
-      responseType: 'blob'
-    }).catch((error) => {
-      console.log(error)
-    });
-
-    if(this.$refs[index])
-      (this.$refs[index] as any)[0].src = await URL.createObjectURL(photo_response.data)
+  getPhoto(href: any, index: any){
+    return window.localStorage.getItem(href);
   }
 
   async goTo(notification: any){

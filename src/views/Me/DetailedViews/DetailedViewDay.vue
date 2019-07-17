@@ -68,10 +68,12 @@
       if(detailed_response.status === 200) {
         this.day_activity = detailed_response.data;
 
-        const goal = this.getGoal(this.day_activity._links['yona:goal'].href);
-        this.category = this.getActivityCategory(goal._links['yona:activityCategory'].href).name
+        if(this.day_activity) {
+          const goal = this.getGoal(this.day_activity._links['yona:goal'].href);
+          this.category = this.getActivityCategory(goal._links['yona:activityCategory'].href).name
 
-        this.loading = false;
+          this.loading = false;
+        }
       }
     }
 

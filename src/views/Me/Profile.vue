@@ -126,20 +126,17 @@ export default class Profile extends Vue {
 
       if (response.status == 200) {
         let photo_response: any = await axios.get(response.data._links['yona:userPhoto'].href, {
-          responseType: 'blob'
+          responseType: 'arraybuffer'
         }).catch((error) => {
           console.log(error)
         });
 
-        let self = this
-
-        if (FileReader && photo_response.data) {
-          var fr = new FileReader();
-          fr.onload = await function () {
-            self.setProperty({userphoto: fr.result})
-            self.profilePic = fr.result
-          }
-          fr.readAsDataURL(photo_response.data);
+        if(photo_response) {
+          //@ts-ignore
+          const userPhoto = new Buffer(photo_response.data, 'binary').toString('base64')
+          window.localStorage.setItem(response.data._links['yona:userPhoto'].href, 'data:image/png;base64,' + userPhoto)
+          this.profilePic = 'data:image/png;base64,' + userPhoto;
+          this.setProperty({userphoto: response.data._links['yona:userPhoto'].href})
         }
       }
     }

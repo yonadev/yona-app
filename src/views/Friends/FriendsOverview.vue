@@ -7,12 +7,7 @@
       <div v-if="buddy && buddy.receivingStatus === userStatus.Accepted" class="columns is-mobile">
         <div class="column is-2">
           <div class="img-wrapper">
-            <img v-if="buddy._embedded['yona:user']._links['yona:userPhoto']" :ref="'image'+index" :src="getPhoto(buddy._embedded['yona:user']._links['yona:userPhoto'].href, 'image'+index)" />
-            <div v-else class="profile-img">
-              <span>
-                {{buddy._embedded['yona:user'].firstName.charAt(0)}}{{buddy._embedded['yona:user'].lastName.charAt(0)}}
-              </span>
-            </div>
+            <img v-if="buddy._embedded['yona:user']._links['yona:userPhoto']" :ref="'image'+index" :src="getPhoto(buddy._embedded['yona:user']._links['yona:userPhoto'].href)" />
           </div>
         </div>
         <div class="column">
@@ -73,16 +68,9 @@
 
     }
 
-    async getPhoto(href: any, index: any){
-      let photo_response: any = await axios.get(href, {
-        responseType: 'blob'
-      }).catch((error) => {
-        console.log(error)
-      });
-
-      (this.$refs[index] as any)[0].src = await URL.createObjectURL(photo_response.data)
+    getPhoto(href: any) {
+      return window.localStorage.getItem(href)
     }
-
   }
 </script>
 
