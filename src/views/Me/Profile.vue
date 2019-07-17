@@ -131,7 +131,7 @@ export default class Profile extends Vue {
         if(photo_response) {
           //@ts-ignore
           const userPhoto = new Buffer(photo_response.data, 'binary').toString('base64')
-          window.localStorage.setItem('user_image', 'data:image/png;base64,' + userPhoto)
+          window.localStorage.setItem('user_image', JSON.stringify({type: 'me', src: 'data:image/png;base64,' + userPhoto}))
         }
       }
     }
