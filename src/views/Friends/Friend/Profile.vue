@@ -3,14 +3,8 @@
     <div class="colored-background blue">
       <div class="heading">
         <div class="nav-title"></div>
-
         <div class="wrapper">
-          <img v-if="friendPic" class="profile-img" :src="friendPic" />
-          <div v-else class="profile-img">
-            <span>
-              {{firstName.charAt(0)}}{{lastName.charAt(0)}}
-            </span>
-          </div>
+          <profile-pic class="profile-img" :src="this.buddyProfile._embedded['yona:user']._links.self.href"></profile-pic>
           <p class="icon-title">
             {{firstName}} {{lastName}}
           </p>
@@ -50,37 +44,37 @@ import Vue from 'vue'
 import InputFloatingLabel from '@/components/InputFloatingLabel.vue';
 import Component from 'vue-class-component';
 import axios from "@/utils/axios/axios"
+import {Getter} from "vuex-class";
+import {Buddy} from "@/store/buddies/types";
+import {Prop} from "vue-property-decorator";
+import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
 
 @Component({
   components:{
+    ProfilePic,
     InputFloatingLabel
   }
 })
 export default class FriendsProfile extends Vue {
   active_tab: string | null = 'profile';
-  friendPic: string | null = '';
   firstName: string | null = '';
   lastName: string | null = '';
   nickName: string | null = '';
   mobileNumber: string | null = '';
+  @Prop() buddy_href!: string;
+
+  @Getter('buddy', {namespace: 'buddies'})
+  public buddy!: (buddy_href: string) => Buddy;
 
   async mounted () {
-    if(this.$route.query.link) {
-      let buddy: any = await axios.get((this.$route.query as any).link).catch((error) => {
-        console.log(error)
-      });
+    this.firstName = this.buddyProfile._embedded['yona:user'].firstName
+    this.lastName = this.buddyProfile._embedded['yona:user'].lastName
+    this.mobileNumber = this.buddyProfile._embedded['yona:user'].mobileNumber
+    this.nickName = this.buddyProfile._embedded['yona:user'].nickname
+  }
 
-      if (buddy.status == 200) {
-        this.firstName = buddy.data._embedded['yona:user'].firstName
-        this.lastName = buddy.data._embedded['yona:user'].lastName
-        this.mobileNumber = buddy.data._embedded['yona:user'].mobileNumber
-        this.nickName = buddy.data._embedded['yona:user'].nickname
-
-        if(buddy.data._embedded['yona:user']._links['yona:userPhoto']) {
-          this.friendPic = window.localStorage.getItem(buddy.data._embedded['yona:user']._links['yona:userPhoto'].href)
-        }
-      }
-    }
+  get buddyProfile(){
+    return this.buddy(this.buddy_href);
   }
 
   async removeFriend(){
@@ -105,6 +99,9 @@ export default class FriendsProfile extends Vue {
       min-height:75px;
       border: 2px solid rgba(255, 255, 255, 0.4);
       background-color: rgba(255, 255, 255, 0.4);
+      img{
+        border-radius:50%;
+      }
       span{
         display:block;
         color:#fff;

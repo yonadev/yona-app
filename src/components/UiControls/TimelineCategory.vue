@@ -11,7 +11,7 @@
     </div>
     <div class="columns is-mobile" v-for="(user_activity, index) in day_activity.dayActivitiesForUsers" :key="'user_activity'+index">
       <div class="column">
-        <router-link v-if="user_activity._links['yona:buddy']" :to="{name: 'DetailedViewBuddyDay', params: {activity_link: user_activity._links['yona:dayDetails'].href}}">
+        <router-link v-if="user_activity._links['yona:buddy']" :to="{name: 'FriendsDetailedViewDay', params: {activity_link: user_activity._links['yona:dayDetails'].href, buddy_href: user_activity._links['yona:buddy'].href}}">
           <timeline-control
                   :user_image="buddy(user_activity._links['yona:buddy'].href)._embedded['yona:user']._links.self.href"
                   :username="buddy(user_activity._links['yona:buddy'].href).nickname"

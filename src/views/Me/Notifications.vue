@@ -125,7 +125,7 @@ export default class Notifications extends Vue {
     if(notification['@type'] === 'BuddyConnectRequestMessage' && notification.status === 'REQUESTED'){
       this.$router.push({name: 'FriendRequest', params: {notification: notification}});
     } else if (notification['@type'] === 'BuddyInfoChangeMessage' || notification['@type'] === 'BuddyConnectResponseMessage') {
-      this.$router.push({name: 'FriendsProfile', params: {buddy_link: notification._links['yona:buddy'].href}});
+      this.$router.push({name: 'FriendsProfile', params: {buddy_href: notification._links['yona:buddy'].href}});
     } else if (notification['@type'] === 'GoalConflictMessage') {
       this.$router.push({name: 'DetailedViewDay', params: {activity_link: notification._links['yona:dayDetails'].href}});
     }

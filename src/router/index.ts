@@ -331,19 +331,26 @@ export default new Router({
                     component: () => import('../views/Friends/Add.vue')
                 },
                 {
-                    path: 'profile',
-                    name: 'FriendsProfile',
-                    component: () => import('../views/Friends/Friend/Profile.vue'),
-                    props: true
-                },
-                {
-                    path: ':id',
+                    path: ':buddy_href',
                     component: () => import('../views/Friends/Friend/AbstractFriend.vue'),
                     children: [
                         {
-                            path: 'statistics',
-                            name: 'Statistics',
-                            component: () => import('../views/Friends/Friend/Statistics.vue'),
+                            path: 'profile',
+                            name: 'FriendsProfile',
+                            component: () => import('../views/Friends/Friend/Profile.vue'),
+                            props: true
+                        },
+                        {
+                            path: 'detailed-day/:activity_link',
+                            name: 'FriendsDetailedViewDay',
+                            component: () => import('../views/Friends/DetailedViews/DetailedViewDay.vue'),
+                            props: true
+                        },
+                        {
+                            path: 'detailed-week/:activity_link',
+                            name: 'FriendsDetailedViewWeek',
+                            component: () => import('../views/Friends/DetailedViews/DetailedViewWeek.vue'),
+                            props: true
                         }
                     ]
                 }

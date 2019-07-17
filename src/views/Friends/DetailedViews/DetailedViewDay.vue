@@ -1,24 +1,24 @@
 <template>
   <div id="detailed-day" class="header-template">
-    <div class="colored-background purple-dark">
-      <div class="nav-title">
-        {{category}}
+    <div class="colored-background blue">
+      <div class="nav-title" v-if="day_activity">
+        {{controlCategory}}
       </div>
     </div>
     <div class="wrapper grey-bg">
-      <div class="top-label columns is-mobile"  v-if="day_activity">
+      <div class="top-label columns is-mobile" v-if="day_activity">
         <div class="column has-text-left">
           <img svg-inline class="icn-back" :class="{'disabled': day_activity._links.prev === undefined}" src="@/assets/images/icons/icn_back.svg" @click="goToOther(day_activity._links.prev)" />
         </div>
         <div class="column">
-          <strong >{{getDayLabel(day_activity.date)}}</strong>
+          <strong>{{getDayLabel(day_activity.date)}}</strong>
         </div>
         <div class="column has-text-right">
           <img svg-inline class="icn-next" :class="{'disabled': day_activity._links.next === undefined}" src="@/assets/images/icons/icn_back.svg" @click="goToOther(day_activity._links.next)" />
         </div>
       </div>
-
-      <ui-control v-if="day_activity" :day_activity="day_activity" type="detailed"></ui-control>
+      <Component class="ui-control" :is="controlComponent" :goal="controlGoal" :title="controlCategory" :dayActivity="day_activity"></Component>
+      <spread-control v-if="day_activity" class="ui-control" :goal="controlGoal" :dayActivity="day_activity" title="Spreiding"></spread-control>
     </div>
   </div>
 </template>
@@ -30,20 +30,29 @@
   import UiControl from "@/components/UiControls/UiControl.vue";
   import {Getter} from "vuex-class";
   import {ActivityCategory, Goal} from "@/store/challenges/types";
+  import SpreadControl from "@/components/UiControls/Controls/SpreadControl.vue";
+  import NoGoControl from "@/components/UiControls/Controls/NoGoControl.vue";
+  import TimeBucketControl from "@/components/UiControls/Controls/TimeBucketControl.vue";
+  import TimeFrameControl from "@/components/UiControls/Controls/TimeFrameControl.vue";
 
   @Component({
     components: {
+      TimeFrameControl,
+      TimeBucketControl,
+      NoGoControl,
+      SpreadControl,
       UiControl
     }
   })
   export default class DetailedViewDay extends Vue {
     @Prop() activity_link!: string;
+    @Prop() buddy_href!: string;
 
-    @Getter('goal', {namespace: 'challenges'})
-    public getGoal!: (href: string) => Goal;
+    @Getter('goal', {namespace: 'buddies'})
+    public goal!: (buddy_href: string, href: string) => Goal;
 
     @Getter('activityCategory', {namespace: 'challenges'})
-    public getActivityCategory!: (href: string) => ActivityCategory;
+    public activityCategory!: (href: string) => ActivityCategory;
 
     day_activity: {
       goalAccomplished: boolean,
@@ -67,14 +76,35 @@
 
       if(detailed_response.status === 200) {
         this.day_activity = detailed_response.data;
+      }
+    }
 
-        if(this.day_activity) {
-          const goal = this.getGoal(this.day_activity._links['yona:goal'].href);
-          this.category = this.getActivityCategory(goal._links['yona:activityCategory'].href).name
+    get controlGoal() {
+      if(this.day_activity) {
+        return this.goal(this.buddy_href, this.day_activity._links['yona:goal'].href)
+      }
+      return undefined;
+    }
 
-          this.loading = false;
+    get controlCategory() {
+      if (typeof this.controlGoal !== 'undefined') {
+        return this.activityCategory(this.controlGoal._links["yona:activityCategory"].href).name
+      } else {
+        return null;
+      }
+    }
+
+    get controlComponent() {
+      if(typeof this.controlGoal !== 'undefined' && typeof this.controlCategory !== 'undefined') {
+        if(this.controlGoal["@type"] === 'BudgetGoal' && this.controlGoal.maxDurationMinutes === 0) {
+          return NoGoControl;
+        } else if(this.controlGoal["@type"] === 'BudgetGoal') {
+          return TimeBucketControl;
+        } else {
+          return TimeFrameControl;
         }
       }
+      return undefined;
     }
 
     goToOther(link: {href:string}){
