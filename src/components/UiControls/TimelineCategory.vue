@@ -1,9 +1,12 @@
 <template>
-  <div class="ui-control">
-    <div class="columns is-mobile">
+  <div class="timeline-category">
+    <div class="columns is-mobile top-labels is-vcentered">
       <div class="column is-2"></div>
       <div class="column">
-        <p class="has-text-left"><strong>{{controlCategory.name}}</strong></p>
+        <p class="has-text-left title"><strong>{{controlCategory.name}}</strong></p>
+      </div>
+      <div class="column is-2">
+        <p class="has-text-right minutes">minuten</p>
       </div>
     </div>
     <div class="columns is-mobile" v-for="(user_activity, index) in day_activity.dayActivitiesForUsers" :key="'user_activity'+index">
@@ -24,7 +27,6 @@
                 :goal="userGoal(user_activity._links['yona:goal'].href)"
                 :day_activity="user_activity">
         </timeline-control>
-
       </div>
     </div>
   </div>
@@ -89,24 +91,27 @@
 
 <style lang="scss">
   @import "../../sass/variables";
-  .ui-control{
+  .timeline-category{
     background: #f7f7f7; /* Old browsers */
     background: -moz-linear-gradient(top, #f7f7f7 0%, #fcfcfc 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top, #f7f7f7 0%,#fcfcfc 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom, #f7f7f7 0%,#fcfcfc 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', endColorstr='#fcfcfc',GradientType=0 ); /* IE6-9 */
 
-    padding: 0 1.5rem;
+    padding: .5rem 1.5rem 1.5rem;
     .top-labels{
       display:flex;
       align-items: center;
-      margin-bottom: 0 !important;
-      margin-top: 0 !important;
-
-
-      > .column {
-        padding: 1.5rem .75rem;
-        line-height: 1 !important;
+      margin-bottom:0;
+      p {
+        margin-bottom: 0 !important;
+        margin-top: 10px !important;
+        &.title{
+          font-size:13px;
+        }
+        &.minutes{
+          font-size:10px;
+        }
       }
 
       .current-minutes{
@@ -122,10 +127,6 @@
         font-size:10px;
         opacity:0.6;
       }
-    }
-
-    svg {
-      margin-bottom: 1.5rem;
     }
 
     .bar{

@@ -1,16 +1,5 @@
 <template>
     <div>
-      <div class="columns is-mobile top-labels">
-        <div class="column has-text-left">
-          <strong>{{title}}</strong>
-        </div>
-        <div class="column is-2 current-minutes">
-          {{goal.maxDurationMinutes - dayActivity.totalActivityDurationMinutes}}
-        </div>
-        <div class="column has-text-right">
-          <span class="minutes-budget">minuten tegoed</span>
-        </div>
-      </div>
       <bucket
         :goal="goal.maxDurationMinutes"
         :spend="dayActivity.totalActivityDurationMinutes">
