@@ -4,9 +4,7 @@
       <div class="nav-title">
         <router-link :to="{name: 'Profile'}">
           <img v-if="profilePic" class="small-top-icon profile-img" :src="profilePic" />
-          <div v-else class="small-top-icon profile-img">
-            <span class="text">{{account.firstname.charAt(0)}}{{account.lastname.charAt(0)}}</span>
-          </div> DASHBOARD
+          DASHBOARD
         </router-link>
         <router-link class="" :to="{name: 'Notifications'}">
           <img class="small-top-icon is-pulled-right" src="@/assets/images/icons/icn_notification.svg" />
@@ -41,7 +39,7 @@
         profilePic: string | null = '';
 
         mounted() {
-            this.profilePic = this.account.userphoto;
+            this.profilePic = window.localStorage.getItem(this.account.userphoto);
         }
     }
 </script>
