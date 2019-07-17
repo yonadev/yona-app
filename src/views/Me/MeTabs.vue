@@ -1,12 +1,12 @@
 <template>
   <div id="me" class="header-template">
     <div class="colored-background purple-dark">
-      <div class="nav-title">
-        <router-link :to="{name: 'Profile'}">
+      <div class="nav-title is-vcentered columns is-mobile">
+        <router-link tag="div" :to="{name: 'Profile'}" class="column is-8">
           <profile-pic src="user_image"></profile-pic>
-          DASHBOARD
+          <span class="dashboard-title">DASHBOARD</span>
         </router-link>
-        <router-link class="" :to="{name: 'Notifications'}">
+        <router-link tag="div" :to="{name: 'Notifications'}" class="column">
           <img class="small-top-icon is-pulled-right" src="@/assets/images/icons/icn_notification.svg" />
         </router-link>
       </div>
@@ -63,8 +63,18 @@
         }
       }
     }
+    .dashboard-title{
+      display:inline-block;
+      vertical-align: top;
+      height:35px;
+      line-height:35px;
+      margin-left: 10px;
+    }
     .nav-title{
       padding:30px 15px 10px 15px;
+      img{
+        width:35px;
+      }
     }
     .wrapper{
       padding:0;
