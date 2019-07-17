@@ -29,6 +29,9 @@ const actions: ActionTree<BuddiesState, RootState> = {
   async getBuddyImages({commit, state}) {
     Promise.all(
       state.buddies.map(async (buddy, index) => {
+
+        let hasPhoto = false;
+
         if(buddy._embedded["yona:user"]._links["yona:userPhoto"]) {
           const userPhotoResponse: any = await axios.get(buddy._embedded["yona:user"]._links["yona:userPhoto"].href, {
             responseType: 'arraybuffer'
@@ -39,11 +42,15 @@ const actions: ActionTree<BuddiesState, RootState> = {
           if(userPhotoResponse) {
             //@ts-ignore
             const userPhoto = new Buffer(userPhotoResponse.data, 'binary').toString('base64')
-            window.localStorage.setItem(buddy._embedded["yona:user"]._links["yona:userPhoto"].href, 'data:image/png;base64,'+userPhoto)
-          } else {
-            //SVG stuff
+            window.localStorage.setItem(buddy._embedded["yona:user"]._links.self.href, JSON.stringify({type: 'buddy', src: 'data:image/png;base64,'+userPhoto}));
+            hasPhoto = true;
           }
         }
+
+        if(!hasPhoto) {
+          window.localStorage.setItem(buddy._embedded["yona:user"]._links.self.href, JSON.stringify({type: 'buddy', text: buddy._embedded['yona:user'].firstName.charAt(0) + buddy._embedded['yona:user'].lastName.charAt(0)}));
+        }
+
       })
     )
   },

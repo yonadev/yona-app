@@ -14,7 +14,7 @@
         <timeline-control
                 @click="detailedViewBuddy(user_activity._links['yona:dayDetails'].href)"
                 v-if="user_activity._links['yona:buddy']"
-                :user_image="buddy(user_activity._links['yona:buddy'].href)._embedded['yona:user']._links['yona:userPhoto'].href"
+                :user_image="buddy(user_activity._links['yona:buddy'].href)._embedded['yona:user']._links.self.href"
                 :username="buddy(user_activity._links['yona:buddy'].href).nickname"
                 :goal="buddyGoal(user_activity._links['yona:buddy'].href, user_activity._links['yona:goal'].href)"
                 :day_activity="user_activity">
