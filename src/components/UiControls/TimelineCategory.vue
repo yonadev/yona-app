@@ -22,7 +22,7 @@
         <timeline-control
                 @click="detailedViewUser(user_activity._links['yona:dayDetails'].href)"
                 v-else
-                :user_image="account.userphoto"
+                user_image="user_image"
                 :username="account.nickname"
                 :goal="userGoal(user_activity._links['yona:goal'].href)"
                 :day_activity="user_activity">

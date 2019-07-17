@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import { Module, ActionTree, MutationTree, GetterTree } from 'vuex';
 import { BuddiesState } from './types';
 import { RootState } from '../types';

@@ -7,7 +7,6 @@ export const state: AccountState = {
   lastname: '',
   phonenumber: '',
   nickname: '',
-  userphoto: '',
   permissions: {
     tracking: {
       title: "Maak app-tracking mogelijk",
