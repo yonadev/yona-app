@@ -54,7 +54,7 @@ export default class Login extends Vue {
             console.log(error)
           });
 
-          if (user_response)
+          /*if (user_response)
             this.setUserData(user_response.data)
 
           if(this.api.links['yona:userPhoto']) {
@@ -75,7 +75,7 @@ export default class Login extends Vue {
             }
           } else if(user_response) {
             this.setProperty({userphoto: user_response.data.firstName.charAt(0)+''+user_response.data.lastName.charAt(0)})
-          }
+          } */
 
           this.setLoggedIn();
         }
