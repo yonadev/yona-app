@@ -23,7 +23,7 @@
     // @ts-ignore
     import Bucket from "../Charts/bucket"
     import {Prop, Component} from 'vue-property-decorator'
-    import {ActivityCategory, BudgetGoal} from "@/store/challenges/types";
+    import {BudgetGoal} from "@/store/challenges/types";
 
     @Component({
       components: {

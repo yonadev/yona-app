@@ -27,7 +27,7 @@
     // @ts-ignore
     import Columns from "../Charts/columns"
     import {Prop, Component} from 'vue-property-decorator'
-    import {ActivityCategory, TimeZoneGoal} from "@/store/challenges/types";
+    import {TimeZoneGoal} from "@/store/challenges/types";
 
     @Component({
       components: {

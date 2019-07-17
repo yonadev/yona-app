@@ -25,7 +25,7 @@
 <script lang="ts">
     import Vue from 'vue'
     import {Prop, Component} from 'vue-property-decorator'
-    import {ActivityCategory, BudgetGoal} from "@/store/challenges/types";
+    import { BudgetGoal} from "@/store/challenges/types";
 
     @Component({
     })
