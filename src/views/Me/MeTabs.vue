@@ -3,7 +3,7 @@
     <div class="colored-background purple-dark">
       <div class="nav-title is-vcentered columns is-mobile">
         <router-link tag="div" :to="{name: 'Profile'}" class="column is-8">
-          <profile-pic src="user_image"></profile-pic>
+          <profile-pic class="profile-img" src="user_image"></profile-pic>
           <span class="dashboard-title">DASHBOARD</span>
         </router-link>
         <router-link tag="div" :to="{name: 'Notifications'}" class="column">
@@ -43,6 +43,16 @@
 
 <style lang="scss">
   #me{
+    .profile-img {
+      img {
+        width: 30px;
+        height: 30px;
+        background-color: #915C80;
+        margin-right: 20px;
+        display: inline-block;
+        border-radius:50%;
+      }
+    }
     .small-top-icon{
       vertical-align: middle;
       top: -2px;
@@ -50,25 +60,12 @@
       height: 25px;
       border-radius: 50%;
       position: relative;
-      &.profile-img {
-        width: 30px;
-        height: 30px;
-        background-color: #915C80;
-        margin-right: 20px;
-        display: inline-block;
-        .text{
-          padding:5px;
-          position: relative;
-          display: block;
-        }
-      }
     }
     .dashboard-title{
       display:inline-block;
       vertical-align: top;
-      height:35px;
-      line-height:35px;
-      margin-left: 10px;
+      height:30px;
+      line-height:30px;
     }
     .nav-title{
       padding:30px 15px 10px 15px;

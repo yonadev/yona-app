@@ -10,7 +10,7 @@
         </div>
 
         <div v-if="!edit" class="wrapper">
-          <profile-pic src="user_image"></profile-pic>
+          <profile-pic class="profile-img" src="user_image"></profile-pic>
           <p class="icon-title">
             {{account.firstname}} {{account.lastname}}
           </p>
@@ -130,7 +130,7 @@ export default class Profile extends Vue {
 
         if(photo_response) {
           //@ts-ignore
-          const userPhoto = new Buffer(photo_response.data, 'binary').toString('base64')
+          const userPhoto = new Buffer.from(photo_response.data, 'binary').toString('base64')
           window.localStorage.setItem('user_image', JSON.stringify({type: 'me', src: 'data:image/png;base64,' + userPhoto}))
         }
       }
@@ -168,14 +168,10 @@ export default class Profile extends Vue {
       p.icon-text{
         margin-bottom:10px;
       }
-      .profile-img {
-        position:relative;
-        .text{
-          font-weight: 300;
-          color: #fff;
-          font-size: 2rem;
-          display: inline-block;
-          padding: 34px 30px;
+      .profile-img{
+        img {
+          position: relative;
+          border-radius: 50%;
         }
         &.edit{
           position: relative;
@@ -188,6 +184,7 @@ export default class Profile extends Vue {
           box-sizing: border-box;
           background-color: transparent;
           img {
+            border-radius: 50%;
             height: 100%;
             max-width: 100%;
           }
