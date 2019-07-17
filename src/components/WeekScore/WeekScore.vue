@@ -46,6 +46,7 @@
       }
     };
     @Prop() week_number!: string;
+    @Prop() title!: string;
     @Getter('goal', {namespace: 'challenges'})
     public goal!: (href: string, historyItem: boolean) => Goal;
 

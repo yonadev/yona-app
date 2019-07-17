@@ -1,24 +1,25 @@
 <template>
   <div id="detailed-day" class="header-template">
     <div class="colored-background purple-dark">
-      <div class="nav-title">
-        {{category}}
+      <div class="nav-title" v-if="week_activity">
+        {{controlCategory}}
       </div>
     </div>
     <div class="wrapper grey-bg">
-      <div class="top-label columns is-mobile" v-if="day_activity">
+      <div class="top-label columns is-mobile" v-if="week_activity">
         <div class="column has-text-left">
-          <img svg-inline class="icn-back" :class="{'disabled': day_activity._links.prev === undefined}" src="@/assets/images/icons/icn_back.svg" @click="goToOther(day_activity._links.prev)" />
+          <img svg-inline class="icn-back" :class="{'disabled': week_activity._links.prev === undefined}" src="@/assets/images/icons/icn_back.svg" @click="goToOther(week_activity._links.prev)" />
         </div>
         <div class="column">
-          <strong >{{getDayLabel(day_activity.date)}}</strong>
+          <strong >{{getWeekLabel(week_activity.date)}}</strong>
         </div>
         <div class="column has-text-right">
-          <img svg-inline class="icn-next" :class="{'disabled': day_activity._links.next === undefined}" src="@/assets/images/icons/icn_back.svg" @click="goToOther(day_activity._links.next)" />
+          <img svg-inline class="icn-next" :class="{'disabled': week_activity._links.next === undefined}" src="@/assets/images/icons/icn_back.svg" @click="goToOther(week_activity._links.next)" />
         </div>
       </div>
-
-      <ui-control v-if="day_activity" :day_activity="day_activity" type="detailed"></ui-control>
+      <week-score v-if="week_activity" :week_activity="week_activity" :week_number="week_activity.date"></week-score>
+      <time-bucket-control v-if="week_activity && controlGoal['@type'] == 'BudgetGoal'" class="ui-control" :goal="controlGoal" :dayActivity="{totalActivityDurationMinutes: week_activity.totalActivityDurationMinutes / Object.keys(week_activity.dayActivities).length}" title="Gemiddeld"></time-bucket-control>
+      <spread-control v-if="week_activity" class="ui-control" :goal="controlGoal" :dayActivity="week_activity" title="Spreiding"></spread-control>
     </div>
   </div>
 </template>
@@ -30,32 +31,39 @@
   import UiControl from "@/components/UiControls/UiControl.vue";
   import {Getter} from "vuex-class";
   import {ActivityCategory, Goal} from "@/store/challenges/types";
+  import WeekScore from "@/components/WeekScore/WeekScore.vue";
+  import moment from 'moment'
+  import SpreadControl from "@/components/UiControls/Controls/SpreadControl.vue";
+  import TimeBucketControl from "@/components/UiControls/Controls/TimeBucketControl.vue";
 
   @Component({
     components: {
+      TimeBucketControl,
+      SpreadControl,
+      WeekScore,
       UiControl
     }
   })
-  export default class DetailedViewDay extends Vue {
+  export default class DetailedViewWeek extends Vue {
     @Prop() activity_link!: string;
 
     @Getter('goal', {namespace: 'challenges'})
-    public getGoal!: (href: string) => Goal;
+    public goal!: (href: string, historyItem: boolean) => Goal;
 
     @Getter('activityCategory', {namespace: 'challenges'})
-    public getActivityCategory!: (href: string) => ActivityCategory;
+    public activityCategory!: (href: string) => ActivityCategory;
 
-    day_activity!: {
+    week_activity: {
       goalAccomplished: boolean,
       totalActivityDurationMinutes: number,
       totalMinutesBeyondGoal: number,
+      dayActivities: {}
       _links: {
         [key: string]: {
           href: string
         }
       }
-    };
-    category: string = '';
+    } | null = null;
     loading: boolean = false;
 
     async mounted() {
@@ -66,34 +74,42 @@
       });
 
       if(detailed_response.status === 200) {
-        this.day_activity = detailed_response.data;
-
-        const goal = this.getGoal(this.day_activity._links['yona:goal'].href);
-        this.category = this.getActivityCategory(goal._links['yona:activityCategory'].href).name
-
+        this.week_activity = detailed_response.data;
         this.loading = false;
       }
     }
 
-    goToOther(link: {href:string}){
-      if(link && link.href)
-        this.$router.push({'name': 'DetailedViewDay', params: {activity_link: link.href}})
+    get controlGoal() {
+      if(this.week_activity) {
+        return this.goal(this.week_activity._links['yona:goal'].href, true)
+      }
+      return undefined;
     }
 
-    getDayLabel(date: any){
-      let now = new Date();
-      let date_obj = new Date(date);
-      let days = ["ZONDAG", "MAANDAG", "DINSDAG", "WOENSDAG", "DONDERDAG", "VRIJDAG", "ZATERDAG"];
-      let months = ["JANUARI", "FEBRUARI", "MAART", "APRIL", "MEI", "JUNI", "JULI", "AUGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DECEMBER"];
+    get controlCategory() {
+      if (typeof this.controlGoal !== 'undefined') {
+        return this.activityCategory(this.controlGoal._links["yona:activityCategory"].href).name
+      } else {
+        return null;
+      }
+    }
 
-      if(now.getDate() === date_obj.getDate())
-        date = 'VANDAAG';
-      else if((now.getDate()-1) === date_obj.getDate())
-        date = 'GISTEREN';
+
+    goToOther(link: {href:string}){
+      if(link && link.href)
+        this.$router.push({'name': 'DetailedViewWeek', params: {activity_link: link.href}})
+    }
+
+    getWeekLabel(date: any){
+      let now = moment(new Date()).weekday(0).week();
+      let week = moment(date, moment.ISO_8601).weekday(0).week();
+
+      if(now === week)
+        return 'DEZE WEEK';
+      else if(now-1 === week)
+        return 'VORIGE WEEK';
       else
-        date = days[date_obj.getDay()]+', '+date_obj.getDate()+' '+months[date_obj.getMonth()];
-
-      return date
+        return moment(date, moment.ISO_8601).isoWeekday(0).format('D MMMM')+' - '+moment(date, moment.ISO_8601).isoWeekday(6).format('D MMMM')
     }
   }
 </script>

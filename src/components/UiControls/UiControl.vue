@@ -1,7 +1,7 @@
 <template>
   <div>
     <Component class="ui-control" :is="controlComponent" :goal="controlGoal" :title="controlCategory" :dayActivity="day_activity"></Component>
-    <spread-control v-if="type === 'detailed'" class="ui-control" :goal="controlGoal" :activityCategory="controlCategory" :dayActivity="day_activity" title="Spreiding"></spread-control>
+    <spread-control v-if="type === 'detailed'" class="ui-control" :goal="controlGoal" :dayActivity="day_activity" title="Spreiding"></spread-control>
   </div>
 </template>
 
@@ -41,8 +41,6 @@
 
     @Getter('activityCategory', {namespace: 'challenges'})
     public activityCategory!: (href: string) => ActivityCategory;
-
-    public activityGoal!: Goal;
 
     get controlGoal() {
       if(typeof this.day_activity !== 'undefined') {
