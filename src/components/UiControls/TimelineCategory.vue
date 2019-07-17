@@ -11,22 +11,22 @@
     </div>
     <div class="columns is-mobile" v-for="(user_activity, index) in day_activity.dayActivitiesForUsers" :key="'user_activity'+index">
       <div class="column">
-        <timeline-control
-                @click="detailedViewBuddy(user_activity._links['yona:dayDetails'].href)"
-                v-if="user_activity._links['yona:buddy']"
-                :user_image="buddy(user_activity._links['yona:buddy'].href)._embedded['yona:user']._links.self.href"
-                :username="buddy(user_activity._links['yona:buddy'].href).nickname"
-                :goal="buddyGoal(user_activity._links['yona:buddy'].href, user_activity._links['yona:goal'].href)"
-                :day_activity="user_activity">
-        </timeline-control>
-        <timeline-control
-                @click="detailedViewUser(user_activity._links['yona:dayDetails'].href)"
-                v-else
-                user_image="user_image"
-                :username="account.nickname"
-                :goal="userGoal(user_activity._links['yona:goal'].href)"
-                :day_activity="user_activity">
-        </timeline-control>
+        <router-link v-if="user_activity._links['yona:buddy']" :to="{name: 'DetailedViewBuddyDay', params: {activity_link: user_activity._links['yona:dayDetails'].href}}">
+          <timeline-control
+                  :user_image="buddy(user_activity._links['yona:buddy'].href)._embedded['yona:user']._links.self.href"
+                  :username="buddy(user_activity._links['yona:buddy'].href).nickname"
+                  :goal="buddyGoal(user_activity._links['yona:buddy'].href, user_activity._links['yona:goal'].href)"
+                  :day_activity="user_activity">
+          </timeline-control>
+        </router-link>
+        <router-link v-else :to="{name: 'DetailedViewDay', params: {activity_link: user_activity._links['yona:dayDetails'].href}}">
+          <timeline-control
+                  user_image="user_image"
+                  :username="account.nickname"
+                  :goal="userGoal(user_activity._links['yona:goal'].href)"
+                  :day_activity="user_activity">
+          </timeline-control>
+        </router-link>
       </div>
     </div>
   </div>
