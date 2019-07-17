@@ -13,30 +13,24 @@ import store from './store/index'
 
 Vue.directive('fixed-scroll', {
   inserted: function (el, binding) {
+
+    const elementTop = el.getBoundingClientRect().top;
+    const elementHeight = el.offsetHeight;
+
     let f = function (evt: any) {
-      let elementPosition;
+      const scrollTop = evt.target.scrollingElement.scrollTop
 
-      if(!document.getElementById('placeholder-clone'))
-        elementPosition = el;
-      else
-        elementPosition = document.getElementById('placeholder-clone');
+      if(elementTop < scrollTop){
+        if(el.parentElement)
+          el.parentElement.style.paddingBottom = `${elementHeight}px`;
 
-      if(elementPosition && elementPosition.getBoundingClientRect().top <= 0){
-        if(!document.getElementById('placeholder-clone')) {
-          let clone = el.cloneNode(true);
+        el.classList.add('scrolling-element')
 
-          (clone as any).id = 'placeholder-clone';
-          if(el.parentElement) {
-            el.parentElement.append(clone);
-            el.id = 'scrolling-element';
-          }
-        }
-      } else if(document.getElementById('placeholder-clone')) {
-        let element = document.getElementById('placeholder-clone');
-        if(element && element.parentNode) {
-          element.parentNode.removeChild(element);
-          el.id = '';
-        }
+      } else {
+        if(el.parentElement)
+          el.parentElement.style.paddingBottom = `0px`;
+
+        el.classList.remove('scrolling-element')
       }
     }
     window.addEventListener('scroll', f)

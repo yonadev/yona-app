@@ -87,25 +87,25 @@ a{
   }
 
   .green{
-    #scrolling-element{
+    .scrolling-element{
       background-color: $color-green;
     }
   }
 
   .blue{
-    #scrolling-element{
+    .scrolling-element{
       background-color: $color-blue;
     }
   }
 
   .purple-dark {
-    #scrolling-element{
+    .scrolling-element{
       background-color: $color-purple-dark;
     }
   }
 }
 
-#scrolling-element{
+.scrolling-element{
   position:fixed;
   z-index: 3;
   top:0;
