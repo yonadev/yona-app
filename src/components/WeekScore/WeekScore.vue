@@ -2,7 +2,7 @@
   <div class="week-score-day">
     <div class="columns is-mobile top-labels">
       <div class="column has-text-left">
-        <strong>{{activityCategory.name}}</strong>
+        <strong>{{controlCategory}}</strong>
       </div>
       <div class="column is-2 current-accomplished">
         {{getAccomplishedCount(week_activity.dayActivities)}}
@@ -33,6 +33,8 @@
   import {Prop, Component} from 'vue-property-decorator'
   import moment from 'moment'
   import axios from "../../utils/axios/axios"
+  import {Getter} from "vuex-class";
+  import {ActivityCategory, Goal} from "@/store/challenges/types";
 
   @Component({})
   export default class WeekScore extends Vue {
@@ -44,44 +46,27 @@
       }
     };
     @Prop() week_number!: string;
-    goal: {
-      '@type': string,
-      creationTime: string,
-      historyItem: boolean,
-      maxDurationMinutes: number,
-      _links: {
-        [key: string]:{
-          href: string
-        }
-      }
-    } = {
-      '@type': '',
-      creationTime: '',
-      historyItem: false,
-      maxDurationMinutes: 0,
-      _links: {}
-    };
-    activityCategory: {} = {};
+    @Getter('goal', {namespace: 'challenges'})
+    public goal!: (href: string, historyItem: boolean) => Goal;
+
+    @Getter('activityCategory', {namespace: 'challenges'})
+    public activityCategory!: (href: string) => ActivityCategory;
+
     day_of_weeks: [ string, string, string, string, string, string, string] = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
     day_initial_of_week: [ string, string, string, string, string, string, string] = ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'];
 
-    async mounted(){
-      //First get the day activity so we can get the goal
-      if (this.week_activity) {
-        let goal_response: any = await axios.get(this.week_activity._links['yona:goal'].href).catch((error) => {
-          console.log(error)
-        });
+    get controlGoal() {
+      if(typeof this.week_activity !== 'undefined') {
+        return this.goal(this.week_activity._links['yona:goal'].href, true)
+      }
+      return undefined;
+    }
 
-        if (goal_response.status === 200)
-          this.goal = goal_response.data
-
-        //Get the category
-        let category_response: any = await axios.get(this.goal._links['yona:activityCategory'].href).catch((error) => {
-          console.log(error)
-        });
-
-        if(category_response.status === 200)
-          this.activityCategory = category_response.data
+    get controlCategory() {
+      if (typeof this.controlGoal !== 'undefined') {
+        return this.activityCategory(this.controlGoal._links["yona:activityCategory"].href).name
+      } else {
+        return null;
       }
     }
 

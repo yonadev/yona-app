@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="wrapper grey-bg">
-      <div class="top-label columns is-mobile"  v-if="day_activity">
+      <div class="top-label columns is-mobile" v-if="day_activity">
         <div class="column has-text-left">
           <img svg-inline class="icn-back" :class="{'disabled': day_activity._links.prev === undefined}" src="@/assets/images/icons/icn_back.svg" @click="goToOther(day_activity._links.prev)" />
         </div>
