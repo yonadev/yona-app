@@ -6,57 +6,61 @@
       </div>
     </div>
     <div class="wrapper grey-bg">
-      <div v-for="(notification, index) in notifications" :key="index" :class="{'is-not-read': !notification.isRead, 'grey-bg-div notification': notification['@type'] !== 'BuddyInfoChangeMessage'}">
-        <div v-if="notification && notification['@type'] === 'BuddyConnectRequestMessage'" class="columns is-mobile" @click="goTo(notification)">
+      <div v-for="(notification, index) in notifications" :key="index" class="grey-bg-div notification" :class="{'is-not-read': !notification.isRead}">
+        <div class="columns is-mobile" @click="goTo(notification)">
           <div class="column is-2">
-            <div class="img-wrapper">
-              <img v-if="notification._links['yona:userPhoto']" :ref="'image'+index" :src="getPhoto(notification._links['yona:userPhoto'].href, 'image'+index)" />
+            <div class="img-wrapper" v-if="notification && notification['@type'] === 'GoalConflictMessage'">
+              <img :src="require('../../assets/images/avatars/adult_sad.svg')" />
+            </div>
+            <div v-else class="img-wrapper">
+              <profile-pic v-if="getLink(notification)" :src="getLink(notification)"></profile-pic>
             </div>
           </div>
           <div class="column">
-            <span class="is-block has-text-left title">
-              <strong>Vriendenverzoek</strong>
-            </span>
-            <span class="is-block has-text-left name">
-              {{notification._embedded['yona:user'].firstName}} {{notification._embedded['yona:user'].lastName}}
-          </span>
-          </div>
-          <div class="column is-2">
-            <div class="img-wrapper">
-              <img v-if="notification.status === 'ACCEPTED'" src="../../assets/images/icons/icn_accepted.svg"/>
-              <img v-else-if="notification.status === 'REJECTED'" src="../../assets/images/icons/icn_rejected.svg"/>
+            <div v-if="notification && notification['@type'] === 'BuddyConnectRequestMessage'">
+              <span class="is-block has-text-left title">
+                <strong>Vriendenverzoek</strong>
+              </span>
+              <span class="is-block has-text-left name">
+                {{notification._embedded['yona:user'].firstName}} {{notification._embedded['yona:user'].lastName}}
+              </span>
+            </div>
+            <div v-else-if="notification && notification['@type'] === 'BuddyConnectResponseMessage'">
+              <span class="is-block has-text-left title">
+                <strong v-if="notification.status === 'REJECTED'">Vriendenverzoek afgewezen</strong>
+                <strong v-else-if="notification.status === 'ACCEPTED'">Vriendenverzoek geaccepteerd</strong>
+              </span>
+                <span class="is-block has-text-left name">
+                {{notification.nickname}}
+              </span>
+            </div>
+            <div v-else-if="notification && notification['@type'] === 'BuddyDisconnectMessage'">
+              <span class="is-block has-text-left title">
+                <strong>Je bent verwijderd als vriend</strong>
+              </span>
+              <span class="is-block has-text-left name">
+                {{notification.nickname}}
+              </span>
+            </div>
+            <div v-else-if="notification && notification['@type'] === 'BuddyInfoChangeMessage'">
+              BuddyInfoChangeMessage
+            </div>
+            <div v-else-if="notification && notification['@type'] === 'GoalConflictMessage'">
+              <span class="is-block has-text-left title">
+                <strong>NoGo alert</strong>
+              </span>
+              <span class="is-block has-text-left name">
+                {{notification.nickname}}
+              </span>
             </div>
           </div>
-        </div>
-        <div v-else-if="notification && notification['@type'] === 'BuddyConnectResponseMessage'" class="columns is-mobile" @click="goTo(notification)">
-          <div class="column is-2">
-            <div class="img-wrapper">
-              <img v-if="notification._links['yona:userPhoto']" :ref="'image'+index" :src="getPhoto(notification._links['yona:userPhoto'].href, 'image'+index)" />
+          <div class="column is-2" v-if="notification && notification['@type'] === 'BuddyConnectRequestMessage'">
+            <div v-if="notification['@type'] === 'BuddyConnectRequestMessage'">
+              <div class="img-wrapper">
+                <img v-if="notification.status === 'ACCEPTED'" src="../../assets/images/icons/icn_accepted.svg"/>
+                <img v-else-if="notification.status === 'REJECTED'" src="../../assets/images/icons/icn_rejected.svg"/>
+              </div>
             </div>
-          </div>
-          <div class="column">
-            <span class="is-block has-text-left title">
-              <strong v-if="notification.status === 'REJECTED'">Vriendenverzoek afgewezen</strong>
-              <strong v-else-if="notification.status === 'ACCEPTED'">Vriendenverzoek geaccepteerd</strong>
-            </span>
-            <span class="is-block has-text-left name">
-              {{notification.nickname}}
-            </span>
-          </div>
-        </div>
-        <div v-else-if="notification && notification['@type'] === 'BuddyDisconnectMessage'" class="columns is-mobile" @click="goTo(notification)">
-          <div class="column is-2">
-            <div class="img-wrapper">
-              <img v-if="notification._links['yona:userPhoto']" :ref="'image'+index" :src="getPhoto(notification._links['yona:userPhoto'].href, 'image'+index)" />
-            </div>
-          </div>
-          <div class="column">
-            <span class="is-block has-text-left title">
-              <strong>Je bent verwijderd als vriend</strong>
-            </span>
-            <span class="is-block has-text-left name">
-              {{notification.nickname}}
-            </span>
           </div>
         </div>
       </div>
@@ -70,8 +74,13 @@ import Component from 'vue-class-component';
 import {State} from "vuex-class";
 import {ApiState} from "@/store/api/types";
 import axios from "@/utils/axios/axios"
+import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
 
-@Component({})
+@Component({
+  components: {
+    ProfilePic
+  }
+})
 export default class Notifications extends Vue {
   @State('api') api!: ApiState;
   notifications: {} = {};
@@ -89,8 +98,15 @@ export default class Notifications extends Vue {
     }
   }
 
-  getPhoto(href: any, index: any){
-    return window.localStorage.getItem(href);
+  getLink(notification){
+    console.log(notification)
+
+    if(notification['@type'] === 'BuddyInfoChangeMessage'){
+      return notification._links['yona:user'].href;
+    } else if(notification['@type']  === 'BuddyConnectRequestMessage') {
+      return notification._embedded['yona:user']._links.self.href;
+    }
+    return false;
   }
 
   async goTo(notification: any){
