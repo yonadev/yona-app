@@ -18,7 +18,7 @@
         </div>
       </div>
       <week-score v-if="week_activity" :week_activity="week_activity" :week_number="week_activity.date"></week-score>
-      <time-bucket-control v-if="week_activity && controlGoal['@type'] == 'BudgetGoal' && controlGoal.maxDurationMinutes > 0" class="ui-control" :goal="controlGoal" :dayActivity="{totalActivityDurationMinutes: week_activity.totalActivityDurationMinutes / Object.keys(week_activity.dayActivities).length}" title="Gemiddeld"></time-bucket-control>
+      <time-bucket-control v-if="week_activity && controlGoal['@type'] == 'BudgetGoal'" class="ui-control" :goal="controlGoal" :dayActivity="{totalActivityDurationMinutes: week_activity.totalActivityDurationMinutes / Object.keys(week_activity.dayActivities).length}" title="Gemiddeld"></time-bucket-control>
       <spread-control v-if="week_activity" class="ui-control" :goal="controlGoal" :dayActivity="week_activity" title="Spreiding"></spread-control>
     </div>
   </div>
