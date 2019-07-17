@@ -4,7 +4,10 @@
       <strong>{{getDayLabel(day_activities.date)}}</strong>
     </div>
     <div v-for="(day_activity, index) in day_activities.dayActivities" :key="'activity'+index">
-      <router-link :to="{'name': 'DetailedViewDay', params: {activity_link: day_activity._links['yona:dayDetails'].href}}">
+      <div v-if="day_activity.dayActivitiesForUsers">
+        <timeline-category :day_activity="day_activity" type="simple"></timeline-category>
+      </div>
+      <router-link v-else :to="{'name': 'DetailedViewDay', params: {activity_link: day_activity._links['yona:dayDetails'].href}}">
         <ui-control :day_activity="day_activity" type="simple"></ui-control>
       </router-link>
     </div>
@@ -15,10 +18,12 @@
   import Vue from 'vue'
   import {Prop, Component} from 'vue-property-decorator'
   import UiControl from "./UiControl.vue";
+  import TimelineCategory from "./TimelineCategory.vue";
 
   @Component({
     components: {
-      UiControl
+      UiControl,
+      TimelineCategory
     }
   })
   export default class UiControlsLabel extends Vue {
