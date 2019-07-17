@@ -19,7 +19,7 @@
         pic_src: string = null;
 
         mounted() {
-            this.pic_src = window.localStorage.getItem(this.user_imgae);
+            this.pic_src = window.localStorage.getItem(this.user_image);
         }
 
     }
