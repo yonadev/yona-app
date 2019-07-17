@@ -7,7 +7,7 @@
           <img v-else :src="require('../../assets/images/avatars/adult_sad.svg')" />
         </div>
         <div v-else>
-          <img :src="user_image"/>
+          <profile-pic :src="user_image"></profile-pic>
         </div>
       </div>
       <div class="column">
@@ -33,9 +33,11 @@
   import SpreadControl from "./TimelineControls/SpreadControl.vue";
   import TimeBucketControl from "./TimelineControls/TimeBucketControl.vue";
   import TimeFrameControl from "./TimelineControls/TimeFrameControl.vue";
+  import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
 
   @Component({
     components: {
+      ProfilePic,
       NoGoControl,
       SpreadControl,
       TimeBucketControl,
