@@ -7,7 +7,7 @@
       <div v-if="buddy && buddy.receivingStatus === userStatus.Accepted" class="columns is-mobile">
         <div class="column is-2">
           <div class="img-wrapper">
-            <img v-if="buddy._embedded['yona:user']._links['yona:userPhoto']" :ref="'image'+index" :src="getPhoto(buddy._embedded['yona:user']._links['yona:userPhoto'].href)" />
+            <profile-pic :src="buddy._embedded['yona:user']._links.self.href"></profile-pic>
           </div>
         </div>
         <div class="column">
@@ -51,9 +51,11 @@
   import axios from "@/utils/axios/axios"
   import UiControlsLabel from "@/components/UiControls/UiControlsLabel.vue";
   import {Buddy, userStatus} from "@/store/buddies/types";
+  import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
 
   @Component({
     components: {
+      ProfilePic,
       UiControlsLabel
     }
   })
@@ -63,14 +65,6 @@
     buddies_activities: {} = {};
     @State(state => state.buddies.buddies) buddies!: Buddy[];
     userStatus = userStatus
-
-    async mounted () {
-
-    }
-
-    getPhoto(href: any) {
-      return window.localStorage.getItem(href)
-    }
   }
 </script>
 
