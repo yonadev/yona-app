@@ -1,28 +1,28 @@
- function genPoints (inArr, { width }) {
+ function genPoints (inArr) {
   const arr = inArr.map(item => (typeof item === 'number' ? item : item.value))
-  const gridX = width / (arr.length - 1)
+  const gridX = 100 / (arr.length - 1)
 
   return arr.map((value, index) => {
     const color = typeof inArr[index] === 'number' ? inArr[index] : inArr[index].color
     return {
-      x: index * gridX,
-      width: (value / 15) * gridX,
+      x: `${index * gridX}%`,
+      width: `${(value / 15) * gridX}%`,
       v: color,
       animate: true
     }
-  }).filter(({width}) => { return width > 0})
+  }).filter(({width}) => { return width != '0%'})
 }
 
-function genGoalPoints (inArr, length, { width }) {
-  const gridX = width / (length - 1)
+function genGoalPoints (inArr, length) {
+  const gridX = 100 / (length - 1)
   return inArr.map((value) => {
     return {
-      x: value * gridX,
-      width: gridX,
+      x: `${value * gridX}%`,
+      width: `${gridX + .2}%`,
       v: '#95be18',
       animate: false
     }
-  }).filter(({width}) => { return width > 0})
+  })
 }
 
 function genColumns (_this, arr, h) {
@@ -58,7 +58,7 @@ function genBackground ({ width, height }, h) {
         fill: '#e7e7e7',
         x: 0,
         y: 0,
-        width: width,
+        width: '100%',
         height,
       }
     })

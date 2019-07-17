@@ -18,27 +18,24 @@ export default {
       type: Number,
       default: 0.5
     },
-    height: Number,
-    width: Number
+    height: Number
   },
 
   render (h) {
-    const { width, height } = this
-    const viewWidth = width || 300
-    const viewHeight = height || 18
+    const { height } = this
+    const viewHeight = height || 21
     const props = this.$props
 
     props.size = {
-      width: viewWidth,
       height: viewHeight
     }
+    props.offset = 0;
     props.id = 'vue-bucket-' + this._uid
 
     return h('svg', {
       attrs: {
-        width: width || '100%',
-        height: height || '20%',
-        viewBox: `0 0 ${viewWidth} ${viewHeight * 2}`
+        width: '100%',
+        height: `${viewHeight * 2}px`,
       }
     }, [
       h(Bucket, {

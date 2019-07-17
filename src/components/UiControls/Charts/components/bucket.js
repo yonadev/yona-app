@@ -1,14 +1,14 @@
 function genColumn (_this, h) {
-  const { height, width } = _this.size;
+  const { height } = _this.size;
   const { goal, spend, size } = _this;
 
   let bar_width = 0;
   let exceeded = false;
 
   if(spend <= goal) {
-    bar_width = (width / goal) * (goal - spend);
+    bar_width = (100 / goal) * (goal - spend);
   } else if (spend > goal) {
-    bar_width  = (width / spend) * (spend - goal)
+    bar_width  = (100 / spend) * (spend - goal)
     exceeded = true;
   }
 
@@ -18,16 +18,16 @@ function genColumn (_this, h) {
             attrs: {
               id: `column-id-1`,
               fill: '#95be18',
-              x: bar_width,
+              x: `${bar_width}%`,
               y: 0,
-              width: width - bar_width,
+              width: `${100 - bar_width}%`,
               height,
             }
           }, [
             h('animate', {
                   attrs: {
                     attributeName: 'width',
-                    from: width - bar_width,
+                    from: `${100 - bar_width}%`,
                     to: 0,
                     dur: `1s`,
                     fill: 'freeze'
@@ -40,7 +40,7 @@ function genColumn (_this, h) {
             id: `column-id-1`,
             fill: (exceeded ? '#f43d89' : '#95be18'),
             transform: (exceeded ? "scale(-1, 1)" : ""),
-            x: (exceeded ? bar_width * -1 : 0),
+            x: (exceeded ? `${bar_width * -1}%` : 0),
             y: 0,
             width: 0,
             height,
@@ -50,7 +50,7 @@ function genColumn (_this, h) {
                 attrs: {
                   attributeName: 'width',
                   from: 0,
-                  to: bar_width,
+                  to: `${bar_width}%`,
                   dur: `1s`,
                   begin: `1s`,
                   fill: 'freeze'
@@ -65,15 +65,15 @@ function genColumn (_this, h) {
             fill: '#95be18',
             x: 0,
             y: 0,
-            width: width,
+            width: '100%',
             height,
           }
         }, [
           h('animate', {
                 attrs: {
                   attributeName: 'width',
-                  from: width,
-                  to: bar_width,
+                  from: '100%',
+                  to: `${bar_width}%`,
                   dur: `1s`,
                   fill: 'freeze'
                 }
@@ -90,7 +90,7 @@ function genBackground ({ width, height }, h) {
         fill: '#e7e7e7',
         x: 0,
         y: 0,
-        width: width,
+        width: '100%',
         height,
       }
     })

@@ -1,26 +1,26 @@
- function genPoints (inArr, { width, height }, {min, max}) {
+ function genPoints (inArr, { height }, {min, max}) {
   const arr = inArr.map(item => (typeof item === 'number' ? item : item.value))
-  const gridX = width / (arr.length - 1)
+  const gridX = 100 / (arr.length - 1)
   const gridY = (height / max) + 0.001
 
   return arr.map((value, index) => {
     const color = typeof inArr[index] === 'number' ? inArr[index] : inArr[index].color
     return {
-     x: index * gridX,
+     x: `${index * gridX}%`,
      y: value * gridY,
      v: color,
     }
   })
 }
 
-function genGoalPoints (arr, length, { width, height }, {min, max}) {
-  const gridX = width / (length - 1)
+function genGoalPoints (arr, length, { width }) {
+  const gridX = 100 / (length - 1)
 
   let points = [];
   for(let i = 1; i <= length; i++) {
     points.push({
-      x: i * gridX,
-      y: 1,
+      x: `${i * gridX}%`,
+      y: 2,
       v: (arr.indexOf(i) > -1 ? '#d5d5d5' :'#f3f3f3')
     })
   }

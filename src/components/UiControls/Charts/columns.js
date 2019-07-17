@@ -29,28 +29,25 @@ export default {
       type: Number,
       default: Infinity
     },
-    height: Number,
-    width: Number
+    height: Number
   },
 
   render (h) {
     if (!this.data || this.data.length < 2) return
-    const { width, height } = this
-    const viewWidth = width || 300
-    const viewHeight = height || 18
+    const { height } = this
+    const viewHeight = height || 21
     const props = this.$props
 
     props.size = {
-      width: viewWidth,
       height: viewHeight
-    }
+    };
     props.id = 'vue-columns-' + this._uid
+    props.offset = 0;
 
     return h('svg', {
       attrs: {
-        width: width || '100%',
-        height: height || '20%',
-        viewBox: `0 0 ${viewWidth} ${viewHeight * 2}`
+        width: '100%',
+        height: `${viewHeight * 2 + 2}px`,
       }
     }, [
       h(Column, {

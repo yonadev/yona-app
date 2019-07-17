@@ -1,88 +1,86 @@
 export default {
-  props: ['data', 'goal', 'size', 'blockSize', 'id', 'growDuration', 'max', 'min'],
+  props: ['data', 'goal', 'size', 'offset', 'blockSize', 'id', 'growDuration', 'max', 'min'],
 
   render (h) {
-    const { data, goal, size } = this
+    const { size, offset } = this
 
-    const icon_size = 12;
-    const text_size = 9;
-    const height = 18;
+    const icon_size = 13;
+    const text_size = 11;
 
     return h('g', {
       attrs: {
-        transform: `scale(1,1) translate(0,${size.height + 4} )`
+        transform: `scale(1,1) translate(0,${size.height + offset} )`
       }
     }, [
         h('image', {
           attrs: {
             id: `label-sun`,
+            transform: `translate(0, 2)`,
             'xlink:href': require('@/assets/images/challenges/icn_moon.svg'),
             x: 0,
-            y: 0,
+            y: size.height - icon_size,
             width: icon_size,
             height: icon_size,
           }
         }),
         h('text', {
           attrs: {
-            'dominant-baseline': 'hanging',
             'text-anchor': 'middle',
             fill: '#9a9a9a',
             'font-size': text_size,
             id: `label-text-4`,
-            x: (size.width / 6),
-            y: (height - icon_size) / 2
+            x: `${100 / 6}%`,
+            y: size.height
           }
         }, '04:00'),
         h('text', {
           attrs: {
-            'dominant-baseline': 'hanging',
             'text-anchor': 'middle',
             fill: '#9a9a9a',
             'font-size': text_size,
             id: `label-text-8`,
-            x: (size.width / 6) * 2,
-            y: (height - icon_size) / 2
+            x: `${100 / 3}%`,
+            y: size.height
           }
         }, '08:00'),
         h('image', {
           attrs: {
             id: `label-sun`,
+            transform: `translate(${icon_size/2*-1}, 2)`,
             'xlink:href': require('@/assets/images/challenges/icn_sun.svg'),
-            x: size.width / 2 - (icon_size  * 1.1 / 2),
-            y: 0,
+            x: `${100 / 2}%`,
+            y: size.height - icon_size,
             width: icon_size * 1.1,
             height: icon_size  * 1.1,
           }
         }),
         h('text', {
           attrs: {
-            'dominant-baseline': 'hanging',
             'text-anchor': 'middle',
             fill: '#9a9a9a',
             'font-size': text_size,
             id: `label-text-16`,
-            x: (size.width / 6) * 4,
-            y: (height - icon_size) / 2
+            x: `${100 / 6 * 4}%`,
+            y: size.height
           }
         }, '16:00'),
         h('text', {
           attrs: {
-            'dominant-baseline': 'hanging',
             'text-anchor': 'middle',
             fill: '#9a9a9a',
             'font-size': text_size,
             id: `label-text-20`,
-            x: (size.width / 6) * 5,
-            y: (height - icon_size) / 2
+            x: `${100 / 6 * 5}%`,
+            y: size.height
           }
         }, '20:00'),
         h('image', {
           attrs: {
             id: `label-sun`,
+            transform: `translate(${icon_size*-1}, 2)`,
             'xlink:href': require('@/assets/images/challenges/icn_moon.svg'),
-            x: size.width - icon_size,
-            y: 0,
+            x: `${100}%`,
+            y: size.height - icon_size,
             width: icon_size,
             height: icon_size,
           }
