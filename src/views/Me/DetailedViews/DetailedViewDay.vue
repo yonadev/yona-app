@@ -45,7 +45,7 @@
     @Getter('activityCategory', {namespace: 'challenges'})
     public getActivityCategory!: (href: string) => ActivityCategory;
 
-    day_activity!: {
+    day_activity: {
       goalAccomplished: boolean,
       totalActivityDurationMinutes: number,
       totalMinutesBeyondGoal: number,
@@ -54,7 +54,7 @@
           href: string
         }
       }
-    };
+    } | null = null;
     category: string = '';
     loading: boolean = false;
 

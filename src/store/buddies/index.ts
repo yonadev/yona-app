@@ -40,7 +40,7 @@ const actions: ActionTree<BuddiesState, RootState> = {
 
           if(userPhotoResponse) {
             //@ts-ignore
-            const userPhoto = new Buffer(userPhotoResponse.data, 'binary').toString('base64')
+            const userPhoto = new Buffer.from(userPhotoResponse.data, 'binary').toString('base64')
             window.localStorage.setItem(buddy._embedded["yona:user"]._links.self.href, JSON.stringify({type: 'buddy', src: 'data:image/png;base64,'+userPhoto}));
             hasPhoto = true;
           }

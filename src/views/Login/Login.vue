@@ -66,7 +66,7 @@ export default class Login extends Vue {
 
             if(photo_response){
               //@ts-ignore
-              const userPhoto = new Buffer(photo_response.data, 'binary').toString('base64')
+              const userPhoto = new Buffer.from(photo_response.data, 'binary').toString('base64')
               window.localStorage.setItem('user_image', JSON.stringify({type: 'me', src: 'data:image/png;base64,'+userPhoto}));
             }
           } else {
