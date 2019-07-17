@@ -43,7 +43,12 @@
               </span>
             </div>
             <div v-else-if="notification && notification['@type'] === 'BuddyInfoChangeMessage'">
-              BuddyInfoChangeMessage
+              <span class="is-block has-text-left title">
+                <strong>Vriend profiel bijgewerkt</strong>
+              </span>
+              <span class="is-block has-text-left name">
+                {{notification.nickname}}
+              </span>
             </div>
             <div v-else-if="notification && notification['@type'] === 'GoalConflictMessage'">
               <span class="is-block has-text-left title">
@@ -108,6 +113,7 @@ export default class Notifications extends Vue {
   }
 
   async goTo(notification: any){
+    console.log(notification)
     if(!notification.isRead) {
       let read_response: any = await axios.post(notification._links['yona:markRead'].href, {
         "properties": {}
@@ -118,8 +124,10 @@ export default class Notifications extends Vue {
 
     if(notification['@type'] === 'BuddyConnectRequestMessage' && notification.status === 'REQUESTED'){
       this.$router.push({name: 'FriendRequest', params: {notification: notification}});
-    } else if (notification['@type'] === 'BuddyConnectResponseMessage') {
+    } else if (notification['@type'] === 'BuddyInfoChangeMessage' || notification['@type'] === 'BuddyConnectResponseMessage') {
       this.$router.push({name: 'FriendsProfile', params: {buddy_link: notification._links['yona:buddy'].href}});
+    } else if (notification['@type'] === 'GoalConflictMessage') {
+      this.$router.push({name: 'DetailedViewDay', params: {activity_link: notification._links['yona:dayDetails'].href}});
     }
   }
 }
