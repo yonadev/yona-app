@@ -1,6 +1,6 @@
 <template>
   <div class="bottom-margin-menu">
-    <router-view :key="$route.fullPath"></router-view>
+    <router-view></router-view>
     <bottom-menu active_page="profile"></bottom-menu>
   </div>
 </template>

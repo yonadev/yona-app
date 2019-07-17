@@ -259,8 +259,20 @@ export default new Router({
             children: [
                 {
                     path: '',
-                    name: 'Me',
-                    component: () => import('../views/Me/Me.vue')
+                    name: 'MeTabs',
+                    component: () => import('../views/Me/MeTabs.vue'),
+                    children: [
+                        {
+                            path: 'day',
+                            name: 'MeTimeLineDay',
+                            component: () => import('../views/Me/Tabs/Day.vue')
+                        },
+                        {
+                            path: 'week',
+                            name: 'MeTimeLineWeek',
+                            component: () => import('../views/Me/Tabs/Week.vue')
+                        }
+                    ]
                 },
                 {
                     path: 'profile',
@@ -282,6 +294,12 @@ export default new Router({
                     path: 'detailed-day/:activity_link',
                     name: 'DetailedViewDay',
                     component: () => import('../views/Me/DetailedViews/DetailedViewDay.vue'),
+                    props: true
+                },
+                {
+                    path: 'detailed-week/:activity_link',
+                    name: 'DetailedViewWeek',
+                    component: () => import('../views/Me/DetailedViews/DetailedViewWeek.vue'),
                     props: true
                 }
             ]

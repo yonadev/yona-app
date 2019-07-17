@@ -4,7 +4,9 @@
       <strong>{{getWeekLabel(week_activities.date)}}</strong>
     </div>
     <div v-for="(week_activity, index) in week_activities.weekActivities" :key="'weekactivity'+index">
-      <week-score :week_activity="week_activity" :week_number="week_activities.date"></week-score>
+      <router-link :to="{'name': 'DetailedViewWeek', params: {activity_link: week_activity._links['yona:weekDetails'].href}}">
+        <week-score :week_activity="week_activity" :week_number="week_activities.date"></week-score>
+      </router-link>
     </div>
   </div>
 </template>

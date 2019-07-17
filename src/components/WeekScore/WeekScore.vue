@@ -75,8 +75,6 @@
         if (goal_response.status === 200)
           this.goal = goal_response.data
 
-        console.log(this.goal)
-
         //Get the category
         let category_response: any = await axios.get(this.goal._links['yona:activityCategory'].href).catch((error) => {
           console.log(error)
@@ -84,8 +82,6 @@
 
         if(category_response.status === 200)
           this.activityCategory = category_response.data
-
-        console.log(this.activityCategory)
       }
     }
 
