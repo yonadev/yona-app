@@ -1,5 +1,5 @@
 <template>
-  <div @click="detailedView">
+  <div>
     <Component class="ui-control" :is="controlComponent" :goal="controlGoal" :title="controlCategory" :dayActivity="day_activity"></Component>
     <spread-control v-if="type === 'detailed'" class="ui-control" :goal="controlGoal" :activityCategory="controlCategory" :dayActivity="day_activity" title="Spreiding"></spread-control>
   </div>
@@ -74,12 +74,6 @@
         }
       }
       return undefined;
-    }
-
-
-    detailedView(){
-      if(this.type === 'simple')
-        this.$router.push({'name': 'DetailedViewDay', params: {activity_link: this.day_activity._links['yona:dayDetails'].href}})
     }
   }
 </script>

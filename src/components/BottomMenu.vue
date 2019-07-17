@@ -2,7 +2,7 @@
   <div id="bottom-menu">
     <div class="columns is-mobile">
       <div class="column">
-        <router-link :to="{name: 'Me'}">
+        <router-link :to="{name: 'MeTimeLineDay'}">
           <img :src="require('../assets/images/menu/icn_me'+ (active_page === 'profile' ? '_active' : '' ) +'.svg')">
         </router-link>
       </div>

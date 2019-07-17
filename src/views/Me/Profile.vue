@@ -12,13 +12,13 @@
         <div v-if="!edit" class="wrapper">
           <img v-if="profilePic" class="profile-img" :src="profilePic" />
           <div v-else class="profile-img">
-            <span class="text">{{this.account.firstname.charAt(0)}}{{this.account.lastname.charAt(0)}}</span>
+            <span class="text">{{account.firstname.charAt(0)}}{{account.lastname.charAt(0)}}</span>
           </div>
           <p class="icon-title">
-            {{firstname}} {{lastname}}
+            {{account.firstname}} {{account.lastname}}
           </p>
           <p class="icon-text">
-            {{nickname}}
+            {{account.nickname}}
           </p>
         </div>
         <div v-if="edit" class="wrapper">
