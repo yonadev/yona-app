@@ -3,7 +3,7 @@ export interface AccountState {
   lastname: string | null;
   phonenumber: string;
   nickname: string | null;
-  userphoto: string | null;
+  userphoto: string;
   permissions: {
     tracking: {
       title: string,

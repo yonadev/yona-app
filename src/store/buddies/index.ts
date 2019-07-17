@@ -31,14 +31,15 @@ const actions: ActionTree<BuddiesState, RootState> = {
       state.buddies.map(async (buddy, index) => {
         if(buddy._embedded["yona:user"]._links["yona:userPhoto"]) {
           const userPhotoResponse: any = await axios.get(buddy._embedded["yona:user"]._links["yona:userPhoto"].href, {
-            responseType: 'blob'
+            responseType: 'arraybuffer'
           }).catch((error) => {
             console.log(error)
           });
 
           if(userPhotoResponse) {
-            const userPhoto = await URL.createObjectURL(userPhotoResponse.data);
-            commit('setBuddyPhoto', {index, userPhoto})
+            //@ts-ignore
+            const userPhoto = new Buffer(userPhotoResponse.data, 'binary').toString('base64')
+            window.localStorage.setItem(buddy._embedded["yona:user"]._links["yona:userPhoto"].href, 'data:image/png;base64,'+userPhoto)
           } else {
             //SVG stuff
           }
@@ -51,9 +52,7 @@ const actions: ActionTree<BuddiesState, RootState> = {
 const mutations: MutationTree<BuddiesState> = {
   setBuddies(state, {data}) {
     state.buddies = data._embedded['yona:buddies'];
-  },
-  setBuddyPhoto(state, {index, userPhoto}) {
-    Vue.set(state.buddies[index]._embedded['yona:user'], 'photo',  userPhoto)
+    state.loaded = true;
   }
 };
 
@@ -64,13 +63,13 @@ const getters: GetterTree<BuddiesState, RootState> = {
     })
   },
   goal(state) {
-    return (buddy_href:string, href: string) => {
+    return (buddy_href: string, href: string) => {
       const buddy = state.buddies.find(buddy => {
         return buddy._links.self.href === buddy_href;
-      })
+      });
 
       if(buddy)
-        return buddy._embedded['yona:goals']._embedded['yona:goals'].find(buddy_goal => buddy_goal._links.self.href === href)
+         return buddy._embedded['yona:goals']._embedded['yona:goals'].find(buddy_goal => buddy_goal._links.self.href === href)
     }
   }
 };
