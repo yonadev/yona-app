@@ -2,12 +2,28 @@ import Vue from 'vue';
 import VeeValidate, { Validator } from 'vee-validate';
 //@ts-ignore
 import nl from "vee-validate/dist/locale/nl";
+let locales = require('../../locales/nl');
+
+import {parsePhoneNumberFromString} from "libphonenumber-js/mobile"
 
 const dictionary = {
   // attributes and messages
   messages: {
     mobile: (fieldName: string, params: any[], data?: any) => {
-      return `${fieldName} is niet geldig.`;
+      return locales.numbervalidation;
+    },
+    required: (fieldName: string, params: any[], data?: any) => {
+      let message;
+
+      if(fieldName === 'firstname'){
+        message = locales.enterfirstnamevalidation;
+      } else if (fieldName === 'lastname'){
+        message = locales.enterlastnamevalidation;
+      } else if (fieldName === 'nickname'){
+        message = locales.enternicknamevalidation;
+      }
+
+      return message;
     }
   }
 };
@@ -19,6 +35,8 @@ Validator.localize('nl', dictionary); // overwrites some messages
 
 Validator.extend('mobile', {
   validate: function (value) {
-    return /^(((\+31)6){1}[1-9]{1}[0-9]{7})$/i.test(value)
+    const number = parsePhoneNumberFromString(value)
+
+    return (number !== undefined && number.isValid());
   }
-})
+});
