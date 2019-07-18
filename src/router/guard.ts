@@ -20,8 +20,6 @@ class RouteProtect {
     const pinIsReset = this.store.state.login.pinIsReset;
     const pinIsSet = this.store.state.login.pinIsSet;
 
-    console.log({registered, loggedIn, locked})
-
     if (!registered && !to.meta.public) {
       return next({name: "Tour"})
     } else if(locked && pinIsReset && !to.meta.pinReset) {
