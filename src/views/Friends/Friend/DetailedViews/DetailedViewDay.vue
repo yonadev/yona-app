@@ -122,7 +122,7 @@
 
     goToOther(link: {href:string}){
       if(link && link.href)
-        this.$router.push({'name': 'DetailedViewDay', params: {activity_link: link.href}})
+        this.$router.push({'name': 'FriendsDetailedViewDay', params: {activity_link: link.href, buddy_href: this.buddy_href}})
     }
 
     getDayLabel(date: any){
