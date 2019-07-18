@@ -47,8 +47,15 @@
     };
     @Prop() week_number!: string;
     @Prop() title!: string;
+    @Prop({
+      default: ''
+    }) buddy_href!: string;
+
     @Getter('goal', {namespace: 'challenges'})
     public goal!: (href: string, historyItem: boolean) => Goal;
+
+    @Getter('goal', {namespace: 'buddies'})
+    public buddy_goal!: (buddy_href: string, href: string) => Goal;
 
     @Getter('activityCategory', {namespace: 'challenges'})
     public activityCategory!: (href: string) => ActivityCategory;
@@ -58,7 +65,11 @@
 
     get controlGoal() {
       if(typeof this.week_activity !== 'undefined') {
-        return this.goal(this.week_activity._links['yona:goal'].href, true)
+        if(this.buddy_href) {
+          return this.buddy_goal(this.buddy_href, this.week_activity._links['yona:goal'].href)
+        } else {
+          return this.goal(this.week_activity._links['yona:goal'].href, true)
+        }
       }
       return undefined;
     }

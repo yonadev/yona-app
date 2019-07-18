@@ -351,7 +351,27 @@ export default new Router({
                             name: 'FriendsDetailedViewWeek',
                             component: () => import('../views/Friends/Friend/DetailedViews/DetailedViewWeek.vue'),
                             props: true
-                        }
+                        },
+                        {
+                            path: 'timeline',
+                            name: 'FriendsTimeLineTabs',
+                            component: () => import('../views/Friends/Friend/TimeLine/TimeLineTabs.vue'),
+                            props: true,
+                            children: [
+                                {
+                                    path: 'day',
+                                    name: 'FriendTimeLineDay',
+                                    component: () => import('../views/Friends/Friend/TimeLine/Tabs/Day.vue'),
+                                    props: true
+                                },
+                                {
+                                    path: 'week',
+                                    name: 'FriendTimeLineWeek',
+                                    component: () => import('../views/Friends/Friend/TimeLine/Tabs/Week.vue'),
+                                    props: true
+                                }
+                            ]
+                        },
                     ]
                 }
             ]
