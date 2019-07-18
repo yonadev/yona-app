@@ -343,13 +343,13 @@ export default new Router({
                         {
                             path: 'detailed-day/:activity_link',
                             name: 'FriendsDetailedViewDay',
-                            component: () => import('../views/Friends/DetailedViews/DetailedViewDay.vue'),
+                            component: () => import('../views/Friends/Friend/DetailedViews/DetailedViewDay.vue'),
                             props: true
                         },
                         {
                             path: 'detailed-week/:activity_link',
                             name: 'FriendsDetailedViewWeek',
-                            component: () => import('../views/Friends/DetailedViews/DetailedViewWeek.vue'),
+                            component: () => import('../views/Friends/Friend/DetailedViews/DetailedViewWeek.vue'),
                             props: true
                         }
                     ]

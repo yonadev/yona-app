@@ -26,14 +26,14 @@
 <script lang="ts">
   import Vue from 'vue'
   import {Component, Prop} from 'vue-property-decorator'
-  import axios from "@/utils/axios/axios"
-  import UiControl from "@/components/UiControls/UiControl.vue";
+  import axios from "../../../../utils/axios/axios"
+  import UiControl from "../../../../components/UiControls/UiControl.vue";
   import {Getter} from "vuex-class";
-  import {ActivityCategory, Goal} from "@/store/challenges/types";
-  import SpreadControl from "@/components/UiControls/Controls/SpreadControl.vue";
-  import NoGoControl from "@/components/UiControls/Controls/NoGoControl.vue";
-  import TimeBucketControl from "@/components/UiControls/Controls/TimeBucketControl.vue";
-  import TimeFrameControl from "@/components/UiControls/Controls/TimeFrameControl.vue";
+  import {ActivityCategory, Goal} from "../../../../store/challenges/types";
+  import SpreadControl from "../../../../components/UiControls/Controls/SpreadControl.vue";
+  import NoGoControl from "../../../../components/UiControls/Controls/NoGoControl.vue";
+  import TimeBucketControl from "../../../../components/UiControls/Controls/TimeBucketControl.vue";
+  import TimeFrameControl from "../../../../components/UiControls/Controls/TimeFrameControl.vue";
 
   @Component({
     components: {
