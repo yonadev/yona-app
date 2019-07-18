@@ -39,9 +39,9 @@
       let months = ["JANUARI", "FEBRUARI", "MAART", "APRIL", "MEI", "JUNI", "JULI", "AUGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DECEMBER"];
 
       if(now.getDate() === date_obj.getDate())
-        date = 'VANDAAG';
+        date = this.$t('today').toUpperCase();
       else if((now.getDate()-1) === date_obj.getDate())
-        date = 'GISTEREN'
+        date = this.$t('yesterday').toUpperCase();
       else
         date = days[date_obj.getDay()]+', '+date_obj.getDate()+' '+months[date_obj.getMonth()]
 

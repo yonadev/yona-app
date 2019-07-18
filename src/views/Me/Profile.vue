@@ -4,7 +4,7 @@
       <div class="heading">
         <div class="nav-title" v-if="active_tab === 'badges'"></div>
         <div class="nav-title" v-if="active_tab === 'profile'">
-          <span v-if="edit">ACCOUNT BEWERKEN</span>
+          <span v-if="edit">{{$t('edit_profile')}}</span>
           <img v-if="edit" class="nav-icon" src="../../assets/images/signup/permission/icon_check_white.svg" alt="icn_edit" @click="switchMode">
           <img v-if="!edit" class="nav-icon" src="../../assets/images/profile/icn_edit.svg" alt="icn_edit" @click="switchMode">
         </div>
@@ -32,19 +32,19 @@
       <div v-if="!edit" class="tabs is-fullwidth">
         <ul>
           <li :class="{'is-active': active_tab === 'profile'}">
-            <a @click.prevent="active_tab = 'profile'">Profiel</a>
+            <a @click.prevent="active_tab = 'profile'">{{$t('profile')}}</a>
           </li>
           <li :class="{'is-active': active_tab === 'badges'}">
-            <a @click.prevent="active_tab = 'badges'">Badges</a>
+            <a @click.prevent="active_tab = 'badges'">{{$t('badges')}}</a>
           </li>
         </ul>
       </div>
     </div>
     <div class="wrapper grey-bg" v-if="active_tab === 'profile'">
-      <input-floating-label id="firstname" class="grey-bg-input" label="VOORNAAM" type="text" :disabled="!edit" :value.sync="firstname" icon="icn_name.svg"></input-floating-label>
-      <input-floating-label id="lastname" class="grey-bg-input" label="ACHTERNAAM" type="text" :disabled="!edit" :value.sync="lastname" icon="icn_name.svg"></input-floating-label>
-      <input-floating-label id="nickname" class="grey-bg-input" label="NICK NAME" type="text" :disabled="!edit" :value.sync="nickname" icon="icn_nickname.svg"></input-floating-label>
-      <input-floating-label id="mobile" class="grey-bg-input" label="MOBIEL TELEFOONNUMMER" type="text" :disabled="!edit" :value.sync="mobile" icon="icn_mobile.svg"></input-floating-label>
+      <input-floating-label id="firstname" class="grey-bg-input" :label="$t('firstname')" type="text" :disabled="!edit" :value.sync="firstname" icon="icn_name.svg"></input-floating-label>
+      <input-floating-label id="lastname" class="grey-bg-input" :label="$t('lastname')" type="text" :disabled="!edit" :value.sync="lastname" icon="icn_name.svg"></input-floating-label>
+      <input-floating-label id="nickname" class="grey-bg-input" :label="$t('nickname')" type="text" :disabled="!edit" :value.sync="nickname" icon="icn_nickname.svg"></input-floating-label>
+      <input-floating-label id="mobile" class="grey-bg-input" :label="$t('mobilenumber')" type="text" :disabled="!edit" :value.sync="mobile" icon="icn_mobile.svg"></input-floating-label>
     </div>
     <div class="wrapper" v-if="active_tab === 'badges'">
 

@@ -4,6 +4,7 @@ import App from './App.vue'
 import router from './router'
 import AuthGuard from "./router/guard";
 import "@/utils/validate/validate";
+import i18n from '@/utils/i18n'
 
 import moment from 'moment'
 moment.locale('nl')
@@ -52,5 +53,6 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
+  i18n,
   render: h => h(App)
 }).$mount('#app')

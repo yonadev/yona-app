@@ -18,16 +18,16 @@
     <div class="wrapper">
       <div class="grey-bg-div">
         <p class="has-text-left">
-          <strong>Vriendschapverzoek</strong><br/><br/>
+          <strong>{{$t('status_friend_request')}}</strong><br/><br/>
           <span class="light-text" v-if="notification.message">
             {{notification.message}} <br/><br/>
           </span>
-          <span class="light-text">Let op: dit verzoek kan door iemand anders zijn verstuurd. Controleer het telefoonnummer:</span><br/>
+          <span class="light-text">{{$t('friend_request_content')}}</span><br/>
           <span class="light-text">{{notification._embedded['yona:user'].mobileNumber}}</span>
         </p>
 
-        <a class="button reject is-rounded is-6" @click="reject()">AFWIJZEN</a>
-        <a class="button accept is-rounded is-6" @click="accept()">ACCEPTEREN</a>
+        <a class="button reject is-rounded is-6" @click="reject()">{{$t('reject')}}</a>
+        <a class="button accept is-rounded is-6" @click="accept()">{{$t('accept')}}</a>
       </div>
     </div>
   </div>

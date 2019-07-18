@@ -4,7 +4,7 @@
       <div class="nav-title">
         <router-link :to="{name: 'Profile'}">
           <profile-pic class="profile-img" src="user_image"></profile-pic>
-          <span class="dashboard-title">DASHBOARD</span>
+          <span class="dashboard-title">{{$t('dashboard')}}</span>
         </router-link>
         <router-link :to="{name: 'Notifications'}">
           <img class="small-top-icon is-pulled-right" src="@/assets/images/icons/icn_notification.svg" />
@@ -13,10 +13,10 @@
       <div class="tabs is-fullwidth" v-fixed-scroll>
         <ul>
           <router-link tag="li" :to="{name: 'MeTimeLineDay'}" active-class="is-active">
-            <a>Per dag</a>
+            <a>{{$t('perday')}}</a>
           </router-link>
           <router-link tag="li" :to="{name: 'MeTimeLineWeek'}" active-class="is-active">
-            <a>Per week</a>
+            <a>{{$t('perweek')}}</a>
           </router-link>
         </ul>
       </div>
