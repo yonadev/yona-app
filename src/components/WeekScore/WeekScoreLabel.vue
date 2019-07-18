@@ -1,7 +1,7 @@
 <template>
   <div class="week-score-label">
     <div class="top-label">
-      <strong>{{getWeekLabel(week_activities.date)}}</strong>
+      <strong v-if="week_activities.date">{{getWeekLabel(week_activities.date)}}</strong>
     </div>
     <div v-for="(week_activity, index) in week_activities.weekActivities" :key="'weekactivity'+index">
       <router-link :to="{'name': (buddy_href ? 'FriendsDetailedViewWeek' : 'DetailedViewWeek'), params: {buddy_href, activity_link: week_activity._links['yona:weekDetails'].href}}">

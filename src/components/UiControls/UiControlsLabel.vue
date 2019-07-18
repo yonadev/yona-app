@@ -1,7 +1,7 @@
 <template>
   <div class="ui-controls">
     <div class="top-label">
-      <strong>{{getDayLabel(day_activities.date)}}</strong>
+      <strong v-if="day_activities.date">{{getDayLabel(day_activities.date)}}</strong>
     </div>
     <div v-for="(day_activity, index) in day_activities.dayActivities" :key="'activity'+index">
       <div v-if="day_activity.dayActivitiesForUsers">

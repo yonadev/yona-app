@@ -293,13 +293,13 @@ export default new Router({
                 {
                     path: 'detailed-day/:activity_link',
                     name: 'DetailedViewDay',
-                    component: () => import('../views/Me/DetailedViews/DetailedViewDay.vue'),
+                    component: () => import('../views/Timeline/DetailedViewDay.vue'),
                     props: true
                 },
                 {
                     path: 'detailed-week/:activity_link',
                     name: 'DetailedViewWeek',
-                    component: () => import('../views/Me/DetailedViews/DetailedViewWeek.vue'),
+                    component: () => import('../views/Timeline/DetailedViewWeek.vue'),
                     props: true
                 }
             ]
@@ -343,13 +343,13 @@ export default new Router({
                         {
                             path: 'detailed-day/:activity_link',
                             name: 'FriendsDetailedViewDay',
-                            component: () => import('../views/Friends/Friend/DetailedViews/DetailedViewDay.vue'),
+                            component: () => import('../views/Timeline/DetailedViewDay.vue'),
                             props: true
                         },
                         {
                             path: 'detailed-week/:activity_link',
                             name: 'FriendsDetailedViewWeek',
-                            component: () => import('../views/Friends/Friend/DetailedViews/DetailedViewWeek.vue'),
+                            component: () => import('../views/Timeline/DetailedViewWeek.vue'),
                             props: true
                         },
                         {
