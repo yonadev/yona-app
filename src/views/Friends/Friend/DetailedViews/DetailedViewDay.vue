@@ -3,6 +3,9 @@
     <div class="colored-background blue">
       <div class="nav-title" v-if="day_activity">
         {{controlCategory}}
+        <router-link :to="{name: 'FriendsProfile', params:{ buddy_href: buddy_href }}">
+          <profile-pic class="small-top-icon is-pulled-right" :src="buddyProfile._embedded['yona:user']._links.self.href"></profile-pic>
+        </router-link>
       </div>
     </div>
     <div class="wrapper grey-bg">
@@ -34,9 +37,12 @@
   import NoGoControl from "../../../../components/UiControls/Controls/NoGoControl.vue";
   import TimeBucketControl from "../../../../components/UiControls/Controls/TimeBucketControl.vue";
   import TimeFrameControl from "../../../../components/UiControls/Controls/TimeFrameControl.vue";
+  import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
+  import {Buddy} from "@/store/buddies/types";
 
   @Component({
     components: {
+      ProfilePic,
       TimeFrameControl,
       TimeBucketControl,
       NoGoControl,
@@ -47,6 +53,9 @@
   export default class DetailedViewDay extends Vue {
     @Prop() activity_link!: string;
     @Prop() buddy_href!: string;
+
+    @Getter('buddy', {namespace: 'buddies'})
+    public buddy!: (buddy_href: string) => Buddy;
 
     @Getter('goal', {namespace: 'buddies'})
     public goal!: (buddy_href: string, href: string) => Goal;
@@ -77,6 +86,10 @@
       if(detailed_response.status === 200) {
         this.day_activity = detailed_response.data;
       }
+    }
+
+    get buddyProfile(){
+      return this.buddy(this.buddy_href);
     }
 
     get controlGoal() {
@@ -134,6 +147,17 @@
   #detailed-day{
     .nav-title{
       padding:30px 15px 15px 25px;
+      line-height:30px;
+      .small-top-icon{
+        vertical-align: middle;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        position: relative;
+        img{
+          border-radius:50%;
+        }
+      }
     }
     .wrapper {
       padding: 0;

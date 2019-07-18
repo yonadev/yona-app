@@ -4,7 +4,7 @@
       <div class="heading">
         <div class="nav-title"></div>
         <div class="wrapper">
-          <profile-pic class="profile-img" :src="this.buddyProfile._embedded['yona:user']._links.self.href"></profile-pic>
+          <profile-pic class="profile-img" :src="buddyProfile._embedded['yona:user']._links.self.href"></profile-pic>
           <p class="icon-title">
             {{firstName}} {{lastName}}
           </p>
