@@ -1,8 +1,11 @@
 <template>
   <div id="detailed-day" class="header-template">
-    <div class="colored-background purple-dark">
+    <div class="colored-background" :class="(buddy_href ? 'blue' : 'purple-dark')">
       <div class="nav-title" v-if="week_activity">
         {{controlCategory}}
+        <router-link v-if="buddy_href" :to="{name: 'FriendsProfile', params:{ buddy_href: buddy_href }}">
+          <profile-pic class="small-top-icon is-pulled-right" :src="buddyProfile._embedded['yona:user']._links.self.href"></profile-pic>
+        </router-link>
       </div>
     </div>
     <div class="wrapper grey-bg">
@@ -17,8 +20,9 @@
           <img svg-inline class="icn-next" :class="{'disabled': week_activity._links.next === undefined}" src="@/assets/images/icons/icn_back.svg" @click="goToOther(week_activity._links.next)" />
         </div>
       </div>
-      <week-score v-if="week_activity" :week_activity="week_activity" :week_number="week_activity.date"></week-score>
-      <time-bucket-control v-if="week_activity && controlGoal['@type'] == 'BudgetGoal' && controlGoal.maxDurationMinutes > 0" class="ui-control" :goal="controlGoal" :dayActivity="{totalActivityDurationMinutes: week_activity.totalActivityDurationMinutes / Object.keys(week_activity.dayActivities).length}" title="Gemiddeld"></time-bucket-control>
+
+      <week-score v-if="week_activity" :buddy_href="buddy_href" :week_activity="week_activity" :week_number="week_activity.date"></week-score>
+      <time-bucket-control v-if="week_activity && controlGoal['@type'] === 'BudgetGoal' && controlGoal.maxDurationMinutes > 0" class="ui-control" :goal="controlGoal" :dayActivity="{totalActivityDurationMinutes: week_activity.totalActivityDurationMinutes / Object.keys(week_activity.dayActivities).length}" title="Gemiddeld"></time-bucket-control>
       <spread-control v-if="week_activity" class="ui-control" :goal="controlGoal" :dayActivity="week_activity" title="Spreiding"></spread-control>
     </div>
   </div>
@@ -35,9 +39,12 @@
   import moment from 'moment'
   import SpreadControl from "@/components/UiControls/Controls/SpreadControl.vue";
   import TimeBucketControl from "@/components/UiControls/Controls/TimeBucketControl.vue";
+  import {Buddy} from "@/store/buddies/types";
+  import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
 
   @Component({
     components: {
+      ProfilePic,
       TimeBucketControl,
       SpreadControl,
       WeekScore,
@@ -45,10 +52,17 @@
     }
   })
   export default class DetailedViewWeek extends Vue {
+    @Prop({default: ''}) buddy_href!: string;
     @Prop() activity_link!: string;
+
+    @Getter('buddy', {namespace: 'buddies'})
+    public buddy!: (buddy_href: string) => Buddy;
 
     @Getter('goal', {namespace: 'challenges'})
     public goal!: (href: string, historyItem: boolean) => Goal;
+
+    @Getter('goal', {namespace: 'buddies'})
+    public buddy_goal!: (buddy_href: string, href: string) => Goal;
 
     @Getter('activityCategory', {namespace: 'challenges'})
     public activityCategory!: (href: string) => ActivityCategory;
@@ -80,12 +94,15 @@
     }
 
     get controlGoal() {
-      if(this.week_activity) {
-        return this.goal(this.week_activity._links['yona:goal'].href, true)
+      if(this.week_activity !== null) {
+        if(this.buddy_href) {
+          return this.buddy_goal(this.buddy_href, this.week_activity._links['yona:goal'].href)
+        } else {
+          return this.goal(this.week_activity._links['yona:goal'].href, true)
+        }
       }
       return undefined;
     }
-
     get controlCategory() {
       if (typeof this.controlGoal !== 'undefined') {
         return this.activityCategory(this.controlGoal._links["yona:activityCategory"].href).name
@@ -94,10 +111,13 @@
       }
     }
 
+    get buddyProfile(){
+      return this.buddy(this.buddy_href);
+    }
 
     goToOther(link: {href:string}){
       if(link && link.href)
-        this.$router.push({'name': 'DetailedViewWeek', params: {activity_link: link.href}})
+        this.$router.push({'name': (this.buddy_href ? 'FriendsDetailedViewWeek' : 'DetailedViewWeek'), params: {buddy_href: this.buddy_href, activity_link: link.href}})
     }
 
     getWeekLabel(date: any){
@@ -117,7 +137,19 @@
 <style lang="scss">
   #detailed-day{
     .nav-title{
-      padding:30px 15px 15px 25px;
+      padding: 30px 15px 5px 25px;
+      line-height:30px;
+      min-height:30px;
+      .small-top-icon{
+        vertical-align: middle;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        position: relative;
+        img{
+          border-radius:50%;
+        }
+      }
     }
     .wrapper {
       padding: 0;

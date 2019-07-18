@@ -1,7 +1,7 @@
 <template>
   <div id="detailed-day" class="header-template">
     <div class="colored-background" :class="(buddy_href ? 'blue' : 'purple-dark')">
-      <div class="nav-title">
+      <div class="nav-title" v-if="day_activity">
         {{category}}
         <router-link v-if="buddy_href" :to="{name: 'FriendsProfile', params:{ buddy_href: buddy_href }}">
           <profile-pic class="small-top-icon is-pulled-right" :src="buddyProfile._embedded['yona:user']._links.self.href"></profile-pic>
