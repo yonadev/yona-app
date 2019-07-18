@@ -3,8 +3,8 @@
         <div class="grey-bg-button">
             <strong>{{activityCategory(goal._links["yona:activityCategory"].href).name}}</strong>
             <p v-if="goal['@type'] == 'BudgetGoal' && goal.maxDurationMinutes > 0">Je kunt per dag {{goal.maxDurationMinutes}} minuten aan deze categorie besteden</p>
-            <p v-else-if="goal['@type'] == 'TimeZoneGoal'">Toegestaan tussen {{goal.zones.join(' en ')}}</p>
-            <p v-else-if="goal['@type'] == 'BudgetGoal'">Hieraan wil je geen tijd besteden</p>
+            <p v-else-if="goal['@type'] == 'TimeZoneGoal'">{{$t('challengestimzoesubtext')}} tussen {{goal.zones.join(' en ')}}</p>
+            <p v-else-if="goal['@type'] == 'BudgetGoal'">{{$t('challengesnogosubText')}}</p>
         </div>
     </router-link>
 </template>

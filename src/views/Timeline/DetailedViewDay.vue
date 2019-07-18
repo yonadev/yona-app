@@ -14,7 +14,7 @@
           <img svg-inline class="icn-back" :class="{'disabled': day_activity._links.prev === undefined}" src="@/assets/images/icons/icn_back.svg" @click="goToOther(day_activity._links.prev)" />
         </div>
         <div class="column">
-          <strong >{{getDayLabel(day_activity.date)}}</strong>
+          <strong >{{getDayLabel(day_activity.date).toUpperCase()}}</strong>
         </div>
         <div class="column has-text-right">
           <img svg-inline class="icn-next" :class="{'disabled': day_activity._links.next === undefined}" src="@/assets/images/icons/icn_back.svg" @click="goToOther(day_activity._links.next)" />
@@ -111,9 +111,9 @@
       let months = ["JANUARI", "FEBRUARI", "MAART", "APRIL", "MEI", "JUNI", "JULI", "AUGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DECEMBER"];
 
       if(now.getDate() === date_obj.getDate())
-        date = this.$t('today').toUpperCase();
+        date = this.$t('today');
       else if((now.getDate()-1) === date_obj.getDate())
-        date = this.$t('yesterday').toUpperCase();
+        date = this.$t('yesterday');
       else
         date = days[date_obj.getDay()]+', '+date_obj.getDate()+' '+months[date_obj.getMonth()];
 

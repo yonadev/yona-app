@@ -1,7 +1,7 @@
 <template>
   <div class="ui-controls">
     <div class="top-label">
-      <strong v-if="day_activities.date">{{getDayLabel(day_activities.date)}}</strong>
+      <strong v-if="day_activities.date">{{getDayLabel(day_activities.date).toUpperCase()}}</strong>
     </div>
     <div v-for="(day_activity, index) in day_activities.dayActivities" :key="'activity'+index">
       <div v-if="day_activity.dayActivitiesForUsers">
@@ -39,9 +39,9 @@
       let months = ["JANUARI", "FEBRUARI", "MAART", "APRIL", "MEI", "JUNI", "JULI", "AUGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DECEMBER"];
 
       if(now.getDate() === date_obj.getDate())
-        date = this.$t('today').toUpperCase();
+        date = this.$t('today');
       else if((now.getDate()-1) === date_obj.getDate())
-        date = this.$t('yesterday').toUpperCase();
+        date = this.$t('yesterday')
       else
         date = days[date_obj.getDay()]+', '+date_obj.getDate()+' '+months[date_obj.getMonth()]
 
