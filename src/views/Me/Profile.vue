@@ -41,10 +41,10 @@
       </div>
     </div>
     <div class="wrapper grey-bg" v-if="active_tab === 'profile'">
-      <input-floating-label id="firstname" class="grey-bg-input" :label="$t('firstname')" type="text" :disabled="!edit" :value.sync="firstname" icon="icn_name.svg"></input-floating-label>
-      <input-floating-label id="lastname" class="grey-bg-input" :label="$t('lastname')" type="text" :disabled="!edit" :value.sync="lastname" icon="icn_name.svg"></input-floating-label>
-      <input-floating-label id="nickname" class="grey-bg-input" :label="$t('nickname')" type="text" :disabled="!edit" :value.sync="nickname" icon="icn_nickname.svg"></input-floating-label>
-      <input-floating-label id="mobile" class="grey-bg-input" :label="$t('mobilenumber')" type="text" :disabled="!edit" :value.sync="mobile" icon="icn_mobile.svg"></input-floating-label>
+      <input-floating-label id="firstname" :validate="{required: true}" class="grey-bg-input" :label="$t('firstname')" type="text" :disabled="!edit" :value.sync="firstname" icon="icn_name.svg"></input-floating-label>
+      <input-floating-label id="lastname" :validate="{required: true}" class="grey-bg-input" :label="$t('lastname')" type="text" :disabled="!edit" :value.sync="lastname" icon="icn_name.svg"></input-floating-label>
+      <input-floating-label id="nickname" :validate="{required: true}" class="grey-bg-input" :label="$t('nickname')" type="text" :disabled="!edit" :value.sync="nickname" icon="icn_nickname.svg"></input-floating-label>
+      <input-floating-label id="mobile" :validate="{required: true, mobile: true}" class="grey-bg-input" :label="$t('mobilenumber')" type="text" :disabled="!edit" :value.sync="mobile" icon="icn_mobile.svg"></input-floating-label>
     </div>
     <div class="wrapper" v-if="active_tab === 'badges'">
 
@@ -54,6 +54,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import {Inject} from 'vue-property-decorator'
 import Component from 'vue-class-component';
 import InputFloatingLabel from '@/components/InputFloatingLabel.vue';
 import {Action, State} from "vuex-class";
@@ -62,6 +63,7 @@ import {Watch} from "vue-property-decorator";
 import {ApiState} from "@/store/api/types";
 import axios from "@/utils/axios/axios"
 import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
+import {Validator} from "vee-validate";
 
 @Component({
   components:{
@@ -80,6 +82,8 @@ export default class Profile extends Vue {
   mobile: string | null = '';
   nickname: string | null = '';
 
+  @Inject('$validator') $validator! : Validator;
+
   async mounted(){
     this.firstname = this.account.firstname;
     this.lastname = this.account.lastname;
@@ -89,22 +93,24 @@ export default class Profile extends Vue {
 
   //Methods
   async switchMode () {
-    if(this.edit){
-      if(this.api.links && this.api.links['edit']) {
-        let response: any = await axios.put(this.api.links['edit'].href, {
-          "firstName": this.firstname,
-          "lastName": this.lastname,
-          "mobileNumber": this.mobile,
-          "nickname": this.nickname
-        }).catch((error) => {
-          console.log(error)
-        });
+    let valid = await this.$validator.validateAll()
 
-        console.log(response)
+    if(valid){
+      if(this.edit) {
+        if (this.api.links && this.api.links['edit']) {
+          let response: any = await axios.put(this.api.links['edit'].href, {
+            "firstName": this.firstname,
+            "lastName": this.lastname,
+            "mobileNumber": this.mobile,
+            "nickname": this.nickname
+          }).catch((error) => {
+            console.log(error)
+          });
+        }
       }
-    }
 
-    this.edit = !this.edit
+      this.edit = !this.edit
+    }
   }
 
   async submitPhoto () {
@@ -154,8 +160,14 @@ export default class Profile extends Vue {
   }
   @Watch('mobile')
   mobileChanged(val: string | null) {
-    if(val)
+    if(val){
+      if(val.charAt(0) === '0' && val.charAt(1) === '6') {
+        val = '+31' + val.substr(1)
+        this.mobile = val
+      }
+
       this.setProperty({phonenumber: val})
+    }
   }
 }
 </script>
