@@ -4,8 +4,8 @@
       <strong>{{getWeekLabel(week_activities.date)}}</strong>
     </div>
     <div v-for="(week_activity, index) in week_activities.weekActivities" :key="'weekactivity'+index">
-      <router-link :to="{'name': 'DetailedViewWeek', params: {activity_link: week_activity._links['yona:weekDetails'].href}}">
-        <week-score :week_activity="week_activity" :week_number="week_activities.date"></week-score>
+      <router-link :to="{'name': (buddy_href ? 'FriendsDetailedViewWeek' : 'DetailedViewWeek'), params: {buddy_href, activity_link: week_activity._links['yona:weekDetails'].href}}">
+        <week-score :week_activity="week_activity" :week_number="week_activities.date" :buddy_href="buddy_href"></week-score>
       </router-link>
     </div>
   </div>
@@ -24,6 +24,9 @@
   })
   export default class UiControlsLabel extends Vue {
     @Prop() week_activities!: string;
+    @Prop({
+      default: ''
+    }) buddy_href!: string;
 
     getWeekLabel(date: any){
       let now = moment(new Date()).weekday(0).week();
