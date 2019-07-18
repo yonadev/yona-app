@@ -89,8 +89,6 @@
             goal = this.goal(this.day_activity._links['yona:goal'].href);
           }
 
-          console.log(goal)
-
           this.category = this.getActivityCategory(goal._links['yona:activityCategory'].href).name
           this.loading = false;
         }
