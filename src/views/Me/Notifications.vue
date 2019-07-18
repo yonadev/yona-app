@@ -113,7 +113,6 @@ export default class Notifications extends Vue {
   }
 
   async goTo(notification: any){
-    console.log(notification)
     if(!notification.isRead) {
       let read_response: any = await axios.post(notification._links['yona:markRead'].href, {
         "properties": {}
