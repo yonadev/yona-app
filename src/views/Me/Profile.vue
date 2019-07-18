@@ -54,7 +54,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import {Inject} from 'vue-property-decorator'
 import Component from 'vue-class-component';
 import InputFloatingLabel from '@/components/InputFloatingLabel.vue';
 import {Action, State} from "vuex-class";
@@ -63,7 +62,6 @@ import {Watch} from "vue-property-decorator";
 import {ApiState} from "@/store/api/types";
 import axios from "@/utils/axios/axios"
 import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
-import {Validator} from "vee-validate";
 
 @Component({
   components:{
@@ -81,8 +79,6 @@ export default class Profile extends Vue {
   lastname: string | null = '';
   mobile: string | null = '';
   nickname: string | null = '';
-
-  @Inject('$validator') $validator! : Validator;
 
   async mounted(){
     this.firstname = this.account.firstname;

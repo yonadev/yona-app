@@ -21,6 +21,10 @@ const dictionary = {
         message = locales.enterlastnamevalidation;
       } else if (fieldName === 'nickname'){
         message = locales.enternicknamevalidation;
+      } else if (fieldName === 'mobile'){
+        message = locales.entermobilevalidation;
+      } else if (fieldName === 'passcode'){
+        message = locales.enterpasscode;
       }
 
       return message;

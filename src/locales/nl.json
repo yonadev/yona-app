@@ -35,6 +35,7 @@
   "usersignupmessage": "We gebruiken je mobiele telefoonnummer voor een veilige registratie. Je nickname is verplicht en zorgt voor een betere privacy.",
   "enterfirstnamevalidation": "Je moet een voornaam invoeren",
   "enterlastnamevalidation": "Je moet een achternaam invoeren",
+  "entermobilevalidation": "Je moet een mobiele telefoonnummer invoeren",
   "numbervalidation": "Nummer is niet geldig",
   "enternumbervalidation": "Nummer moet 9 cijfers bevatten",
   "entercountrycode": "Gebruik alstublieft de internationale nummernotatie,\nbijv. voor NL +31",

@@ -4,10 +4,10 @@
 
     <div class="is-centered bottom-aligned">
       <router-link class="button" :to="{name: 'Names'}">
-        DOE MEE
+        {{$t('join')}}
       </router-link>
       <router-link class="button" :to="{name: 'Login'}">
-        INLOGGEN
+        {{$t('login')}}
       </router-link>
     </div>
   </div>
