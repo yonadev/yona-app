@@ -4,7 +4,7 @@
       <strong>VERBONDEN</strong>
     </div>
     <div v-for="(buddy, index) in buddies" :key="'accepted'+index" :class="{'grey-bg-div': buddy && buddy.receivingStatus === userStatus.Accepted}">
-      <div v-if="buddy && buddy.receivingStatus === userStatus.Accepted" class="columns is-mobile">
+      <router-link v-if="buddy && buddy.receivingStatus === userStatus.Accepted" :to="{name: 'FriendTimeLineDay', params: {buddy_href: buddy._links.self.href}}" :tag="div" class="columns is-mobile">
         <div class="column is-2">
           <div class="img-wrapper">
             <profile-pic :src="buddy._embedded['yona:user']._links.self.href"></profile-pic>
@@ -18,7 +18,7 @@
             Laatst gezien: {{buddy._embedded['yona:user'].appLastOpenedDate}}
           </span>
         </div>
-      </div>
+      </router-link>
     </div>
     <div class="top-label">
       <strong>VERZOEKEN</strong>

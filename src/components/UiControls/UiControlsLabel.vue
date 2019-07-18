@@ -7,8 +7,8 @@
       <div v-if="day_activity.dayActivitiesForUsers">
         <timeline-category :day_activity="day_activity" type="simple"></timeline-category>
       </div>
-      <router-link v-else :to="{'name': 'DetailedViewDay', params: {activity_link: day_activity._links['yona:dayDetails'].href}}">
-        <ui-control :day_activity="day_activity" type="simple"></ui-control>
+      <router-link v-else :to="{'name': (buddy_href ? 'FriendsDetailedViewDay' : 'DetailedViewDay'), params: {buddy_href, activity_link: day_activity._links['yona:dayDetails'].href}}">
+        <ui-control :day_activity="day_activity" :buddy_href="buddy_href" type="simple"></ui-control>
       </router-link>
     </div>
   </div>
@@ -28,6 +28,9 @@
   })
   export default class UiControlsLabel extends Vue {
     @Prop() day_activities!: string;
+    @Prop({
+      default: ''
+    }) buddy_href!: string;
 
     getDayLabel(date: any){
       let now = new Date()

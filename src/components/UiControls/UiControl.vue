@@ -25,6 +25,9 @@
   })
   export default class UiControl extends Vue {
     @Prop() type!: string;
+    @Prop({
+      default: ''
+    }) buddy_href!: string;
     @Prop() day_activity!: {
       goalAccomplished: boolean,
       totalActivityDurationMinutes: number,
@@ -39,12 +42,19 @@
     @Getter('goal', {namespace: 'challenges'})
     public goal!: (href: string, historyItem: boolean) => Goal;
 
+    @Getter('goal', {namespace: 'buddies'})
+    public buddy_goal!: (buddy_href: string, href: string) => Goal;
+
     @Getter('activityCategory', {namespace: 'challenges'})
     public activityCategory!: (href: string) => ActivityCategory;
 
     get controlGoal() {
       if(typeof this.day_activity !== 'undefined') {
-        return this.goal(this.day_activity._links['yona:goal'].href, true)
+        if(this.buddy_href) {
+          return this.buddy_goal(this.buddy_href, this.day_activity._links['yona:goal'].href)
+        } else {
+          return this.goal(this.day_activity._links['yona:goal'].href, true)
+        }
       }
       return undefined;
     }
