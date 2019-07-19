@@ -2,7 +2,7 @@
   <div id="notification" class="header-template">
     <div class="colored-background purple-dark">
       <div class="nav-title">
-        {{$t('notifications')}}
+        {{$t('message')}}
       </div>
     </div>
     <div class="wrapper grey-bg">
