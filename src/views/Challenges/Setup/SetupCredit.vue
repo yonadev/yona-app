@@ -5,8 +5,8 @@
             <div class="slider-container">
                 <div class="columns is-mobile">
                     <div class="column challengeInfoColumn">
-                        <strong>Tegoed</strong>
-                        <p>minuten tegoed per dag</p>
+                        <strong>{{$t('budgetgoaltitle')}}</strong>
+                        <p>{{$t('budgetgoaldesc')}}</p>
                     </div>
                     <div class="column is-one-third creditAmountColumn">
                         <span>{{setupData.maxDurationMinutes}}</span>
@@ -18,7 +18,7 @@
 
         <div class="wrapper over-all-footer">
             <div class="wrapper grey-bg save-section">
-                <a class="button is-rounded is-fullwidth save-challenge-btn" @click="save()" :disabled="setupData.maxDurationMinutes == 0 || loading">Challenge opslaan</a>
+                <a class="button is-rounded is-fullwidth save-challenge-btn" @click="save()" :disabled="setupData.maxDurationMinutes == 0 || loading">{{$t('challenges.addBudgetGoal.setChallengeButton')}}</a>
             </div>
         </div>
     </div>

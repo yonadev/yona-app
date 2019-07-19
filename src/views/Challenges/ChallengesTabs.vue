@@ -4,7 +4,7 @@
 
       <div class="nav-title">
         <router-link :to="{name: 'Profile'}">
-          CHALLENGES
+          {{$t('challenges')}}
         </router-link>
       </div>
       <div class="tabs is-fullwidth" v-fixed-scroll>
@@ -16,7 +16,7 @@
                         <div class="counter" v-if="goalsByType('BudgetGoal').length > 0">{{goalsByType('BudgetGoal').length}}</div>
                     </div>
                     <div class="tabTitle">
-                        Tegoed
+                        {{$t('challengescredit')}}
                     </div>
                 </a>
             </router-link>
@@ -27,7 +27,7 @@
                         <div class="counter" v-if="goalsByType('TimeZoneGoal').length > 0">{{goalsByType('TimeZoneGoal').length}}</div>
                     </div>
                     <div class="tabTitle">
-                        Tijdzone
+                        {{$t('challengeszone')}}
                     </div>
                 </a>
             </router-link>
@@ -38,7 +38,7 @@
                         <div class="counter" v-if="goalsByType('NoGoGoal').length > 0">{{goalsByType('NoGoGoal').length}}</div>
                     </div>
                     <div class="tabTitle">
-                        NO GO
+                        {{$t('challengesnogo')}}
                     </div>
                 </a>
             </router-link>
