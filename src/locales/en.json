@@ -203,7 +203,7 @@
   "timer_minute" : "M",
   "timer_second" : "S",
   "timer_wait_title" : "You have to wait",
-  "timer_wait_desc" : "For security reasons your account blocked. Can activate %1$s after you have applied for a new PIN.",
+  "timer_wait_desc" : "For security reasons your account blocked. Can activate after the time expired.",
   "choose_number" : "Choose Number of %1$s",
   "message_delete" : "delete",
   "system_message" : "Message from Yona",

@@ -1,13 +1,13 @@
 <template>
   <div class="timer">
     <p class="hours">
-      {{hours | twoDigits}}<span>U</span>
+      {{hours | twoDigits}}<span>{{$t('timer_hour')}}</span>
     </p>
     <p class="minutes">
-      {{minutes | twoDigits}}<span>M</span>
+      {{minutes | twoDigits}}<span>{{$t('timer_minute')}}</span>
     </p>
     <p class="seconds">
-      {{seconds | twoDigits}}<span>S</span>
+      {{seconds | twoDigits}}<span>{{$t('timer_second')}}</span>
     </p>
   </div>
 </template>

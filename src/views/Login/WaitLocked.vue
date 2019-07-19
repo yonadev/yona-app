@@ -1,15 +1,15 @@
 <template>
   <div id="locked" class="colored-background purple-dark pincode-template">
     <div class="nav-title">
-      INLOGGEN
+      {{$t('login')}}
     </div>
     <div class="wrapper">
       <img src="../../assets/images/signup/account/icn_secure.svg"/>
       <p class="icon-title">
-        Je moet even wachten
+        {{$t('timer_wait_title')}}
       </p>
       <p class="icon-text">
-        Om veiligheidsredenen is je account geblokkeerd. Activeren kan 24 uur nadat je een nieuwe PIN code hebt aangevraagd.
+        {{$t('timer_wait_desc', {time: login.locked_timer})}}
       </p>
       <timer :time="login.locked_timer"></timer>
     </div>

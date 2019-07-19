@@ -203,7 +203,7 @@
   "timer_minute": "M",
   "timer_second": "S",
   "timer_wait_title": "Je moet even wachten",
-  "timer_wait_desc": "Om veiligheidsredenen is je account geblokkeerd. Activeren kan %1$s nadat je een nieuwe PIN code hebt aangevraagd.",
+  "timer_wait_desc": "Om veiligheidsredenen is je account geblokkeerd. Activeren kan nadat de timer is afgelopen.",
   "choose_number": "Choose Number of %1$s",
   "message_delete": "verwijder",
   "system_message": "Message from Yona",
