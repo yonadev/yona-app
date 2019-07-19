@@ -2,28 +2,28 @@
   <div id="settings" class="header-template">
     <div class="colored-background yellow">
       <div class="nav-title">
-        SETTINGS
+        {{$t('settings')}}
       </div>
     </div>
     <div class="wrapper">
       <router-link :to="{name: 'CheckPinCode'}">
         <div class="grey-bg-button">
-          <strong>Wijzig pincode</strong>
+          <strong>{{$t('changepin')}}</strong>
         </div>
       </router-link>
       <router-link :to="{name: 'Privacy'}">
         <div class="grey-bg-button">
-          <strong>Privacy</strong>
+          <strong>{{$t('privacy')}}</strong>
         </div>
       </router-link>
       <router-link :to="{name: 'SettingsAddDevice'}">
         <div class="grey-bg-button">
-          <strong>Device toevoegen</strong>
+          <strong>{{$t('adddevice')}}</strong>
         </div>
       </router-link>
       <router-link :to="{name: 'Unsubscribe'}">
         <div class="grey-bg-button">
-          <strong>Unsubscribe</strong>
+          <strong>{{$t('deleteuser')}}</strong>
         </div>
       </router-link>
     </div>

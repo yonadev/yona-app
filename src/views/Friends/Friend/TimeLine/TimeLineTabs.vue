@@ -4,16 +4,16 @@
       <div class="nav-title">
         <router-link :to="{name: 'FriendsProfile', params: {buddy_href}}">
           <profile-pic class="profile-img" :src="buddyProfile._embedded['yona:user']._links.self.href"></profile-pic>
-          <span class="dashboard-title">DASHBOARD</span>
+          <span class="dashboard-title">{{$t('dashboard')}}</span>
         </router-link>
       </div>
       <div class="tabs is-fullwidth" v-fixed-scroll>
         <ul>
           <router-link tag="li" :to="{name: 'FriendTimeLineDay'}" active-class="is-active">
-            <a>Per dag</a>
+            <a>{{$t('perday')}}</a>
           </router-link>
           <router-link tag="li" :to="{name: 'FriendTimeLineWeek'}" active-class="is-active">
-            <a>Per week</a>
+            <a>{{$t('perweek')}}</a>
           </router-link>
         </ul>
       </div>

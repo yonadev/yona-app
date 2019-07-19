@@ -1,16 +1,18 @@
 <template>
   <div id="change-locked" class="colored-background yellow pincode-template">
     <div class="nav-title">
-      WIJZIG PINCODE
+      {{$t('changepin')}}
     </div>
     <div class="wrapper">
       <img src="../../../assets/images/signup/account/icn_secure.svg"/>
       <p class="icon-title">
-        Je moet even wachten
+        {{$t('timer_wait_title')}}
       </p>
       <p class="icon-text">
-        Om veiligheidsredenen is je account geblokkeerd. Activeren kan 24 uur nadat je een nieuwe PIN code hebt aangevraagd.
+        <!-- TODO: Voeg variabele toe voor wachttijd -->
+        {{$t('timer_wait_desc')}}
       </p>
+      <!-- TODO: Maak timer werkend -->
       <timer time="April 5, 2024"></timer>
     </div>
   </div>

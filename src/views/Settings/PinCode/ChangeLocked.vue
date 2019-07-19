@@ -1,18 +1,18 @@
 <template>
   <div id="change-locked" class="colored-background yellow pincode-template">
     <div class="nav-title">
-      WIJZIG PINCODE
+      {{$t('changepin')}}
     </div>
     <div class="wrapper">
       <img src="../../../assets/images/signup/account/icn_secure.svg"/>
       <p class="icon-title">
-        Je account is geblokkeerd
+        {{$t('msgblocktitle')}}
       </p>
 
       <p class="icon-text">
-        Om veiligheidsredenen is je account geblokkeerd. Gebruik de ‘PIN reset’ knop hieronder om je account opnieuw te activeren.
+        {{$t('msgblockuser')}}
       </p>
-      <router-link :to="{name: 'ChangeWaitLocked'}" class="button is-white is-rounded">PIN RESET</router-link>
+      <router-link :to="{name: 'ChangeWaitLocked'}" class="button is-white is-rounded">{{$t('passcodereset')}}</router-link>
     </div>
   </div>
 </template>

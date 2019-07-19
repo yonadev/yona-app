@@ -2,15 +2,15 @@
   <div id="unsubscribe" class="header-template">
     <div class="colored-background yellow">
       <div class="nav-title">
-        UNSUBSCRIBE
+        {{$t('deleteuser')}}
       </div>
     </div>
     <div class="wrapper">
       <p>
-        Klik op de onderstaande knop om je uit te schrijven.
+        {{$t('deleteusermessage')}}
       </p>
 
-      <a class="button is-rounded unsubscribe-button" @click="unsubscribe">UITSCHRIJVEN</a>
+      <a class="button is-rounded unsubscribe-button" @click="unsubscribe">{{$t('deleteuser')}}</a>
     </div>
   </div>
 </template>
