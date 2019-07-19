@@ -56,6 +56,13 @@
   "msgblocktitle" : "Your account is blocked",
   "passcodereset" : "PIN reset",
   "invalidotp" : "Invalid accesscode",
+
+
+  "activateaccount": "Activate account",
+  "activateaccountPINreset": "You have received an sms with a PIN reset code, please fill in below.",
+  "wrong_sms_code": "Wrong SMS code! You have {attempts} attempts left.",
+  "no_sms_attempts": "You have no attempts left, ask for a new code!",
+
   "accountlogin" : "Account is being created",
   "accountloginsecuritymessage" : "For security, you will receive a code by SMS. Please enter this code below.",
   "sendotpagain" : "Send code again",
