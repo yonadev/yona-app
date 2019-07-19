@@ -2,8 +2,8 @@
     <router-link :to="{'name': 'ChallengesSetup', params: { category: goal._links['yona:activityCategory'].href, goal_url: goal._links.self.href, type}}">
         <div class="grey-bg-button">
             <strong>{{activityCategory(goal._links["yona:activityCategory"].href).name}}</strong>
-            <p v-if="goal['@type'] == 'BudgetGoal' && goal.maxDurationMinutes > 0">Je kunt per dag {{goal.maxDurationMinutes}} minuten aan deze categorie besteden</p>
-            <p v-else-if="goal['@type'] == 'TimeZoneGoal'">{{$t('challengestimzoesubtext')}} tussen {{goal.zones.join(' en ')}}</p>
+            <p v-if="goal['@type'] == 'BudgetGoal' && goal.maxDurationMinutes > 0">{{$t('challengesbudgetsubtext', {minutes: goal.maxDurationMinutes})}}</p>
+            <p v-else-if="goal['@type'] == 'TimeZoneGoal'">{{$t('challengestimzoesubtext')}} {{goal.zones.join($t('challengestimzoebetweentext'))}}</p>
             <p v-else-if="goal['@type'] == 'BudgetGoal'">{{$t('challengesnogosubText')}}</p>
         </div>
     </router-link>

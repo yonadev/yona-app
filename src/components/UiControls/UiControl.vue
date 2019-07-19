@@ -1,7 +1,7 @@
 <template>
   <div>
     <Component class="ui-control" :is="controlComponent" :goal="controlGoal" :title="controlCategory" :dayActivity="day_activity"></Component>
-    <spread-control v-if="type === 'detailed'" class="ui-control" :goal="controlGoal" :dayActivity="day_activity" title="Spreiding"></spread-control>
+    <spread-control v-if="type === 'detailed'" class="ui-control" :goal="controlGoal" :dayActivity="day_activity" :title="$t('spreiding')"></spread-control>
   </div>
 </template>
 

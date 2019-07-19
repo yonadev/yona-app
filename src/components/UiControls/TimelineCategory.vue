@@ -6,7 +6,7 @@
         <p class="has-text-left title"><strong>{{controlCategory.name}}</strong></p>
       </div>
       <div class="column is-2">
-        <p class="has-text-right minutes">minuten</p>
+        <p class="has-text-right minutes">{{$t('timelineminute')}}</p>
       </div>
     </div>
     <div class="columns is-mobile" v-for="(user_activity, index) in day_activity.dayActivitiesForUsers" :key="'user_activity'+index">

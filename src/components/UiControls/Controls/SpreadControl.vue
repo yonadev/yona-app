@@ -8,7 +8,7 @@
           {{dayActivity.totalActivityDurationMinutes}}
         </div>
         <div class="column has-text-right">
-          <span class="minutes-budget">minuten totaal</span>
+          <span class="minutes-budget">{{$t('goaltotalminute')}}</span>
         </div>
       </div>
       <bars

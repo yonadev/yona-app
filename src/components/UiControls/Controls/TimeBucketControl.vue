@@ -8,7 +8,7 @@
           {{goal.maxDurationMinutes - dayActivity.totalActivityDurationMinutes}}
         </div>
         <div class="column has-text-right">
-          <span class="minutes-budget">minuten tegoed</span>
+          <span class="minutes-budget">{{$t('budgetgoaltime')}}</span>
         </div>
       </div>
       <bucket

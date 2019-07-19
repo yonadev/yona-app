@@ -11,10 +11,10 @@
         <div class="column has-text-right">
           <span class="minutes-budget">
               <span v-if="dayActivity.totalMinutesBeyondGoal == 0">
-                  geen hits, hou vol!
+                  {{$t('nogogoalachieved')}}
               </span>
               <span v-else>
-                  {{dayActivity.totalMinutesBeyondGoal}} minuten
+                  {{$t('nogogoalbeyond', {minutes: dayActivity.totalMinutesBeyondGoal})}}
               </span>
           </span>
         </div>

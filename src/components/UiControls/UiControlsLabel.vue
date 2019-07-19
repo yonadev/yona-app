@@ -35,15 +35,24 @@
     getDayLabel(date: any){
       let now = new Date()
       let date_obj = new Date(date)
-      let days = ["ZONDAG", "MAANDAG", "DINSDAG", "WOENSDAG", "DONDERDAG", "VRIJDAG", "ZATERDAG"];
-      let months = ["JANUARI", "FEBRUARI", "MAART", "APRIL", "MEI", "JUNI", "JULI", "AUGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DECEMBER"];
+
+      let date_locales = {
+        nl : {
+          days: ["ZONDAG", "MAANDAG", "DINSDAG", "WOENSDAG", "DONDERDAG", "VRIJDAG", "ZATERDAG"],
+          months: ["JANUARI", "FEBRUARI", "MAART", "APRIL", "MEI", "JUNI", "JULI", "AUGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DECEMBER"]
+        },
+        en : {
+          days: ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"],
+          months: ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"]
+        }
+      };
 
       if(now.getDate() === date_obj.getDate())
         date = this.$t('today');
       else if((now.getDate()-1) === date_obj.getDate())
         date = this.$t('yesterday')
       else
-        date = days[date_obj.getDay()]+', '+date_obj.getDate()+' '+months[date_obj.getMonth()]
+        date = date_locales[this.$i18n.locale].days[date_obj.getDay()]+', '+date_obj.getDate()+' '+date_locales[this.$i18n.locale].months[date_obj.getMonth()]
 
       return date
     }

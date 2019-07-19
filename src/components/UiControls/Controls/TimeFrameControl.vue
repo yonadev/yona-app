@@ -8,7 +8,7 @@
           {{dayActivity.totalMinutesBeyondGoal}}
         </div>
         <div class="column has-text-right">
-          <span class="minutes-budget">minuten buiten tijd</span>
+          <span class="minutes-budget">{{$t('goaloverminute')}}</span>
         </div>
       </div>
       <!--<bars

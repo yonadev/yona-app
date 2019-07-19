@@ -33,9 +33,9 @@
       let week = moment(date, moment.ISO_8601).weekday(0).week();
 
       if(now === week)
-        return 'DEZE WEEK';
+        return this.$t('this_week');
       else if(now-1 === week)
-        return 'VORIGE WEEK';
+        return this.$t('last_week');
       else
         return moment(date, moment.ISO_8601).isoWeekday(0).format('D MMMM')+' - '+moment(date, moment.ISO_8601).isoWeekday(6).format('D MMMM')
     }

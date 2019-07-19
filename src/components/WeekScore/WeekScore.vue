@@ -8,7 +8,7 @@
         {{getAccomplishedCount(week_activity.dayActivities)}}
       </div>
       <div class="column has-text-right">
-        <span class="goal-accomplished">x doel gehaald</span>
+        <span class="goal-accomplished">{{$t('week_score')}}</span>
       </div>
     </div>
     <div class="columns is-mobile is-centered is-1-mobile is-variable week">
@@ -19,7 +19,7 @@
           }">
         <span class="date">
           <p>
-            {{day_initial_of_week[index]}}<br/>
+            {{day_initial_of_week[$i18n.locale][index]}}<br/>
             {{getDate(index)}}
           </p>
         </span>
@@ -61,7 +61,10 @@
     public activityCategory!: (href: string) => ActivityCategory;
 
     day_of_weeks: [ string, string, string, string, string, string, string] = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
-    day_initial_of_week: [ string, string, string, string, string, string, string] = ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'];
+    day_initial_of_week: {nl: string[], en: string[]} = {
+      nl:['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'],
+      en: ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
+    };
 
     get controlGoal() {
       if(typeof this.week_activity !== 'undefined') {
@@ -154,7 +157,8 @@
 
           p {
             margin: 0;
-            padding: 2.5px 0;
+            padding: 6px 0;
+            line-height: 1.1;
           }
         }
       }
