@@ -1,21 +1,21 @@
 <template>
   <div id="confirm-new-pincode" class="colored-background yellow pincode-template">
     <div class="nav-title">
-      WIJZIG PINCODE
+      {{$t('changepin')}}
     </div>
     <div class="wrapper">
       <img class="icon-img" src="../../../assets/images/signup/account/icn_account_created.svg"/>
       <p class="icon-title">
-        Bevestig pincode
+        {{$t('settings_confirm_new_pin')}}
       </p>
       <div class="progress-bar">
         <div class="progress"></div>
       </div>
       <p class="icon-text">
-        Vul je pincode nogmaals in ter bevestiging.
+        {{$t('settings_confirm_new_pin_message')}}
       </p>
       <p class="icon-text" v-if="error">
-        De pincode komt niet overeen!
+        {{$t('passcodestep1retrytitle')}}
       </p>
       <pin-code :pincode.sync="password" :length="length"></pin-code>
     </div>
@@ -24,10 +24,9 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import { Watch, Component } from 'vue-property-decorator'
+  import {Watch, Component, Prop} from 'vue-property-decorator'
   import PinCode from '@/components/PinCode.vue';
-  import { State } from 'vuex-class';
-  import {LoginState} from "@/store/login/types";
+  import {Action} from 'vuex-class';
 
   @Component({
     components:{
@@ -35,19 +34,20 @@
     }
   })
   export default class ConfirmPinCode extends Vue {
-    @State('login') login!: LoginState;
-    private password: number | null = null;
-    private length: number = 4;
-    private error: boolean = false;
+    @Prop() pincode!: any;
+    @Action('setPincode', {namespace: 'login'}) setPincode: any;
+    password: number | null = null;
+    length: number = 4;
+    error: boolean = false;
 
     @Watch('password')
     onChildChanged(val: number | null) {
       if(val && val.toString().length === this.length){
-        if(val === this.login.pinCode)
+        if(val === this.pincode) {
+          this.setPincode({pinCode: val})
           this.$router.push({'name': 'Settings'});
-        else{
-          this.error = true;
-          this.password = null;
+        }else{
+          this.$router.push({name: 'ChangePinCode', params: {wrong_pincode: 'true'}});
         }
       }
     }

@@ -132,6 +132,7 @@
   "profile_choose_from_library": "Kies uit fotobibliotheek",
   "settings_current_pin": "Huidige pincode",
   "settings_current_pin_message": "Om je pincode te wijzigen vragen we je eerst je oude pincode in te voeren",
+  "settings_current_pin_wrong": "De pincode is onjuist!",
   "settings_new_pincode": "Nieuwe pincode",
   "settings_new_pin_message": "Vul je nieuwe pincode in",
   "settings_confirm_new_pin": "Bevestig pincode",

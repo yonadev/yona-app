@@ -77,7 +77,7 @@ export default class Login extends Vue {
             }
           }
 
-          this.setLoggedIn();
+          this.setLoggedIn(true);
         }
       }  else {
         this.error = true;

@@ -130,6 +130,7 @@
   "profile_choose_from_library" : "Choose from photo library",
   "settings_current_pin" : "Current pincode",
   "settings_current_pin_message" : "Before you can change your PIN you need to enter your current PIN",
+  "settings_current_pin_wrong": "The pincode is wrong!",
   "settings_new_pincode" : "New PIN",
   "settings_new_pin_message" : "Enter new PIN",
   "settings_confirm_new_pin" : "Confirm PIN",

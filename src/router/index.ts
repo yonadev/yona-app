@@ -454,14 +454,16 @@ export default new Router({
                     component: CheckPinCode
                 },
                 {
-                    path: 'changepin',
+                    path: 'changepin/:wrong_pincode',
                     name: 'ChangePinCode',
-                    component: ChangePinCode
+                    component: ChangePinCode,
+                    props: true
                 },
                 {
-                    path: 'confirmpin',
+                    path: 'confirmpin/:pincode',
                     name: 'ConfirmNewPinCode',
-                    component: ConfirmNewPinCode
+                    component: ConfirmNewPinCode,
+                    props: true
                 },
                 {
                     path: 'changelocked',
