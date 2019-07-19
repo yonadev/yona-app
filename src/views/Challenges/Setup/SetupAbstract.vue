@@ -81,13 +81,13 @@ export default class Setup extends Vue {
         switch(this.type)
         {
             case "credit":
-                return `Bepaal hier hoeveel tijd je aan ${this.activityCategory(this.category).name} wilt besteden`;
+                return this.$t('budgetgoalheadersubtext', {category: this.activityCategory(this.category).name});
 
             case "timezone":
-                return `Bepaal zelf wanneer je tijd aan ${this.activityCategory(this.category).name} kunt besteden`;
+                return this.$t('timezonegoalheadersubtext', {category: this.activityCategory(this.category).name});
 
             case "nogo":
-                return 'Hiermee geef je aan dat je aan deze categorie geen tijd wilt besteden';
+                return this.$t('nogoheadersubtext');
         }
 
         return '';
@@ -97,13 +97,13 @@ export default class Setup extends Vue {
         switch(this.type)
         {
             case "credit":
-                return `Tegoed vastleggen`;
+                return this.$t('challengesdetail', {type: this.$t('challengescredit')});
 
             case "timezone":
-                return `Tijdzone vastleggen`;
+                return this.$t('challengesdetail', {type: this.$t('challengeszone')});
 
             case "nogo":
-                return 'Nogo vastleggen';
+                return this.$t('challengesdetail', {type: this.$t('challengesnogo')});
         }
 
         return '';

@@ -5,7 +5,7 @@
             <div class="wrapper over-all-footer">
                 <div class="wrapper grey-bg save-section">
 
-                    <a class="button is-rounded is-fullwidth save-challenge-btn" v-if="!goal" @click="save()" :disabled="loading">Challenge opslaan</a>
+                    <a class="button is-rounded is-fullwidth save-challenge-btn" v-if="!goal" @click="save()" :disabled="loading">{{$t('challenges.addBudgetGoal.setChallengeButton')}}</a>
 
                 </div>
             </div>

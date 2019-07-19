@@ -9,13 +9,13 @@
                   </router-link>
               </div>
               <div class="text" v-if="type === 'credit'">
-                  Stel jezelf een doel door een dagelijks tegoed vast te stellen
+                  {{$t('challenge_budget_title')}}
               </div>
               <div class="text" v-else-if="type === 'timezone'">
-                  Bepaal zelf wanneer je wel of niet tijd wilt besteden.
+                  {{$t('challenge_timezone_title')}}
               </div>
               <div class="text" v-else-if="type === 'nogo'">
-                  Hier leg je vast waar je helemaal niet wilt komen.
+                  {{$t('challengesnogoheader')}}
               </div>
               <br clear="left"/>
           </div>

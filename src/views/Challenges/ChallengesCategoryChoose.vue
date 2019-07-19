@@ -3,7 +3,7 @@
       <div class="wrapper grey-bg">
           <div class="challenge-header">
               <div class="text">
-                  Kies een categorie waar je een tegoed voor wilt vastleggen
+                  {{$t('challengestegoedheader')}}
               </div>
 
               <br clear="left"/>

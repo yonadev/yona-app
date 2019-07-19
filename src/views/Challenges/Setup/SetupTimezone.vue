@@ -5,8 +5,8 @@
             <div class="timezones-container">
                 <div class="columns is-mobile">
                     <div class="column challengeInfoColumn">
-                        <strong>Tijdzone</strong>
-                        <p>waarbinnen gebruik is toegestaan</p>
+                        <strong>{{$t('timezone')}}</strong>
+                        <p>{{$t('timezonegoalsubtext')}}</p>
                     </div>
                     <div class="column is-one-fifth add-tz-btn">
                         <a @click="addTimezoneEntry()">
@@ -63,7 +63,7 @@
 
         <div class="wrapper over-all-footer">
             <div class="wrapper grey-bg save-section">
-                <a class="button is-rounded is-fullwidth save-challenge-btn" :disabled="setupData.items.length == 0 || loading" @click="save">Challenge opslaan</a>
+                <a class="button is-rounded is-fullwidth save-challenge-btn" :disabled="setupData.items.length == 0 || loading" @click="save">{{$t('challenges.addBudgetGoal.setChallengeButton')}}</a>
             </div>
         </div>
 
