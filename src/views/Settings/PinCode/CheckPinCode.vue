@@ -53,7 +53,7 @@
           this.setLoggedIn({view: 'changePin'});
           this.$router.push({name: 'ChangePinCode', params: {wrong_pincode: 'false'}});
         }else{
-          this.increaseLoginAttempts();
+          this.increaseLoginAttempts({view: 'changePin'});
 
           this.error = true;
           this.password = null;

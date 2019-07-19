@@ -12,7 +12,7 @@
       <p class="icon-text">
         {{$t('msgblockuser')}}
       </p>
-      <router-link :to="{name: 'ChangeWaitLocked'}" class="button is-white is-rounded">{{$t('passcodereset')}}</router-link>
+      <span class="button is-white is-rounded" @click="pinReset({'view': 'changePin'})">{{$t('passcodereset')}}</span>
     </div>
   </div>
 </template>
@@ -20,9 +20,12 @@
 <script lang="ts">
   import Vue from 'vue';
   import { Component } from 'vue-property-decorator';
+  import {Action} from "vuex-class";
 
   @Component({})
-  export default class Locked extends Vue {}
+  export default class Locked extends Vue {
+    @Action('pinReset', {namespace: 'login'}) pinReset: any;
+  }
 </script>
 
 <style lang="scss">

@@ -13,7 +13,7 @@
         {{$t('timer_wait_desc')}}
       </p>
       <!-- TODO: Maak timer werkend -->
-      <timer time="April 5, 2024"></timer>
+      <timer :time="login.locked_timer"></timer>
     </div>
   </div>
 </template>
@@ -22,13 +22,30 @@
   import Vue from 'vue';
   import { Component } from 'vue-property-decorator';
   import Timer from '../../../components/Timer.vue';
+  import { State} from "vuex-class";
+  import {LoginState} from "@/store/login/types";
 
   @Component({
     components:{
       Timer
     }
   })
-  export default class WaitLocked extends Vue {}
+  export default class WaitLocked extends Vue {
+    @State('login') login!: LoginState;
+
+
+    mounted(){
+      let isLocked = window.setInterval(() => {
+        let now = Math.trunc((new Date()).getTime() / 1000);
+
+        //Locktime expired go to validate screen
+        if(this.login.locked_timer && now > this.login.locked_timer){
+          this.$router.push({'name': 'ValidateLocked'});
+          clearInterval(isLocked)
+        }
+      },1000);
+    }
+  }
 </script>
 
 <style lang="scss">

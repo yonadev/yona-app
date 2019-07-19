@@ -20,25 +20,27 @@ const actions: ActionTree<LoginState, RootState> = {
   setPincode({commit}, data): any{
     commit('setPincode', data)
   },
-  increaseLoginAttempts({commit, dispatch, state}): void{
+  increaseLoginAttempts({commit, dispatch, state}, data): void{
     commit('increaseLoginAttempts')
 
     if(state.loginAttempts >= 5) {
-      dispatch('setLocked')
+      dispatch('setLocked', data)
     }
   },
   setProperty({commit}, data): void{
     commit('setProperty', data)
   },
-  setLoggedIn({commit}): void {
+  setLoggedIn({commit}, data): void {
     commit('resetLock');
     commit('setLoggedIn');
-    router.push({'name': 'Intro'});
+    if(data.view !== 'changePin'){
+      router.push({'name': 'Intro'});
+    }
   },
   setRegistered({commit}): void {
     commit('setRegistered');
   },
-  async pinReset({commit, rootState, dispatch}) {
+  async pinReset({commit, rootState, dispatch}, data) {
     if(rootState.api.links && rootState.api.links["yona:requestPinReset"]) {
       let response = await axios.post(rootState.api.links["yona:requestPinReset"].href, {}
       ).catch((error: any) => {
@@ -51,18 +53,27 @@ const actions: ActionTree<LoginState, RootState> = {
         let seconds = Math.round(date.getTime()/1000)
         seconds += toSeconds(parse(response.data.delay))
 
-        await dispatch('setLockedTimer', seconds);
+        await dispatch('setLockedTimer', {seconds, data});
       }
     }
   },
-  setLocked({commit}): void {
+  setLocked({commit}, data): void {
     commit('setLocked');
-    router.push({'name': 'Locked'});
+
+    if(data.view){
+      router.push({'name': 'ChangeLocked'});
+    } else {
+      router.push({'name': 'Locked'});
+    }
   },
-  setLockedTimer({commit}, seconds: number): void {
+  setLockedTimer({commit}, {seconds, data}): void {
     commit('setLocked')
     commit('setLockedTimer', seconds)
-    router.push({'name': 'WaitLocked'});
+    if(data.view === 'changePin'){
+      router.push({'name': 'ChangeWaitLocked'});
+    } else {
+      router.push({'name': 'WaitLocked'});
+    }
   },
   resetLock({commit}): void{
     commit('resetLock')
