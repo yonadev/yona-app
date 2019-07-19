@@ -2,7 +2,7 @@
   <div id="friends-tabs" class="header-template">
     <div class="colored-background blue">
       <div class="nav-title">
-        VRIENDEN
+        {{$t('friends')}}
         <router-link :to="{'name': 'FriendAdd'}">
           <img class="icon-img is-pulled-right" src="../../assets/images/icons/icn_add.svg"/>
         </router-link>
@@ -10,10 +10,10 @@
       <div class="tabs is-fullwidth" v-fixed-scroll>
         <ul>
           <router-link tag="li" :to="{name: 'FriendsTimeLine'}" active-class="is-active">
-            <a>Timeline</a>
+            <a>{{$t('timeline')}}</a>
           </router-link>
           <router-link tag="li" :to="{name: 'FriendsOverview'}" active-class="is-active">
-            <a>Overzicht</a>
+            <a>{{$t('overview')}}</a>
           </router-link>
         </ul>
       </div>
