@@ -1,28 +1,28 @@
 <template>
   <div id="pincode" class="colored-background purple-dark pincode-template">
     <div class="nav-title">
-      OPNIEUW REGISTREREN
+      {{$t('join')}}
     </div>
     <div class="wrapper">
       <img src="../../../assets/images/signup/account/add_avatar.svg"/>
       <p class="icon-title">
-        Account wordt aangemaakt
+        {{$t('accountlogin')}}
       </p>
       <div class="progress-bar">
         <div class="progress" style="width:33%;"></div>
       </div>
       <p class="icon-text">
-        Als extra beveiliging ontvang je een code per SMS, graag deze code hieronder invullen.
+        {{$t('accountloginsecuritymessage')}}
       </p>
       <p v-if="error && attempts !== null" class="has-text-white-ter">
-        Onjuiste SMS code! U heeft nog {{attempts}} resterende pogingen.
+        {{$t('wrong_sms_code', {attempts: attempts})}}
       </p>
       <p v-else-if="attempts === null" class="has-text-white-ter">
-        U heeft geen pogingen meer, vraag een nieuwe SMS code aan!
+        {{$t('no_sms_attempts')}}
       </p>
       <pin-code v-if="attempts !== null" :pincode.sync="password" :length="length"></pin-code>
       <p class="reset" @click="resendCode">
-        Stuur code opnieuw
+        {{$t('sendotpagain')}}
       </p>
     </div>
   </div>

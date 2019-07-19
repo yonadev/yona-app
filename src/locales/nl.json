@@ -58,6 +58,12 @@
   "msgblocktitle": "Je account is geblokkeerd",
   "passcodereset": "PIN reset",
   "invalidotp": "Ongeldige toegangcode",
+
+  "activateaccount": "Account activeren",
+  "activateaccountPINreset": "Je hebt een PIN reset code gekregen per SMS, graag deze code hieronder invullen.",
+  "wrong_sms_code": "Onjuiste SMS code! U heeft nog {attempts} resterende pogingen.",
+  "no_sms_attempts": "U heeft geen pogingen meer, vraag een nieuwe code aan!",
+
   "accountlogin": "Account wordt aangemaakt",
   "accountloginsecuritymessage": "Als extra beveiliging ontvang je een code per SMS. Graag deze code hieronder invullen.",
   "sendotpagain": "Stuur code opnieuw",
@@ -70,7 +76,7 @@
   "enterpasscode": "Je moet een 6 cijferig alfanumeriek code invoeren.",
   "resetpinrequest": "Je reset-aanvraag is ontvangen. Binnen %1$s uur ontvang je een sms met een PIN-reset bevestigingscode.",
   "resetpinalert": "Wil je echt je pincode resetten? Om veiligheidsredenen gaat daar tijd overheen en ondertussen kan je Yona niet gebruiken.",
-  "useroverride": "Dit mobiele nummer %1$s is al geregistreerd bij Yona. Wil je hetzelfde nummer opnieuw registreren? (Let op: Alle gegevens behorend bij dit nummer zullen worden verwijderd. Als je een ander apparaat wilt toevoegen kun je teruggaan en klik op ‘Inloggen’ klikken.)",
+  "useroverride": "Dit mobiele nummer is al geregistreerd bij Yona. Wil je hetzelfde nummer opnieuw registreren? (Let op: Alle gegevens behorend bij dit nummer zullen worden verwijderd. Als je een ander apparaat wilt toevoegen kun je teruggaan en klik op ‘Inloggen’ klikken.)",
   "yes": "JA",
   "no": "NEE",
   "challenges.addBudgetGoal.setChallengeButton": "CHALLENGE OPSLAAN",

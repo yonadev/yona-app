@@ -2,7 +2,7 @@
   <div id="add-device" class="header-template">
     <div class="colored-background purple-dark">
       <div class="nav-title">
-        OPNIEUW REGISTREREN
+        {{$t('join')}}
       </div>
       <div class="header-icon">
         <img src="../../../assets/images/signup/account/icn_avatar.svg"/>
@@ -10,13 +10,13 @@
     </div>
     <div class="wrapper">
       <p class="disclaimer">
-        Wanneer je je telefoon bent kwijtgeraakt en Yona niet op een andere apparaat hebt aangemeld, kan je hier opnieuw registreren. Let op: al je gegevens gaan verloren.
+        {{$t('useroverride', {mobile: mobile})}}
       </p>
 
-      <input-floating-label :validate="{required: true, mobile: true}" name="Telefoonnummer" id="mobile" class="with-border-input" label="MOBIEL TELEFOONNUMMER" type="tel" :value.sync="mobile" icon="icn_mobile.svg"></input-floating-label>
+      <input-floating-label :validate="{required: true, mobile: true}" id="mobile" class="with-border-input" :label="$t('mobilenumber')" type="tel" :value.sync="mobile" icon="icn_mobile.svg"></input-floating-label>
     </div>
     <div class="is-centered bottom-aligned">
-      <span class="button" @click="checkTelNumber">INLOGGEN</span>
+      <span class="button" @click="checkTelNumber">{{$t('login')}}</span>
     </div>
   </div>
 </template>
@@ -40,7 +40,7 @@
     @State('account') account!: AccountState;
     @State('api') api!: ApiState;
     @Action('setProperty', {namespace: 'account'}) setProperty: any;
-    private mobile: string = '';
+    mobile: string = '';
 
     mounted () {
       this.mobile = this.account.phonenumber

@@ -1,18 +1,18 @@
 <template>
   <div id="locked" class="colored-background purple-dark pincode-template">
     <div class="nav-title">
-      INLOGGEN
+      {{$t('login')}}
     </div>
     <div class="wrapper">
       <img src="../../assets/images/signup/account/icn_secure.svg"/>
       <p class="icon-title">
-        Je account is geblokkeerd
+        {{$t('msgblocktitle')}}
       </p>
 
       <p class="icon-text">
-        Om veiligheidsredenen is je account geblokkeerd. Gebruik de ‘PIN reset’ knop hieronder om je account opnieuw te activeren.
+        {{$t('msgblockuser')}}
       </p>
-      <span class="button is-white is-rounded" @click="pinReset">PIN RESET</span>
+      <span class="button is-white is-rounded" @click="pinReset">{{$t('passcodereset')}}</span>
     </div>
   </div>
 </template>

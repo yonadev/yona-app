@@ -1,28 +1,28 @@
 <template>
   <div id="sms-validation" class="colored-background purple-dark pincode-template" :loading="loading">
     <div class="nav-title">
-      INLOGGEN
+      {{$t('login')}}
     </div>
     <div class="wrapper">
       <img src="../../assets/images/signup/account/icn_secure.svg"/>
       <p class="icon-title">
-        Account activeren
+        {{$t('activateaccount')}}
       </p>
       <div class="progress-bar">
         <div class="progress"></div>
       </div>
       <p class="icon-text">
-        Je hebt een PIN reset code gekregen per SMS, graag deze code hieronder invullen.
+        {{$t('activateaccountPINreset')}}
       </p>
       <p v-if="error && attempts !== null" class="has-text-white-ter">
-        Onjuiste reset code! U heeft nog {{attempts}} resterende pogingen.
+        {{$t('wrong_sms_code', {attempts: attempts})}}
       </p>
       <p v-else-if="attempts === null" class="has-text-white-ter">
-        U heeft geen pogingen meer, vraag een nieuwe code aan!
+        {{$t('no_sms_attempts')}}
       </p>
       <pin-code v-if="attempts !== null" :pincode.sync="password" :length="length"></pin-code>
       <p class="reset" @click="resendCode">
-        Stuur code opnieuw
+        {{$t('sendotpagain')}}
       </p>
     </div>
   </div>
