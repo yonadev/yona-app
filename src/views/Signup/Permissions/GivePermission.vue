@@ -1,25 +1,25 @@
 <template>
   <div id="intro" class="colored-background purple-dark pincode-template">
     <div class="nav-title">
-      CONNECT
+      {{$t('connect')}}
     </div>
     <div class="wrapper">
       <p class="icon-title">
-        Stap {{parseInt(index)+1}}
+        {{$t('step')}} {{parseInt(index)+1}}
       </p>
       <div class="progress-bar">
         <div class="progress" :style="'width:'+(25*index) +'%'"></div>
       </div>
       <p class="icon-text">
-        {{account.permissions[permission] ? account.permissions[permission].title : ''}}
+        {{account.permissions[permission] ? $t(permission) : ''}}
       </p>
       <img class="step-icon" :src="(account.permissions[permission] && account.permissions[permission].icon ? require('@/assets/images/signup/permission/'+account.permissions[permission].icon) : '')" />
       <p class="step-text">
-        {{account.permissions[permission] ? account.permissions[permission].text : ''}}
+        {{account.permissions[permission] ? $t('info'+permission) : ''}}
       </p>
     </div>
     <div class="is-centered bottom-aligned">
-      <a class="button" @click="goNext">DOORGAAN</a>
+      <a class="button" @click="goNext">{{$t('next')}}</a>
     </div>
   </div>
 </template>

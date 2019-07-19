@@ -1,23 +1,23 @@
 <template>
   <div id="intro" class="colored-background purple-dark pincode-template">
     <div class="nav-title">
-      DOE MEE
+      {{$t('join')}}
     </div>
     <div class="wrapper">
       <p class="icon-title">
-        Bedankt voor het registreren!
+        {{$t('thanksforjoining')}}
       </p>
       <div class="progress-bar">
         <div class="progress"></div>
       </div>
       <p class="icon-text">
-        Laten we Yona actief en werkend krijgen
+        {{$t('getyonarunning')}}
       </p>
       <ul class="permissions-list">
         <li v-for="(permission, index) in account.permissions" :key="index" class="columns is-mobile">
           <img class="column is-2" :src="require('@/assets/images/signup/permission/'+permission.icon)" />
           <p class="column">
-            {{permission.title}}
+            {{$t(index)}}
           </p>
           <div class="column is-1">
             <img v-if="permission.is_allowed" class="check" :src="require('@/assets/images/signup/permission/icon_check_green.svg')" />
@@ -27,7 +27,7 @@
       </ul>
     </div>
     <div class="is-centered bottom-aligned">
-      <a class="button" @click="checkPermissions">VOLGENDE</a>
+      <a class="button" @click="checkPermissions">{{$t('next')}}</a>
     </div>
   </div>
 </template>
