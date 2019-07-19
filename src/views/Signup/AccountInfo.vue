@@ -12,6 +12,10 @@
       <input-floating-label :validate="{required: true, mobile: true}" id="mobile" class="with-border-input" :label="$t('mobilenumber')" type="tel" :value.sync="mobile" icon="icn_mobile.svg"></input-floating-label>
       <input-floating-label :validate="{required: true}" id="nickname" class="with-border-input" :label="$t('nickname')" type="text" :value.sync="nickname" icon="icn_nickname.svg"></input-floating-label>
 
+      <p class="api-error" v-if="server_error">
+        {{server_error}}
+      </p>
+
       <p class="disclaimer">
         {{$t('usersignupmessage')}}
       </p>
@@ -50,13 +54,14 @@
     mobile: string | null = '';
     nickname: string | null = '';
     choose: boolean = false;
+    server_error: string = '';
 
     mounted(){
       this.mobile = this.account.phonenumber
       this.nickname = this.account.nickname;
     }
 
-    checkTelNumber () {
+    async checkTelNumber () {
       let self = this
       this.$validator.validate().then(async valid => {
         if (valid) {
@@ -68,6 +73,9 @@
           }).catch((error) => {
             if(error.response.data.code === 'error.user.exists'){
               self.choose = true
+              self.server_error = error.response.data.message
+            } else if(error.response.data) {
+              self.server_error = error.response.data.message
             }
           });
 

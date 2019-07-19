@@ -1,19 +1,19 @@
 <template>
   <div id="login" class="colored-background purple-dark pincode-template">
     <div class="nav-title">
-      INLOGGEN
+      {{$t('login')}}
     </div>
     <div class="wrapper">
       <img class="icon-img" src="../../assets/images/login/icn_y.png"/>
       <p class="icon-title">
-        You are not alone
+        {{$t('passcodetitle')}}
       </p>
       <p v-if="error" class="has-text-white-ter">
-        Onjuiste pincode! U heeft nog {{5-login.loginAttempts}} pogingen.
+        {{$t('passcodeincorrect', {tries: 5-login.loginAttempts})}}
       </p>
       <pin-code :pincode.sync="password" :length="length"></pin-code>
       <p class="reset" @click="pinReset">
-        PIN reset
+        {{$t('passcodereset')}}
       </p>
     </div>
   </div>

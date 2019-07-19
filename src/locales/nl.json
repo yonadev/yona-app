@@ -46,6 +46,7 @@
   "passcodetryagain": "Probeer opnieuw",
   "pincode": "PINCODE",
   "passcodestep1title": "Account aangemaakt",
+  "passcodeincorrect": "Onjuiste pincode! U heeft nog {tries} pogingen.",
   "passcodestep1retrytitle": "PINcode komt niet overeen",
   "passcodestep1desc": "Voor een goede beveiliging is het verplicht om de Yona app te voorzien van een pincode. Stel je pincode hieronder in.",
   "passcodestep1retrydesc": "Je tweede PINcode komt niet overeen met de eerste. Geef opnieuw een PINcode in.",

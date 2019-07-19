@@ -44,6 +44,7 @@
   "passcodetryagain" : "Try again",
   "pincode" : "PINCODE",
   "passcodestep1title" : "Account created",
+  "passcodeincorrect": "Wrong pincode! You have {tries} trie(s) left.",
   "passcodestep1retrytitle" : "PINcode doesn't match",
   "passcodestep1desc" : "For security, it is mandatory to provide the Yona app with a pincode. Set your PIN below.",
   "passcodestep1retrydesc" : "Your second PIN didn't match the first PINcode. Please start over.",
