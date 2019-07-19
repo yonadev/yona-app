@@ -59,7 +59,6 @@ import AbstractSettings from '../views/Settings/AbstractSettings.vue'
         import SettingsAddDevice from '../views/Settings/SettingsOverview/AddDevice.vue'
         import Unsubscribe from '../views/Settings/SettingsOverview/Unsubscribe.vue'
         import Privacy from '../views/Settings/SettingsOverview/Privacy.vue'
-        import Help from '../views/Settings/SettingsOverview/Help.vue'
 
     import ChangePinCode from '../views/Settings/PinCode/ChangePinCode.vue'
     import CheckPinCode from '../views/Settings/PinCode/CheckPinCode.vue'
@@ -430,11 +429,6 @@ export default new Router({
                             path: 'privacy',
                             name: 'Privacy',
                             component: Privacy
-                        },
-                        {
-                            path: 'help',
-                            name: 'Help',
-                            component: Help
                         },
                         {
                             path: 'adddevice',
