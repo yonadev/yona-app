@@ -1,18 +1,18 @@
 <template>
   <div id="change-pincode" class="colored-background yellow pincode-template">
     <div class="nav-title">
-      WIJZIG PINCODE
+      {{$t('changepin')}}
     </div>
     <div class="wrapper">
       <img class="icon-img" src="../../../assets/images/signup/account/icn_account_created.svg"/>
       <p class="icon-title">
-        Nieuwe pincode
+        {{$t('settings_new_pincode')}}
       </p>
       <div class="progress-bar">
         <div class="progress"></div>
       </div>
       <p class="icon-text">
-        Vul je nieuwe pincode in.
+        {{$t('settings_new_pin_message')}}
       </p>
       <pin-code :pincode.sync="password" :length="length"></pin-code>
     </div>

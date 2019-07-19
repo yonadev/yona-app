@@ -1,26 +1,26 @@
 <template>
   <div id="check-pincode" class="colored-background yellow pincode-template">
     <div class="nav-title">
-      WIJZIG PINCODE
+      {{$t('changepin')}}
     </div>
     <div class="wrapper">
       <img class="icon-img" src="../../../assets/images/signup/account/icn_secure.svg"/>
       <p class="icon-title">
-        Huidige pincode
+        {{$t('settings_current_pin')}}
       </p>
       <div class="progress-bar">
         <div class="progress"></div>
       </div>
       <p class="icon-text">
-        Om je pincode te wijzigen vragen we je eerst je oude pincode in te voeren.
+        {{$t('settings_current_pin_message')}}
       </p>
       <p class="icon-text" v-if="error">
-        De pincode is onjuist!
+        {{$t('invalidotp')}}
       </p>
       <pin-code :pincode.sync="password" :length="length"></pin-code>
       <router-link :to="{'name': 'ChangeLocked'}">
         <p class="reset">
-          PIN reset
+          {{$t('passcodereset')}}
         </p>
       </router-link>
     </div>

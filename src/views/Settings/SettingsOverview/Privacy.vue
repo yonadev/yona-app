@@ -2,9 +2,10 @@
   <div id="privacy" class="header-template">
     <div class="colored-background yellow">
       <div class="nav-title">
-        PRIVACY
+        {{$t('privacy')}}
       </div>
     </div>
+    <!-- TODO: Add content from web -->
   </div>
 </template>
 

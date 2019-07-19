@@ -2,12 +2,12 @@
   <div id="settings" class="header-template">
     <div class="colored-background yellow">
       <div class="nav-title">
-        DEVICE TOEVOEGEN
+        {{$t('adddevice')}}
       </div>
     </div>
     <div class="wrapper">
       <p>
-        Vul deze code in op de andere telefoon: {{OTP}}
+        {{$t('yonaadddevicemessage', {code: OTP})}}
       </p>
     </div>
   </div>

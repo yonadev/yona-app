@@ -1,21 +1,21 @@
 <template>
   <div id="confirm-new-pincode" class="colored-background yellow pincode-template">
     <div class="nav-title">
-      WIJZIG PINCODE
+      {{$t('changepin')}}
     </div>
     <div class="wrapper">
       <img class="icon-img" src="../../../assets/images/signup/account/icn_account_created.svg"/>
       <p class="icon-title">
-        Bevestig pincode
+        {{$t('passcodestep2title')}}
       </p>
       <div class="progress-bar">
         <div class="progress"></div>
       </div>
       <p class="icon-text">
-        Vul je pincode nogmaals in ter bevestiging.
+        {{$t('passcodestep2desc')}}
       </p>
       <p class="icon-text" v-if="error">
-        De pincode komt niet overeen!
+        {{$t('passcodestep1retrydesc')}}
       </p>
       <pin-code :pincode.sync="password" :length="length"></pin-code>
     </div>

@@ -19,7 +19,7 @@
           <div class="column">
             <div v-if="notification && notification['@type'] === 'BuddyConnectRequestMessage'">
               <span class="is-block has-text-left title">
-                <strong>Vriendenverzoek</strong>
+                <strong>{{$t('buddyconnectrequested')}}</strong>
               </span>
               <span class="is-block has-text-left name">
                 {{notification._embedded['yona:user'].firstName}} {{notification._embedded['yona:user'].lastName}}
@@ -27,8 +27,8 @@
             </div>
             <div v-else-if="notification && notification['@type'] === 'BuddyConnectResponseMessage'">
               <span class="is-block has-text-left title">
-                <strong v-if="notification.status === 'REJECTED'">Vriendenverzoek afgewezen</strong>
-                <strong v-else-if="notification.status === 'ACCEPTED'">Vriendenverzoek geaccepteerd</strong>
+                <strong v-if="notification.status === 'REJECTED'">{{$t('buddyresponserejected')}}</strong>
+                <strong v-else-if="notification.status === 'ACCEPTED'">{{$t('buddyresponseaccepted')}}</strong>
               </span>
                 <span class="is-block has-text-left name">
                 {{notification.nickname}}
@@ -36,7 +36,7 @@
             </div>
             <div v-else-if="notification && notification['@type'] === 'BuddyDisconnectMessage'">
               <span class="is-block has-text-left title">
-                <strong>Je bent verwijderd als vriend</strong>
+                <strong>{{$t('buddydisconnectmessageuserromovedbuddy')}}</strong>
               </span>
               <span class="is-block has-text-left name">
                 {{notification.nickname}}
@@ -44,7 +44,7 @@
             </div>
             <div v-else-if="notification && notification['@type'] === 'BuddyInfoChangeMessage'">
               <span class="is-block has-text-left title">
-                <strong>Vriend profiel bijgewerkt</strong>
+                <strong>{{$t('message_buddy_information_changed')}}</strong>
               </span>
               <span class="is-block has-text-left name">
                 {{notification.nickname}}
@@ -52,7 +52,7 @@
             </div>
             <div v-else-if="notification && notification['@type'] === 'GoalConflictMessage'">
               <span class="is-block has-text-left title">
-                <strong>NoGo alert</strong>
+                <strong>{{$t('nogoalert')}}</strong>
               </span>
               <span class="is-block has-text-left name">
                 {{notification.nickname}}
