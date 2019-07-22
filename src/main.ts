@@ -10,6 +10,59 @@ import moment from 'moment'
 moment.locale('nl')
 moment.weekdays(false)
 
+//@ts-ignore
+import nl from "vee-validate/dist/locale/nl";
+//@ts-ignore
+import en from "vee-validate/dist/locale/en";
+let dictionary_nl = require('@/locales/nl');
+let dictionary_en = require('@/locales/en');
+
+let veeLocales: {
+  [key: string]: {
+    locale: {},
+    dictionary: any
+  }
+} = {
+  nl: {
+    locale: nl,
+    dictionary: dictionary_nl
+  },
+  en: {
+    locale: en,
+    dictionary: dictionary_en
+  }
+}
+
+const dictionary = {
+  // attributes and messages
+  messages: {
+    mobile: (fieldName: string, params: any[], data?: any) => {
+      console.log(veeLocales[i18n.locale].dictionary)
+      return veeLocales[i18n.locale].dictionary.numbervalidation;
+    },
+    required: (fieldName: string, params: any[], data?: any) => {
+      let message;
+
+      if(fieldName === 'firstname'){
+        message = veeLocales[i18n.locale].dictionary.enterfirstnamevalidation;
+      } else if (fieldName === 'lastname'){
+        message = veeLocales[i18n.locale].dictionary.enterlastnamevalidation;
+      } else if (fieldName === 'nickname'){
+        message = veeLocales[i18n.locale].dictionary.enternicknamevalidation;
+      } else if (fieldName === 'mobile'){
+        message = veeLocales[i18n.locale].dictionary.entermobilevalidation;
+      } else if (fieldName === 'passcode'){
+        message = veeLocales[i18n.locale].dictionary.enterpasscode;
+      }
+
+      return message;
+    }
+  }
+};
+
+Validator.localize(i18n.locale, veeLocales[i18n.locale].locale); // changes the locale
+Validator.localize(i18n.locale, dictionary); // overwrites some messages
+
 import store from './store/index'
 
 Vue.directive('fixed-scroll', {
@@ -44,7 +97,7 @@ import './sass/fonts/fonts.scss'
 import "./sass/global.scss"
 
 import "../node_modules/tiny-slider/src/tiny-slider.scss"
-import doc = Mocha.reporters.doc;
+import {Validator} from "vee-validate";
 
 Vue.use(AuthGuard, { router, store });
 

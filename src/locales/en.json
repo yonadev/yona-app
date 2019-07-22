@@ -38,6 +38,7 @@
   "enterfirstnamevalidation" : "You need to enter a first name",
   "enternicknamevalidation" : "You need to enter a nick name",
   "enterlastnamevalidation" : "You need to enter a last name",
+  "numbervalidation": "Number is not valid",
   "enternumbervalidation" : "Number should be 9 digits",
   "entercountrycode" : "Please use international number notation,\ne.g. for NL +31",
   "loading" : "Loading",

@@ -42,7 +42,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
-import {Prop, Watch, } from 'vue-property-decorator'
+import {Prop, Watch} from 'vue-property-decorator'
 import {Action, Getter, State} from "vuex-class";
 import {ActivityCategory, ChallengesState, Goal} from "@/store/challenges/types";
 import VueSlider from 'vue-slider-component'

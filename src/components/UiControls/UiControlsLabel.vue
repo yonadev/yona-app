@@ -33,10 +33,14 @@
     }) buddy_href!: string;
 
     getDayLabel(date: any){
-      let now = new Date()
-      let date_obj = new Date(date)
+      let now = new Date();
+      let date_obj = new Date(date);
 
-      let date_locales = {
+      let date_locales: {
+        [key: string]: {
+          [key: string]: string[]
+        };
+      } = {
         nl : {
           days: ["ZONDAG", "MAANDAG", "DINSDAG", "WOENSDAG", "DONDERDAG", "VRIJDAG", "ZATERDAG"],
           months: ["JANUARI", "FEBRUARI", "MAART", "APRIL", "MEI", "JUNI", "JULI", "AUGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DECEMBER"]
