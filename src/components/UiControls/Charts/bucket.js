@@ -1,8 +1,8 @@
-import Bucket from './components/bucket'
-import Labels from './components/bucket_labels'
+import Bucket from "./components/bucket";
+import Labels from "./components/bucket_labels";
 
 export default {
-  name: 'Columns',
+  name: "Columns",
 
   props: {
     goal: {
@@ -21,32 +21,35 @@ export default {
     height: Number
   },
 
-  render (h) {
-    const { height } = this
-    const viewHeight = height || 21
-    const props = this.$props
+  render(h) {
+    const { height } = this;
+    const viewHeight = height || 21;
+    const props = this.$props;
 
     props.size = {
       height: viewHeight
-    }
+    };
     props.offset = 0;
-    props.id = 'vue-bucket-' + this._uid
+    props.id = "vue-bucket-" + this._uid;
 
-    return h('svg', {
-      attrs: {
-        width: '100%',
-        height: `${viewHeight * 2}px`,
-      }
-    }, [
-      h(Bucket, {
-        props,
-        ref: 'path'
-      }),
-      h(Labels, {
-        props,
-        ref: 'path_labels'
-      })
-
-    ])
+    return h(
+      "svg",
+      {
+        attrs: {
+          width: "100%",
+          height: `${viewHeight * 2}px`
+        }
+      },
+      [
+        h(Bucket, {
+          props,
+          ref: "path"
+        }),
+        h(Labels, {
+          props,
+          ref: "path_labels"
+        })
+      ]
+    );
   }
-}
+};

@@ -1,47 +1,54 @@
 <template>
   <div id="intro" class="colored-background purple-dark pincode-template">
     <div class="nav-title">
-      {{$t('connect')}}
+      {{ $t("connect") }}
     </div>
     <div class="wrapper">
-      <p class="icon-title">
-        {{$t('step')}} {{parseInt(index)+1}}
-      </p>
+      <p class="icon-title">{{ $t("step") }} {{ parseInt(index) + 1 }}</p>
       <div class="progress-bar">
-        <div class="progress" :style="'width:'+(25*index) +'%'"></div>
+        <div class="progress" :style="'width:' + 25 * index + '%'"></div>
       </div>
       <p class="icon-text">
-        {{account.permissions[permission] ? $t(permission) : ''}}
+        {{ account.permissions[permission] ? $t(permission) : "" }}
       </p>
-      <img class="step-icon" :src="(account.permissions[permission] && account.permissions[permission].icon ? require('@/assets/images/signup/permission/'+account.permissions[permission].icon) : '')" />
+      <img
+        class="step-icon"
+        :src="
+          account.permissions[permission] &&
+          account.permissions[permission].icon
+            ? require('@/assets/images/signup/permission/' +
+                account.permissions[permission].icon)
+            : ''
+        "
+      />
       <p class="step-text">
-        {{account.permissions[permission] ? $t('info'+permission) : ''}}
+        {{ account.permissions[permission] ? $t("info" + permission) : "" }}
       </p>
     </div>
     <div class="is-centered bottom-aligned">
-      <a class="button" @click="goNext">{{$t('next')}}</a>
+      <a class="button" @click="goNext">{{ $t("next") }}</a>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import {Component} from 'vue-property-decorator'
-import {AccountState} from "@/store/account/types";
-import {Action, State} from "vuex-class";
+import Vue from "vue";
+import { Component } from "vue-property-decorator";
+import { AccountState } from "@/store/account/types";
+import { Action, State } from "vuex-class";
 
 @Component({})
 export default class GivePermission extends Vue {
-  @State('account') account!: AccountState;
-  @Action('setPermission', {namespace: 'account'}) setPermission: any;
-  permission: string = '';
+  @State("account") account!: AccountState;
+  @Action("setPermission", { namespace: "account" }) setPermission: any;
+  permission: string = "";
   index: number = 0;
 
-  mounted () {
+  mounted() {
     //Check permission
     let i = 0;
-    for(let permission in this.account.permissions) {
-      if(!(this.account.permissions as any)[permission].is_allowed) {
+    for (let permission in this.account.permissions) {
+      if (!(this.account.permissions as any)[permission].is_allowed) {
         this.index = i;
         this.permission = permission;
         break;
@@ -50,36 +57,36 @@ export default class GivePermission extends Vue {
     }
   }
 
-  goNext(){
+  goNext() {
     //ToDo: Ask for permission based on current permission
     this.setPermission({
       key: this.permission,
       value: true
     });
 
-    this.$router.push({'name': 'Intro'});
+    this.$router.push({ name: "Intro" });
   }
 }
 </script>
 
 <style lang="scss">
-  #intro{
-    img.step-icon{
-      margin-top:40px;
-      width:100px;
-    }
-    .step-text{
-      font-weight:300;
-      font-size: 1.2rem;
-      margin-top:30px;
-      padding:0 40px;
-      color:#fff;
-    }
-    .bottom-aligned{
-      .button{
-        width:100%;
-        border:0;
-      }
+#intro {
+  img.step-icon {
+    margin-top: 40px;
+    width: 100px;
+  }
+  .step-text {
+    font-weight: 300;
+    font-size: 1.2rem;
+    margin-top: 30px;
+    padding: 0 40px;
+    color: #fff;
+  }
+  .bottom-aligned {
+    .button {
+      width: 100%;
+      border: 0;
     }
   }
+}
 </style>

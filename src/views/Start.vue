@@ -1,32 +1,29 @@
 <template>
   <div>
-      <router-link :to="{name: 'Transparency'}">Start tour</router-link>
+    <router-link :to="{ name: 'Transparency' }">Start tour</router-link>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component';
-import {Prop, Watch} from 'vue-property-decorator'
+import Vue from "vue";
+import Component from "vue-class-component";
+import { Prop, Watch } from "vue-property-decorator";
 
 @Component({})
 export default class Start extends Vue {
-    //@Prop() msg: string = '';
+  //@Prop() msg: string = '';
 
-    //Cycle hooks
-    mounted () {
-    }
+  //Cycle hooks
+  mounted() {}
 
-    //Computed properties
-    get computedMsg () {
-        return '';
-    }
+  //Computed properties
+  get computedMsg() {
+    return "";
+  }
 
-    //Methods
-    methodFunction () {
-    }
+  //Methods
+  methodFunction() {}
 }
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

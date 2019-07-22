@@ -2,28 +2,28 @@
   <div id="settings" class="header-template">
     <div class="colored-background yellow">
       <div class="nav-title">
-        {{$t('settings')}}
+        {{ $t("settings") }}
       </div>
     </div>
     <div class="wrapper">
-      <router-link :to="{name: 'CheckPinCode'}">
+      <router-link :to="{ name: 'CheckPinCode' }">
         <div class="grey-bg-button">
-          <strong>{{$t('changepin')}}</strong>
+          <strong>{{ $t("changepin") }}</strong>
         </div>
       </router-link>
-      <router-link :to="{name: 'Privacy'}">
+      <router-link :to="{ name: 'Privacy' }">
         <div class="grey-bg-button">
-          <strong>{{$t('privacy')}}</strong>
+          <strong>{{ $t("privacy") }}</strong>
         </div>
       </router-link>
-      <router-link :to="{name: 'SettingsAddDevice'}">
+      <router-link :to="{ name: 'SettingsAddDevice' }">
         <div class="grey-bg-button">
-          <strong>{{$t('adddevice')}}</strong>
+          <strong>{{ $t("adddevice") }}</strong>
         </div>
       </router-link>
-      <router-link :to="{name: 'Unsubscribe'}">
+      <router-link :to="{ name: 'Unsubscribe' }">
         <div class="grey-bg-button">
-          <strong>{{$t('deleteuser')}}</strong>
+          <strong>{{ $t("deleteuser") }}</strong>
         </div>
       </router-link>
     </div>
@@ -31,26 +31,25 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
-  import Component from 'vue-class-component';
+import Vue from "vue";
+import Component from "vue-class-component";
 
-  @Component({
-  })
-  export default class Settings extends Vue {}
+@Component({})
+export default class Settings extends Vue {}
 </script>
 
 <style lang="scss">
-  #settings{
-    .nav-title{
-      padding: 30px 15px 15px 30px;
-    }
-    .wrapper{
-      padding:0;
-      .grey-bg-button{
-        background-image: linear-gradient(#f7f7f7, #fcfcfc);
-        padding:20px 25px 20px 25px;
-        text-align: left;
-      }
+#settings {
+  .nav-title {
+    padding: 30px 15px 15px 30px;
+  }
+  .wrapper {
+    padding: 0;
+    .grey-bg-button {
+      background-image: linear-gradient(#f7f7f7, #fcfcfc);
+      padding: 20px 25px 20px 25px;
+      text-align: left;
     }
   }
+}
 </style>

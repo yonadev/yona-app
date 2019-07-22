@@ -1,45 +1,52 @@
 <template>
-    <div>
-      <div class="columns is-mobile top-labels">
-        <div class="column has-text-left">
-          <strong>{{title}}</strong>
-        </div>
-        <div class="column is-2 current-minutes">
-            <img v-if="dayActivity.goalAccomplished" :src="require('../../../assets/images/avatars/adult_happy.svg')" />
-            <img v-else :src="require('../../../assets/images/avatars/adult_sad.svg')" />
-        </div>
-        <div class="column has-text-right">
-          <span class="minutes-budget">
-              <span v-if="dayActivity.totalMinutesBeyondGoal == 0">
-                  {{$t('nogogoalachieved')}}
-              </span>
-              <span v-else>
-                  {{$t('nogogoalbeyond', {minutes: dayActivity.totalMinutesBeyondGoal})}}
-              </span>
+  <div>
+    <div class="columns is-mobile top-labels">
+      <div class="column has-text-left">
+        <strong>{{ title }}</strong>
+      </div>
+      <div class="column is-2 current-minutes">
+        <img
+          v-if="dayActivity.goalAccomplished"
+          :src="require('../../../assets/images/avatars/adult_happy.svg')"
+        />
+        <img
+          v-else
+          :src="require('../../../assets/images/avatars/adult_sad.svg')"
+        />
+      </div>
+      <div class="column has-text-right">
+        <span class="minutes-budget">
+          <span v-if="dayActivity.totalMinutesBeyondGoal == 0">
+            {{ $t("nogogoalachieved") }}
           </span>
-        </div>
+          <span v-else>
+            {{
+              $t("nogogoalbeyond", {
+                minutes: dayActivity.totalMinutesBeyondGoal
+              })
+            }}
+          </span>
+        </span>
       </div>
     </div>
+  </div>
 </template>
 
 <script lang="ts">
-    import Vue from 'vue'
-    import {Prop, Component} from 'vue-property-decorator'
-    import { BudgetGoal} from "@/store/challenges/types";
+import Vue from "vue";
+import { Prop, Component } from "vue-property-decorator";
+import { BudgetGoal } from "@/store/challenges/types";
 
-    @Component({
-    })
-    export default class NoGoControl extends Vue {
-        @Prop() goal!: BudgetGoal;
-        @Prop() title!: string;
-        @Prop() dayActivity! : {
-            goalAccomplished: boolean,
-            totalActivityDurationMinutes: number,
-            totalMinutesBeyondGoal: number
-        };
-    }
+@Component({})
+export default class NoGoControl extends Vue {
+  @Prop() goal!: BudgetGoal;
+  @Prop() title!: string;
+  @Prop() dayActivity!: {
+    goalAccomplished: boolean;
+    totalActivityDurationMinutes: number;
+    totalMinutesBeyondGoal: number;
+  };
+}
 </script>
 
-<style>
-
-</style>
+<style></style>

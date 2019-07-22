@@ -4,26 +4,26 @@ export interface ActivityCategory {
   description: string;
   _links: {
     self: {
-      href: string,
-    },
+      href: string;
+    };
   };
 }
 export interface Goal {
-  '@type': string;
+  "@type": string;
   creationTime: string;
   maxDurationMinutes?: number;
   zones?: string[];
   historyItem: boolean;
   _links: {
     self: {
-      href: string,
-    },
+      href: string;
+    };
     edit?: {
-      href: string,
-    },
-    'yona:activityCategory': {
-      href: string,
-    },
+      href: string;
+    };
+    "yona:activityCategory": {
+      href: string;
+    };
   };
 }
 

@@ -1,16 +1,16 @@
 module.exports = {
-  publicPath: '',
+  publicPath: "",
 
-  transpileDependencies: ['vue-swipe-actions'],
+  transpileDependencies: ["vue-swipe-actions"],
 
   pluginOptions: {
     i18n: {
-      locale: 'nl',
-      fallbackLocale: 'en',
-      localeDir: 'locales',
+      locale: "nl",
+      fallbackLocale: "en",
+      localeDir: "locales",
       enableInSFC: false
     },
-    cordovaPath: 'src-cordova'
+    cordovaPath: "src-cordova"
   },
 
   chainWebpack: config => {
@@ -19,6 +19,5 @@ module.exports = {
       .use("vue-svg-inline-loader")
       .loader("vue-svg-inline-loader")
       .options({});
-
-  },
-}
+  }
+};

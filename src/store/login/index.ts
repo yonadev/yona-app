@@ -1,9 +1,9 @@
-import { Module, ActionTree, MutationTree, GetterTree } from 'vuex';
-import axios from '../../utils/axios/axios';
-import router from '../../router';
-import {toSeconds, parse} from 'iso8601-duration';
-import { LoginState } from './types';
-import { RootState } from '../types';
+import { Module, ActionTree, MutationTree, GetterTree } from "vuex";
+import axios from "../../utils/axios/axios";
+import router from "../../router";
+import { toSeconds, parse } from "iso8601-duration";
+import { LoginState } from "./types";
+import { RootState } from "../types";
 
 export const state: LoginState = {
   isRegistered: false,
@@ -13,36 +13,38 @@ export const state: LoginState = {
   pinIsSet: false,
   pinCode: null,
   loginAttempts: 0,
-  locked_timer: 0,
+  locked_timer: 0
 };
 
 const actions: ActionTree<LoginState, RootState> = {
-  setPincode({commit}, data): any {
-    commit('setPincode', data);
+  setPincode({ commit }, data): any {
+    commit("setPincode", data);
   },
-  increaseLoginAttempts({commit, dispatch, state}, data): void {
-    commit('increaseLoginAttempts');
+  increaseLoginAttempts({ commit, dispatch, state }, data): void {
+    commit("increaseLoginAttempts");
 
     if (state.loginAttempts >= 5) {
-      dispatch('setLocked', data);
+      dispatch("setLocked", data);
     }
   },
-  setProperty({commit}, data): void {
-    commit('setProperty', data);
+  setProperty({ commit }, data): void {
+    commit("setProperty", data);
   },
-  setLoggedIn({commit}, data): void {
-    commit('resetLock');
-    commit('setLoggedIn');
-    if (data.view !== 'changePin') {
-      router.push({name: 'Intro'});
+  setLoggedIn({ commit }, data): void {
+    commit("resetLock");
+    commit("setLoggedIn");
+    if (data.view !== "changePin") {
+      router.push({ name: "Intro" });
     }
   },
-  setRegistered({commit}): void {
-    commit('setRegistered');
+  setRegistered({ commit }): void {
+    commit("setRegistered");
   },
-  async pinReset({commit, rootState, dispatch}, data) {
-    if (rootState.api.links && rootState.api.links['yona:requestPinReset']) {
-      const response = await axios.post(rootState.api.links['yona:requestPinReset'].href, {},
+  async pinReset({ commit, rootState, dispatch }, data) {
+    if (rootState.api.links && rootState.api.links["yona:requestPinReset"]) {
+      const response = await axios.post(
+        rootState.api.links["yona:requestPinReset"].href,
+        {}
       );
 
       if (response) {
@@ -51,31 +53,31 @@ const actions: ActionTree<LoginState, RootState> = {
         let seconds = Math.round(date.getTime() / 1000);
         seconds += toSeconds(parse(response.data.delay));
 
-        await dispatch('setLockedTimer', {seconds, data});
+        await dispatch("setLockedTimer", { seconds, data });
       }
     }
   },
-  setLocked({commit}, data): void {
-    commit('setLocked');
+  setLocked({ commit }, data): void {
+    commit("setLocked");
 
     if (data.view) {
-      router.push({name: 'ChangeLocked'});
+      router.push({ name: "ChangeLocked" });
     } else {
-      router.push({name: 'Locked'});
+      router.push({ name: "Locked" });
     }
   },
-  setLockedTimer({commit}, {seconds, data}): void {
-    commit('setLocked');
-    commit('setLockedTimer', seconds);
-    if (data.view === 'changePin') {
-      router.push({name: 'ChangeWaitLocked'});
+  setLockedTimer({ commit }, { seconds, data }): void {
+    commit("setLocked");
+    commit("setLockedTimer", seconds);
+    if (data.view === "changePin") {
+      router.push({ name: "ChangeWaitLocked" });
     } else {
-      router.push({name: 'WaitLocked'});
+      router.push({ name: "WaitLocked" });
     }
   },
-  resetLock({commit}): void {
-    commit('resetLock');
-  },
+  resetLock({ commit }): void {
+    commit("resetLock");
+  }
 };
 
 const mutations: MutationTree<LoginState> = {
@@ -109,13 +111,13 @@ const mutations: MutationTree<LoginState> = {
     state.locked_timer = 0;
     state.isLocked = false;
     state.pinIsReset = false;
-  },
+  }
 };
 
 const getters: GetterTree<LoginState, RootState> = {
   pinCode(state) {
     return state.pinCode;
-  },
+  }
 };
 
 const namespaced: boolean = true;
@@ -124,5 +126,5 @@ export const login: Module<LoginState, RootState> = {
   state,
   getters,
   actions,
-  mutations,
+  mutations
 };

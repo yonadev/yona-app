@@ -1,24 +1,24 @@
-import { Module, ActionTree, MutationTree, GetterTree } from 'vuex';
-import { ApiState } from './types';
-import { RootState } from '../types';
+import { Module, ActionTree, MutationTree, GetterTree } from "vuex";
+import { ApiState } from "./types";
+import { RootState } from "../types";
 
 export const state: ApiState = {
-  host: 'https://app.prd.yona.nu',
-  yonaPassword: '',
+  host: "https://app.prd.yona.nu",
+  yonaPassword: "",
   links: {},
-  embedded: {},
+  embedded: {}
 };
 
 const actions: ActionTree<ApiState, RootState> = {
-  setHeaderPassword({commit}, data): any {
-    commit('setHeaderPassword', data);
+  setHeaderPassword({ commit }, data): any {
+    commit("setHeaderPassword", data);
   },
-  setLinks({commit}, data): any {
-    commit('setLinks', data);
+  setLinks({ commit }, data): any {
+    commit("setLinks", data);
   },
-  setEmbedded({commit}, data): any {
-    commit('setEmbedded', data);
-  },
+  setEmbedded({ commit }, data): any {
+    commit("setEmbedded", data);
+  }
 };
 
 const mutations: MutationTree<ApiState> = {
@@ -30,7 +30,7 @@ const mutations: MutationTree<ApiState> = {
   },
   setEmbedded(state, payload: ApiState) {
     state.embedded = payload.embedded;
-  },
+  }
 };
 
 const getters: GetterTree<ApiState, RootState> = {
@@ -42,7 +42,7 @@ const getters: GetterTree<ApiState, RootState> = {
   },
   embedded(state) {
     return state.embedded;
-  },
+  }
 };
 
 const namespaced: boolean = true;
@@ -51,5 +51,5 @@ export const api: Module<ApiState, RootState> = {
   state,
   getters,
   actions,
-  mutations,
+  mutations
 };

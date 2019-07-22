@@ -5,14 +5,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component';
+import Vue from "vue";
+import Component from "vue-class-component";
 
 @Component({})
-export default class AbstractFriend extends Vue {
-
-}
+export default class AbstractFriend extends Vue {}
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

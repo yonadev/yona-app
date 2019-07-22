@@ -5,28 +5,25 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component';
-import {Prop, Watch} from 'vue-property-decorator'
+import Vue from "vue";
+import Component from "vue-class-component";
+import { Prop, Watch } from "vue-property-decorator";
 
 @Component({})
 export default class Statistics extends Vue {
-    //@Prop() msg: string = '';
+  //@Prop() msg: string = '';
 
-    //Cycle hooks
-    mounted () {
-    }
+  //Cycle hooks
+  mounted() {}
 
-    //Computed properties
-    get computedMsg () {
-        return '';
-    }
+  //Computed properties
+  get computedMsg() {
+    return "";
+  }
 
-    //Methods
-    methodFunction () {
-    }
+  //Methods
+  methodFunction() {}
 }
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

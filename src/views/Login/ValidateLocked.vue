@@ -1,94 +1,108 @@
 <template>
-  <div id="sms-validation" class="colored-background purple-dark pincode-template" :loading="loading">
+  <div
+    id="sms-validation"
+    class="colored-background purple-dark pincode-template"
+    :loading="loading"
+  >
     <div class="nav-title">
-      {{$t('login')}}
+      {{ $t("login") }}
     </div>
     <div class="wrapper">
-      <img src="../../assets/images/signup/account/icn_secure.svg"/>
+      <img src="../../assets/images/signup/account/icn_secure.svg" />
       <p class="icon-title">
-        {{$t('activateaccount')}}
+        {{ $t("activateaccount") }}
       </p>
       <div class="progress-bar">
         <div class="progress"></div>
       </div>
       <p class="icon-text">
-        {{$t('activateaccountPINreset')}}
+        {{ $t("activateaccountPINreset") }}
       </p>
       <p v-if="error && attempts !== null" class="has-text-white-ter">
-        {{$t('wrong_sms_code', {attempts: attempts})}}
+        {{ $t("wrong_sms_code", { attempts: attempts }) }}
       </p>
       <p v-else-if="attempts === null" class="has-text-white-ter">
-        {{$t('no_sms_attempts')}}
+        {{ $t("no_sms_attempts") }}
       </p>
-      <pin-code v-if="attempts !== null" :pincode.sync="password" :length="length"></pin-code>
+      <pin-code
+        v-if="attempts !== null"
+        :pincode.sync="password"
+        :length="length"
+      ></pin-code>
       <p class="reset" @click="resendCode">
-        {{$t('sendotpagain')}}
+        {{ $t("sendotpagain") }}
       </p>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
-  import { Watch, Component } from 'vue-property-decorator'
-  import PinCode from '@/components/PinCode.vue';
-  import axios from "@/utils/axios/axios"
-  import {Action, State} from "vuex-class";
-  import {ApiState} from "@/store/api/types";
+import Vue from "vue";
+import { Watch, Component } from "vue-property-decorator";
+import PinCode from "@/components/PinCode.vue";
+import axios from "@/utils/axios/axios";
+import { Action, State } from "vuex-class";
+import { ApiState } from "@/store/api/types";
 
-  @Component({
-    components:{
-      PinCode
-    }
-  })
-  export default class SmsValidation extends Vue {
-    @State('api') api!: ApiState;
-    @Action('resetLock', {namespace: 'login'}) resetLock: any;
-    password: number | null = null;
-    length: number = 4;
-    attempts: number | null = 0;
-    loading: boolean = false;
-    error: boolean = false;
+@Component({
+  components: {
+    PinCode
+  }
+})
+export default class SmsValidation extends Vue {
+  @State("api") api!: ApiState;
+  @Action("resetLock", { namespace: "login" }) resetLock: any;
+  password: number | null = null;
+  length: number = 4;
+  attempts: number | null = 0;
+  loading: boolean = false;
+  error: boolean = false;
 
-    async mounted () {
-      await this.getLinks()
-    }
+  async mounted() {
+    await this.getLinks();
+  }
 
-    async resendCode () {
-      if(this.api.links && this.api.links['yona:resendPinResetConfirmationCode']) {
-        await axios.post(this.api.links['yona:resendPinResetConfirmationCode'].href, {}).catch((error) => {
+  async resendCode() {
+    if (
+      this.api.links &&
+      this.api.links["yona:resendPinResetConfirmationCode"]
+    ) {
+      await axios
+        .post(this.api.links["yona:resendPinResetConfirmationCode"].href, {})
+        .catch(error => {
           if (error) {
-            console.log(error)
+            console.log(error);
           }
         });
-        this.password = null;
-        this.error = false;
-        this.attempts = 0
-      }
+      this.password = null;
+      this.error = false;
+      this.attempts = 0;
     }
+  }
 
-    async getLinks(){
-      //Get new links
-      if(this.api.links && this.api.links['self']) {
-        await axios.get(this.api.links["self"].href
-        ).catch((error) => {
-          console.log(error)
-        });
-      }
+  async getLinks() {
+    //Get new links
+    if (this.api.links && this.api.links["self"]) {
+      await axios.get(this.api.links["self"].href).catch(error => {
+        console.log(error);
+      });
     }
+  }
 
-    @Watch('password')
-    async onChildChanged(val: number | null) {
-      let self = this;
-      if(val && val.toString().length === this.length){
-        this.loading = true;
+  @Watch("password")
+  async onChildChanged(val: number | null) {
+    let self = this;
+    if (val && val.toString().length === this.length) {
+      this.loading = true;
 
-        console.log(this.api.links)
+      console.log(this.api.links);
 
-        if(this.api.links && this.api.links['yona:verifyPinReset']) {
-          let response: any = await axios.post(this.api.links['yona:verifyPinReset'].href, {
+      if (this.api.links && this.api.links["yona:verifyPinReset"]) {
+        let response: any = await axios
+          .post(this.api.links["yona:verifyPinReset"].href, {
             code: this.password
-          }).catch((error) => {
+          })
+          .catch(error => {
             if (error) {
               self.password = null;
               self.loading = false;
@@ -96,44 +110,45 @@
                 self.error = true;
                 if (error.response.data.remainingAttempts >= 0)
                   self.attempts = error.response.data.remainingAttempts;
-                else
-                  self.attempts = null
+                else self.attempts = null;
               }
             }
           });
 
-          if (response) {
-            if (response.status == 200) {
-              await axios.post(this.api.links['yona:clearPinReset'].href, {
+        if (response) {
+          if (response.status == 200) {
+            await axios
+              .post(this.api.links["yona:clearPinReset"].href, {
                 code: this.password
-              }).catch((error) => {
+              })
+              .catch(error => {
                 if (error) {
-                  console.log(error)
+                  console.log(error);
                 }
               });
 
-              await this.getLinks();
-              this.resetLock();
+            await this.getLinks();
+            this.resetLock();
 
-              this.$router.push({'name': 'SetPinCode'});
-            }
+            this.$router.push({ name: "SetPinCode" });
           }
         }
-
-        this.loading = false;
-        this.password = null;
       }
+
+      this.loading = false;
+      this.password = null;
     }
   }
+}
 </script>
 
 <style lang="scss">
-  #sms-validation{
-    position: relative;
-    .progress-bar{
-      .progress{
-        width:33%;
-      }
+#sms-validation {
+  position: relative;
+  .progress-bar {
+    .progress {
+      width: 33%;
     }
   }
+}
 </style>

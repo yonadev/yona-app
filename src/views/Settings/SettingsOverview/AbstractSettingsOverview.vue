@@ -6,12 +6,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component';
+import Vue from "vue";
+import Component from "vue-class-component";
 import BottomMenu from "@/components/BottomMenu.vue";
 
 @Component({
-  components: {BottomMenu}
+  components: { BottomMenu }
 })
 export default class AbstractSettingsOverview extends Vue {}
 </script>

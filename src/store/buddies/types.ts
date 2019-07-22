@@ -1,10 +1,10 @@
-import {Goal} from '@/store/challenges/types';
+import { Goal } from "@/store/challenges/types";
 
 export enum userStatus {
-  NotRequested = 'NOT_REQUESTED',
-  Requested = 'REQUESTED',
-  Accepted = 'ACCEPTED',
-  Rejected = 'REJECTED',
+  NotRequested = "NOT_REQUESTED",
+  Requested = "REQUESTED",
+  Accepted = "ACCEPTED",
+  Rejected = "REJECTED"
 }
 
 export interface Buddy {
@@ -12,38 +12,38 @@ export interface Buddy {
   receivingStatus: userStatus;
   lastStatusChangeTime: string;
   _embedded: {
-    'yona:user': {
-      firstName: string,
-      lastName: string,
-      mobileNumber: string,
-      nickname: string,
-      creationTime: string,
-      appLastOpenedDate: string,
+    "yona:user": {
+      firstName: string;
+      lastName: string;
+      mobileNumber: string;
+      nickname: string;
+      creationTime: string;
+      appLastOpenedDate: string;
       _links: {
         self: {
-          href: string,
-        },
-        'yona:userPhoto'?: {
-          href: string,
-        },
-      },
-    },
-    'yona:goals': {
+          href: string;
+        };
+        "yona:userPhoto"?: {
+          href: string;
+        };
+      };
+    };
+    "yona:goals": {
       _embedded: {
-        'yona:goals': Goal[],
-      },
-    },
+        "yona:goals": Goal[];
+      };
+    };
   };
   _links: {
     self: {
-      href: string,
-    },
-    'yona:weeklyActivityReports': {
-      href: string,
-    },
-    'yona:dailyActivityReports': {
-      href: string,
-    },
+      href: string;
+    };
+    "yona:weeklyActivityReports": {
+      href: string;
+    };
+    "yona:dailyActivityReports": {
+      href: string;
+    };
   };
 }
 

@@ -2,21 +2,32 @@
   <div id="me" class="header-template">
     <div class="colored-background purple-dark">
       <div class="nav-title">
-        <router-link :to="{name: 'Profile'}">
+        <router-link :to="{ name: 'Profile' }">
           <profile-pic class="profile-img" src="user_image"></profile-pic>
-          <span class="dashboard-title">{{$t('dashboard')}}</span>
+          <span class="dashboard-title">{{ $t("dashboard") }}</span>
         </router-link>
-        <router-link :to="{name: 'Notifications'}">
-          <img class="small-top-icon is-pulled-right" src="@/assets/images/icons/icn_notification.svg" />
+        <router-link :to="{ name: 'Notifications' }">
+          <img
+            class="small-top-icon is-pulled-right"
+            src="@/assets/images/icons/icn_notification.svg"
+          />
         </router-link>
       </div>
       <div class="tabs is-fullwidth" v-fixed-scroll>
         <ul>
-          <router-link tag="li" :to="{name: 'MeTimeLineDay'}" active-class="is-active">
-            <a>{{$t('perday')}}</a>
+          <router-link
+            tag="li"
+            :to="{ name: 'MeTimeLineDay' }"
+            active-class="is-active"
+          >
+            <a>{{ $t("perday") }}</a>
           </router-link>
-          <router-link tag="li" :to="{name: 'MeTimeLineWeek'}" active-class="is-active">
-            <a>{{$t('perweek')}}</a>
+          <router-link
+            tag="li"
+            :to="{ name: 'MeTimeLineWeek' }"
+            active-class="is-active"
+          >
+            <a>{{ $t("perweek") }}</a>
           </router-link>
         </ul>
       </div>
@@ -27,53 +38,53 @@
   </div>
 </template>
 <script lang="ts">
-    import Vue from 'vue'
-    import {State} from "vuex-class";
-    import {AccountState} from "@/store/account/types";
-    import Component from "vue-class-component";
-    import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
+import Vue from "vue";
+import { State } from "vuex-class";
+import { AccountState } from "@/store/account/types";
+import Component from "vue-class-component";
+import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
 
-    @Component({
-      components: {ProfilePic}
-    })
-    export default class MeTabs extends Vue {
-        @State('account') account!: AccountState;
-    }
+@Component({
+  components: { ProfilePic }
+})
+export default class MeTabs extends Vue {
+  @State("account") account!: AccountState;
+}
 </script>
 
 <style lang="scss">
-  #me{
-    .profile-img {
-      img {
-        width: 30px;
-        height: 30px;
-        background-color: #915C80;
-        margin-right: 20px;
-        display: inline-block;
-        border-radius:50%;
-      }
-    }
-    .small-top-icon{
-      vertical-align: middle;
-      width: 25px;
-      height: 25px;
+#me {
+  .profile-img {
+    img {
+      width: 30px;
+      height: 30px;
+      background-color: #915c80;
+      margin-right: 20px;
+      display: inline-block;
       border-radius: 50%;
-      position: relative;
-    }
-    .dashboard-title{
-      display:inline-block;
-      vertical-align: top;
-      height:30px;
-      line-height:30px;
-    }
-    .nav-title{
-      padding:30px 15px 10px 15px;
-    }
-    .wrapper{
-      padding:0;
-      &.grey-bg{
-        background-color:#f3f3f3;
-      }
     }
   }
+  .small-top-icon {
+    vertical-align: middle;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    position: relative;
+  }
+  .dashboard-title {
+    display: inline-block;
+    vertical-align: top;
+    height: 30px;
+    line-height: 30px;
+  }
+  .nav-title {
+    padding: 30px 15px 10px 15px;
+  }
+  .wrapper {
+    padding: 0;
+    &.grey-bg {
+      background-color: #f3f3f3;
+    }
+  }
+}
 </style>
