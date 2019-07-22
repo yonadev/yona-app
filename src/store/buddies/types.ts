@@ -1,4 +1,4 @@
-import {Goal} from "@/store/challenges/types";
+import {Goal} from '@/store/challenges/types';
 
 export enum userStatus {
   NotRequested = 'NOT_REQUESTED',
@@ -8,9 +8,9 @@ export enum userStatus {
 }
 
 export interface Buddy {
-  sendingStatus: userStatus,
-  receivingStatus: userStatus,
-  lastStatusChangeTime: string,
+  sendingStatus: userStatus;
+  receivingStatus: userStatus;
+  lastStatusChangeTime: string;
   _embedded: {
     'yona:user': {
       firstName: string,
@@ -21,33 +21,33 @@ export interface Buddy {
       appLastOpenedDate: string,
       _links: {
         self: {
-          href: string
+          href: string,
         },
-        "yona:userPhoto"? : {
-          href: string
-        }
-      }
+        'yona:userPhoto'?: {
+          href: string,
+        },
+      },
     },
     'yona:goals': {
-      _embedded:{
-        'yona:goals': Goal[]
-      }
-    }
-  },
+      _embedded: {
+        'yona:goals': Goal[],
+      },
+    },
+  };
   _links: {
     self: {
-      href: string
+      href: string,
     },
     'yona:weeklyActivityReports': {
-      href: string
+      href: string,
     },
     'yona:dailyActivityReports': {
-      href: string
-    }
-  }
+      href: string,
+    },
+  };
 }
 
 export interface BuddiesState {
-  loaded: boolean,
-  buddies: Buddy[]
+  loaded: boolean;
+  buddies: Buddy[];
 }

@@ -1,70 +1,70 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import Router from 'vue-router';
 
-import Start from '../views/Start.vue'
+import Start from '../views/Start.vue';
 
-//Welcome modole
-import AbstractWelcome from '../views/Welcome/AbstractWelcome.vue'
-import Tour from '../views/Welcome/Tour.vue'
-import Choose from '../views/Welcome/Choose.vue'
+// Welcome modole
+import AbstractWelcome from '../views/Welcome/AbstractWelcome.vue';
+import Tour from '../views/Welcome/Tour.vue';
+import Choose from '../views/Welcome/Choose.vue';
 
-//Welcome modole
-import AbstractLogin from '../views/Login/AbstractLogin.vue'
-import Login from '../views/Login/Login.vue'
-import Locked from '../views/Login/Locked.vue'
-import WaitLocked from '../views/Login/WaitLocked.vue'
-import ValidateLocked from '../views/Login/ValidateLocked.vue'
-import AddDevice from '../views/Login/AddDevice.vue'
+// Welcome modole
+import AbstractLogin from '../views/Login/AbstractLogin.vue';
+import Login from '../views/Login/Login.vue';
+import Locked from '../views/Login/Locked.vue';
+import WaitLocked from '../views/Login/WaitLocked.vue';
+import ValidateLocked from '../views/Login/ValidateLocked.vue';
+import AddDevice from '../views/Login/AddDevice.vue';
 
-    //Welcome -> recover submodule
-    import AbstractRecoverAccount from '../views/Login/RecoverAccount/AbstractRecoverAccount.vue'
-    import PhoneNumber from '../views/Login/RecoverAccount/PhoneNumber.vue'
-    import RecoverSms from '../views/Login/RecoverAccount/RecoverSms.vue'
+    // Welcome -> recover submodule
+import AbstractRecoverAccount from '../views/Login/RecoverAccount/AbstractRecoverAccount.vue';
+import PhoneNumber from '../views/Login/RecoverAccount/PhoneNumber.vue';
+import RecoverSms from '../views/Login/RecoverAccount/RecoverSms.vue';
 
-//Signup modole
-import AbstractSignUp from '../views/Signup/AbstractSignUp.vue'
-import Names from '../views/Signup/Names.vue'
-import AccountInfo from '../views/Signup/AccountInfo.vue'
-import SmsValidation from '../views/Signup/SmsValidation.vue'
+// Signup modole
+import AbstractSignUp from '../views/Signup/AbstractSignUp.vue';
+import Names from '../views/Signup/Names.vue';
+import AccountInfo from '../views/Signup/AccountInfo.vue';
+import SmsValidation from '../views/Signup/SmsValidation.vue';
 
-    //Signup -> pincode submodule
-    import AbstractSetPinCode from '../views/Signup/Pincode/AbstractSetPinCode.vue'
-    import SetPinCode from '../views/Signup/Pincode/SetPinCode.vue'
-    import ConfirmPinCode from '../views/Signup/Pincode/ConfirmPinCode.vue'
+    // Signup -> pincode submodule
+import AbstractSetPinCode from '../views/Signup/Pincode/AbstractSetPinCode.vue';
+import SetPinCode from '../views/Signup/Pincode/SetPinCode.vue';
+import ConfirmPinCode from '../views/Signup/Pincode/ConfirmPinCode.vue';
 
-    //Signup -> permission module
-    import AbstractPermissions from '../views/Signup/Permissions/AbstractPermissions.vue'
-    import Intro from '../views/Signup/Permissions/Intro.vue'
-    import GivePermission from '../views/Signup/Permissions/GivePermission.vue'
+    // Signup -> permission module
+import AbstractPermissions from '../views/Signup/Permissions/AbstractPermissions.vue';
+import Intro from '../views/Signup/Permissions/Intro.vue';
+import GivePermission from '../views/Signup/Permissions/GivePermission.vue';
 
-//Challenges module
-import AbstractChallenges from '../views/Challenges/AbstractChallenges.vue'
-import ChallengesTabs from '../views/Challenges/ChallengesTabs.vue'
+// Challenges module
+import AbstractChallenges from '../views/Challenges/AbstractChallenges.vue';
+import ChallengesTabs from '../views/Challenges/ChallengesTabs.vue';
 
-    //Challenge tab components
-    import ChallengesOverview from '../views/Challenges/ChallengesOverview.vue'
-    import ChallengesContent from '../views/Challenges/ChallengesContent.vue'
-    import ChallengesCategoryChoose from '../views/Challenges/ChallengesCategoryChoose.vue'
+    // Challenge tab components
+import ChallengesOverview from '../views/Challenges/ChallengesOverview.vue';
+import ChallengesContent from '../views/Challenges/ChallengesContent.vue';
+import ChallengesCategoryChoose from '../views/Challenges/ChallengesCategoryChoose.vue';
 
-    //Submodule Challenges -> Setup
-    import ChallengesSetupAbstract from '../views/Challenges/Setup/SetupAbstract.vue'
-    import ChallengesSetup from '../views/Challenges/Setup/Setup.vue'
+    // Submodule Challenges -> Setup
+import ChallengesSetupAbstract from '../views/Challenges/Setup/SetupAbstract.vue';
+import ChallengesSetup from '../views/Challenges/Setup/Setup.vue';
 
 
-//Settings module
-import AbstractSettings from '../views/Settings/AbstractSettings.vue'
+// Settings module
+import AbstractSettings from '../views/Settings/AbstractSettings.vue';
 
-    import AbstractSettingsOverview from '../views/Settings/SettingsOverview/AbstractSettingsOverview.vue'
-        import Settings from '../views/Settings/SettingsOverview/Settings.vue'
-        import SettingsAddDevice from '../views/Settings/SettingsOverview/AddDevice.vue'
-        import Unsubscribe from '../views/Settings/SettingsOverview/Unsubscribe.vue'
-        import Privacy from '../views/Settings/SettingsOverview/Privacy.vue'
+import AbstractSettingsOverview from '../views/Settings/SettingsOverview/AbstractSettingsOverview.vue';
+import Settings from '../views/Settings/SettingsOverview/Settings.vue';
+import SettingsAddDevice from '../views/Settings/SettingsOverview/AddDevice.vue';
+import Unsubscribe from '../views/Settings/SettingsOverview/Unsubscribe.vue';
+import Privacy from '../views/Settings/SettingsOverview/Privacy.vue';
 
-    import ChangePinCode from '../views/Settings/PinCode/ChangePinCode.vue'
-    import CheckPinCode from '../views/Settings/PinCode/CheckPinCode.vue'
-    import ConfirmNewPinCode from '../views/Settings/PinCode/ConfirmNewPinCode.vue'
-    import ChangeLocked from '../views/Settings/PinCode/ChangeLocked.vue'
-    import ChangeWaitLocked from '../views/Settings/PinCode/ChangeWaitLocked.vue'
+import ChangePinCode from '../views/Settings/PinCode/ChangePinCode.vue';
+import CheckPinCode from '../views/Settings/PinCode/CheckPinCode.vue';
+import ConfirmNewPinCode from '../views/Settings/PinCode/ConfirmNewPinCode.vue';
+import ChangeLocked from '../views/Settings/PinCode/ChangeLocked.vue';
+import ChangeWaitLocked from '../views/Settings/PinCode/ChangeWaitLocked.vue';
 
 Vue.use(Router);
 
@@ -74,13 +74,13 @@ export default new Router({
             path: '/',
             redirect: '/welcome/tour',
             name: 'Start',
-            component: Start
+            component: Start,
         },
         {
             path: '/welcome',
             component: AbstractWelcome,
             meta: {
-                public: true
+                public: true,
             },
             children: [
                 {
@@ -88,18 +88,18 @@ export default new Router({
                     name: 'Tour',
                     component: Tour,
                     meta: {
-                        public: true
-                    }
+                        public: true,
+                    },
                 },
                 {
                     path: 'choose',
                     name: 'Choose',
                     component: Choose,
                     meta: {
-                        public: true
-                    }
-                }
-            ]
+                        public: true,
+                    },
+                },
+            ],
         },
         {
             path: '/auth',
@@ -111,8 +111,8 @@ export default new Router({
                     component: Login,
                     meta: {
                         public: true,
-                        login: true
-                    }
+                        login: true,
+                    },
                 },
                 {
                     path: 'locked',
@@ -121,7 +121,7 @@ export default new Router({
                     meta: {
                         public: true,
                         locked: true,
-                    }
+                    },
                 },
                 {
                     path: 'wait',
@@ -129,8 +129,8 @@ export default new Router({
                     component: WaitLocked,
                     meta: {
                         public: true,
-                        pinReset: true
-                    }
+                        pinReset: true,
+                    },
                 },
                   {
                     path: 'validatelocked',
@@ -138,22 +138,22 @@ export default new Router({
                     component: ValidateLocked,
                     meta: {
                         public: true,
-                        pinReset: true
-                    }
+                        pinReset: true,
+                    },
                   },
                 {
                     path: 'add',
                     name: 'AddDevice',
                     component: AddDevice,
                     meta: {
-                        public: true
-                    }
+                        public: true,
+                    },
                 },
                 {
                     path: 'recover',
                     component: AbstractRecoverAccount,
                     meta: {
-                        public: true
+                        public: true,
                     },
                     children: [
                         {
@@ -161,26 +161,26 @@ export default new Router({
                             name: 'PhoneNumber',
                             component: PhoneNumber,
                             meta: {
-                                public: true
-                            }
+                                public: true,
+                            },
                         },
                         {
                             path: 'sms',
                             name: 'RecoverSms',
                             component: RecoverSms,
                             meta: {
-                                public: true
-                            }
-                        }
-                    ]
-                }
-            ]
+                                public: true,
+                            },
+                        },
+                    ],
+                },
+            ],
         },
         {
             path: '/signup',
             component: AbstractSignUp,
             meta: {
-                public: true
+                public: true,
             },
             children: [
                 {
@@ -188,30 +188,30 @@ export default new Router({
                     name: 'Names',
                     component: Names,
                     meta: {
-                        public: true
-                    }
+                        public: true,
+                    },
                 },
                 {
                     path: 'accountinfo',
                     name: 'AccountInfo',
                     component: AccountInfo,
                     meta: {
-                        public: true
-                    }
+                        public: true,
+                    },
                 },
                 {
                     path: 'validation',
                     name: 'SmsValidation',
                     component: SmsValidation,
                     meta: {
-                        public: true
-                    }
+                        public: true,
+                    },
                 },
                 {
                     path: 'pincode',
                     component: AbstractSetPinCode,
                     meta: {
-                        public: true
+                        public: true,
                     },
                     children: [
                         {
@@ -220,8 +220,8 @@ export default new Router({
                             component: SetPinCode,
                             meta: {
                                 public: true,
-                                pinreset: true
-                            }
+                                pinreset: true,
+                            },
                         },
                         {
                             path: 'confirm',
@@ -229,10 +229,10 @@ export default new Router({
                             component: ConfirmPinCode,
                             meta: {
                                 public: true,
-                                pinreset: true
-                            }
-                        }
-                    ]
+                                pinreset: true,
+                            },
+                        },
+                    ],
                 },
               {
                 path: 'permissions',
@@ -241,16 +241,16 @@ export default new Router({
                   {
                     path: 'intro',
                     name: 'Intro',
-                    component: Intro
+                    component: Intro,
                   },
                   {
                     path: 'permission',
-                    name: "GivePermission",
-                    component: GivePermission
-                  }
-                ]
-              }
-            ]
+                    name: 'GivePermission',
+                    component: GivePermission,
+                  },
+                ],
+              },
+            ],
         },
         {
             path: '/me',
@@ -264,44 +264,44 @@ export default new Router({
                         {
                             path: 'day',
                             name: 'MeTimeLineDay',
-                            component: () => import('../views/Me/Tabs/Day.vue')
+                            component: () => import('../views/Me/Tabs/Day.vue'),
                         },
                         {
                             path: 'week',
                             name: 'MeTimeLineWeek',
-                            component: () => import('../views/Me/Tabs/Week.vue')
-                        }
-                    ]
+                            component: () => import('../views/Me/Tabs/Week.vue'),
+                        },
+                    ],
                 },
                 {
                     path: 'profile',
                     name: 'Profile',
-                    component: () => import('../views/Me/Profile.vue')
+                    component: () => import('../views/Me/Profile.vue'),
                 },
                 {
                     path: 'notifications',
                     name: 'Notifications',
-                    component: () => import('../views/Me/Notifications.vue')
+                    component: () => import('../views/Me/Notifications.vue'),
                 },
                 {
                     path: 'friendrequest',
                     name: 'FriendRequest',
                     component: () => import('../views/Me/FriendRequest.vue'),
-                    props: true
+                    props: true,
                 },
                 {
                     path: 'detailed-day/:activity_link',
                     name: 'DetailedViewDay',
                     component: () => import('../views/Timeline/DetailedViewDay.vue'),
-                    props: true
+                    props: true,
                 },
                 {
                     path: 'detailed-week/:activity_link',
                     name: 'DetailedViewWeek',
                     component: () => import('../views/Timeline/DetailedViewWeek.vue'),
-                    props: true
-                }
-            ]
+                    props: true,
+                },
+            ],
         },
         {
             path: '/friends',
@@ -315,19 +315,19 @@ export default new Router({
                         {
                             path: 'timeline',
                             name: 'FriendsTimeLine',
-                            component: () => import('../views/Friends/FriendsTimeLine.vue')
+                            component: () => import('../views/Friends/FriendsTimeLine.vue'),
                         },
                         {
                             path: 'overview',
                             name: 'FriendsOverview',
-                            component: () => import('../views/Friends/FriendsOverview.vue')
-                        }
-                    ]
+                            component: () => import('../views/Friends/FriendsOverview.vue'),
+                        },
+                    ],
                 },
                 {
                     path: 'add',
                     name: 'FriendAdd',
-                    component: () => import('../views/Friends/Add.vue')
+                    component: () => import('../views/Friends/Add.vue'),
                 },
                 {
                     path: ':buddy_href',
@@ -337,19 +337,19 @@ export default new Router({
                             path: 'profile',
                             name: 'FriendsProfile',
                             component: () => import('../views/Friends/Friend/Profile.vue'),
-                            props: true
+                            props: true,
                         },
                         {
                             path: 'detailed-day/:activity_link',
                             name: 'FriendsDetailedViewDay',
                             component: () => import('../views/Timeline/DetailedViewDay.vue'),
-                            props: true
+                            props: true,
                         },
                         {
                             path: 'detailed-week/:activity_link',
                             name: 'FriendsDetailedViewWeek',
                             component: () => import('../views/Timeline/DetailedViewWeek.vue'),
-                            props: true
+                            props: true,
                         },
                         {
                             path: 'timeline',
@@ -361,19 +361,19 @@ export default new Router({
                                     path: 'day',
                                     name: 'FriendTimeLineDay',
                                     component: () => import('../views/Friends/Friend/TimeLine/Tabs/Day.vue'),
-                                    props: true
+                                    props: true,
                                 },
                                 {
                                     path: 'week',
                                     name: 'FriendTimeLineWeek',
                                     component: () => import('../views/Friends/Friend/TimeLine/Tabs/Week.vue'),
-                                    props: true
-                                }
-                            ]
+                                    props: true,
+                                },
+                            ],
                         },
-                    ]
-                }
-            ]
+                    ],
+                },
+            ],
         },
         {
             path: '/challenges',
@@ -387,15 +387,15 @@ export default new Router({
                             path: ':type/overview',
                             name: 'ChallengesOverview',
                             component: ChallengesOverview,
-                            props: true
+                            props: true,
                         },
                         {
                             path: ':type/chooseCategory',
                             name: 'ChallengesCategoryChoose',
                             component: ChallengesCategoryChoose,
-                            props: true
-                        }
-                    ]
+                            props: true,
+                        },
+                    ],
                 },
                 {
                     path: 'setup',
@@ -406,11 +406,11 @@ export default new Router({
                             path: ':type/:category/:goal_url?',
                             name: 'ChallengesSetup',
                             component: ChallengesSetup,
-                            props: true
-                        }
-                    ]
-                }
-            ]
+                            props: true,
+                        },
+                    ],
+                },
+            ],
         },
         {
             path: '/settings',
@@ -423,53 +423,53 @@ export default new Router({
                         {
                             path: '',
                             name: 'Settings',
-                            component: Settings
+                            component: Settings,
                         },
                         {
                             path: 'privacy',
                             name: 'Privacy',
-                            component: Privacy
+                            component: Privacy,
                         },
                         {
                             path: 'adddevice',
                             name: 'SettingsAddDevice',
-                            component: SettingsAddDevice
+                            component: SettingsAddDevice,
                         },
                         {
                             path: 'unsubscribe',
                             name: 'Unsubscribe',
-                            component: Unsubscribe
-                        }
-                    ]
+                            component: Unsubscribe,
+                        },
+                    ],
                 },
                 {
                     path: 'checkpin',
                     name: 'CheckPinCode',
-                    component: CheckPinCode
+                    component: CheckPinCode,
                 },
                 {
                     path: 'changepin/:wrong_pincode',
                     name: 'ChangePinCode',
                     component: ChangePinCode,
-                    props: true
+                    props: true,
                 },
                 {
                     path: 'confirmpin/:pincode',
                     name: 'ConfirmNewPinCode',
                     component: ConfirmNewPinCode,
-                    props: true
+                    props: true,
                 },
                 {
                     path: 'changelocked',
                     name: 'ChangeLocked',
-                    component: ChangeLocked
+                    component: ChangeLocked,
                 },
                 {
                     path: 'changewaitlocked',
                     name: 'ChangeWaitLocked',
-                    component: ChangeWaitLocked
-                }
-            ]
+                    component: ChangeWaitLocked,
+                },
+            ],
         },
-    ]
-})
+    ],
+});

@@ -1,30 +1,30 @@
 export interface ActivityCategory {
-  name: string,
-  apllications: string[],
-  description: string,
+  name: string;
+  apllications: string[];
+  description: string;
   _links: {
     self: {
-      href: string
-    }
-  }
+      href: string,
+    },
+  };
 }
 export interface Goal {
-  '@type' : string,
-  creationTime: string,
-  maxDurationMinutes?: number,
-  zones?: string[],
-  historyItem: boolean,
-  _links : {
+  '@type': string;
+  creationTime: string;
+  maxDurationMinutes?: number;
+  zones?: string[];
+  historyItem: boolean;
+  _links: {
     self: {
-      href: string
+      href: string,
     },
-    edit? : {
-      href: string
+    edit?: {
+      href: string,
     },
-    'yona:activityCategory' : {
-      href: string
-    }
-  }
+    'yona:activityCategory': {
+      href: string,
+    },
+  };
 }
 
 export interface BudgetGoal extends Goal {
@@ -32,11 +32,11 @@ export interface BudgetGoal extends Goal {
 }
 
 export interface TimeZoneGoal extends Goal {
-  zones: string[],
+  zones: string[];
 }
 
 export interface ChallengesState {
-  loaded: boolean,
-  activityCategories : ActivityCategory[],
-  goals: Goal[]
+  loaded: boolean;
+  activityCategories: ActivityCategory[];
+  goals: Goal[];
 }
