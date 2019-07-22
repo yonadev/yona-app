@@ -7,8 +7,8 @@ Vue.use(VeeValidate);
 
 Validator.extend('mobile', {
   validate(value) {
-    const number = parsePhoneNumberFromString(value);
+    const phoneNumber = parsePhoneNumberFromString(value);
 
-    return (number !== undefined && number.isValid());
+    return (phoneNumber !== undefined && phoneNumber.isValid());
   },
 });

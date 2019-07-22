@@ -11,20 +11,20 @@ const instance = axios.create({
 });
 
 // Add a request interceptor
-instance.interceptors.request.use(function(config) {
+instance.interceptors.request.use((config) => {
   // Do something before request is sent
   if (store.getters['api/yonaPassword']) {
     config.headers['Yona-Password'] = store.getters['api/yonaPassword'];
   }
 
   return config;
-}, function(error) {
+}, (error) => {
   // Do something with request error
   return Promise.reject(error);
 });
 
 // Add a response interceptor
-instance.interceptors.response.use(function(response) {
+instance.interceptors.response.use((response) => {
 
   // Do something with response data
   if (response.data.yonaPassword) {
@@ -40,8 +40,7 @@ instance.interceptors.response.use(function(response) {
   }
 
   return response;
-}, function(error) {
-  console.log(error);
+}, (error) => {
   // Do something with response error
   return Promise.reject(error);
 });

@@ -14,8 +14,8 @@ moment.weekdays(false);
 import nl from 'vee-validate/dist/locale/nl';
 // @ts-ignore
 import en from 'vee-validate/dist/locale/en';
-const dictionary_nl = require('@/locales/nl');
-const dictionary_en = require('@/locales/en');
+import dictionaryNl from './locales/nl.json';
+import dictionaryEn from './locales/en.json';
 
 const veeLocales: {
   [key: string]: {
@@ -25,11 +25,11 @@ const veeLocales: {
 } = {
   nl: {
     locale: nl,
-    dictionary: dictionary_nl,
+    dictionary: dictionaryNl,
   },
   en: {
     locale: en,
-    dictionary: dictionary_en,
+    dictionary: dictionaryEn,
   },
 };
 
@@ -37,7 +37,6 @@ const dictionary = {
   // attributes and messages
   messages: {
     mobile: (fieldName: string, params: any[], data?: any) => {
-      console.log(veeLocales[i18n.locale].dictionary);
       return veeLocales[i18n.locale].dictionary.numbervalidation;
     },
     required: (fieldName: string, params: any[], data?: any) => {
@@ -71,7 +70,7 @@ Vue.directive('fixed-scroll', {
     const elementTop = el.getBoundingClientRect().top;
     const elementHeight = el.offsetHeight;
 
-    const f = function(evt: any) {
+    const f = (evt: any) => {
       const scrollTop = evt.target.scrollingElement.scrollTop;
 
       if (elementTop < scrollTop) {

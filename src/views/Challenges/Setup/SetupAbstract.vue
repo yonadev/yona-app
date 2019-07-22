@@ -77,7 +77,7 @@ export default class Setup extends Vue {
         title: ""
     }
 
-    get headerText(): string {
+    get headerText(): any {
         switch(this.type)
         {
             case "credit":
@@ -93,7 +93,7 @@ export default class Setup extends Vue {
         return '';
     }
 
-    get title(): string {
+    get title(): any {
         switch(this.type)
         {
             case "credit":
@@ -109,7 +109,7 @@ export default class Setup extends Vue {
         return '';
     }
 
-    get icon(): string {
+    get icon(): any {
         switch(this.type)
         {
             case "credit":

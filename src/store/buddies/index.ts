@@ -18,7 +18,7 @@ const actions: ActionTree<BuddiesState, RootState> = {
   async getBuddies({commit, dispatch, rootState}) {
     if (rootState.api.embedded != null) {
       const response = await axios.get(rootState.api.embedded['yona:buddies']._links.self.href);
-      if (response.status == 200) {
+      if (response.status === 200) {
         commit('setBuddies', response);
         await dispatch('getBuddyImages');
         return true;
@@ -34,20 +34,28 @@ const actions: ActionTree<BuddiesState, RootState> = {
         if (buddy._embedded['yona:user']._links['yona:userPhoto']) {
           const userPhotoResponse: any = await axios.get(buddy._embedded['yona:user']._links['yona:userPhoto'].href, {
             responseType: 'arraybuffer',
-          }).catch((error) => {
-            console.log(error);
           });
 
           if (userPhotoResponse) {
             // @ts-ignore
             const userPhoto = new Buffer.from(userPhotoResponse.data, 'binary').toString('base64');
-            window.localStorage.setItem(buddy._embedded['yona:user']._links.self.href, JSON.stringify({type: 'buddy', src: 'data:image/png;base64,' + userPhoto}));
+            window.localStorage.setItem(
+                buddy._embedded['yona:user']._links.self.href,
+                JSON.stringify({type: 'buddy', src: 'data:image/png;base64,' + userPhoto}),
+            );
             hasPhoto = true;
           }
         }
 
         if (!hasPhoto) {
-          window.localStorage.setItem(buddy._embedded['yona:user']._links.self.href, JSON.stringify({type: 'buddy', text: buddy._embedded['yona:user'].firstName.charAt(0) + buddy._embedded['yona:user'].lastName.charAt(0)}));
+          window.localStorage.setItem(
+              buddy._embedded['yona:user']._links.self.href,
+              JSON.stringify({
+                type: 'buddy',
+                text: buddy._embedded['yona:user'].firstName.charAt(0) +
+                    buddy._embedded['yona:user'].lastName.charAt(0),
+              }),
+          );
         }
 
       }),
@@ -56,26 +64,27 @@ const actions: ActionTree<BuddiesState, RootState> = {
 };
 
 const mutations: MutationTree<BuddiesState> = {
-  setBuddies(state, {data}) {
+  setBuddies(state: BuddiesState, {data}) {
     state.buddies = data._embedded['yona:buddies'];
     state.loaded = true;
   },
 };
 
 const getters: GetterTree<BuddiesState, RootState> = {
-  buddy(state) {
+  buddy(state: BuddiesState) {
     return (href: string) => state.buddies.find((buddy) => {
       return buddy._links.self.href === href;
     });
   },
-  goal(state) {
-    return (buddy_href: string, href: string) => {
+  goal(state: BuddiesState) {
+    return (buddyHref: string, href: string) => {
       const buddy = state.buddies.find((buddy) => {
-        return buddy._links.self.href === buddy_href;
+        return buddy._links.self.href === buddyHref;
       });
 
       if (buddy) {
-         return buddy._embedded['yona:goals']._embedded['yona:goals'].find((buddy_goal) => buddy_goal._links.self.href === href);
+         return buddy._embedded['yona:goals']._embedded['yona:goals'].find((buddyGoal) =>
+             buddyGoal._links.self.href === href);
       }
     };
   },

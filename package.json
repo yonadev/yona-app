@@ -41,6 +41,7 @@
     "vuex-persist": "^2.0.1"
   },
   "devDependencies": {
+    "@types/node": "^12.6.8",
     "@vue/cli-plugin-babel": "^3.9.0",
     "@vue/cli-plugin-typescript": "^3.9.0",
     "@vue/cli-service": "^3.9.0",

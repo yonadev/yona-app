@@ -43,9 +43,7 @@ const actions: ActionTree<LoginState, RootState> = {
   async pinReset({commit, rootState, dispatch}, data) {
     if (rootState.api.links && rootState.api.links['yona:requestPinReset']) {
       const response = await axios.post(rootState.api.links['yona:requestPinReset'].href, {},
-      ).catch((error: any) => {
-        console.log(error);
-      });
+      );
 
       if (response) {
         const date = new Date();
