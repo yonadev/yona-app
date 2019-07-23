@@ -86,12 +86,16 @@ export default class AddDevice extends Vue {
               .post(
                 get_response.data._links["yona:registerDevice"].href,
                 {
-                  //Todo: implement Cordova device info
-                  operatingSystem: "ANDROID",
+                  //Todo: implement Firebase and App Version
+                  //@ts-ignore
+                  operatingSystem: (device ? device.platform.toUpperCase() : "ANDROID"),
+                  //@ts-ignore
+                  name: (device ? device.model : null),
                   appVersion: "1.1 build 83",
                   appVersionCode: 31,
                   firebaseInstanceId:
-                    "d3cIznsu5VQ:APA91bGWLq7xBK1RDkpGURdliHb-S_nCBLqYnXhEWfGnItP_qGDZ6f2EF1mB66yHdBiicggV7APIWwkQXTUq_zJgwPkJtvcdqpUphYN7p8E8Sq02_ErljVApX8-n9-nvVxiyqmUg9ALZ"
+                    "d3cIznsu5VQ:APA91bGWLq7xBK1RDkpGURdliHb-S_nCBLqYnXhEWfGnItP_qGDZ6f2EF1mB66yHdBii" +
+                          "cggV7APIWwkQXTUq_zJgwPkJtvcdqpUphYN7p8E8Sq02_ErljVApX8-n9-nvVxiyqmUg9ALZ"
                 },
                 {
                   headers: {

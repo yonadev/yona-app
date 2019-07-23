@@ -69,7 +69,7 @@
   "sendotpagain" : "Send code again",
   "adddevice" : "ADD DEVICE",
   "showopenvpnlog" : "SHOW VPN LOG SCREEN",
-  "yonaadddevicemessage" : "%1$s enter this passcode on the new device where you like to use Yona.",
+  "yonaadddevicemessage" : "{code} enter this passcode on the new device where you like to use Yona.",
   "loggedinadddevicemessage" : "You have not logged on this device before. Go to your primary device (probably your mobile), open Yona, open settings and use 'Add Device' and enter the fields below.",
   "passcode" : "CODE",
   "inloggin" : "LOGIN",
