@@ -42,35 +42,33 @@
         </div>
       </div>
 
-      <ui-control
-        v-if="day_activity"
-        :buddy_href="buddy_href"
-        :day_activity="day_activity"
-        type="detailed"
-      ></ui-control>
+      <ui-control v-if="day_activity" :buddy_href="buddy_href" :day_activity="day_activity" type="detailed"></ui-control>
+      <messages v-if="day_activity && day_activity._links['yona:messages']" :message_link="day_activity._links['yona:messages'].href"></messages>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
-import axios from "@/utils/axios/axios";
-import UiControl from "@/components/UiControls/UiControl.vue";
-import { Getter } from "vuex-class";
-import { ActivityCategory, Goal } from "@/store/challenges/types";
-import { Buddy } from "@/store/buddies/types";
-import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
+  import Vue from 'vue'
+  import {Component, Prop} from 'vue-property-decorator'
+  import axios from "@/utils/axios/axios"
+  import UiControl from "@/components/UiControls/UiControl.vue";
+  import {Getter} from "vuex-class";
+  import {ActivityCategory, Goal} from "@/store/challenges/types";
+  import {Buddy} from "@/store/buddies/types";
+  import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
+  import Messages from "@/components/Messages/Messages.vue";
 
-@Component({
-  components: {
-    ProfilePic,
-    UiControl
-  }
-})
-export default class DetailedViewDay extends Vue {
-  @Prop() activity_link!: string;
-  @Prop({ default: "" }) buddy_href!: string;
+  @Component({
+    components: {
+      Messages,
+      ProfilePic,
+      UiControl
+    }
+  })
+  export default class DetailedViewDay extends Vue {
+    @Prop() activity_link!: string;
+    @Prop({default: ''}) buddy_href!: string;
 
   @Getter("buddy", { namespace: "buddies" })
   public buddy!: (buddy_href: string) => Buddy;
