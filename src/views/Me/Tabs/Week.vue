@@ -1,11 +1,9 @@
 <template>
   <div>
-    <div
-      v-for="(week_activities, index) in all_week_activities"
-      :key="'week' + index"
-    >
+    <div v-for="(week_activities, index) in weekActivityOverviews" :key="'week' + index">
       <week-score-label :week_activities="week_activities"></week-score-label>
     </div>
+    <div class="infinite-scroll" v-observe-visibility="(isVisible, entry) => getActivities(isVisible, entry, nextActivities)"></div>
   </div>
 </template>
 
@@ -24,17 +22,40 @@ import WeekScoreLabel from "@/components/WeekScore/WeekScoreLabel.vue";
 })
 export default class MeTimeLineWeek extends Vue {
   @State("api") api!: ApiState;
-  all_week_activities: [{}] = [{}];
+  weekActivityOverviews: any = [];
+  gettingActivities: boolean = false;
+  nextActivities: string = '';
 
   async mounted() {
     if (this.api.links) {
-      let weekly_response = await axios.get(
-        this.api.links["yona:weeklyActivityReports"].href
-      );
+      await this.getActivities(true, true, this.api.links["yona:weeklyActivityReports"].href);
+    }
+  }
 
-      if (weekly_response.status == 200)
-        this.all_week_activities =
-          weekly_response.data._embedded["yona:weekActivityOverviews"];
+  async getActivities(isVisible: boolean, entry: any, href: string){
+    if(isVisible && !this.gettingActivities){
+      if(href) {
+        let self = this;
+
+        this.gettingActivities = true;
+
+        let response: any = await axios.get(href).catch(error => {
+          console.log(error);
+        });
+
+        if (response) {
+          if (response.data._links.next) {
+            this.nextActivities = response.data._links.next.href;
+            this.gettingActivities = false;
+          } else {
+            this.nextActivities = '';
+          }
+
+          response.data._embedded['yona:weekActivityOverviews'].forEach((message: any) => {
+            self.weekActivityOverviews.push(message);
+          });
+        }
+      }
     }
   }
 }

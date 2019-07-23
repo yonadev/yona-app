@@ -24,9 +24,9 @@ import { Buddy } from "@/store/buddies/types";
 export default class FriendsTimeLine extends Vue {
   @State("api") api!: ApiState;
   @Action("update", { namespace: "buddies" }) update: any;
-  buddies_activities: any = [];
   @State(state => state.buddies.buddies) buddies!: Buddy[];
-  gettingActivites: boolean = false;
+  buddies_activities: any = [];
+  gettingActivities: boolean = false;
   nextActivities: string = '';
 
   async mounted() {
@@ -36,9 +36,12 @@ export default class FriendsTimeLine extends Vue {
   }
 
   async getActivities(isVisible: boolean, entry: any, href: string){
-    if(isVisible){
+    if(isVisible && !this.gettingActivities){
       if(href) {
         let self = this;
+
+        this.gettingActivities = true;
+
         let response: any = await axios.get(href).catch(error => {
           console.log(error);
         });
@@ -46,7 +49,7 @@ export default class FriendsTimeLine extends Vue {
         if (response) {
           if (response.data._links.next) {
             this.nextActivities = response.data._links.next.href;
-            this.gettingActivites = false;
+            this.gettingActivities = false;
           } else {
             this.nextActivities = '';
           }

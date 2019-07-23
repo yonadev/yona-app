@@ -1,11 +1,9 @@
 <template>
   <div>
-    <div
-      v-for="(day_activities, index) in all_day_activities"
-      :key="'day' + index"
-    >
+    <div v-for="(day_activities, index) in dayActivityOverviews" :key="'day' + index">
       <ui-controls-label :day_activities="day_activities"></ui-controls-label>
     </div>
+    <div class="infinite-scroll" v-observe-visibility="(isVisible, entry) => getActivities(isVisible, entry, nextActivities)"></div>
   </div>
 </template>
 
@@ -24,17 +22,40 @@ import UiControlsLabel from "@/components/UiControls/UiControlsLabel.vue";
 })
 export default class MeTimeLineDay extends Vue {
   @State("api") api!: ApiState;
-  all_day_activities: [{}] = [{}];
+  dayActivityOverviews: any = [];
+  gettingActivities: boolean = false;
+  nextActivities: string = '';
 
   async mounted() {
     if (this.api.links) {
-      let daily_response = await axios.get(
-        this.api.links["yona:dailyActivityReports"].href
-      );
+      await this.getActivities(true, true, this.api.links["yona:dailyActivityReports"].href);
+    }
+  }
 
-      if (daily_response.status == 200)
-        this.all_day_activities =
-          daily_response.data._embedded["yona:dayActivityOverviews"];
+  async getActivities(isVisible: boolean, entry: any, href: string){
+    if(isVisible && !this.gettingActivities){
+      if(href) {
+        let self = this;
+
+        this.gettingActivities = true;
+
+        let response: any = await axios.get(href).catch(error => {
+          console.log(error);
+        });
+
+        if (response) {
+          if (response.data._links.next) {
+            this.nextActivities = response.data._links.next.href;
+            this.gettingActivities = false;
+          } else {
+            this.nextActivities = '';
+          }
+
+          response.data._embedded['yona:dayActivityOverviews'].forEach((message: any) => {
+            self.dayActivityOverviews.push(message);
+          });
+        }
+      }
     }
   }
 }

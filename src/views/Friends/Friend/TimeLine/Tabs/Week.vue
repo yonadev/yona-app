@@ -1,14 +1,9 @@
 <template>
   <div>
-    <div
-      v-for="(week_activities, index) in weeklyActivityReports"
-      :key="'week' + index"
-    >
-      <week-score-label
-        :week_activities="week_activities"
-        :buddy_href="buddy_href"
-      ></week-score-label>
+    <div v-for="(week_activities, index) in weekActivityOverviews" :key="'week' + index">
+      <week-score-label :week_activities="week_activities" :buddy_href="buddy_href"></week-score-label>
     </div>
+    <div class="infinite-scroll" v-observe-visibility="(isVisible, entry) => getActivities(isVisible, entry, nextActivities)"></div>
   </div>
 </template>
 
@@ -29,6 +24,9 @@ import { Buddy } from "@/store/buddies/types";
 })
 export default class FriendsTimeLineWeek extends Vue {
   @Prop() buddy_href!: string;
+  weekActivityOverviews: any = [];
+  gettingActivities: boolean = false;
+  nextActivities: string = '';
 
   @Getter("buddy", { namespace: "buddies" })
   public buddy!: (buddy_href: string) => Buddy;
@@ -37,16 +35,35 @@ export default class FriendsTimeLineWeek extends Vue {
     return this.buddy(this.buddy_href);
   }
 
-  weeklyActivityReports: [{}] = [{}];
-
   async mounted() {
-    let weekly_response = await axios.get(
-      this.buddyProfile._links["yona:weeklyActivityReports"].href
-    );
+    await this.getActivities(true, true, this.buddyProfile._links["yona:weeklyActivityReports"].href);
+  }
 
-    if (weekly_response.status == 200)
-      this.weeklyActivityReports =
-        weekly_response.data._embedded["yona:weekActivityOverviews"];
+  async getActivities(isVisible: boolean, entry: any, href: string){
+    if(isVisible && !this.gettingActivities){
+      if(href) {
+        let self = this;
+
+        this.gettingActivities = true;
+
+        let response: any = await axios.get(href).catch(error => {
+          console.log(error);
+        });
+
+        if (response) {
+          if (response.data._links.next) {
+            this.nextActivities = response.data._links.next.href;
+            this.gettingActivities = false;
+          } else {
+            this.nextActivities = '';
+          }
+
+          response.data._embedded['yona:weekActivityOverviews'].forEach((message: any) => {
+            self.weekActivityOverviews.push(message);
+          });
+        }
+      }
+    }
   }
 }
 </script>

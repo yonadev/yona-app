@@ -50,9 +50,12 @@
     }
 
     async getMessages(isVisible: boolean, entry: any, href: string){
-      if(isVisible) {
+      if(isVisible && !this.gettingMessages) {
         if (href) {
           let self = this;
+
+          this.gettingMessages = true;
+
           let messages: any = await axios.get(href).catch((error) => {
             console.log(error)
           });
