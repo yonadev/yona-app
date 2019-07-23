@@ -74,6 +74,7 @@
 <style lang="scss">
   @import "../../sass/variables";
   #messages{
+    padding-bottom:45px;
     .message-bar {
       position: relative;
       background-color: #d8d8d8;
@@ -95,13 +96,16 @@
       }
     }
     .text-bar{
-      position: relative;
+      position: fixed;
+      bottom:51px;
       background-color:#f3f3f3;
       display:block;
       min-height:30px;
       text-align:left;
-      z-index:2;
+      z-index:10;
       height:45px;
+      width:100%;
+      box-sizing:border-box;
       textarea{
         background-color:#f3f3f3;
         border:none;
@@ -109,6 +113,7 @@
         z-index:10;
         height:100%;
         width:63%;
+        box-sizing:border-box;
       }
       button{
         vertical-align: top;
@@ -117,6 +122,7 @@
         background-color:$color-blue;
         height:100%;
         padding:0 15px;
+        width: 37%;
       }
     }
     .message{
