@@ -96,7 +96,24 @@ export default class AccountInfo extends Vue {
           })
           .catch(error => {
             if (error.response.data.code === "error.user.exists") {
-              self.choose = true;
+              //@ts-ignore
+              if (navigator && navigator.notification) {
+                //@ts-ignore
+                navigator.notification.confirm(
+                  self.$t('useroverride'),
+                  (result: number) => {
+                    if (result === 0) {
+                      self.$router.push({ name: "PhoneNumber" });
+                    } else if (result === 1) {
+                      self.$router.push({ name: "AddDevice" });
+                    }
+                  },
+                  error.response.data.message,
+                  [self.$t("No"), self.$t("Yes")]
+                );
+              } else {
+                self.choose = true;
+              }
               self.server_error = error.response.data.message;
             } else if (error.response.data) {
               self.server_error = error.response.data.message;
