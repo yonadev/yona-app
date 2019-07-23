@@ -71,9 +71,12 @@
           } else {
             this.nextMessages = '';
           }
-          messages.data._embedded['yona:messages'].forEach((message: any) => {
-            self.messages.push(message);
-          });
+
+          if( messages.data._embedded) {
+            messages.data._embedded['yona:messages'].forEach((message: any) => {
+              self.messages.push(message);
+            });
+          }
         }
       }
     }

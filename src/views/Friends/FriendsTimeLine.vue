@@ -26,23 +26,44 @@ import { Buddy } from "@/store/buddies/types";
 export default class FriendsTimeLine extends Vue {
   @State("api") api!: ApiState;
   @Action("update", { namespace: "buddies" }) update: any;
-  buddies_activities: {} = {};
+  buddies_activities: any = [];
   @State(state => state.buddies.buddies) buddies!: Buddy[];
+  gettingActivites: boolean = false;
+  nextActivities: string = '';
 
   async mounted() {
-    if (
-      this.api.links &&
-      this.api.links["yona:dailyActivityReportsWithBuddies"]
-    ) {
-      let response: any = await axios
-        .get(this.api.links["yona:dailyActivityReportsWithBuddies"].href)
-        .catch(error => {
-          console.log(error);
-        });
+    if (this.api.links && this.api.links["yona:dailyActivityReportsWithBuddies"]) {
+      await this.getActivities(this.api.links["yona:dailyActivityReportsWithBuddies"].href);
+
+      const  f = async (evt: any) => {
+        if (Math.round(window.innerHeight + window.scrollY) >= document.body.scrollHeight && !this.gettingActivites) {
+          this.gettingActivites = true;
+          await this.getActivities(this.nextActivities);
+        }
+      };
+
+      window.addEventListener("scroll", f);
+    }
+  }
+
+  async getActivities(href: string){
+    if(href) {
+      let self = this;
+      let response: any = await axios.get(href).catch(error => {
+        console.log(error);
+      });
 
       if (response) {
-        this.buddies_activities =
-          response.data._embedded["yona:dayActivityOverviews"];
+        if (response.data._links.next) {
+          this.nextActivities = response.data._links.next.href;
+          this.gettingActivites = false;
+        } else {
+          this.nextActivities = '';
+        }
+
+        response.data._embedded['yona:dayActivityOverviews'].forEach((message: any) => {
+          self.buddies_activities.push(message);
+        });
       }
     }
   }
