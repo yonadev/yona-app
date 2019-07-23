@@ -15,6 +15,7 @@
           <hr/>
         </div>
       </div>
+      <div class="infinite-scroll" v-observe-visibility="(isVisible, entry) => this.getMessages(isVisible, entry, nextMessages)"></div>
     </div>
     <div class="text-bar">
       <textarea v-model="newMessage"></textarea>
@@ -45,37 +46,30 @@
     public buddy!: (href: string) => Buddy;
 
     async mounted(){
-      await this.getMessages(this.message_link);
-
-      const  f = async (evt: any) => {
-        if (Math.round(window.innerHeight + window.scrollY) >= document.body.scrollHeight && !this.gettingMessages) {
-          this.gettingMessages = true;
-          await this.getMessages(this.nextMessages);
-        }
-      };
-
-      window.addEventListener("scroll", f);
+      await this.getMessages(true, true, this.message_link);
     }
 
-    async getMessages(href: string){
-      if(href) {
-        let self = this;
-        let messages: any = await axios.get(href).catch((error) => {
-          console.log(error)
-        });
+    async getMessages(isVisible: boolean, entry: any, href: string){
+      if(isVisible) {
+        if (href) {
+          let self = this;
+          let messages: any = await axios.get(href).catch((error) => {
+            console.log(error)
+          });
 
-        if (messages) {
-          if (messages.data._links.next) {
-            this.nextMessages = messages.data._links.next.href;
-            this.gettingMessages = false;
-          } else {
-            this.nextMessages = '';
-          }
+          if (messages) {
+            if (messages.data._links.next) {
+              this.nextMessages = messages.data._links.next.href;
+              this.gettingMessages = false;
+            } else {
+              this.nextMessages = '';
+            }
 
-          if( messages.data._embedded) {
-            messages.data._embedded['yona:messages'].forEach((message: any) => {
-              self.messages.push(message);
-            });
+            if (messages.data._embedded) {
+              messages.data._embedded['yona:messages'].forEach((message: any) => {
+                self.messages.push(message);
+              });
+            }
           }
         }
       }

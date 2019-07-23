@@ -90,6 +90,9 @@ Vue.directive("fixed-scroll", {
   }
 });
 
+import VueObserveVisibility from 'vue-observe-visibility'
+Vue.use(VueObserveVisibility)
+
 // partial import bulma, import global, import fonts
 import "./sass/libraries/import_bulma.scss";
 import "./sass/fonts/fonts.scss";
