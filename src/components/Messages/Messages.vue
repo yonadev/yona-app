@@ -5,7 +5,7 @@
       <span class="chat-icon"></span>
     </div>
     <div class="message">
-      <div class="columns is-mobile has-text-left" v-for="message in messages">
+      <div class="columns is-mobile has-text-left" v-for="(message, index) in messages" :key="index">
         <div class="column is-3 user-photo">
           <profile-pic :src="(message._links['yona:user'] ? 'user_image' : '')"></profile-pic>
         </div>
@@ -32,27 +32,51 @@
   import {Getter} from "vuex-class";
 
   @Component({
-    components: {ProfilePic}
+    components: {ProfilePic},
   })
   export default class Messages extends Vue {
     @Prop({default: ''}) message_link!: string;
-    messages: [] = [];
+    messages: any = [];
     newMessage: string = '';
+    gettingMessages: boolean = false;
+    nextMessages: string = '';
 
     @Getter("buddy", { namespace: "buddies" })
     public buddy!: (href: string) => Buddy;
 
-    mounted(){
-      this.getMessages()
+    async mounted(){
+      await this.getMessages(this.message_link);
+
+      const  f = async (evt: any) => {
+        if (Math.round(window.innerHeight + window.scrollY) >= document.body.scrollHeight && !this.gettingMessages) {
+          this.gettingMessages = true;
+          await this.getMessages(this.nextMessages);
+        }
+      };
+
+      window.addEventListener("scroll", f);
     }
 
-    async getMessages(){
-      let messages: any = await axios.get(this.message_link).catch((error) => {
+    async getMessages(href: string){
+      let self = this;
+      if(!href){
+        href = this.message_link;
+      }
+
+      let messages: any = await axios.get(href).catch((error) => {
         console.log(error)
       });
 
       if(messages) {
-        this.messages = messages.data._embedded['yona:messages'];
+        if(messages.data._links.next) {
+          this.nextMessages = messages.data._links.next.href;
+          this.gettingMessages = false;
+        } else {
+          this.nextMessages = '';
+        }
+        messages.data._embedded['yona:messages'].forEach((message: any) => {
+          self.messages.push(message);
+        });
       }
     }
 
@@ -64,7 +88,7 @@
       });
 
       if(new_message_response){
-        await this.getMessages();
+        this.messages.push(new_message_response.data);
         this.newMessage = '';
       }
     }
