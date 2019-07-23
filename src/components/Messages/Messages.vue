@@ -58,25 +58,23 @@
     }
 
     async getMessages(href: string){
-      let self = this;
-      if(!href){
-        href = this.message_link;
-      }
-
-      let messages: any = await axios.get(href).catch((error) => {
-        console.log(error)
-      });
-
-      if(messages) {
-        if(messages.data._links.next) {
-          this.nextMessages = messages.data._links.next.href;
-          this.gettingMessages = false;
-        } else {
-          this.nextMessages = '';
-        }
-        messages.data._embedded['yona:messages'].forEach((message: any) => {
-          self.messages.push(message);
+      if(href) {
+        let self = this;
+        let messages: any = await axios.get(href).catch((error) => {
+          console.log(error)
         });
+
+        if (messages) {
+          if (messages.data._links.next) {
+            this.nextMessages = messages.data._links.next.href;
+            this.gettingMessages = false;
+          } else {
+            this.nextMessages = '';
+          }
+          messages.data._embedded['yona:messages'].forEach((message: any) => {
+            self.messages.push(message);
+          });
+        }
       }
     }
 
