@@ -248,6 +248,9 @@ export default class Profile extends Vue {
         position: relative;
         border-radius: 50%;
       }
+      svg{
+        height:100%;
+      }
       &.edit {
         position: relative;
         width: 125px;
