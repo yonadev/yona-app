@@ -43,7 +43,7 @@
       </div>
 
       <ui-control v-if="day_activity" :buddy_href="buddy_href" :day_activity="day_activity" type="detailed"></ui-control>
-      <messages v-if="day_activity && day_activity._links['yona:messages']" :message_link="day_activity._links['yona:messages'].href"></messages>
+      <messages v-if="day_activity && day_activity._links['yona:messages']" :message_link="day_activity._links['yona:messages'].href" :buddy_href="buddy_href"></messages>
     </div>
   </div>
 </template>

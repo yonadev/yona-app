@@ -1,6 +1,6 @@
 <template>
   <div id="messages">
-    <div class="message-bar">
+    <div class="message-bar" v-if="messages.length">
       <img :src="require('../../assets/images/icons/icn_comment.svg')"/>
       <span class="chat-icon"></span>
     </div>
@@ -17,7 +17,7 @@
       </div>
       <div class="infinite-scroll" v-observe-visibility="(isVisible, entry) => this.getMessages(isVisible, entry, nextMessages)"></div>
     </div>
-    <div class="text-bar">
+    <div class="text-bar" v-if="buddy_href || messages.length">
       <textarea v-model="newMessage"></textarea>
       <button @click="submitMessage">VERSTUREN</button>
     </div>
@@ -37,6 +37,7 @@
   })
   export default class Messages extends Vue {
     @Prop({default: ''}) message_link!: string;
+    @Prop({default: ''}) buddy_href!: string;
     messages: any = [];
     newMessage: string = '';
     gettingMessages: boolean = false;
@@ -46,6 +47,7 @@
     public buddy!: (href: string) => Buddy;
 
     async mounted(){
+      console.log(this.buddy_href)
       await this.getMessages(true, true, this.message_link);
     }
 
