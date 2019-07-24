@@ -7,7 +7,7 @@
     <div class="message">
       <div class="columns is-mobile has-text-left" v-for="(message, index) in messages" :key="index">
         <div class="column is-3 user-photo">
-          <profile-pic :src="(message._links['yona:user'] ? 'user_image' : '')"></profile-pic>
+          <profile-pic :src="(message._links['yona:buddy'] ? buddy(message._links['yona:buddy'].href)._embedded['yona:user']._links.self.href : 'user_image')"></profile-pic>
         </div>
         <div class="column text">
           <p class="username">{{message.nickname}}</p>
