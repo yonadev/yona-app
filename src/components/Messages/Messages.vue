@@ -1,23 +1,34 @@
 <template>
   <div id="messages">
-    <div class="message-bar" v-if="messages.length">
+    <div class="message-bar" v-if="threadMessages.length">
       <img :src="require('../../assets/images/icons/icn_comment.svg')"/>
       <span class="chat-icon"></span>
     </div>
-    <div class="message">
-      <div class="columns is-mobile has-text-left" v-for="(message, index) in messages" :key="index">
-        <div class="column is-3 user-photo">
-          <profile-pic :src="(message._links['yona:buddy'] ? buddy(message._links['yona:buddy'].href)._embedded['yona:user']._links.self.href : 'user_image')"></profile-pic>
+    <div class="thread-messages">
+      <div v-for="(thread, t_index) in threadMessages" :key="'t'+t_index">
+        <div class="columns is-mobile has-text-left" v-for="(message, index) in thread.messages" :key="index">
+          <div class="column is-3 user-photo">
+            <profile-pic v-if="index === 0" :src="(message._links['yona:buddy'] ? buddy(message._links['yona:buddy'].href)._embedded['yona:user']._links.self.href : 'user_image')"></profile-pic>
+          </div>
+          <div class="column text">
+            <p class="username is-vcentered" :class="{'replies': index !== 0}">
+              <profile-pic class="profile-img" v-if="index !== 0" :src="(message._links['yona:buddy'] ? buddy(message._links['yona:buddy'].href)._embedded['yona:user']._links.self.href : 'user_image')"></profile-pic>
+              <span :class="{'with-img': index !== 0}">{{message.nickname}}</span>
+            </p>
+            <p class="message">{{message.message}}</p>
+          </div>
         </div>
-        <div class="column text">
-          <p class="username">{{message.nickname}}</p>
-          <p class="message">{{message.message}}</p>
-          <hr/>
+        <div class="columns is-mobile">
+          <div class="column is-3 user-photo"></div>
+          <div class="column has-text-left">
+            <a class="react-to" v-if="thread.reply_link" @click="replyLink = thread.reply_link">Beantwoorden</a>
+            <hr/>
+          </div>
         </div>
       </div>
       <div class="infinite-scroll" v-observe-visibility="(isVisible, entry) => this.getMessages(isVisible, entry, nextMessages)"></div>
     </div>
-    <div class="text-bar" v-if="buddy_href || messages.length">
+    <div class="text-bar" v-if="buddy_href || replyLink">
       <textarea v-model="newMessage"></textarea>
       <button @click="submitMessage">VERSTUREN</button>
     </div>
@@ -38,10 +49,11 @@
   export default class Messages extends Vue {
     @Prop({default: ''}) message_link!: string;
     @Prop({default: ''}) buddy_href!: string;
-    messages: any = [];
     newMessage: string = '';
     gettingMessages: boolean = false;
     nextMessages: string = '';
+    replyLink: string = '';
+    threadMessages: any = [];
 
     @Getter("buddy", { namespace: "buddies" })
     public buddy!: (href: string) => Buddy;
@@ -71,7 +83,22 @@
 
             if (messages.data._embedded) {
               messages.data._embedded['yona:messages'].forEach((message: any) => {
-                self.messages.push(message);
+                let threads = self.threadMessages.find((mes: any) => {
+                  return mes.threadHeadMessageId === message.threadHeadMessageId;
+                });
+
+                if (threads) {
+                  if(message._links['yona:reply']) {
+                    threads.reply_link = message._links['yona:reply'].href;
+                  }
+                  threads.messages.push(message);
+                } else {
+                  self.threadMessages.push({
+                    threadHeadMessageId: message.threadHeadMessageId,
+                    reply_link: message._links['yona:reply'] ? message._links['yona:reply'].href : '',
+                    messages: [message]
+                  });
+                }
               });
             }
           }
@@ -80,15 +107,32 @@
     }
 
     async submitMessage(){
-      let new_message_response: any = await axios.post(this.message_link, {
-        message: this.newMessage
-      }).catch((error) => {
+      let message_href, body;
+
+      if(this.replyLink){
+        message_href = this.replyLink;
+        body = {
+          properties: {
+            message: this.newMessage
+          }
+        }
+      } else {
+        message_href = this.message_link;
+        body = {
+          message: this.newMessage
+        }
+      }
+
+      let new_message_response: any = await axios.post(message_href, body).catch((error) => {
         console.log(error)
       });
 
       if(new_message_response){
-        this.messages.push(new_message_response.data);
+        this.threadMessages = [];
+        this.gettingMessages = false;
+        await this.getMessages(true, true, this.message_link);
         this.newMessage = '';
+        this.replyLink = '';
       }
     }
   }
@@ -148,33 +192,64 @@
         width: 37%;
       }
     }
-    .message{
+    .thread-messages{
       background-color:#f3f3f3;
       .columns{
         margin: 0;
-        padding: 10px 0 5px;
+
+        .user-photo{
+          max-width: 60px;
+          height: auto;
+          margin-top: 5px;
+          svg{
+            height:60px;
+            width:60px;
+          }
+        }
 
         img{
           border-radius:50%;
         }
         .text{
           .username{
-            margin-top:20px;
-            opacity:0.4;
+            margin-top:10px;
+            margin-bottom:5px;
+            &.replies{
+              margin-top:0;
+            }
+            span {
+              opacity: 0.4;
+              &.with-img {
+                line-height: 35px;
+                display: inline-block;
+                vertical-align: top;
+                margin-left: 10px;
+              }
+            }
+            .profile-img{
+              display:inline-block;
+              width: 40px;
+              height: 40px;
+            }
+          }
+          .message{
+            margin: 5px 0;
           }
         }
-        hr{
-          display:none;
-        }
+      }
+      hr{
+        width:100%;
+        border: 1px solid #e7e7e7;
+        float:left;
+        display:block;
+        margin: 0;
+      }
 
-        &:not(:last-of-type){
-          hr{
-            width: 90%;
-            border: 1px solid #e7e7e7;
-            float:left;
-            display:block;
-          }
-        }
+      .react-to{
+        display:block;
+        margin-top:0px;
+        margin-bottom:15px;
+        color:$color-blue;
       }
     }
   }
