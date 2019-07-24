@@ -294,10 +294,23 @@ export default class Profile extends Vue {
         overflow: hidden;
         box-sizing: border-box;
         background-color: transparent;
+         > div {
+           display: block;
+         }
         img {
           border-radius: 50%;
           height: 100%;
           max-width: 100%;
+
+          &.add-picture-icn {
+            position: absolute;
+            border-radius: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 40%;
+            margin: 0 auto;
+          }
         }
       }
     }
@@ -311,14 +324,7 @@ export default class Profile extends Vue {
       position: absolute;
       background-color: #000;
     }
-    .add-picture-icn {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      width: 40%;
-      margin: 0 auto;
-    }
+
     .hidden-profile-image {
       opacity: 0;
     }
