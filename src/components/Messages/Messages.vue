@@ -234,6 +234,7 @@
           }
           .message{
             margin: 5px 0;
+            word-break: break-all;
           }
         }
       }
