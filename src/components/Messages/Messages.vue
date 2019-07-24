@@ -47,7 +47,6 @@
     public buddy!: (href: string) => Buddy;
 
     async mounted(){
-      console.log(this.buddy_href)
       await this.getMessages(true, true, this.message_link);
     }
 
