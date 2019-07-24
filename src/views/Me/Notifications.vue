@@ -8,7 +8,7 @@
     <div class="wrapper grey-bg">
       <div v-for="(day_notification, day_index) in all_notifications" :key="day_index">
         <div class="top-label">
-          <strong>{{getDayLabel(day_notification.date).toUpperCase()}}</strong>
+          <strong>{{day_notification.date.toUpperCase()}}</strong>
         </div>
         <div v-for="(notification, index) in day_notification.notifications" :key="index" class="grey-bg-div notification" :class="{ 'is-not-read': !notification.isRead }">
           <div class="columns is-mobile" @click="goTo(notification)">
@@ -75,6 +75,7 @@
           </div>
         </div>
       </div>
+      <div class="infinite-scroll" v-observe-visibility="(isVisible, entry) => this.getNotifications(isVisible, entry, nextNotifications)"></div>
     </div>
   </div>
 </template>
@@ -100,31 +101,52 @@ interface Notification {
 export default class Notifications extends Vue {
   @State("api") api!: ApiState;
   all_notifications: any = [];
-  async mounted() {
+  gettingNotifications: boolean = false;
+  nextNotifications: string = '';
+
+  async mounted(){
     if (this.api.links && this.api.links["yona:messages"]) {
-      let response: any = await axios
-        .get(this.api.links["yona:messages"].href)
-        .catch(error => {
-          console.log(error);
+      await this.getNotifications(true, true, this.api.links["yona:messages"].href);
+    }
+  }
+
+  async getNotifications(isVisible: boolean, entry: any, href: string){
+    if(isVisible && !this.gettingNotifications) {
+      if (href) {
+        let self = this;
+        this.gettingNotifications = true;
+
+        let messages: any = await axios.get(href).catch((error) => {
+          console.log(error)
         });
 
-      if (response.data._embedded) {
-        response.data._embedded["yona:messages"].forEach(
-          (notification: Notification) => {
-            let not = this.all_notifications.find((not: any) => {
-              return this.getDayLabel(notification.creationTime) === not.date;
-            });
-
-            if (not) {
-              not.notifications.push(notification);
-            } else {
-              this.all_notifications.push({
-                date: this.getDayLabel(notification.creationTime),
-                notifications: [notification]
-              });
-            }
+        if (messages) {
+          if (messages.data._links.next) {
+            this.nextNotifications = messages.data._links.next.href;
+            this.gettingNotifications = false;
+          } else {
+            this.nextNotifications = '';
           }
-        );
+
+          if (messages.data._embedded) {
+            messages.data._embedded["yona:messages"].forEach(
+              (notification: Notification) => {
+                let not = self.all_notifications.find((not: any) => {
+                  return this.getDayLabel(notification.creationTime) === not.date;
+                });
+
+                if (not) {
+                  not.notifications.push(notification);
+                } else {
+                  self.all_notifications.push({
+                    date: this.getDayLabel(notification.creationTime),
+                    notifications: [notification]
+                  });
+                }
+              }
+            );
+          }
+        }
       }
     }
   }
