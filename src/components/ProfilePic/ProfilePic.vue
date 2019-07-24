@@ -44,8 +44,12 @@ export default class ProfilePic extends Vue {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 div {
   display: inline-block;
+
+  img {
+    border-radius: 50%;
+  }
 }
 </style>
