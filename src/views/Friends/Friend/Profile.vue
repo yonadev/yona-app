@@ -134,7 +134,11 @@ export default class FriendsProfile extends Vue {
     border: 2px solid rgba(255, 255, 255, 0.4);
     background-color: rgba(255, 255, 255, 0.4);
     img {
+      height:100%;
       border-radius: 50%;
+    }
+    svg{
+      height: 100%;
     }
     span {
       display: block;

@@ -175,9 +175,7 @@ export default class Notifications extends Vue {
       notification["@type"] === "BuddyConnectRequestMessage" &&
       notification.status === "REQUESTED"
     ) {
-      this.$router.push({
-        name: "FriendRequest",
-        params: { notification: notification }
+      this.$router.push({name: "FriendRequest", params: { notification: notification }
       });
     } else if (
       notification["@type"] === "BuddyInfoChangeMessage" ||

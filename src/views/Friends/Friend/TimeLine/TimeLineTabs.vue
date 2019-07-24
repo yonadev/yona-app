@@ -61,6 +61,11 @@ export default class FriendTimeLineTabs extends Vue {
 <style lang="scss">
 #me {
   .profile-img {
+    width: 30px;
+    height: 30px;
+    margin-right: 20px;
+    display: inline-block;
+    border-radius: 50%;
     img {
       width: 30px;
       height: 30px;

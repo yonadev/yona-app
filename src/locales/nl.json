@@ -156,7 +156,7 @@
   "buddyconnectresponseaccepted": "Vriendenverzoek geaccepteerd",
   "buddyconnectresponserejected": "Vriendenverzoek geweigerd",
   "buddydisconnectmessageuserromovedbuddy": "Je bent verwijderd als vriend",
-  "friend_request_content": "Let op: dit verzoek kan door iemand anders zijn verstuurd. Controleer het telefoonnummer: %1$s.",
+  "friend_request_content": "Let op: dit verzoek kan door iemand anders zijn verstuurd. Controleer het telefoonnummer:",
   "reject": "AFWIJZEN",
   "accept": "ACCEPTEER",
   "category_added": "You already Added this category.",

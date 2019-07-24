@@ -156,7 +156,7 @@
   "buddyconnectresponseaccepted" : "Friend request accepted",
   "buddyconnectresponserejected" : "Friend request declined",
   "buddydisconnectmessageuserromovedbuddy" : "You are removed as a friend",
-  "friend_request_content" : "Please note that this request may be sent by someone else. Check mobile number: %1$s.",
+  "friend_request_content" : "Please note that this request may be sent by someone else. Check mobile number:",
   "reject" : "REJECT",
   "accept" : "ACCEPT",
   "category_added" : "You already Added this category.",

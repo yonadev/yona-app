@@ -96,6 +96,11 @@ export default class FriendsOverview extends Vue {
   buddies_activities: {} = {};
   @State(state => state.buddies.buddies) buddies!: Buddy[];
   userStatus = userStatus;
+  @Action("getBuddies", { namespace: "buddies" }) getBuddies: any;
+
+  mounted(){
+    this.getBuddies();
+  }
 }
 </script>
 

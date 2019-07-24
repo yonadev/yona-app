@@ -193,6 +193,9 @@
       height: 30px;
       border-radius: 50%;
       position: relative;
+      svg{
+        height:30px;
+      }
       img {
         border-radius: 50%;
       }
