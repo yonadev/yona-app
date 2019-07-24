@@ -186,7 +186,7 @@ export default class Notifications extends Vue {
     } else if (notification["@type"] === "GoalConflictMessage") {
       this.$router.push({name: "DetailedViewDay", params: { activity_link: notification._links["yona:dayDetails"].href }});
     } else if (notification["@type"] === "ActivityCommentMessage"){
-      this.$router.push({name: "DetailedViewDay", params: { activity_link: notification._links["yona:dayDetails"].href }});
+      this.$router.push({name: "DetailedViewDay", params: {buddy_href: notification._links['yona:buddy'].href, activity_link: notification._links["yona:dayDetails"].href }});
     }
   }
 
