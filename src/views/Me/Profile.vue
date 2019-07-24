@@ -20,7 +20,6 @@
             @click="switchMode"
           />
         </div>
-
         <div v-if="!edit" class="wrapper">
           <profile-pic class="profile-img" src="user_image"></profile-pic>
           <p class="icon-title">
@@ -31,22 +30,12 @@
           </p>
         </div>
         <div v-if="edit" class="wrapper">
-          <div class="profile-img edit">
+          <div class="profile-img edit" @click="captureProfilePicture">
             <profile-pic src="user_image"></profile-pic>
             <div class="profile-img-overlay"></div>
-            <label for="profile-image">
-              <img
-                class="add-picture-icn"
-                src="../../assets/images/profile/icn_add_picture.svg"
-              />
-            </label>
-            <input
-              type="file"
-              name="profile-image"
-              id="profile-image"
-              class="hidden-profile-image"
-              @change="submitPhoto"
-              accept="image/*"
+            <img
+              class="add-picture-icn"
+              src="../../assets/images/profile/icn_add_picture.svg"
             />
           </div>
         </div>
@@ -135,6 +124,7 @@ export default class Profile extends Vue {
   lastname: string | null = "";
   mobile: string | null = "";
   nickname: string | null = "";
+  imageUri: string | null = null;
 
   async mounted() {
     this.firstname = this.account.firstname;
@@ -167,13 +157,25 @@ export default class Profile extends Vue {
     }
   }
 
-  async submitPhoto() {
-    let file: any = document.getElementById("profile-image");
+  captureProfilePicture() {
+    const self = this;
+    //@ts-ignore
+    if (plugins != undefined && plugins.crop) {
+      //@ts-ignore
+      plugins.crop(
+        function success(data: string) {
+          self.submitPhoto(data);
+        },
+        function fail() {},
+        { quality: 100 }
+      );
+    }
+  }
 
-    if (!file) return false;
-
+  async submitPhoto(base64String: string) {
+    const self = this;
     let formData = new FormData();
-    formData.append("file", file.files[0]);
+    formData.append("file", this.getBlob(base64String, "image/jpeg"));
 
     if (this.api.links && this.api.links["yona:editUserPhoto"]) {
       let response: any = await axios
@@ -204,9 +206,38 @@ export default class Profile extends Vue {
               src: "data:image/png;base64," + userPhoto
             })
           );
+          self.edit = false;
         }
       }
     }
+  }
+
+  private getBlob(
+    b64Data: string,
+    contentType: string,
+    sliceSize: number = 512
+  ) {
+    contentType = contentType || "";
+    sliceSize = sliceSize || 512;
+
+    let byteCharacters = atob(b64Data);
+    let byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      let slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      let byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      let byteArray = new Uint8Array(byteNumbers);
+
+      byteArrays.push(byteArray);
+    }
+
+    let blob = new Blob(byteArrays, { type: contentType });
+    return blob;
   }
 
   @Watch("firstname")
@@ -248,9 +279,11 @@ export default class Profile extends Vue {
         position: relative;
         border-radius: 50%;
       }
+
       svg{
         height:100%;
       }
+
       &.edit {
         position: relative;
         width: 125px;
@@ -261,10 +294,23 @@ export default class Profile extends Vue {
         overflow: hidden;
         box-sizing: border-box;
         background-color: transparent;
+         > div {
+           display: block;
+         }
         img {
           border-radius: 50%;
           height: 100%;
           max-width: 100%;
+
+          &.add-picture-icn {
+            position: absolute;
+            border-radius: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 40%;
+            margin: 0 auto;
+          }
         }
       }
     }
@@ -278,14 +324,7 @@ export default class Profile extends Vue {
       position: absolute;
       background-color: #000;
     }
-    .add-picture-icn {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      width: 40%;
-      margin: 0 auto;
-    }
+
     .hidden-profile-image {
       opacity: 0;
     }

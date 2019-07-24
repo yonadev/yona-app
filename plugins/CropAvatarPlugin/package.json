@@ -1,0 +1,18 @@
+{
+  "name": "cordova-plugin-crop-avavatar-plugin",
+  "version": "0.0.3",
+  "description": "",
+  "cordova": {
+    "id": "cordova-plugin-crop-avavatar-plugin",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "Anton Vink",
+  "license": "ISC"
+}
