@@ -6,48 +6,22 @@
       </div>
     </div>
     <div class="wrapper grey-bg">
-      <div
-        v-for="(day_notification, day_index) in all_notifications"
-        :key="day_index"
-      >
+      <div v-for="(day_notification, day_index) in all_notifications" :key="day_index">
         <div class="top-label">
-          <strong>{{
-            getDayLabel(day_notification.date).toUpperCase()
-          }}</strong>
+          <strong>{{getDayLabel(day_notification.date).toUpperCase()}}</strong>
         </div>
-        <div
-          v-for="(notification, index) in day_notification.notifications"
-          :key="index"
-          class="grey-bg-div notification"
-          :class="{ 'is-not-read': !notification.isRead }"
-        >
+        <div v-for="(notification, index) in day_notification.notifications" :key="index" class="grey-bg-div notification" :class="{ 'is-not-read': !notification.isRead }">
           <div class="columns is-mobile" @click="goTo(notification)">
             <div class="column is-2">
-              <div
-                class="img-wrapper"
-                v-if="
-                  notification &&
-                    notification['@type'] === 'GoalConflictMessage'
-                "
-              >
-                <img
-                  :src="require('../../assets/images/avatars/adult_sad.svg')"
-                />
+              <div class="img-wrapper" v-if="notification && notification['@type'] === 'GoalConflictMessage'">
+                <img :src="require('../../assets/images/avatars/adult_sad.svg')"/>
               </div>
               <div v-else class="img-wrapper">
-                <profile-pic
-                  v-if="getLink(notification)"
-                  :src="getLink(notification)"
-                ></profile-pic>
+                <profile-pic v-if="getLink(notification)" :src="getLink(notification)"></profile-pic>
               </div>
             </div>
             <div class="column">
-              <div
-                v-if="
-                  notification &&
-                    notification['@type'] === 'BuddyConnectRequestMessage'
-                "
-              >
+              <div v-if="notification && notification['@type'] === 'BuddyConnectRequestMessage'">
                 <span class="is-block has-text-left title">
                   <strong>{{ $t("buddyconnectrequested") }}</strong>
                 </span>
@@ -56,45 +30,24 @@
                   {{ notification._embedded["yona:user"].lastName }}
                 </span>
               </div>
-              <div
-                v-else-if="
-                  notification &&
-                    notification['@type'] === 'BuddyConnectResponseMessage'
-                "
-              >
+              <div v-else-if=" notification && notification['@type'] === 'BuddyConnectResponseMessage'">
                 <span class="is-block has-text-left title">
-                  <strong v-if="notification.status === 'REJECTED'">{{
-                    $t("buddyresponserejected")
-                  }}</strong>
-                  <strong v-else-if="notification.status === 'ACCEPTED'">{{
-                    $t("buddyresponseaccepted")
-                  }}</strong>
+                  <strong v-if="notification.status === 'REJECTED'">{{$t("buddyresponserejected")}}</strong>
+                  <strong v-else-if="notification.status === 'ACCEPTED'">{{$t("buddyresponseaccepted")}}</strong>
                 </span>
                 <span class="is-block has-text-left name">
                   {{ notification.nickname }}
                 </span>
               </div>
-              <div
-                v-else-if="
-                  notification &&
-                    notification['@type'] === 'BuddyDisconnectMessage'
-                "
-              >
+              <div v-else-if="notification && notification['@type'] === 'BuddyDisconnectMessage'">
                 <span class="is-block has-text-left title">
-                  <strong>{{
-                    $t("buddydisconnectmessageuserromovedbuddy")
-                  }}</strong>
+                  <strong>{{$t("buddydisconnectmessageuserromovedbuddy")}}</strong>
                 </span>
                 <span class="is-block has-text-left name">
                   {{ notification.nickname }}
                 </span>
               </div>
-              <div
-                v-else-if="
-                  notification &&
-                    notification['@type'] === 'BuddyInfoChangeMessage'
-                "
-              >
+              <div v-else-if="notification && notification['@type'] === 'BuddyInfoChangeMessage'">
                 <span class="is-block has-text-left title">
                   <strong>{{ $t("message_buddy_information_changed") }}</strong>
                 </span>
@@ -102,12 +55,7 @@
                   {{ notification.nickname }}
                 </span>
               </div>
-              <div
-                v-else-if="
-                  notification &&
-                    notification['@type'] === 'GoalConflictMessage'
-                "
-              >
+              <div v-else-if="notification && notification['@type'] === 'GoalConflictMessage'">
                 <span class="is-block has-text-left title">
                   <strong>{{ $t("nogoalert") }}</strong>
                 </span>
@@ -116,25 +64,11 @@
                 </span>
               </div>
             </div>
-            <div
-              class="column is-2"
-              v-if="
-                notification &&
-                  notification['@type'] === 'BuddyConnectRequestMessage'
-              "
-            >
-              <div
-                v-if="notification['@type'] === 'BuddyConnectRequestMessage'"
-              >
+            <div class="column is-2" v-if="notification && notification['@type'] === 'BuddyConnectRequestMessage'">
+              <div v-if="notification['@type'] === 'BuddyConnectRequestMessage'">
                 <div class="img-wrapper">
-                  <img
-                    v-if="notification.status === 'ACCEPTED'"
-                    src="../../assets/images/icons/icn_accepted.svg"
-                  />
-                  <img
-                    v-else-if="notification.status === 'REJECTED'"
-                    src="../../assets/images/icons/icn_rejected.svg"
-                  />
+                  <img v-if="notification.status === 'ACCEPTED'" src="../../assets/images/icons/icn_accepted.svg"/>
+                  <img v-else-if="notification.status === 'REJECTED'" src="../../assets/images/icons/icn_rejected.svg"/>
                 </div>
               </div>
             </div>
@@ -249,54 +183,12 @@ export default class Notifications extends Vue {
       };
     } = {
       nl: {
-        days: [
-          "ZONDAG",
-          "MAANDAG",
-          "DINSDAG",
-          "WOENSDAG",
-          "DONDERDAG",
-          "VRIJDAG",
-          "ZATERDAG"
-        ],
-        months: [
-          "JANUARI",
-          "FEBRUARI",
-          "MAART",
-          "APRIL",
-          "MEI",
-          "JUNI",
-          "JULI",
-          "AUGUSTUS",
-          "SEPTEMBER",
-          "OKTOBER",
-          "NOVEMBER",
-          "DECEMBER"
-        ]
+        days: ["ZONDAG", "MAANDAG", "DINSDAG", "WOENSDAG", "DONDERDAG", "VRIJDAG", "ZATERDAG"],
+        months: ["JANUARI", "FEBRUARI", "MAART", "APRIL", "MEI", "JUNI", "JULI", "AUGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DECEMBER"]
       },
       en: {
-        days: [
-          "SUNDAY",
-          "MONDAY",
-          "TUESDAY",
-          "WEDNESDAY",
-          "THURSDAY",
-          "FRIDAY",
-          "SATURDAY"
-        ],
-        months: [
-          "JANUARY",
-          "FEBRUARY",
-          "MARCH",
-          "APRIL",
-          "MAY",
-          "JUNE",
-          "JULY",
-          "AUGUST",
-          "SEPTEMBER",
-          "OCTOBER",
-          "NOVEMBER",
-          "DECEMBER"
-        ]
+        days: ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"],
+        months: ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"]
       }
     };
 

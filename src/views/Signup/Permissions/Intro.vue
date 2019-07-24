@@ -63,6 +63,17 @@ import { AccountState } from "@/store/account/types";
 export default class Intro extends Vue {
   @State("account") account!: AccountState;
 
+  mounted(){
+    if (
+      this.account.permissions.tracking.is_allowed &&
+      this.account.permissions.store_files.is_allowed &&
+      this.account.permissions.certificate.is_allowed &&
+      this.account.permissions.vpn.is_allowed
+    ) {
+      this.$router.push({name: "MeTimeLineDay"});
+    }
+  }
+
   checkPermissions() {
     if (
       this.account.permissions.tracking.is_allowed &&
