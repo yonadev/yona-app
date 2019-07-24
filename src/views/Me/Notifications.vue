@@ -63,6 +63,14 @@
                   {{ notification.nickname }}
                 </span>
               </div>
+              <div v-else-if="notification && notification['@type'] === 'ActivityCommentMessage'">
+                <span class="is-block has-text-left title">
+                  <strong>{{ $t("comment") }}</strong>
+                </span>
+                <span class="is-block has-text-left name">
+                  {{ notification.nickname }}
+                </span>
+              </div>
             </div>
             <div class="column is-2" v-if="notification && notification['@type'] === 'BuddyConnectRequestMessage'">
               <div v-if="notification['@type'] === 'BuddyConnectRequestMessage'">
@@ -152,7 +160,7 @@ export default class Notifications extends Vue {
   }
 
   getLink(notification: any) {
-    if (notification["@type"] === "BuddyInfoChangeMessage") {
+    if (notification["@type"] === "BuddyInfoChangeMessage" || notification["@type"] === "ActivityCommentMessage" ) {
       return notification._links["yona:user"].href;
     } else if (notification["@type"] === "BuddyConnectRequestMessage") {
       return notification._embedded["yona:user"]._links.self.href;
@@ -171,25 +179,14 @@ export default class Notifications extends Vue {
         });
     }
 
-    if (
-      notification["@type"] === "BuddyConnectRequestMessage" &&
-      notification.status === "REQUESTED"
-    ) {
-      this.$router.push({name: "FriendRequest", params: { notification: notification }
-      });
-    } else if (
-      notification["@type"] === "BuddyInfoChangeMessage" ||
-      notification["@type"] === "BuddyConnectResponseMessage"
-    ) {
-      this.$router.push({
-        name: "FriendsProfile",
-        params: { buddy_href: notification._links["yona:buddy"].href }
-      });
+    if (notification["@type"] === "BuddyConnectRequestMessage" && notification.status === "REQUESTED") {
+      this.$router.push({name: "FriendRequest", params: { notification: notification }});
+    } else if (notification["@type"] === "BuddyInfoChangeMessage" || notification["@type"] === "BuddyConnectResponseMessage") {
+      this.$router.push({name: "FriendsProfile", params: { buddy_href: notification._links["yona:buddy"].href }});
     } else if (notification["@type"] === "GoalConflictMessage") {
-      this.$router.push({
-        name: "DetailedViewDay",
-        params: { activity_link: notification._links["yona:dayDetails"].href }
-      });
+      this.$router.push({name: "DetailedViewDay", params: { activity_link: notification._links["yona:dayDetails"].href }});
+    } else if (notification["@type"] === "ActivityCommentMessage"){
+      this.$router.push({name: "DetailedViewDay", params: { activity_link: notification._links["yona:dayDetails"].href }});
     }
   }
 
