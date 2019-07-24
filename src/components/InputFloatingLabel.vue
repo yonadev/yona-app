@@ -131,6 +131,7 @@ export default class InputFloatingLabel extends Vue {
       width: 100%;
       overflow: hidden;
       white-space: nowrap;
+      text-transform: uppercase;
     }
     &.is-focused {
       label {

@@ -54,9 +54,11 @@ export default class FriendsTimeLine extends Vue {
             this.nextActivities = '';
           }
 
-          response.data._embedded['yona:dayActivityOverviews'].forEach((message: any) => {
-            self.buddies_activities.push(message);
-          });
+          if(response.data._embedded) {
+            response.data._embedded['yona:dayActivityOverviews'].forEach((message: any) => {
+              self.buddies_activities.push(message);
+            });
+          }
         }
       }
     }

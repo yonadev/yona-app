@@ -2,32 +2,25 @@
   <div id="add-friend" class="header-template">
     <div class="colored-background blue">
       <div class="nav-title">
-        VRIEND TOEVOEGEN
+        {{$t('add_friend')}}
       </div>
       <div class="tabs is-fullwidth">
         <ul>
           <li :class="{ 'is-active': active_tab === 'manual' }">
-            <a @click.prevent="active_tab = 'manual'">Handmatig</a>
+            <a @click.prevent="active_tab = 'manual'">{{$t('addfriendmanually')}}</a>
           </li>
           <li :class="{ 'is-active': active_tab === 'addressbook' }">
-            <a @click.prevent="active_tab = 'addressbook'">Uit adresboek</a>
+            <a @click.prevent="active_tab = 'addressbook'">{{$t('addfriendcontacts')}}</a>
           </li>
         </ul>
       </div>
     </div>
     <div class="wrapper grey-bg" v-if="active_tab === 'manual'">
-      <input-floating-label
-        id="firstname"
-        class="grey-bg-input"
-        label="VOORNAAM"
-        type="text"
-        :value.sync="firstname"
-        icon="icn_name.svg"
-      ></input-floating-label>
+      <input-floating-label id="firstname" class="grey-bg-input" :label="$t('firstname')" type="text" :value.sync="firstname" icon="icn_name.svg"></input-floating-label>
       <input-floating-label
         id="lastname"
         class="grey-bg-input"
-        label="ACHTERNAAM"
+        :label="$t('lastname')"
         type="text"
         :value.sync="lastname"
         icon="icn_name.svg"
@@ -35,7 +28,7 @@
       <input-floating-label
         id="email"
         class="grey-bg-input"
-        label="EMAIL"
+        :label="$t('email')"
         type="email"
         :value.sync="email"
         icon="icn_mail.svg"
@@ -43,7 +36,7 @@
       <input-floating-label
         id="mobile"
         class="grey-bg-input"
-        label="MOBIEL TELEFOONNUMMER"
+        :label="$t('mobilenumber')"
         type="text"
         :value.sync="mobile"
         icon="icn_mobile.svg"
@@ -51,18 +44,16 @@
       <input-floating-label
         id="message"
         class="grey-bg-input"
-        label="BERICHT"
+        :label="$t('comment')"
         type="text"
         :value.sync="message"
         icon="icn_name.svg"
       ></input-floating-label>
 
-      <a class="button is-rounded add-friend" @click="addFriend"
-        >VRIEND UITNODIGEN</a
-      >
+      <a class="button is-rounded add-friend" @click="addFriend">{{$t('invitefriend')}}</a>
     </div>
     <div class="wrapper grey-bg" v-if="active_tab === 'addressbook'">
-      Uit adresboek
+
     </div>
   </div>
 </template>
@@ -122,7 +113,7 @@ export default class Add extends Vue {
           console.log(error);
         });
 
-      if (response) this.$router.push({ name: "TimeLine" });
+      if (response) this.$router.push({ name: "FriendsOverview" });
     }
   }
 }
