@@ -63,7 +63,7 @@ import { AccountState } from "@/store/account/types";
 export default class Intro extends Vue {
   @State("account") account!: AccountState;
 
-  mounted(){
+  created(){
     if (
       this.account.permissions.tracking.is_allowed &&
       this.account.permissions.store_files.is_allowed &&
