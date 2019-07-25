@@ -13,18 +13,10 @@
       </div>
       <div class="tabs is-fullwidth" v-fixed-scroll>
         <ul>
-          <router-link
-            tag="li"
-            :to="{ name: 'MeTimeLineDay' }"
-            active-class="is-active"
-          >
+          <router-link tag="li" :to="{ name: 'MeTimeLineDay' }" active-class="is-active">
             <a>{{ $t("perday") }}</a>
           </router-link>
-          <router-link
-            tag="li"
-            :to="{ name: 'MeTimeLineWeek' }"
-            active-class="is-active"
-          >
+          <router-link tag="li" :to="{ name: 'MeTimeLineWeek' }" active-class="is-active">
             <a>{{ $t("perweek") }}</a>
           </router-link>
         </ul>
