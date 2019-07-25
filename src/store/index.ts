@@ -11,7 +11,12 @@ import { buddies, state as buddies_state } from "./buddies/index";
 const debug = process.env.NODE_ENV !== "production";
 
 const vuexLocal: { plugin: Plugin<RootState> } = new VuexPersistence({
-  storage: window.localStorage
+  storage: window.localStorage,
+  reducer: state => ({
+    api: state.api,
+    login: state.login,
+    account: state.account
+  })
 });
 
 Vue.use(Vuex);
