@@ -32,6 +32,7 @@ class RouteProtect {
       }
 
       return next({ name: "WaitLocked" });
+
     } else if (locked && !to.meta.locked && !to.meta.pinReset) {
       return next({ name: "Locked" });
     } else if (to.name === "Login" && !registered) {
@@ -42,6 +43,8 @@ class RouteProtect {
       } else if (!to.meta.pinreset && !pinIsSet) {
         return next({ name: "SetPinCode" });
       }
+    } else if (registered && !loggedIn){
+      return next({ name: "Login" });
     }
     // is login page en is not loggedin*/
     return next();
