@@ -70,6 +70,7 @@
         :dayActivity="week_activity"
         title="Spreiding"
       ></spread-control>
+      <messages v-if="week_activity && week_activity._links['yona:messages']" :message_link="week_activity._links['yona:messages'].href" :buddy_href="buddy_href"></messages>
     </div>
   </div>
 </template>
@@ -87,9 +88,11 @@ import SpreadControl from "@/components/UiControls/Controls/SpreadControl.vue";
 import TimeBucketControl from "@/components/UiControls/Controls/TimeBucketControl.vue";
 import { Buddy } from "@/store/buddies/types";
 import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
+import Messages from "@/components/Messages/Messages.vue";
 
 @Component({
   components: {
+    Messages,
     ProfilePic,
     TimeBucketControl,
     SpreadControl,
@@ -127,6 +130,7 @@ export default class DetailedViewWeek extends Vue {
   loading: boolean = false;
 
   async mounted() {
+
     this.loading = true;
 
     let detailed_response: any = await axios
@@ -212,6 +216,9 @@ export default class DetailedViewWeek extends Vue {
       height: 30px;
       border-radius: 50%;
       position: relative;
+      svg{
+        height:30px;
+      }
       img {
         border-radius: 50%;
       }
