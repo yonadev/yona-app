@@ -7,10 +7,8 @@
           <span class="dashboard-title">{{ $t("dashboard") }}</span>
         </router-link>
         <router-link :to="{ name: 'Notifications' }">
-          <img
-            class="small-top-icon is-pulled-right"
-            src="@/assets/images/icons/icn_notification.svg"
-          />
+          <img class="small-top-icon is-pulled-right" src="@/assets/images/icons/icn_notification.svg"/>
+          <span class="small-top-icon notification-amount is-pulled-right">{{notifications}}</span>
         </router-link>
       </div>
       <div class="tabs is-fullwidth" v-fixed-scroll>
@@ -43,53 +41,82 @@ import { State } from "vuex-class";
 import { AccountState } from "@/store/account/types";
 import Component from "vue-class-component";
 import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
+import {ApiState} from "@/store/api/types";
+import axios from "@/utils/axios/axios";
 
 @Component({
   components: { ProfilePic }
 })
 export default class MeTabs extends Vue {
   @State("account") account!: AccountState;
+  @State("api") api!: ApiState;
+  notifications: number = 0;
+
+  async mounted(){
+    if(this.api.links && this.api.links['yona:messages']) {
+      let messages = await axios.get(this.api.links['yona:messages'].href).catch((error: any) => {
+        console.log(error)
+      });
+
+      if(messages && messages.data._embedded['yona:messages']) {
+        messages.data._embedded['yona:messages'].forEach((message: any) => {
+          if(!message.isRead){
+            this.notifications++;
+          }
+        })
+      }
+    }
+  }
 }
 </script>
 
 <style lang="scss">
-#me {
-  .profile-img {
-    width: 30px;
-    height: 30px;
-    margin-right: 20px;
-    display: inline-block;
-    border-radius: 50%;
-    img {
+  @import "../../sass/variables";
+  #me {
+    .profile-img {
       width: 30px;
       height: 30px;
-      background-color: #915c80;
       margin-right: 20px;
       display: inline-block;
       border-radius: 50%;
+      img {
+        width: 30px;
+        height: 30px;
+        background-color: #915c80;
+        margin-right: 20px;
+        display: inline-block;
+        border-radius: 50%;
+      }
+    }
+    .small-top-icon {
+      vertical-align: middle;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      position: relative;
+      &.notification-amount{
+        background-color: $color-purple;
+        height: 25px;
+        width: 25px;
+        display: block;
+        padding: 4px 8px;
+        box-sizing: border-box;
+      }
+    }
+    .dashboard-title {
+      display: inline-block;
+      vertical-align: top;
+      height: 30px;
+      line-height: 30px;
+    }
+    .nav-title {
+      padding: 30px 15px 10px 15px;
+    }
+    .wrapper {
+      padding: 0;
+      &.grey-bg {
+        background-color: #f3f3f3;
+      }
     }
   }
-  .small-top-icon {
-    vertical-align: middle;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    position: relative;
-  }
-  .dashboard-title {
-    display: inline-block;
-    vertical-align: top;
-    height: 30px;
-    line-height: 30px;
-  }
-  .nav-title {
-    padding: 30px 15px 10px 15px;
-  }
-  .wrapper {
-    padding: 0;
-    &.grey-bg {
-      background-color: #f3f3f3;
-    }
-  }
-}
 </style>
