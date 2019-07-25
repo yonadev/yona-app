@@ -36,7 +36,7 @@ const actions: ActionTree<LoginState, RootState> = {
     dispatch("buddies/update", null, {root: true});
     dispatch("challenges/update", null, {root: true});
     if (data.view !== "changePin") {
-      router.push({ name: "Intro" });
+      router.push({ name: "MeTimeLineDay" });
     }
   },
   setRegistered({ commit }): void {
