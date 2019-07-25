@@ -14,7 +14,10 @@ const vuexLocal: { plugin: Plugin<RootState> } = new VuexPersistence({
   storage: window.localStorage,
   reducer: state => ({
     api: state.api,
-    login: state.login,
+    login: {
+      ...state.login,
+      isLoggedIn: false
+    },
     account: state.account
   })
 });
