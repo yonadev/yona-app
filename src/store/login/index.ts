@@ -30,9 +30,11 @@ const actions: ActionTree<LoginState, RootState> = {
   setProperty({ commit }, data): void {
     commit("setProperty", data);
   },
-  setLoggedIn({ commit }, data): void {
+  setLoggedIn({ commit, dispatch }, data): void {
     commit("resetLock");
     commit("setLoggedIn");
+    dispatch("buddies/update", null, {root: true});
+    dispatch("challenges/update", null, {root: true});
     if (data.view !== "changePin") {
       router.push({ name: "Intro" });
     }
