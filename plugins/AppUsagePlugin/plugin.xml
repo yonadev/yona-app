@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-app-usage-plugin" version="0.0.3" xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" >
+    <name>AppUsagePlugin</name>
+
+    <license>MIT</license>
+
+    <js-module src="www/AppUsagePlugin.js" name="AppUsagePlugin">
+        <clobbers target="plugins.appusage"/>
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="AppUsagePlugin">
+                <param name="android-package" value="com.yona.appusage.AppUsagePlugin"/>
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions" />
+        </config-file>
+
+        <source-file src="src/android/AppUsagePlugin.java" target-dir="src/com/yona/appusage"/>
+    </platform>
+
+</plugin>

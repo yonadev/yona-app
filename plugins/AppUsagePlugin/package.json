@@ -1,0 +1,17 @@
+{
+  "name": "cordova-plugin-app-usage-plugin",
+  "version": "0.0.3",
+  "description": "",
+  "cordova": {
+    "id": "cordova-plugin-app-usage-plugin",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "Anton Vink",
+  "license": "ISC"
+}
