@@ -280,8 +280,8 @@ export default class Profile extends Vue {
         border-radius: 50%;
       }
 
-      svg{
-        height:100%;
+      svg {
+        height: 100%;
       }
 
       &.edit {
@@ -294,9 +294,9 @@ export default class Profile extends Vue {
         overflow: hidden;
         box-sizing: border-box;
         background-color: transparent;
-         > div {
-           display: block;
-         }
+        > div {
+          display: block;
+        }
         img {
           border-radius: 50%;
           height: 100%;
