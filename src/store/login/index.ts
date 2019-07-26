@@ -43,6 +43,7 @@ const actions: ActionTree<LoginState, RootState> = {
     commit("setLoggedOff");
     dispatch("buddies/update", null, {root: true});
     dispatch("challenges/update", null, {root: true});
+    router.push({ name: "Login" });
   },
   setRegistered({ commit }): void {
     commit("setRegistered");
@@ -105,7 +106,7 @@ const mutations: MutationTree<LoginState> = {
     state.isLoggedIn = true;
   },
   setLoggedOff(state) {
-    state.isLoggedIn = true;
+    state.isLoggedIn = false;
   },
   setLocked(state) {
     state.isLocked = true;

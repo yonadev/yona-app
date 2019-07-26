@@ -121,7 +121,7 @@ const app = new Vue({
       document.addEventListener('pause', this.pause, false)
     },
     pause () {
-      this.$store.commit('setLoggedOff', {namespace: 'login'});
+      this.$store.dispatch('login/setLoggedOff');
     }
   }
 }).$mount("#app");
