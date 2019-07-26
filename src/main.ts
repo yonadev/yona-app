@@ -105,9 +105,25 @@ Vue.use(AuthGuard, { router, store });
 
 Vue.config.productionTip = false;
 
-new Vue({
+const app = new Vue({
   router,
   store,
   i18n,
-  render: h => h(App)
+  render: h => h(App),
+  methods: {
+    init () {
+      //@ts-ignore
+      if (window.navigator.splashscreen) {
+        //@ts-ignore
+        window.navigator.splashscreen.hide();
+      }
+
+      document.addEventListener('pause', this.pause, false)
+    },
+    pause () {
+      this.$store.commit('setLoggedOff', {namespace: 'login'});
+    }
+  }
 }).$mount("#app");
+
+document.addEventListener('deviceready', app.init);

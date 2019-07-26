@@ -39,6 +39,11 @@ const actions: ActionTree<LoginState, RootState> = {
       router.push({ name: "MeTimeLineDay" });
     }
   },
+  setLoggedOff({ commit, dispatch }): void {
+    commit("setLoggedOff");
+    dispatch("buddies/update", null, {root: true});
+    dispatch("challenges/update", null, {root: true});
+  },
   setRegistered({ commit }): void {
     commit("setRegistered");
   },
@@ -97,6 +102,9 @@ const mutations: MutationTree<LoginState> = {
     state.pinIsSet = true;
   },
   setLoggedIn(state) {
+    state.isLoggedIn = true;
+  },
+  setLoggedOff(state) {
     state.isLoggedIn = true;
   },
   setLocked(state) {
