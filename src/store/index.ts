@@ -13,7 +13,10 @@ const debug = process.env.NODE_ENV !== "production";
 const vuexLocal: { plugin: Plugin<RootState> } = new VuexPersistence({
   storage: window.localStorage,
   reducer: state => ({
-    api: state.api,
+    api: {
+      ...state.api,
+      serverMessage: ""
+    },
     login: {
       ...state.login,
       isLoggedIn: false

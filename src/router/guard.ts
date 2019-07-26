@@ -42,7 +42,7 @@ class RouteProtect {
       } else if (!to.meta.pinreset && !pinIsSet) {
         return next({ name: "SetPinCode" });
       }
-    } else if (registered && !loggedIn){
+    } else if (registered && !loggedIn && !locked && !to.meta.login){
       return next({ name: "Login" });
     } else if ((!trackPermission || !filePermission || !certificatePermission || !vpnPermission) && !to.meta.permission) {  //Check if phone has necessary permissions
       return next({ name: "Intro" });
