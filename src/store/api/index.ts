@@ -1,11 +1,13 @@
 import { Module, ActionTree, MutationTree, GetterTree } from "vuex";
 import { ApiState } from "./types";
 import { RootState } from "../types";
+import i18n from "@/utils/i18n";
 
 export const state: ApiState = {
   host: "https://app.prd.yona.nu",
   yonaPassword: "",
   serverMessage: "",
+  offline: false,
   links: {},
   embedded: {}
 };
@@ -24,6 +26,15 @@ const actions: ActionTree<ApiState, RootState> = {
   removeServerError({ commit }): any {
     commit("setServerError", {serverMessage: ""});
   },
+  setOffline({ commit, dispatch }): any {
+    commit("setOnlineStatus", false);
+    dispatch("setServerError", {
+      serverMessage: i18n.t('connectionnotavailable')
+    });
+  },
+  setOnline({ commit }): any {
+    commit("setOnlineStatus", true);
+  },
   setLinks({ commit }, data): any {
     commit("setLinks", data);
   },
@@ -38,6 +49,9 @@ const mutations: MutationTree<ApiState> = {
   },
   setServerError(state, payload: ApiState) {
     state.serverMessage = payload.serverMessage;
+  },
+  setOnlineStatus(state, bool) {
+    state.offline = bool;
   },
   setLinks(state, payload: ApiState) {
     state.links = payload.links;
