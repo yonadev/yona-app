@@ -8,7 +8,6 @@
     <button v-if="clickCounter >= 6" class="button" @click="changeAPIUrl">Save</button>
 
     <!--ToDo: Make it like a native or cordova popup-->
-    
 
     <div class="is-centered bottom-aligned">
       <router-link class="button" :to="{ name: 'Names' }">
