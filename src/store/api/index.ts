@@ -40,7 +40,10 @@ const actions: ActionTree<ApiState, RootState> = {
   },
   setEmbedded({ commit }, data): any {
     commit("setEmbedded", data);
-  }
+  },
+  setHost({ commit }, data): any {
+    commit("setHost", data);
+  },
 };
 
 const mutations: MutationTree<ApiState> = {
@@ -58,6 +61,9 @@ const mutations: MutationTree<ApiState> = {
   },
   setEmbedded(state, payload: ApiState) {
     state.embedded = payload.embedded;
+  },
+  setHost(state, payload: ApiState) {
+    state.host = payload.host;
   }
 };
 

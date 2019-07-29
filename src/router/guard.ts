@@ -27,6 +27,7 @@ class RouteProtect {
     if (!registered && !to.meta.public) {
       return next({ name: "Tour" });
     } else if (locked && pinIsReset && !to.meta.pinReset) {
+
       const now = Math.trunc(new Date().getTime() / 1000);
       if (this.store.state.login.locked_timer && now > this.store.state.login.locked_timer) {
         return next({ name: "ValidateLocked" });
@@ -44,7 +45,7 @@ class RouteProtect {
       }
     } else if (registered && !loggedIn && !locked && !to.meta.login){
       return next({ name: "Login" });
-    } else if ((!trackPermission || !filePermission || !certificatePermission || !vpnPermission) && !to.meta.permission) {  //Check if phone has necessary permissions
+    } else if ((!trackPermission || !filePermission || !certificatePermission || !vpnPermission) && !to.meta.permission && registered) {  //Check if phone has necessary permissions
       return next({ name: "Intro" });
     }
 
