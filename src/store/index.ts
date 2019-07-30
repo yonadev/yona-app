@@ -19,7 +19,8 @@ const vuexLocal: { plugin: Plugin<RootState> } = new VuexPersistence({
     },
     login: {
       ...state.login,
-      isLoggedIn: false
+      isLoggedIn: false,
+      online: true
     },
     account: state.account
   })

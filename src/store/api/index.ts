@@ -8,7 +8,7 @@ export const state: ApiState = {
   locale: "en-US",
   yonaPassword: "",
   serverMessage: "",
-  online: false,
+  online: true,
   links: {},
   embedded: {}
 };

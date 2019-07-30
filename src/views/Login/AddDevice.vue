@@ -97,12 +97,12 @@ export default class AddDevice extends Vue {
                 get_response.data._links["yona:registerDevice"].href,
                 {
                   //Todo: implement Firebase and App Version
-                  //@ts-ignore
                   operatingSystem:
+                  //@ts-ignore
                     typeof device !== "undefined"
+                      //@ts-ignore
                       ? device.platform.toUpperCase()
                       : "ANDROID",
-                  //@ts-ignore
                   name: this.device_name,
                   appVersion: "1.1 build 83",
                   appVersionCode: 31,

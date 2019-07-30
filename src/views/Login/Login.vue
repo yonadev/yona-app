@@ -62,7 +62,9 @@ export default class Login extends Vue {
               console.log(error);
             });
 
-          if (user_response) this.setUserData(user_response.data);
+          if (user_response) {
+            this.setUserData(user_response.data);
+          }
 
           if (this.api.links["yona:userPhoto"]) {
             let photo_response: any = await axios

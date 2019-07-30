@@ -31,11 +31,29 @@ const actions: ActionTree<LoginState, RootState> = {
   setProperty({ commit }, data): void {
     commit("setProperty", data);
   },
-  setLoggedIn({ commit, dispatch, state }, data): void {
+  async setLoggedIn({ commit, rootState, dispatch, state }, data) {
     commit("resetLock");
     commit("setLoggedIn");
     dispatch("buddies/update", null, { root: true });
     dispatch("challenges/update", null, { root: true });
+
+    if (rootState.api.links && rootState.api.links["yona:postOpenAppEvent"]) {
+      let openApp: any = await axios
+        .post(rootState.api.links["yona:postOpenAppEvent"].href, {
+          operatingSystem:
+          //@ts-ignore
+            typeof device !== "undefined"
+              //@ts-ignore
+              ? device.platform.toUpperCase()
+              : "ANDROID",
+          appVersion: "1.1 build 83",
+          appVersionCode: 31,
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+
     if (state.lastRoute !== null) {
       router.push(state.lastRoute);
     } else if (data.view !== "changePin") {
