@@ -191,7 +191,7 @@ export default class Setup extends Vue {
 
   .timezone-entries {
     background-color: #f3f3f3;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
     .swipeout-list {
       max-width: 100%;
       width: 100%;
