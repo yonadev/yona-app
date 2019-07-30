@@ -147,14 +147,14 @@ const app = new Vue({
       );
 
       //@ts-ignore
-      if (window.Intl && typeof window.Intl === 'object') {
-          const locale = navigator.language;
-          self.$store.dispatch("api/setLocale", locale)
-          if (locale.split("-")[0] === 'nl') {
-            this.$i18n.locale = 'nl';
-          } else {
-            this.$i18n.locale = 'en';
-          }
+      if (window.Intl && typeof window.Intl === "object") {
+        const locale = navigator.language;
+        self.$store.dispatch("api/setLocale", locale);
+        if (locale.split("-")[0] === "nl") {
+          this.$i18n.locale = "nl";
+        } else {
+          this.$i18n.locale = "en";
+        }
       }
 
       //@ts-ignore

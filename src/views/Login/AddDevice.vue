@@ -14,13 +14,13 @@
       </p>
 
       <input-floating-label
-              :validate="{ required: true }"
-              id="device_name"
-              class="with-border-input"
-              :label="$t('device_name')"
-              type="text"
-              :value.sync="device_name"
-              icon="icn_mobile.svg"
+        :validate="{ required: true }"
+        id="device_name"
+        class="with-border-input"
+        :label="$t('device_name')"
+        type="text"
+        :value.sync="device_name"
+        icon="icn_mobile.svg"
       ></input-floating-label>
       <input-floating-label
         :validate="{ required: true, mobile: true }"
@@ -98,7 +98,10 @@ export default class AddDevice extends Vue {
                 {
                   //Todo: implement Firebase and App Version
                   //@ts-ignore
-                  operatingSystem: (typeof device !== "undefined" ? device.platform.toUpperCase() : "ANDROID"),
+                  operatingSystem:
+                    typeof device !== "undefined"
+                      ? device.platform.toUpperCase()
+                      : "ANDROID",
                   //@ts-ignore
                   name: this.device_name,
                   appVersion: "1.1 build 83",
@@ -129,15 +132,15 @@ export default class AddDevice extends Vue {
 
 <style lang="scss">
 #add-device {
-  padding-bottom:130px;
+  padding-bottom: 130px;
   .bottom-aligned {
     .button {
       position: fixed;
-      bottom:0;
-      left:0;
+      bottom: 0;
+      left: 0;
       width: 100%;
       border: 0;
-      z-index:10;
+      z-index: 10;
     }
   }
 }

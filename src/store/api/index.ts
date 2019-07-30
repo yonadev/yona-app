@@ -5,7 +5,7 @@ import i18n from "@/utils/i18n";
 
 export const state: ApiState = {
   host: "https://app.prd.yona.nu",
-  locale: 'en-US',
+  locale: "en-US",
   yonaPassword: "",
   serverMessage: "",
   online: false,
@@ -34,7 +34,7 @@ const actions: ActionTree<ApiState, RootState> = {
     });
   },
   setLocale({ commit }, locale): void {
-    commit("setLocale", locale)
+    commit("setLocale", locale);
   },
   setOnline({ commit }): any {
     commit("setOnlineStatus", true);

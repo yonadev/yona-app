@@ -37,7 +37,7 @@ const actions: ActionTree<LoginState, RootState> = {
     dispatch("buddies/update", null, { root: true });
     dispatch("challenges/update", null, { root: true });
     if (state.lastRoute !== null) {
-      router.push(state.lastRoute)
+      router.push(state.lastRoute);
     } else if (data.view !== "changePin") {
       router.push({ name: "MeTimeLineDay" });
     }
@@ -50,10 +50,14 @@ const actions: ActionTree<LoginState, RootState> = {
   },
   setLastRoute({ commit, state }): void {
     if (state.isLoggedIn)
-      commit("setLastRoute", {name: router.currentRoute.name, params: router.currentRoute.params, query: router.currentRoute.query})
+      commit("setLastRoute", {
+        name: router.currentRoute.name,
+        params: router.currentRoute.params,
+        query: router.currentRoute.query
+      });
   },
   resetLastRoute({ commit }): void {
-    commit("setLastRoute", null)
+    commit("setLastRoute", null);
   },
   setRegistered({ commit }): void {
     commit("setRegistered");

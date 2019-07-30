@@ -8,8 +8,8 @@ export interface LoginState {
   loginAttempts: number;
   locked_timer: number | null;
   lastRoute: {
-    name: string,
-    params: {},
-    query: {}
-  } | null
+    name: string;
+    params: {};
+    query: {};
+  } | null;
 }

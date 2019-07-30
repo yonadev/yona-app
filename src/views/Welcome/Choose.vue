@@ -1,13 +1,18 @@
 <template>
   <div id="choose">
-    <img src="../../assets/images/welcome/choose/yona_logo.svg" @click="increaseCounter()" />
+    <img
+      src="../../assets/images/welcome/choose/yona_logo.svg"
+      @click="increaseCounter()"
+    />
 
     <div class="field has-addons has-addons-centered" v-if="showInput">
       <div class="control">
         <input class="input" v-if="showInput" v-model="host" />
       </div>
       <div class="control">
-        <button v-if="showInput" class="button is-info" @click="changeAPIUrl">Save</button>
+        <button v-if="showInput" class="button is-info" @click="changeAPIUrl">
+          Save
+        </button>
       </div>
     </div>
 
@@ -25,8 +30,8 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import {Action, State} from "vuex-class";
-import {ApiState} from "@/store/api/types";
+import { Action, State } from "vuex-class";
+import { ApiState } from "@/store/api/types";
 import axios from "@/utils/axios/axios";
 
 @Component({})
@@ -36,17 +41,17 @@ export default class Choose extends Vue {
   @State("api") api!: ApiState;
   clickCounter: number = 0;
   showInput: boolean = false;
-  host: string = '';
+  host: string = "";
   response!: any;
 
-  mounted () {
+  mounted() {
     this.host = this.api.host;
   }
 
-  increaseCounter(){
+  increaseCounter() {
     this.clickCounter++;
 
-    if(this.clickCounter >= 6){
+    if (this.clickCounter >= 6) {
       this.clickCounter = 0;
       let self = this;
       //@ts-ignore
@@ -61,7 +66,7 @@ export default class Choose extends Vue {
               await this.changeAPIUrl(result.input1);
             }
           },
-          self.$t('environment_alert_title'),
+          self.$t("environment_alert_title"),
           [self.$t("cancel"), self.$t("save")],
           self.host
         );
@@ -71,47 +76,51 @@ export default class Choose extends Vue {
     }
   }
 
-  async changeAPIUrl(url: string){
+  async changeAPIUrl(url: string) {
     let self = this;
 
-    if(!url) {
+    if (!url) {
       url = self.host;
     }
 
-    let response: any = await axios.get(url+'/activityCategories/').catch(error => {
-      if(error) {
-        //@ts-ignore
-        if(navigator && navigator.notification){
+    let response: any = await axios
+      .get(url + "/activityCategories/")
+      .catch(error => {
+        if (error) {
           //@ts-ignore
-          navigator.notification.alert(
-            self.$t('environment_switch_error') + ' ' + self.api.host,  // message
-            () => {},         // callback
-            self.$t('generic_alert_title'),            // title
-            'Close'                  // buttonName
-          );
-        } else {
-          this.setServerError({
-            serverMessage: self.$t('environment_switch_error') + ' ' + self.api.host
-          });
+          if (navigator && navigator.notification) {
+            //@ts-ignore
+            navigator.notification.alert(
+              self.$t("environment_switch_error") + " " + self.api.host, // message
+              () => {}, // callback
+              self.$t("generic_alert_title"), // title
+              "Close" // buttonName
+            );
+          } else {
+            this.setServerError({
+              serverMessage:
+                self.$t("environment_switch_error") + " " + self.api.host
+            });
+          }
+
+          self.host = self.api.host;
         }
+      });
 
-        self.host = self.api.host;
-      }
-    });
-
-    if(response) {
+    if (response) {
       //@ts-ignore
-      if(navigator && navigator.notification){
+      if (navigator && navigator.notification) {
         //@ts-ignore
         navigator.notification.alert(
-          self.$t('new_environment_switch_success_msg')+' '+this.host,  // message
-          () => {},         // callback
-          self.$t('generic_alert_title'),            // title
-          'Close'                  // buttonName
+          self.$t("new_environment_switch_success_msg") + " " + this.host, // message
+          () => {}, // callback
+          self.$t("generic_alert_title"), // title
+          "Close" // buttonName
         );
       } else {
         this.setServerError({
-          serverMessage: self.$t('new_environment_switch_success_msg')+' '+this.host
+          serverMessage:
+            self.$t("new_environment_switch_success_msg") + " " + this.host
         });
       }
 
@@ -135,9 +144,9 @@ export default class Choose extends Vue {
     margin-right: auto;
     width: 50%;
   }
-  .button{
-    height:100%;
-    z-index:10;
+  .button {
+    height: 100%;
+    z-index: 10;
   }
 }
 </style>
