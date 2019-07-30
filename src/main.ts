@@ -129,6 +129,7 @@ const app = new Vue({
         window.navigator.splashscreen.hide();
       }
 
+      this.$store.dispatch("login/resetLastRoute");
       document.addEventListener("pause", () => this.pause(), false);
 
       document.addEventListener(
@@ -149,6 +150,7 @@ const app = new Vue({
       );
     },
     pause() {
+      this.$store.dispatch("login/setLastRoute");
       this.$store.dispatch("login/setLoggedOff");
     }
   }
