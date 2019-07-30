@@ -117,7 +117,7 @@ const app = new Vue({
       //@ts-ignore
       const networkState = navigator.connection.type;
       //@ts-ignore
-      if(networkState === Connection.NONE) {
+      if (networkState === Connection.NONE) {
         self.$store.dispatch("api/setOffline");
       } else {
         self.$store.dispatch("api/setOnline");

@@ -7,7 +7,7 @@ export const state: ApiState = {
   host: "https://app.prd.yona.nu",
   yonaPassword: "",
   serverMessage: "",
-  offline: false,
+  online: false,
   links: {},
   embedded: {}
 };
@@ -54,7 +54,7 @@ const mutations: MutationTree<ApiState> = {
     state.serverMessage = payload.serverMessage;
   },
   setOnlineStatus(state, bool) {
-    state.offline = bool;
+    state.online = bool;
   },
   setLinks(state, payload: ApiState) {
     state.links = payload.links;

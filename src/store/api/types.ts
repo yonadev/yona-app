@@ -2,7 +2,7 @@ export interface ApiState {
   host: string;
   yonaPassword: string;
   serverMessage: string;
-  offline: boolean;
+  online: boolean;
   links: {
     [key: string]: {
       href: string;

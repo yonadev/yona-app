@@ -36,6 +36,7 @@ import { ApiState } from "@/store/api/types";
 export default class Login extends Vue {
   @State("login") login!: LoginState;
   @Action("setLoggedIn", { namespace: "login" }) setLoggedIn: any;
+  @Action("setOffline", { namespace: "api" }) setOffline: any;
   @Action("increaseLoginAttempts", { namespace: "login" })
   increaseLoginAttempts: any;
   @State("api") api!: ApiState;
@@ -48,10 +49,11 @@ export default class Login extends Vue {
 
   @Watch("password")
   async onChildChanged(val: number) {
-    if (this.api.offline) {
-      return;
-    }
     if (val && val.toString().length === this.length) {
+      if (!this.api.online) {
+        this.setOffline();
+        return;
+      }
       if (val === this.login.pinCode) {
         if (this.api.links) {
           let user_response: any = await axios
