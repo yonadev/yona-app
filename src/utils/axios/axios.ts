@@ -18,6 +18,8 @@ instance.interceptors.request.use(
       config.headers["Yona-Password"] = store.getters["api/yonaPassword"];
     }
 
+    config.headers["content-language"] = store.state.api.locale;
+
     return config;
   },
   error => {

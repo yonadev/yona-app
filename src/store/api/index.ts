@@ -5,6 +5,7 @@ import i18n from "@/utils/i18n";
 
 export const state: ApiState = {
   host: "https://app.prd.yona.nu",
+  locale: 'en-US',
   yonaPassword: "",
   serverMessage: "",
   online: false,
@@ -32,6 +33,9 @@ const actions: ActionTree<ApiState, RootState> = {
       serverMessage: i18n.t("connectionnotavailable")
     });
   },
+  setLocale({ commit }, locale): void {
+    commit("setLocale", locale)
+  },
   setOnline({ commit }): any {
     commit("setOnlineStatus", true);
   },
@@ -47,6 +51,9 @@ const actions: ActionTree<ApiState, RootState> = {
 };
 
 const mutations: MutationTree<ApiState> = {
+  setLocale(state, locale) {
+    state.locale = locale;
+  },
   setHeaderPassword(state, payload: ApiState) {
     state.yonaPassword = payload.yonaPassword;
   },

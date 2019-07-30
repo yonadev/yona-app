@@ -123,13 +123,8 @@ const app = new Vue({
         self.$store.dispatch("api/setOnline");
       }
 
-      //@ts-ignore
-      if (window.navigator.splashscreen) {
-        //@ts-ignore
-        window.navigator.splashscreen.hide();
-      }
-
       this.$store.dispatch("login/resetLastRoute");
+
       document.addEventListener("pause", () => this.pause(), false);
 
       document.addEventListener(
@@ -148,6 +143,23 @@ const app = new Vue({
         },
         false
       );
+
+      //@ts-ignore
+      if (window.Intl && typeof window.Intl === 'object') {
+          const locale = navigator.language;
+          self.$store.dispatch("api/setLocale", locale)
+          if (locale.split("-")[0] === 'nl') {
+            this.$i18n.locale = 'nl';
+          } else {
+            this.$i18n.locale = 'en';
+          }
+      }
+
+      //@ts-ignore
+      if (window.navigator.splashscreen) {
+        //@ts-ignore
+        window.navigator.splashscreen.hide();
+      }
     },
     pause() {
       this.$store.dispatch("login/setLastRoute");

@@ -21,6 +21,7 @@
 
     <preference name="AutoHideSplashScreen" value="true" />
     <preference name="ShowSplashScreenSpinner" value="false"/>
+    <preference name="Orientation" value="portrait" />
 
     <platform name="android">
         <allow-intent href="market:*" />

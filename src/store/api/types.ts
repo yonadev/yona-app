@@ -1,5 +1,6 @@
 export interface ApiState {
   host: string;
+  locale: string;
   yonaPassword: string;
   serverMessage: string;
   online: boolean;
