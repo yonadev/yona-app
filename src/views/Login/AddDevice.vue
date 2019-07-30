@@ -14,6 +14,15 @@
       </p>
 
       <input-floating-label
+              :validate="{ required: true }"
+              id="device_name"
+              class="with-border-input"
+              :label="$t('device_name')"
+              type="text"
+              :value.sync="device_name"
+              icon="icn_mobile.svg"
+      ></input-floating-label>
+      <input-floating-label
         :validate="{ required: true, mobile: true }"
         id="mobile"
         class="with-border-input"
@@ -57,6 +66,7 @@ export default class AddDevice extends Vue {
   mobile: string | null = "";
   mobile_exists = false;
   passcode: string | null = "";
+  device_name: string | null = "";
   @State("api") api!: ApiState;
 
   @Watch("mobile")
@@ -88,9 +98,9 @@ export default class AddDevice extends Vue {
                 {
                   //Todo: implement Firebase and App Version
                   //@ts-ignore
-                  operatingSystem: (device ? device.platform.toUpperCase() : "ANDROID"),
+                  operatingSystem: (typeof device !== "undefined" ? device.platform.toUpperCase() : "ANDROID"),
                   //@ts-ignore
-                  //name: (device ? device.model : null),
+                  name: this.device_name,
                   appVersion: "1.1 build 83",
                   appVersionCode: 31,
                   firebaseInstanceId:
@@ -119,10 +129,15 @@ export default class AddDevice extends Vue {
 
 <style lang="scss">
 #add-device {
+  padding-bottom:130px;
   .bottom-aligned {
     .button {
+      position: fixed;
+      bottom:0;
+      left:0;
       width: 100%;
       border: 0;
+      z-index:10;
     }
   }
 }

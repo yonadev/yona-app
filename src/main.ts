@@ -50,6 +50,8 @@ const dictionary = {
         message = veeLocales[i18n.locale].dictionary.enternicknamevalidation;
       } else if (fieldName === "mobile") {
         message = veeLocales[i18n.locale].dictionary.entermobilevalidation;
+      } else if (fieldName === "device_name") {
+        message = veeLocales[i18n.locale].dictionary.enterdevicename;
       } else if (fieldName === "passcode") {
         message = veeLocales[i18n.locale].dictionary.enterpasscode;
       }

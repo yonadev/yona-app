@@ -141,7 +141,6 @@
 <style lang="scss">
   @import "../../sass/variables";
   #messages{
-    padding-bottom:45px;
     .message-bar {
       position: relative;
       background-color: #d8d8d8;
@@ -194,6 +193,7 @@
     }
     .thread-messages{
       background-color:#f3f3f3;
+      padding-bottom:45px;
       .columns{
         margin: 0;
 
