@@ -4,17 +4,22 @@
       <div class="heading" v-if="notification">
         <div class="nav-title"></div>
         <div class="wrapper">
-          <img v-if="avatar" class="profile-img" :src="this.avatar">
+          <img v-if="avatar" class="profile-img" :src="this.avatar" />
           <div v-else class="profile-img">
             <svg width="100%" height="35px" viewBox="0 0 50 50">
-              <circle cx="25" cy="25" r="25" fill="#6c2a58"/>
-              <text dominant-baseline="middle"
-                    text-anchor="middle"
-                    font-size="15"
-                    fill="white"
-                    x="25"
-                    y="26">
-                {{ notification._embedded["yona:user"].firstName.charAt(0) + notification._embedded["yona:user"].lastName.charAt(0) }}
+              <circle cx="25" cy="25" r="25" fill="#6c2a58" />
+              <text
+                dominant-baseline="middle"
+                text-anchor="middle"
+                font-size="15"
+                fill="white"
+                x="25"
+                y="26"
+              >
+                {{
+                  notification._embedded["yona:user"].firstName.charAt(0) +
+                    notification._embedded["yona:user"].lastName.charAt(0)
+                }}
               </text>
             </svg>
           </div>
@@ -124,8 +129,8 @@ export default class Notifications extends Vue {
       min-height: 75px;
       border: 2px solid rgba(255, 255, 255, 0.4);
       background-color: rgba(255, 255, 255, 0.4);
-      svg{
-        height:100%;
+      svg {
+        height: 100%;
       }
     }
     .icon-text {

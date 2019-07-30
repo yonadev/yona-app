@@ -38,16 +38,18 @@ const actions: ActionTree<LoginState, RootState> = {
     dispatch("challenges/update", null, { root: true });
 
     if (rootState.api.links && rootState.api.links["yona:postOpenAppEvent"]) {
+      let OS = "ANDROID";
+      //@ts-ignore
+      if (typeof device !== "undefined") {
+        //@ts-ignore
+        OS = device.platform.toUpperCase();
+      }
+
       let openApp: any = await axios
         .post(rootState.api.links["yona:postOpenAppEvent"].href, {
-          operatingSystem:
-          //@ts-ignore
-            typeof device !== "undefined"
-              //@ts-ignore
-              ? device.platform.toUpperCase()
-              : "ANDROID",
+          operatingSystem: OS,
           appVersion: "1.1 build 83",
-          appVersionCode: 31,
+          appVersionCode: 31
         })
         .catch(error => {
           console.log(error);

@@ -92,17 +92,19 @@ export default class AddDevice extends Vue {
           this.mobile_exists = true;
 
           if (this.passcode) {
+            let OS = "ANDROID";
+            //@ts-ignore
+            if (typeof device !== "undefined") {
+              //@ts-ignore
+              OS = device.platform.toUpperCase();
+            }
+
             let response: any = await axios
               .post(
                 get_response.data._links["yona:registerDevice"].href,
                 {
                   //Todo: implement Firebase and App Version
-                  operatingSystem:
-                  //@ts-ignore
-                    typeof device !== "undefined"
-                      //@ts-ignore
-                      ? device.platform.toUpperCase()
-                      : "ANDROID",
+                  operatingSystem: OS,
                   name: this.device_name,
                   appVersion: "1.1 build 83",
                   appVersionCode: 31,
