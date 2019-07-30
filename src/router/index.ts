@@ -289,6 +289,11 @@ export default new Router({
           component: () => import("../views/Me/Notifications.vue")
         },
         {
+          path: "read-notification",
+          name: "ReadNotification",
+          component: () => import("../views/Me/ReadNotification.vue")
+        },
+        {
           path: "friendrequest",
           name: "FriendRequest",
           component: () => import("../views/Me/FriendRequest.vue"),

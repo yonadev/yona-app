@@ -1,5 +1,5 @@
 <template>
-  <div id="notification" class="header-template">
+  <div id="notification" class="header-template" :loading="loading">
     <div class="colored-background purple-dark">
       <div class="nav-title">
         {{ $t("message") }}
@@ -8,8 +8,7 @@
     <div class="wrapper grey-bg">
       <div
         v-for="(day_notification, day_index) in all_notifications"
-        :key="day_index"
-      >
+        :key="day_index">
         <div class="top-label">
           <strong>{{ day_notification.date.toUpperCase() }}</strong>
         </div>
@@ -126,6 +125,17 @@
                   {{ notification.nickname }}
                 </span>
               </div>
+              <div v-else-if="
+              notification &&
+              notification['@type'] === 'SystemMessage'
+              ">
+                <span class="is-block has-text-left title">
+                  <strong>{{ $t("system_message") }}</strong>
+                </span>
+                <span class="is-block has-text-left name">
+                  {{ notification.nickname }}
+                </span>
+              </div>
             </div>
             <div
               class="column is-2"
@@ -186,6 +196,7 @@ export default class Notifications extends Vue {
   all_notifications: any = [];
   gettingNotifications: boolean = false;
   nextNotifications: string = "";
+  loading: boolean = false;
 
   async mounted() {
     if (this.api.links && this.api.links["yona:messages"]) {
@@ -263,35 +274,38 @@ export default class Notifications extends Vue {
         });
     }
 
-    if (
-      notification["@type"] === "BuddyConnectRequestMessage" &&
-      notification.status === "REQUESTED"
-    ) {
-      this.$router.push({
-        name: "FriendRequest",
-        params: { notification: notification }
-      });
-    } else if (
-      notification["@type"] === "BuddyInfoChangeMessage" ||
-      notification["@type"] === "BuddyConnectResponseMessage"
-    ) {
-      this.$router.push({
-        name: "FriendsProfile",
-        params: { buddy_href: notification._links["yona:buddy"].href }
-      });
+    if (notification["@type"] === "BuddyConnectRequestMessage" && notification.status === "REQUESTED") {
+      this.$router.push({name: "FriendRequest", params: { notification: notification }});
+    } else if (notification["@type"] === "BuddyInfoChangeMessage" || notification["@type"] === "BuddyConnectResponseMessage") {
+      this.$router.push({name: "FriendsProfile", params: { buddy_href: notification._links["yona:buddy"].href }});
     } else if (notification["@type"] === "GoalConflictMessage") {
-      this.$router.push({
-        name: "DetailedViewDay",
-        params: { activity_link: notification._links["yona:dayDetails"].href }
-      });
-    } else if (notification["@type"] === "ActivityCommentMessage") {
-      this.$router.push({
-        name: "DetailedViewDay",
-        params: {
-          buddy_href: notification._links["yona:buddy"].href,
-          activity_link: notification._links["yona:dayDetails"].href
+      this.$router.push({name: "DetailedViewDay", params: { activity_link: notification._links["yona:dayDetails"].href }});
+    } else if (notification["@type"] === "ActivityCommentMessage"){
+      this.loading = true;
+
+      if(notification._links["yona:weekDetails"]){
+        let weekDetails: any = await axios.get(notification._links["yona:weekDetails"].href).catch(error => {
+          console.log(error);
+        });
+
+        if(weekDetails && weekDetails.data._links['yona:buddy']){
+          this.$router.push({name: "DetailedViewWeek", params: {buddy_href: notification._links['yona:buddy'].href, activity_link: notification._links["yona:weekDetails"].href}});
+        } else {
+          this.$router.push({name: "DetailedViewWeek", params: {activity_link: notification._links["yona:weekDetails"].href}});
         }
-      });
+      } else if (notification._links["yona:dayDetails"]) {
+        let dayDetails: any = await axios.get(notification._links["yona:dayDetails"].href).catch(error => {
+          console.log(error);
+        });
+
+        if(dayDetails && dayDetails.data._links['yona:buddy']){
+          this.$router.push({name: "DetailedViewDay", params: {buddy_href: notification._links['yona:buddy'].href, activity_link: notification._links["yona:dayDetails"].href}});
+        } else {
+          this.$router.push({name: "DetailedViewDay", params: {activity_link: notification._links["yona:dayDetails"].href}});
+        }
+      }
+    } else if (notification["@type"] === "SystemMessage"){
+      this.$router.push({name: "ReadNotification", params: { notification: notification }});
     }
   }
 
@@ -376,6 +390,7 @@ export default class Notifications extends Vue {
 @import "../../sass/variables";
 
 #notification {
+  height:100%;
   .nav-title {
     padding: 30px 15px 15px 30px;
   }
