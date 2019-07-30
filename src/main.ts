@@ -115,6 +115,15 @@ const app = new Vue({
       const self = this;
 
       //@ts-ignore
+      const networkState = navigator.connection.type;
+      //@ts-ignore
+      if(networkState === Connection.NONE) {
+        self.$store.dispatch("api/setOffline");
+      } else {
+        self.$store.dispatch("api/setOnline");
+      }
+
+      //@ts-ignore
       if (window.navigator.splashscreen) {
         //@ts-ignore
         window.navigator.splashscreen.hide();

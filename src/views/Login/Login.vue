@@ -48,6 +48,9 @@ export default class Login extends Vue {
 
   @Watch("password")
   async onChildChanged(val: number) {
+    if (this.api.offline) {
+      return;
+    }
     if (val && val.toString().length === this.length) {
       if (val === this.login.pinCode) {
         if (this.api.links) {
