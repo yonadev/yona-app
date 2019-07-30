@@ -19,17 +19,22 @@ class RouteProtect {
     const pinIsReset = this.store.state.login.pinIsReset;
     const pinIsSet = this.store.state.login.pinIsSet;
 
-    const trackPermission = this.store.state.account.permissions.tracking.is_allowed;
-    const filePermission = this.store.state.account.permissions.store_files.is_allowed;
-    const certificatePermission = this.store.state.account.permissions.certificate.is_allowed;
+    const trackPermission = this.store.state.account.permissions.tracking
+      .is_allowed;
+    const filePermission = this.store.state.account.permissions.store_files
+      .is_allowed;
+    const certificatePermission = this.store.state.account.permissions
+      .certificate.is_allowed;
     const vpnPermission = this.store.state.account.permissions.vpn.is_allowed;
 
     if (!registered && !to.meta.public) {
       return next({ name: "Tour" });
     } else if (locked && pinIsReset && !to.meta.pinReset) {
-
       const now = Math.trunc(new Date().getTime() / 1000);
-      if (this.store.state.login.locked_timer && now > this.store.state.login.locked_timer) {
+      if (
+        this.store.state.login.locked_timer &&
+        now > this.store.state.login.locked_timer
+      ) {
         return next({ name: "ValidateLocked" });
       }
       return next({ name: "WaitLocked" });
@@ -43,9 +48,17 @@ class RouteProtect {
       } else if (!to.meta.pinreset && !pinIsSet) {
         return next({ name: "SetPinCode" });
       }
-    } else if (registered && !loggedIn && !locked && !to.meta.login){
+    } else if (registered && !loggedIn && !locked && !to.meta.login) {
       return next({ name: "Login" });
-    } else if ((!trackPermission || !filePermission || !certificatePermission || !vpnPermission) && !to.meta.permission && registered) {  //Check if phone has necessary permissions
+    } else if (
+      (!trackPermission ||
+        !filePermission ||
+        !certificatePermission ||
+        !vpnPermission) &&
+      !to.meta.permission &&
+      registered
+    ) {
+      //Check if phone has necessary permissions
       return next({ name: "Intro" });
     }
 

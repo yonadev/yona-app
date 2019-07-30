@@ -13,7 +13,8 @@ export const state: LoginState = {
   pinIsSet: false,
   pinCode: null,
   loginAttempts: 0,
-  locked_timer: 0
+  locked_timer: 0,
+  lastRoute: null
 };
 
 const actions: ActionTree<LoginState, RootState> = {
@@ -30,20 +31,29 @@ const actions: ActionTree<LoginState, RootState> = {
   setProperty({ commit }, data): void {
     commit("setProperty", data);
   },
-  setLoggedIn({ commit, dispatch }, data): void {
+  setLoggedIn({ commit, dispatch, state }, data): void {
     commit("resetLock");
     commit("setLoggedIn");
-    dispatch("buddies/update", null, {root: true});
-    dispatch("challenges/update", null, {root: true});
-    if (data.view !== "changePin") {
+    dispatch("buddies/update", null, { root: true });
+    dispatch("challenges/update", null, { root: true });
+    if (state.lastRoute !== null) {
+      router.push(state.lastRoute)
+    } else if (data.view !== "changePin") {
       router.push({ name: "MeTimeLineDay" });
     }
   },
   setLoggedOff({ commit, dispatch }): void {
     commit("setLoggedOff");
-    dispatch("buddies/update", null, {root: true});
-    dispatch("challenges/update", null, {root: true});
+    dispatch("buddies/update", null, { root: true });
+    dispatch("challenges/update", null, { root: true });
     router.push({ name: "Login" });
+  },
+  setLastRoute({ commit, state }): void {
+    if (state.isLoggedIn)
+      commit("setLastRoute", {name: router.currentRoute.name, params: router.currentRoute.params, query: router.currentRoute.query})
+  },
+  resetLastRoute({ commit }): void {
+    commit("setLastRoute", null)
   },
   setRegistered({ commit }): void {
     commit("setRegistered");
@@ -107,6 +117,9 @@ const mutations: MutationTree<LoginState> = {
   },
   setLoggedOff(state) {
     state.isLoggedIn = false;
+  },
+  setLastRoute(state, payload) {
+    state.lastRoute = payload;
   },
   setLocked(state) {
     state.isLocked = true;

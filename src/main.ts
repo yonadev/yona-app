@@ -92,8 +92,8 @@ Vue.directive("fixed-scroll", {
   }
 });
 
-import VueObserveVisibility from 'vue-observe-visibility'
-Vue.use(VueObserveVisibility)
+import VueObserveVisibility from "vue-observe-visibility";
+Vue.use(VueObserveVisibility);
 
 // partial import bulma, import global, import fonts
 import "./sass/libraries/import_bulma.scss";
@@ -113,19 +113,61 @@ const app = new Vue({
   i18n,
   render: h => h(App),
   methods: {
-    init () {
+    init() {
+      const self = this;
+
+      //@ts-ignore
+      const networkState = navigator.connection.type;
+      //@ts-ignore
+      if (networkState === Connection.NONE) {
+        self.$store.dispatch("api/setOffline");
+      } else {
+        self.$store.dispatch("api/setOnline");
+      }
+
+      this.$store.dispatch("login/resetLastRoute");
+
+      document.addEventListener("pause", () => this.pause(), false);
+
+      document.addEventListener(
+        "offline",
+        () => {
+          self.$store.dispatch("api/setOffline");
+          self.pause();
+        },
+        false
+      );
+
+      document.addEventListener(
+        "online",
+        () => {
+          self.$store.dispatch("api/setOnline");
+        },
+        false
+      );
+
+      //@ts-ignore
+      if (window.Intl && typeof window.Intl === 'object') {
+          const locale = navigator.language;
+          self.$store.dispatch("api/setLocale", locale)
+          if (locale.split("-")[0] === 'nl') {
+            this.$i18n.locale = 'nl';
+          } else {
+            this.$i18n.locale = 'en';
+          }
+      }
+
       //@ts-ignore
       if (window.navigator.splashscreen) {
         //@ts-ignore
         window.navigator.splashscreen.hide();
       }
-
-      document.addEventListener('pause', this.pause, false)
     },
-    pause () {
-      this.$store.dispatch('login/setLoggedOff');
+    pause() {
+      this.$store.dispatch("login/setLastRoute");
+      this.$store.dispatch("login/setLoggedOff");
     }
   }
 }).$mount("#app");
 
-document.addEventListener('deviceready', app.init);
+document.addEventListener("deviceready", app.init);

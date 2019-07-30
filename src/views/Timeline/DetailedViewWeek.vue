@@ -70,7 +70,11 @@
         :dayActivity="week_activity"
         title="Spreiding"
       ></spread-control>
-      <messages v-if="week_activity && week_activity._links['yona:messages']" :message_link="week_activity._links['yona:messages'].href" :buddy_href="buddy_href"></messages>
+      <messages
+        v-if="week_activity && week_activity._links['yona:messages']"
+        :message_link="week_activity._links['yona:messages'].href"
+        :buddy_href="buddy_href"
+      ></messages>
     </div>
   </div>
 </template>
@@ -130,7 +134,6 @@ export default class DetailedViewWeek extends Vue {
   loading: boolean = false;
 
   async mounted() {
-
     this.loading = true;
 
     let detailed_response: any = await axios
@@ -216,8 +219,8 @@ export default class DetailedViewWeek extends Vue {
       height: 30px;
       border-radius: 50%;
       position: relative;
-      svg{
-        height:30px;
+      svg {
+        height: 30px;
       }
       img {
         border-radius: 50%;

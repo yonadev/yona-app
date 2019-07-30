@@ -6,22 +6,46 @@
       </div>
     </div>
     <div class="wrapper grey-bg">
-      <div v-for="(day_notification, day_index) in all_notifications" :key="day_index">
+      <div
+        v-for="(day_notification, day_index) in all_notifications"
+        :key="day_index"
+      >
         <div class="top-label">
-          <strong>{{day_notification.date.toUpperCase()}}</strong>
+          <strong>{{ day_notification.date.toUpperCase() }}</strong>
         </div>
-        <div v-for="(notification, index) in day_notification.notifications" :key="index" class="grey-bg-div notification" :class="{ 'is-not-read': !notification.isRead }">
+        <div
+          v-for="(notification, index) in day_notification.notifications"
+          :key="index"
+          class="grey-bg-div notification"
+          :class="{ 'is-not-read': !notification.isRead }"
+        >
           <div class="columns is-mobile" @click="goTo(notification)">
             <div class="column is-2">
-              <div class="img-wrapper" v-if="notification && notification['@type'] === 'GoalConflictMessage'">
-                <img :src="require('../../assets/images/avatars/adult_sad.svg')"/>
+              <div
+                class="img-wrapper"
+                v-if="
+                  notification &&
+                    notification['@type'] === 'GoalConflictMessage'
+                "
+              >
+                <img
+                  :src="require('../../assets/images/avatars/adult_sad.svg')"
+                />
               </div>
               <div v-else class="img-wrapper">
-                <profile-pic v-if="getLink(notification)" :src="getLink(notification)"></profile-pic>
+                <profile-pic
+                  v-if="getLink(notification)"
+                  :src="getLink(notification)"
+                ></profile-pic>
               </div>
             </div>
             <div class="column">
-              <div v-if="notification && notification['@type'] === 'BuddyConnectRequestMessage'">
+              <div
+                v-if="
+                  notification &&
+                    notification['@type'] === 'BuddyConnectRequestMessage'
+                "
+              >
                 <span class="is-block has-text-left title">
                   <strong>{{ $t("buddyconnectrequested") }}</strong>
                 </span>
@@ -30,24 +54,45 @@
                   {{ notification._embedded["yona:user"].lastName }}
                 </span>
               </div>
-              <div v-else-if=" notification && notification['@type'] === 'BuddyConnectResponseMessage'">
+              <div
+                v-else-if="
+                  notification &&
+                    notification['@type'] === 'BuddyConnectResponseMessage'
+                "
+              >
                 <span class="is-block has-text-left title">
-                  <strong v-if="notification.status === 'REJECTED'">{{$t("buddyresponserejected")}}</strong>
-                  <strong v-else-if="notification.status === 'ACCEPTED'">{{$t("buddyresponseaccepted")}}</strong>
+                  <strong v-if="notification.status === 'REJECTED'">{{
+                    $t("buddyresponserejected")
+                  }}</strong>
+                  <strong v-else-if="notification.status === 'ACCEPTED'">{{
+                    $t("buddyresponseaccepted")
+                  }}</strong>
                 </span>
                 <span class="is-block has-text-left name">
                   {{ notification.nickname }}
                 </span>
               </div>
-              <div v-else-if="notification && notification['@type'] === 'BuddyDisconnectMessage'">
+              <div
+                v-else-if="
+                  notification &&
+                    notification['@type'] === 'BuddyDisconnectMessage'
+                "
+              >
                 <span class="is-block has-text-left title">
-                  <strong>{{$t("buddydisconnectmessageuserromovedbuddy")}}</strong>
+                  <strong>{{
+                    $t("buddydisconnectmessageuserromovedbuddy")
+                  }}</strong>
                 </span>
                 <span class="is-block has-text-left name">
                   {{ notification.nickname }}
                 </span>
               </div>
-              <div v-else-if="notification && notification['@type'] === 'BuddyInfoChangeMessage'">
+              <div
+                v-else-if="
+                  notification &&
+                    notification['@type'] === 'BuddyInfoChangeMessage'
+                "
+              >
                 <span class="is-block has-text-left title">
                   <strong>{{ $t("message_buddy_information_changed") }}</strong>
                 </span>
@@ -55,7 +100,12 @@
                   {{ notification.nickname }}
                 </span>
               </div>
-              <div v-else-if="notification && notification['@type'] === 'GoalConflictMessage'">
+              <div
+                v-else-if="
+                  notification &&
+                    notification['@type'] === 'GoalConflictMessage'
+                "
+              >
                 <span class="is-block has-text-left title">
                   <strong>{{ $t("nogoalert") }}</strong>
                 </span>
@@ -63,7 +113,12 @@
                   {{ notification.nickname }}
                 </span>
               </div>
-              <div v-else-if="notification && notification['@type'] === 'ActivityCommentMessage'">
+              <div
+                v-else-if="
+                  notification &&
+                    notification['@type'] === 'ActivityCommentMessage'
+                "
+              >
                 <span class="is-block has-text-left title">
                   <strong>{{ $t("comment") }}</strong>
                 </span>
@@ -72,18 +127,38 @@
                 </span>
               </div>
             </div>
-            <div class="column is-2" v-if="notification && notification['@type'] === 'BuddyConnectRequestMessage'">
-              <div v-if="notification['@type'] === 'BuddyConnectRequestMessage'">
+            <div
+              class="column is-2"
+              v-if="
+                notification &&
+                  notification['@type'] === 'BuddyConnectRequestMessage'
+              "
+            >
+              <div
+                v-if="notification['@type'] === 'BuddyConnectRequestMessage'"
+              >
                 <div class="img-wrapper">
-                  <img v-if="notification.status === 'ACCEPTED'" src="../../assets/images/icons/icn_accepted.svg"/>
-                  <img v-else-if="notification.status === 'REJECTED'" src="../../assets/images/icons/icn_rejected.svg"/>
+                  <img
+                    v-if="notification.status === 'ACCEPTED'"
+                    src="../../assets/images/icons/icn_accepted.svg"
+                  />
+                  <img
+                    v-else-if="notification.status === 'REJECTED'"
+                    src="../../assets/images/icons/icn_rejected.svg"
+                  />
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="infinite-scroll" v-observe-visibility="(isVisible, entry) => this.getNotifications(isVisible, entry, nextNotifications)"></div>
+      <div
+        class="infinite-scroll"
+        v-observe-visibility="
+          (isVisible, entry) =>
+            this.getNotifications(isVisible, entry, nextNotifications)
+        "
+      ></div>
     </div>
   </div>
 </template>
@@ -110,22 +185,26 @@ export default class Notifications extends Vue {
   @State("api") api!: ApiState;
   all_notifications: any = [];
   gettingNotifications: boolean = false;
-  nextNotifications: string = '';
+  nextNotifications: string = "";
 
-  async mounted(){
+  async mounted() {
     if (this.api.links && this.api.links["yona:messages"]) {
-      await this.getNotifications(true, true, this.api.links["yona:messages"].href);
+      await this.getNotifications(
+        true,
+        true,
+        this.api.links["yona:messages"].href
+      );
     }
   }
 
-  async getNotifications(isVisible: boolean, entry: any, href: string){
-    if(isVisible && !this.gettingNotifications) {
+  async getNotifications(isVisible: boolean, entry: any, href: string) {
+    if (isVisible && !this.gettingNotifications) {
       if (href) {
         let self = this;
         this.gettingNotifications = true;
 
-        let messages: any = await axios.get(href).catch((error) => {
-          console.log(error)
+        let messages: any = await axios.get(href).catch(error => {
+          console.log(error);
         });
 
         if (messages) {
@@ -133,14 +212,16 @@ export default class Notifications extends Vue {
             this.nextNotifications = messages.data._links.next.href;
             this.gettingNotifications = false;
           } else {
-            this.nextNotifications = '';
+            this.nextNotifications = "";
           }
 
           if (messages.data._embedded) {
             messages.data._embedded["yona:messages"].forEach(
               (notification: Notification) => {
                 let not = self.all_notifications.find((not: any) => {
-                  return this.getDayLabel(notification.creationTime) === not.date;
+                  return (
+                    this.getDayLabel(notification.creationTime) === not.date
+                  );
                 });
 
                 if (not) {
@@ -160,7 +241,10 @@ export default class Notifications extends Vue {
   }
 
   getLink(notification: any) {
-    if (notification["@type"] === "BuddyInfoChangeMessage" || notification["@type"] === "ActivityCommentMessage" ) {
+    if (
+      notification["@type"] === "BuddyInfoChangeMessage" ||
+      notification["@type"] === "ActivityCommentMessage"
+    ) {
       return notification._links["yona:user"].href;
     } else if (notification["@type"] === "BuddyConnectRequestMessage") {
       return notification._embedded["yona:user"]._links.self.href;
@@ -179,14 +263,35 @@ export default class Notifications extends Vue {
         });
     }
 
-    if (notification["@type"] === "BuddyConnectRequestMessage" && notification.status === "REQUESTED") {
-      this.$router.push({name: "FriendRequest", params: { notification: notification }});
-    } else if (notification["@type"] === "BuddyInfoChangeMessage" || notification["@type"] === "BuddyConnectResponseMessage") {
-      this.$router.push({name: "FriendsProfile", params: { buddy_href: notification._links["yona:buddy"].href }});
+    if (
+      notification["@type"] === "BuddyConnectRequestMessage" &&
+      notification.status === "REQUESTED"
+    ) {
+      this.$router.push({
+        name: "FriendRequest",
+        params: { notification: notification }
+      });
+    } else if (
+      notification["@type"] === "BuddyInfoChangeMessage" ||
+      notification["@type"] === "BuddyConnectResponseMessage"
+    ) {
+      this.$router.push({
+        name: "FriendsProfile",
+        params: { buddy_href: notification._links["yona:buddy"].href }
+      });
     } else if (notification["@type"] === "GoalConflictMessage") {
-      this.$router.push({name: "DetailedViewDay", params: { activity_link: notification._links["yona:dayDetails"].href }});
-    } else if (notification["@type"] === "ActivityCommentMessage"){
-      this.$router.push({name: "DetailedViewDay", params: {buddy_href: notification._links['yona:buddy'].href, activity_link: notification._links["yona:dayDetails"].href }});
+      this.$router.push({
+        name: "DetailedViewDay",
+        params: { activity_link: notification._links["yona:dayDetails"].href }
+      });
+    } else if (notification["@type"] === "ActivityCommentMessage") {
+      this.$router.push({
+        name: "DetailedViewDay",
+        params: {
+          buddy_href: notification._links["yona:buddy"].href,
+          activity_link: notification._links["yona:dayDetails"].href
+        }
+      });
     }
   }
 
@@ -200,12 +305,54 @@ export default class Notifications extends Vue {
       };
     } = {
       nl: {
-        days: ["ZONDAG", "MAANDAG", "DINSDAG", "WOENSDAG", "DONDERDAG", "VRIJDAG", "ZATERDAG"],
-        months: ["JANUARI", "FEBRUARI", "MAART", "APRIL", "MEI", "JUNI", "JULI", "AUGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DECEMBER"]
+        days: [
+          "ZONDAG",
+          "MAANDAG",
+          "DINSDAG",
+          "WOENSDAG",
+          "DONDERDAG",
+          "VRIJDAG",
+          "ZATERDAG"
+        ],
+        months: [
+          "JANUARI",
+          "FEBRUARI",
+          "MAART",
+          "APRIL",
+          "MEI",
+          "JUNI",
+          "JULI",
+          "AUGUSTUS",
+          "SEPTEMBER",
+          "OKTOBER",
+          "NOVEMBER",
+          "DECEMBER"
+        ]
       },
       en: {
-        days: ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"],
-        months: ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"]
+        days: [
+          "SUNDAY",
+          "MONDAY",
+          "TUESDAY",
+          "WEDNESDAY",
+          "THURSDAY",
+          "FRIDAY",
+          "SATURDAY"
+        ],
+        months: [
+          "JANUARY",
+          "FEBRUARY",
+          "MARCH",
+          "APRIL",
+          "MAY",
+          "JUNE",
+          "JULY",
+          "AUGUST",
+          "SEPTEMBER",
+          "OCTOBER",
+          "NOVEMBER",
+          "DECEMBER"
+        ]
       }
     };
 

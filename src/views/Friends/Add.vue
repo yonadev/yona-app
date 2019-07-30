@@ -2,21 +2,32 @@
   <div id="add-friend" class="header-template">
     <div class="colored-background blue">
       <div class="nav-title">
-        {{$t('add_friend')}}
+        {{ $t("add_friend") }}
       </div>
       <div class="tabs is-fullwidth">
         <ul>
           <li :class="{ 'is-active': active_tab === 'manual' }">
-            <a @click.prevent="active_tab = 'manual'">{{$t('addfriendmanually')}}</a>
+            <a @click.prevent="active_tab = 'manual'">{{
+              $t("addfriendmanually")
+            }}</a>
           </li>
           <li :class="{ 'is-active': active_tab === 'addressbook' }">
-            <a @click.prevent="active_tab = 'addressbook'">{{$t('addfriendcontacts')}}</a>
+            <a @click.prevent="active_tab = 'addressbook'">{{
+              $t("addfriendcontacts")
+            }}</a>
           </li>
         </ul>
       </div>
     </div>
     <div class="wrapper grey-bg" v-if="active_tab === 'manual'">
-      <input-floating-label id="firstname" class="grey-bg-input" :label="$t('firstname')" type="text" :value.sync="firstname" icon="icn_name.svg"></input-floating-label>
+      <input-floating-label
+        id="firstname"
+        class="grey-bg-input"
+        :label="$t('firstname')"
+        type="text"
+        :value.sync="firstname"
+        icon="icn_name.svg"
+      ></input-floating-label>
       <input-floating-label
         id="lastname"
         class="grey-bg-input"
@@ -50,11 +61,11 @@
         icon="icn_name.svg"
       ></input-floating-label>
 
-      <a class="button is-rounded add-friend" @click="addFriend">{{$t('invitefriend')}}</a>
+      <a class="button is-rounded add-friend" @click="addFriend">{{
+        $t("invitefriend")
+      }}</a>
     </div>
-    <div class="wrapper grey-bg" v-if="active_tab === 'addressbook'">
-
-    </div>
+    <div class="wrapper grey-bg" v-if="active_tab === 'addressbook'"></div>
   </div>
 </template>
 

@@ -18,6 +18,8 @@ instance.interceptors.request.use(
       config.headers["Yona-Password"] = store.getters["api/yonaPassword"];
     }
 
+    config.headers["content-language"] = store.state.api.locale;
+
     return config;
   },
   error => {
@@ -49,7 +51,7 @@ instance.interceptors.response.use(
     return response;
   },
   error => {
-    console.log(error)
+    console.log(error);
     // Do something with response error
     store.dispatch("api/setServerError", {
       serverMessage: error.response.data.message

@@ -4,7 +4,10 @@
       <div class="heading" v-if="notification">
         <div class="nav-title"></div>
         <div class="wrapper">
-          <profile-pic class="profile-img" :src="buddyProfile._embedded['yona:user']._links.self.href"></profile-pic>
+          <profile-pic
+            class="profile-img"
+            :src="buddyProfile._embedded['yona:user']._links.self.href"
+          ></profile-pic>
           <p class="icon-title">
             {{ notification._embedded["yona:user"].firstName }}
             {{ notification._embedded["yona:user"].lastName }}
@@ -25,7 +28,9 @@
           </span>
           <span class="light-text">{{ $t("friend_request_content") }}</span
           ><br />
-          <span class="light-text">{{notification._embedded["yona:user"].mobileNumber}}</span>
+          <span class="light-text">{{
+            notification._embedded["yona:user"].mobileNumber
+          }}</span>
         </p>
         <a class="button reject is-rounded is-6" @click="reject()">{{
           $t("reject")
@@ -43,7 +48,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import axios from "../../utils/axios/axios";
 import { Prop } from "vue-property-decorator";
-import {Action} from "vuex-class";
+import { Action } from "vuex-class";
 
 @Component({})
 export default class Notifications extends Vue {
@@ -53,28 +58,32 @@ export default class Notifications extends Vue {
 
   async mounted() {
     if (this.notification && this.notification._links["yona:userPhoto"]) {
-      let photo_response: any = await axios.get(this.notification._links["yona:userPhoto"].href, {
-        responseType: "blob"
-      }).catch(error => {
-        console.log(error);
-      });
+      let photo_response: any = await axios
+        .get(this.notification._links["yona:userPhoto"].href, {
+          responseType: "blob"
+        })
+        .catch(error => {
+          console.log(error);
+        });
 
       this.avatar = await URL.createObjectURL(photo_response.data);
     }
   }
 
   async accept() {
-    let response: any = await axios.post(this.notification._links["yona:accept"].href, {
-      properties: {
-        message: "accepted"
-      }
-    }).catch(error => {
-      console.log(error);
-    });
+    let response: any = await axios
+      .post(this.notification._links["yona:accept"].href, {
+        properties: {
+          message: "accepted"
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
 
     if (response.status == 200) {
       this.getBuddies();
-      this.$router.push({name: "Notifications"});
+      this.$router.push({ name: "Notifications" });
     }
   }
   async reject() {

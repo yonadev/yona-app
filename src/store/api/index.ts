@@ -5,9 +5,10 @@ import i18n from "@/utils/i18n";
 
 export const state: ApiState = {
   host: "https://app.prd.yona.nu",
+  locale: 'en-US',
   yonaPassword: "",
   serverMessage: "",
-  offline: false,
+  online: false,
   links: {},
   embedded: {}
 };
@@ -21,16 +22,19 @@ const actions: ActionTree<ApiState, RootState> = {
 
     setTimeout(() => {
       dispatch("removeServerError");
-    }, 5000)
+    }, 5000);
   },
   removeServerError({ commit }): any {
-    commit("setServerError", {serverMessage: ""});
+    commit("setServerError", { serverMessage: "" });
   },
   setOffline({ commit, dispatch }): any {
     commit("setOnlineStatus", false);
     dispatch("setServerError", {
-      serverMessage: i18n.t('connectionnotavailable')
+      serverMessage: i18n.t("connectionnotavailable")
     });
+  },
+  setLocale({ commit }, locale): void {
+    commit("setLocale", locale)
   },
   setOnline({ commit }): any {
     commit("setOnlineStatus", true);
@@ -43,10 +47,13 @@ const actions: ActionTree<ApiState, RootState> = {
   },
   setHost({ commit }, data): any {
     commit("setHost", data);
-  },
+  }
 };
 
 const mutations: MutationTree<ApiState> = {
+  setLocale(state, locale) {
+    state.locale = locale;
+  },
   setHeaderPassword(state, payload: ApiState) {
     state.yonaPassword = payload.yonaPassword;
   },
@@ -54,7 +61,7 @@ const mutations: MutationTree<ApiState> = {
     state.serverMessage = payload.serverMessage;
   },
   setOnlineStatus(state, bool) {
-    state.offline = bool;
+    state.online = bool;
   },
   setLinks(state, payload: ApiState) {
     state.links = payload.links;

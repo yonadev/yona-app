@@ -7,4 +7,9 @@ export interface LoginState {
   pinCode: number | null;
   loginAttempts: number;
   locked_timer: number | null;
+  lastRoute: {
+    name: string,
+    params: {},
+    query: {}
+  } | null
 }

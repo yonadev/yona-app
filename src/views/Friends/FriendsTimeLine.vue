@@ -1,9 +1,18 @@
 <template>
   <div id="friends-timeline">
-    <div v-for="(buddy_activities, index) in buddies_activities" :key="'day' + index">
+    <div
+      v-for="(buddy_activities, index) in buddies_activities"
+      :key="'day' + index"
+    >
       <ui-controls-label :day_activities="buddy_activities"></ui-controls-label>
     </div>
-    <div class="infinite-scroll" v-observe-visibility="(isVisible, entry) => this.getActivities(isVisible, entry, nextActivities)"></div>
+    <div
+      class="infinite-scroll"
+      v-observe-visibility="
+        (isVisible, entry) =>
+          this.getActivities(isVisible, entry, nextActivities)
+      "
+    ></div>
   </div>
 </template>
 
@@ -27,17 +36,24 @@ export default class FriendsTimeLine extends Vue {
   @State(state => state.buddies.buddies) buddies!: Buddy[];
   buddies_activities: any = [];
   gettingActivities: boolean = false;
-  nextActivities: string = '';
+  nextActivities: string = "";
 
   async mounted() {
-    if (this.api.links && this.api.links["yona:dailyActivityReportsWithBuddies"]) {
-      await this.getActivities(true, true, this.api.links["yona:dailyActivityReportsWithBuddies"].href);
+    if (
+      this.api.links &&
+      this.api.links["yona:dailyActivityReportsWithBuddies"]
+    ) {
+      await this.getActivities(
+        true,
+        true,
+        this.api.links["yona:dailyActivityReportsWithBuddies"].href
+      );
     }
   }
 
-  async getActivities(isVisible: boolean, entry: any, href: string){
-    if(isVisible && !this.gettingActivities){
-      if(href) {
+  async getActivities(isVisible: boolean, entry: any, href: string) {
+    if (isVisible && !this.gettingActivities) {
+      if (href) {
         let self = this;
 
         this.gettingActivities = true;
@@ -51,13 +67,15 @@ export default class FriendsTimeLine extends Vue {
             this.nextActivities = response.data._links.next.href;
             this.gettingActivities = false;
           } else {
-            this.nextActivities = '';
+            this.nextActivities = "";
           }
 
-          if(response.data._embedded) {
-            response.data._embedded['yona:dayActivityOverviews'].forEach((message: any) => {
-              self.buddies_activities.push(message);
-            });
+          if (response.data._embedded) {
+            response.data._embedded["yona:dayActivityOverviews"].forEach(
+              (message: any) => {
+                self.buddies_activities.push(message);
+              }
+            );
           }
         }
       }
@@ -135,9 +153,9 @@ export default class FriendsTimeLine extends Vue {
       }
     }
   }
-  .infinite-scroll{
-    height:1px;
-    width:100%;
+  .infinite-scroll {
+    height: 1px;
+    width: 100%;
   }
 }
 </style>
