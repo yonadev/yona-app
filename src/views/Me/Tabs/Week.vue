@@ -1,9 +1,17 @@
 <template>
   <div>
-    <div v-for="(week_activities, index) in weekActivityOverviews" :key="'week' + index">
+    <div
+      v-for="(week_activities, index) in weekActivityOverviews"
+      :key="'week' + index"
+    >
       <week-score-label :week_activities="week_activities"></week-score-label>
     </div>
-    <div class="infinite-scroll" v-observe-visibility="(isVisible, entry) => getActivities(isVisible, entry, nextActivities)"></div>
+    <div
+      class="infinite-scroll"
+      v-observe-visibility="
+        (isVisible, entry) => getActivities(isVisible, entry, nextActivities)
+      "
+    ></div>
   </div>
 </template>
 
@@ -24,17 +32,21 @@ export default class MeTimeLineWeek extends Vue {
   @State("api") api!: ApiState;
   weekActivityOverviews: any = [];
   gettingActivities: boolean = false;
-  nextActivities: string = '';
+  nextActivities: string = "";
 
   async mounted() {
     if (this.api.links) {
-      await this.getActivities(true, true, this.api.links["yona:weeklyActivityReports"].href);
+      await this.getActivities(
+        true,
+        true,
+        this.api.links["yona:weeklyActivityReports"].href
+      );
     }
   }
 
-  async getActivities(isVisible: boolean, entry: any, href: string){
-    if(isVisible && !this.gettingActivities){
-      if(href) {
+  async getActivities(isVisible: boolean, entry: any, href: string) {
+    if (isVisible && !this.gettingActivities) {
+      if (href) {
         let self = this;
 
         this.gettingActivities = true;
@@ -48,12 +60,14 @@ export default class MeTimeLineWeek extends Vue {
             this.nextActivities = response.data._links.next.href;
             this.gettingActivities = false;
           } else {
-            this.nextActivities = '';
+            this.nextActivities = "";
           }
 
-          response.data._embedded['yona:weekActivityOverviews'].forEach((message: any) => {
-            self.weekActivityOverviews.push(message);
-          });
+          response.data._embedded["yona:weekActivityOverviews"].forEach(
+            (message: any) => {
+              self.weekActivityOverviews.push(message);
+            }
+          );
         }
       }
     }

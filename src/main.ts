@@ -90,8 +90,8 @@ Vue.directive("fixed-scroll", {
   }
 });
 
-import VueObserveVisibility from 'vue-observe-visibility'
-Vue.use(VueObserveVisibility)
+import VueObserveVisibility from "vue-observe-visibility";
+Vue.use(VueObserveVisibility);
 
 // partial import bulma, import global, import fonts
 import "./sass/libraries/import_bulma.scss";
@@ -111,19 +111,38 @@ const app = new Vue({
   i18n,
   render: h => h(App),
   methods: {
-    init () {
+    init() {
+      const self = this;
+
       //@ts-ignore
       if (window.navigator.splashscreen) {
         //@ts-ignore
         window.navigator.splashscreen.hide();
       }
 
-      document.addEventListener('pause', this.pause, false)
+      document.addEventListener("pause", () => this.pause(), false);
+
+      document.addEventListener(
+        "offline",
+        () => {
+          self.$store.dispatch("api/setOffline");
+          self.pause();
+        },
+        false
+      );
+
+      document.addEventListener(
+        "online",
+        () => {
+          self.$store.dispatch("api/setOnline");
+        },
+        false
+      );
     },
-    pause () {
-      this.$store.dispatch('login/setLoggedOff');
+    pause() {
+      this.$store.dispatch("login/setLoggedOff");
     }
   }
 }).$mount("#app");
 
-document.addEventListener('deviceready', app.init);
+document.addEventListener("deviceready", app.init);

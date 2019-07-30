@@ -33,16 +33,16 @@ const actions: ActionTree<LoginState, RootState> = {
   setLoggedIn({ commit, dispatch }, data): void {
     commit("resetLock");
     commit("setLoggedIn");
-    dispatch("buddies/update", null, {root: true});
-    dispatch("challenges/update", null, {root: true});
+    dispatch("buddies/update", null, { root: true });
+    dispatch("challenges/update", null, { root: true });
     if (data.view !== "changePin") {
       router.push({ name: "MeTimeLineDay" });
     }
   },
   setLoggedOff({ commit, dispatch }): void {
     commit("setLoggedOff");
-    dispatch("buddies/update", null, {root: true});
-    dispatch("challenges/update", null, {root: true});
+    dispatch("buddies/update", null, { root: true });
+    dispatch("challenges/update", null, { root: true });
     router.push({ name: "Login" });
   },
   setRegistered({ commit }): void {

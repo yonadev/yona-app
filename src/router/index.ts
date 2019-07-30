@@ -241,7 +241,7 @@ export default new Router({
               path: "intro",
               name: "Intro",
               component: Intro,
-              meta:{
+              meta: {
                 permission: true
               }
             },
@@ -249,7 +249,7 @@ export default new Router({
               path: "permission",
               name: "GivePermission",
               component: GivePermission,
-              meta:{
+              meta: {
                 permission: true
               }
             }

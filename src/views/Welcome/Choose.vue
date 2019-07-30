@@ -1,11 +1,16 @@
 <template>
   <div id="choose">
-    <img src="../../assets/images/welcome/choose/yona_logo.svg" @click="clickCounter++" />
+    <img
+      src="../../assets/images/welcome/choose/yona_logo.svg"
+      @click="clickCounter++"
+    />
 
-    <br/>
-    <br/>
+    <br />
+    <br />
     <input v-if="clickCounter >= 6" v-model="host" />
-    <button v-if="clickCounter >= 6" class="button" @click="changeAPIUrl">Save</button>
+    <button v-if="clickCounter >= 6" class="button" @click="changeAPIUrl">
+      Save
+    </button>
 
     <!--ToDo: Make it like a native or cordova popup-->
 
@@ -23,21 +28,21 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import {Action, State} from "vuex-class";
-import {ApiState} from "@/store/api/types";
+import { Action, State } from "vuex-class";
+import { ApiState } from "@/store/api/types";
 
 @Component({})
 export default class Choose extends Vue {
   @Action("setHost", { namespace: "api" }) setHost: any;
   @State("api") api!: ApiState;
   clickCounter: number = 0;
-  host: string = '';
+  host: string = "";
 
-  mounted () {
+  mounted() {
     this.host = this.api.host;
   }
 
-  changeAPIUrl(){
+  changeAPIUrl() {
     this.setHost({
       host: this.host
     });

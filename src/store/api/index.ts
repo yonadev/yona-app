@@ -21,15 +21,15 @@ const actions: ActionTree<ApiState, RootState> = {
 
     setTimeout(() => {
       dispatch("removeServerError");
-    }, 5000)
+    }, 5000);
   },
   removeServerError({ commit }): any {
-    commit("setServerError", {serverMessage: ""});
+    commit("setServerError", { serverMessage: "" });
   },
   setOffline({ commit, dispatch }): any {
     commit("setOnlineStatus", false);
     dispatch("setServerError", {
-      serverMessage: i18n.t('connectionnotavailable')
+      serverMessage: i18n.t("connectionnotavailable")
     });
   },
   setOnline({ commit }): any {
@@ -43,7 +43,7 @@ const actions: ActionTree<ApiState, RootState> = {
   },
   setHost({ commit }, data): any {
     commit("setHost", data);
-  },
+  }
 };
 
 const mutations: MutationTree<ApiState> = {

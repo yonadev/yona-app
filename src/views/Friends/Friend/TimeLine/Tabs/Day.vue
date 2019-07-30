@@ -1,9 +1,20 @@
 <template>
   <div>
-    <div v-for="(day_activities, index) in dayActivityOverviews" :key="'day' + index">
-      <ui-controls-label :buddy_href="buddy_href" :day_activities="day_activities"></ui-controls-label>
+    <div
+      v-for="(day_activities, index) in dayActivityOverviews"
+      :key="'day' + index"
+    >
+      <ui-controls-label
+        :buddy_href="buddy_href"
+        :day_activities="day_activities"
+      ></ui-controls-label>
     </div>
-    <div class="infinite-scroll" v-observe-visibility="(isVisible, entry) => getActivities(isVisible, entry, nextActivities)"></div>
+    <div
+      class="infinite-scroll"
+      v-observe-visibility="
+        (isVisible, entry) => getActivities(isVisible, entry, nextActivities)
+      "
+    ></div>
   </div>
 </template>
 
@@ -25,7 +36,7 @@ export default class FriendsTimeLineDay extends Vue {
   @Prop() buddy_href!: string;
   dayActivityOverviews: any = [];
   gettingActivities: boolean = false;
-  nextActivities: string = '';
+  nextActivities: string = "";
 
   @Getter("buddy", { namespace: "buddies" })
   public buddy!: (buddy_href: string) => Buddy;
@@ -35,12 +46,16 @@ export default class FriendsTimeLineDay extends Vue {
   }
 
   async mounted() {
-    await this.getActivities(true, true, this.buddyProfile._links["yona:dailyActivityReports"].href);
+    await this.getActivities(
+      true,
+      true,
+      this.buddyProfile._links["yona:dailyActivityReports"].href
+    );
   }
 
-  async getActivities(isVisible: boolean, entry: any, href: string){
-    if(isVisible && !this.gettingActivities){
-      if(href) {
+  async getActivities(isVisible: boolean, entry: any, href: string) {
+    if (isVisible && !this.gettingActivities) {
+      if (href) {
         let self = this;
 
         this.gettingActivities = true;
@@ -54,12 +69,14 @@ export default class FriendsTimeLineDay extends Vue {
             this.nextActivities = response.data._links.next.href;
             this.gettingActivities = false;
           } else {
-            this.nextActivities = '';
+            this.nextActivities = "";
           }
 
-          response.data._embedded['yona:dayActivityOverviews'].forEach((message: any) => {
-            self.dayActivityOverviews.push(message);
-          });
+          response.data._embedded["yona:dayActivityOverviews"].forEach(
+            (message: any) => {
+              self.dayActivityOverviews.push(message);
+            }
+          );
         }
       }
     }
@@ -68,8 +85,8 @@ export default class FriendsTimeLineDay extends Vue {
 </script>
 
 <style lang="scss">
-  .infinite-scroll{
-    height:1px;
-    width:100%;
-  }
+.infinite-scroll {
+  height: 1px;
+  width: 100%;
+}
 </style>
