@@ -26,6 +26,8 @@
   "previous" : "PREVIOUS",
   "next" : "NEXT",
   "step": "Step",
+  "from": "from",
+  "to": "to",
   "connectionnotavailable" : "OOPS! No Internet Connection Available, please connect and try again.",
   "somethingwentwrong" : "Oops, Something went wrong",
   "server_not_rechable" : "Server is not accessible. Try again.",

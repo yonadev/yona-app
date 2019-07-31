@@ -26,6 +26,8 @@
   "previous": "VORIGE",
   "next": "VOLGENDE",
   "step": "Stap",
+  "from": "van",
+  "to": "tot",
   "connectionnotavailable": "OEPS! Geen internetverbinding beschikbaar, maak opnieuw verbinding en probeer opnieuw.",
   "somethingwentwrong": "Oeps! Er is iets mis gegaan",
   "server_not_rechable": "Server is niet toegankelijk. Probeer het nog eens",
