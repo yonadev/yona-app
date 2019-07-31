@@ -152,12 +152,14 @@ export default class Setup extends Vue {
             }
           }
         },
-        '',
+        "",
         [self.$t("No"), self.$t("Yes")]
       );
     } else {
-      let confirm_response: any = confirm((self.$t("challengedeletemsg") as string));
-      if(confirm_response){
+      let confirm_response: any = confirm(self.$t(
+        "challengedeletemsg"
+      ) as string);
+      if (confirm_response) {
         if (goal._links.edit) {
           await this.deleteGoal(goal._links.edit.href);
           this.$router.push({

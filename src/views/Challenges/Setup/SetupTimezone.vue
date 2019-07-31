@@ -28,17 +28,17 @@
                   <img :src="require('@/assets/images/icons/icn_bounds.svg')" />
                 </div>
                 <div class="item-time-from">
-                  <label :for="'timeFrom'+index">
+                  <label :for="'timeFrom' + index">
                     <div class="time-entry-content">
-                      <div class="label">{{$t('from')}}</div>
+                      <div class="label">{{ $t("from") }}</div>
                       <div class="time-value">{{ formatTime(item.from) }}</div>
                     </div>
                   </label>
                 </div>
                 <div class="item-time-end">
-                  <label :for="'timeTo'+index">
+                  <label :for="'timeTo' + index">
                     <div class="time-entry-content">
-                      <div class="label">{{$t('to')}}</div>
+                      <div class="label">{{ $t("to") }}</div>
                       <div class="time-value">{{ formatTime(item.to) }}</div>
                     </div>
                   </label>
@@ -54,23 +54,41 @@
             </div>
           </template>
         </swipe-list>
-        <div v-for="item, index in setupData.items">
-          <datetime v-model="item.from" :input-id="'timeFrom'+index" type="time" :minute-step="15" format="HH:mm" value-zone="UTC+2" input-style="display:none;" :title="$t('from')">
+        <div v-for="(item, index) in setupData.items" :key="'dateTime' + index">
+          <datetime
+            v-model="item.from"
+            :input-id="'timeFrom' + index"
+            type="time"
+            :minute-step="15"
+            format="HH:mm"
+            value-zone="UTC+2"
+            input-style="display:none;"
+            :title="$t('from')"
+          >
             <template slot="button-cancel">
-              {{$t('cancel')}}
+              {{ $t("cancel") }}
             </template>
             <template slot="button-confirm">
-              <label :for="'timeTo'+index">
-                {{$t('next')}}
+              <label :for="'timeTo' + index">
+                {{ $t("next") }}
               </label>
             </template>
           </datetime>
-          <datetime v-model="item.to" :input-id="'timeTo'+index" type="time" :minute-step="15" format="HH:mm" value-zone="UTC+2" input-style="display:none;" :title="$t('to')">
+          <datetime
+            v-model="item.to"
+            :input-id="'timeTo' + index"
+            type="time"
+            :minute-step="15"
+            format="HH:mm"
+            value-zone="UTC+2"
+            input-style="display:none;"
+            :title="$t('to')"
+          >
             <template slot="button-cancel">
-              {{$t('cancel')}}
+              {{ $t("cancel") }}
             </template>
             <template slot="button-confirm">
-              {{$t('save')}}
+              {{ $t("save") }}
             </template>
           </datetime>
         </div>
@@ -82,8 +100,10 @@
         <a
           class="button is-rounded is-fullwidth save-challenge-btn"
           :disabled="setupData.items.length == 0 || loading"
-          @click="save">
-          {{ $t("challenges.addBudgetGoal.setChallengeButton") }}</a>
+          @click="save"
+        >
+          {{ $t("challenges.addBudgetGoal.setChallengeButton") }}</a
+        >
       </div>
     </div>
   </div>
@@ -96,10 +116,10 @@ import { Action, State } from "vuex-class";
 import { ChallengesState, Goal, TimeZoneGoal } from "@/store/challenges/types";
 
 //@ts-ignore
-import { Datetime } from 'vue-datetime';
+import { Datetime } from "vue-datetime";
 //@ts-ignore
 import { DateTime } from "luxon";
-import 'vue-datetime/dist/vue-datetime.css';
+import "vue-datetime/dist/vue-datetime.css";
 
 //@ts-ignore
 import { SwipeList, SwipeOut } from "vue-swipe-actions";
@@ -141,9 +161,9 @@ export default class Setup extends Vue {
     }
   }
 
-  formatTime(time: string){
+  formatTime(time: string) {
     let timeFormat = DateTime.fromISO(time);
-    return timeFormat.toFormat('HH:mm');
+    return timeFormat.toFormat("HH:mm");
   }
 
   addTimezoneEntry() {
@@ -173,7 +193,9 @@ export default class Setup extends Vue {
             }
           },
           zones: this.setupData.items.map(zone => {
-            return `${DateTime.fromISO(zone.from).toFormat('HH:mm')}-${DateTime.fromISO(zone.to).toFormat('HH:mm')}`;
+            return `${DateTime.fromISO(zone.from).toFormat(
+              "HH:mm"
+            )}-${DateTime.fromISO(zone.to).toFormat("HH:mm")}`;
           })
         }
       });
@@ -186,7 +208,9 @@ export default class Setup extends Vue {
           }
         },
         zones: this.setupData.items.map(zone => {
-          return `${DateTime.fromISO(zone.from).toFormat('HH:mm')}-${DateTime.fromISO(zone.to).toFormat('HH:mm')}`;
+          return `${DateTime.fromISO(zone.from).toFormat(
+            "HH:mm"
+          )}-${DateTime.fromISO(zone.to).toFormat("HH:mm")}`;
         })
       });
     }
@@ -303,16 +327,16 @@ export default class Setup extends Vue {
     }
   }
 
-  .vdatetime-popup__header{
+  .vdatetime-popup__header {
     background: $color-green;
-    .vdatetime-popup__title{
+    .vdatetime-popup__title {
       text-transform: uppercase;
     }
   }
-  .vdatetime-time-picker__item--selected{
+  .vdatetime-time-picker__item--selected {
     color: $color-green;
   }
-  .vdatetime-popup__actions__button{
+  .vdatetime-popup__actions__button {
     color: $color-blue;
   }
 }
