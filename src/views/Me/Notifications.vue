@@ -201,6 +201,13 @@
           </swipe-out>
         </div>
       </div>
+      <div
+              class="infinite-scroll"
+              v-observe-visibility="
+          (isVisible, entry) =>
+            this.getNotifications(isVisible, entry, nextNotifications)
+        "
+      ></div>
     </div>
   </div>
 </template>
@@ -261,6 +268,7 @@ export default class Notifications extends Vue {
 
   async getNotifications(isVisible: boolean, entry: any, href: string) {
     if (isVisible && !this.gettingNotifications) {
+      this.loading = true;
       if (href) {
         let self = this;
         this.gettingNotifications = true;
@@ -296,6 +304,8 @@ export default class Notifications extends Vue {
                 }
               }
             );
+
+            this.loading = false;
           }
         }
       }

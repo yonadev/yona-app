@@ -1,5 +1,5 @@
 <template>
-  <div id="friends-timeline">
+  <div id="friends-timeline" :loading="loading">
     <div
       v-for="(buddy_activities, index) in buddies_activities"
       :key="'day' + index"
@@ -37,6 +37,7 @@ export default class FriendsTimeLine extends Vue {
   buddies_activities: any = [];
   gettingActivities: boolean = false;
   nextActivities: string = "";
+  loading: boolean = false;
 
   async mounted() {
     if (
@@ -53,6 +54,7 @@ export default class FriendsTimeLine extends Vue {
 
   async getActivities(isVisible: boolean, entry: any, href: string) {
     if (isVisible && !this.gettingActivities) {
+      this.loading = true;
       if (href) {
         let self = this;
 
@@ -76,6 +78,7 @@ export default class FriendsTimeLine extends Vue {
                 self.buddies_activities.push(message);
               }
             );
+            this.loading = false;
           }
         }
       }

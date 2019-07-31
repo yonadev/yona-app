@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :loading="loading">
     <div
       v-for="(week_activities, index) in weekActivityOverviews"
       :key="'week' + index"
@@ -38,6 +38,7 @@ export default class FriendsTimeLineWeek extends Vue {
   weekActivityOverviews: any = [];
   gettingActivities: boolean = false;
   nextActivities: string = "";
+  loading: boolean = false;
 
   @Getter("buddy", { namespace: "buddies" })
   public buddy!: (buddy_href: string) => Buddy;
@@ -56,6 +57,7 @@ export default class FriendsTimeLineWeek extends Vue {
 
   async getActivities(isVisible: boolean, entry: any, href: string) {
     if (isVisible && !this.gettingActivities) {
+      this.loading = true;
       if (href) {
         let self = this;
 
@@ -78,6 +80,8 @@ export default class FriendsTimeLineWeek extends Vue {
               self.weekActivityOverviews.push(message);
             }
           );
+
+          this.loading = false;
         }
       }
     }

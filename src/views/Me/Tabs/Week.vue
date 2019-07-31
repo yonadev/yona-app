@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :loading="loading">
     <div
       v-for="(week_activities, index) in weekActivityOverviews"
       :key="'week' + index"
@@ -33,6 +33,7 @@ export default class MeTimeLineWeek extends Vue {
   weekActivityOverviews: any = [];
   gettingActivities: boolean = false;
   nextActivities: string = "";
+  loading: boolean = false;
 
   async mounted() {
     if (this.api.links) {
@@ -46,6 +47,7 @@ export default class MeTimeLineWeek extends Vue {
 
   async getActivities(isVisible: boolean, entry: any, href: string) {
     if (isVisible && !this.gettingActivities) {
+      this.loading = true;
       if (href) {
         let self = this;
 
@@ -68,6 +70,8 @@ export default class MeTimeLineWeek extends Vue {
               self.weekActivityOverviews.push(message);
             }
           );
+
+          this.loading = false;
         }
       }
     }
