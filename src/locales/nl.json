@@ -188,6 +188,8 @@
   "goaladded": "Challenge toegevoegd",
   "goaldeleted": "Challenge verwijderd",
   "goalchanged": "Challenge aangepast",
+  "deviceadded" : "Toestel toegevoegd",
+  "devicechanged" : "Toestel aangepast",
   "nogoalert": "No-go alert",
   "comment": "Bericht",
   "useraccountdeleted": "Gebruikersaccount verwijderd",

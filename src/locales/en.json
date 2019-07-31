@@ -189,6 +189,8 @@
   "goaladded" : "Challenge added",
   "goaldeleted" : "Challenge deleted",
   "goalchanged" : "Challenge changed",
+  "deviceadded" : "Device added",
+  "devicechanged" : "Device changed",
   "nogoalert" : "No-go alert",
   "comment" : "Message",
   "useraccountdeleted" : "User account deleted",
