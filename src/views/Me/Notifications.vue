@@ -8,183 +8,194 @@
 
     <div class="wrapper grey-bg">
       <div
-              v-for="(day_notification, day_index) in all_notifications"
-              :key="'day'+day_index"
+        v-for="(day_notification, day_index) in all_notifications"
+        :key="'day' + day_index"
       >
         <div class="top-label">
           <strong>{{ day_notification.date.toUpperCase() }}</strong>
         </div>
         <div
-                v-for="(notification, index) in day_notification.notifications"
-                :key="'not'+index"
-                class="grey-bg-div notification"
-                :class="{ 'is-not-read': !notification.isRead }"
+          v-for="(notification, index) in day_notification.notifications"
+          :key="'not' + index"
+          class="grey-bg-div notification"
+          :class="{ 'is-not-read': !notification.isRead }"
         >
-          <swipe-out :ref="'list'+day_index+index">
+          <swipe-out :ref="'list' + day_index + index">
             <template v-slot>
-              <div v-if="notification" class="columns is-mobile" @click="goTo(notification)">
+              <div
+                v-if="notification"
+                class="columns is-mobile"
+                @click="goTo(notification)"
+              >
                 <div class="column is-2">
                   <div
-                          class="img-wrapper"
-                          v-if="
-                    notification &&
-                      notification['@type'] === 'GoalConflictMessage'
-                  "
+                    class="img-wrapper"
+                    v-if="
+                      notification &&
+                        notification['@type'] === 'GoalConflictMessage'
+                    "
                   >
                     <img
-                            :src="require('../../assets/images/avatars/adult_sad.svg')"
+                      :src="
+                        require('../../assets/images/avatars/adult_sad.svg')
+                      "
                     />
                   </div>
                   <div v-else class="img-wrapper">
                     <profile-pic
-                            v-if="getLink(notification)"
-                            :src="getLink(notification)"
+                      v-if="getLink(notification)"
+                      :src="getLink(notification)"
                     ></profile-pic>
                   </div>
                 </div>
                 <div class="column">
                   <div
-                          v-if="
-                    notification &&
-                      notification['@type'] === 'BuddyConnectRequestMessage'
-                  "
+                    v-if="
+                      notification &&
+                        notification['@type'] === 'BuddyConnectRequestMessage'
+                    "
                   >
-                  <span class="is-block has-text-left title">
-                    <strong>{{ $t("buddyconnectrequested") }}</strong>
-                  </span>
+                    <span class="is-block has-text-left title">
+                      <strong>{{ $t("buddyconnectrequested") }}</strong>
+                    </span>
                     <span class="is-block has-text-left name">
-                    {{ notification._embedded["yona:user"].firstName }}
-                    {{ notification._embedded["yona:user"].lastName }}
-                  </span>
+                      {{ notification._embedded["yona:user"].firstName }}
+                      {{ notification._embedded["yona:user"].lastName }}
+                    </span>
                   </div>
                   <div
-                          v-else-if="
-                    notification &&
-                      notification['@type'] === 'BuddyConnectResponseMessage'
-                  "
+                    v-else-if="
+                      notification &&
+                        notification['@type'] === 'BuddyConnectResponseMessage'
+                    "
                   >
-                  <span class="is-block has-text-left title">
-                    <strong v-if="notification.status === 'REJECTED'">{{
-                      $t("buddyresponserejected")
-                    }}</strong>
-                    <strong v-else-if="notification.status === 'ACCEPTED'">{{
-                      $t("buddyresponseaccepted")
-                    }}</strong>
-                  </span>
+                    <span class="is-block has-text-left title">
+                      <strong v-if="notification.status === 'REJECTED'">{{
+                        $t("buddyresponserejected")
+                      }}</strong>
+                      <strong v-else-if="notification.status === 'ACCEPTED'">{{
+                        $t("buddyresponseaccepted")
+                      }}</strong>
+                    </span>
                     <span class="is-block has-text-left name">
-                    {{ notification.nickname }}
-                  </span>
+                      {{ notification.nickname }}
+                    </span>
                   </div>
                   <div
-                          v-else-if="
-                    notification &&
-                      notification['@type'] === 'BuddyDisconnectMessage'
-                  "
+                    v-else-if="
+                      notification &&
+                        notification['@type'] === 'BuddyDisconnectMessage'
+                    "
                   >
-                  <span class="is-block has-text-left title">
-                    <strong>{{
-                      $t("buddydisconnectmessageuserromovedbuddy")
-                    }}</strong>
-                  </span>
+                    <span class="is-block has-text-left title">
+                      <strong>{{
+                        $t("buddydisconnectmessageuserromovedbuddy")
+                      }}</strong>
+                    </span>
                     <span class="is-block has-text-left name">
-                    {{ notification.nickname }}
-                  </span>
+                      {{ notification.nickname }}
+                    </span>
                   </div>
                   <div
-                          v-else-if="
-                    notification &&
-                      notification['@type'] === 'BuddyInfoChangeMessage'
-                  "
+                    v-else-if="
+                      notification &&
+                        notification['@type'] === 'BuddyInfoChangeMessage'
+                    "
                   >
-                  <span class="is-block has-text-left title">
-                    <strong>{{ $t("message_buddy_information_changed") }}</strong>
-                  </span>
+                    <span class="is-block has-text-left title">
+                      <strong>{{
+                        $t("message_buddy_information_changed")
+                      }}</strong>
+                    </span>
                     <span class="is-block has-text-left name">
-                    {{ notification.nickname }}
-                  </span>
+                      {{ notification.nickname }}
+                    </span>
                   </div>
                   <div
-                          v-else-if="
-                    notification &&
-                      notification['@type'] === 'GoalConflictMessage'
-                  "
+                    v-else-if="
+                      notification &&
+                        notification['@type'] === 'GoalConflictMessage'
+                    "
                   >
-                  <span class="is-block has-text-left title">
-                    <strong>{{ $t("nogoalert") }}</strong>
-                  </span>
+                    <span class="is-block has-text-left title">
+                      <strong>{{ $t("nogoalert") }}</strong>
+                    </span>
                     <span class="is-block has-text-left name">
-                    {{ notification.nickname }}
-                  </span>
+                      {{ notification.nickname }}
+                    </span>
                   </div>
                   <div
-                          v-else-if="
-                    notification &&
-                      notification['@type'] === 'ActivityCommentMessage'
-                  "
+                    v-else-if="
+                      notification &&
+                        notification['@type'] === 'ActivityCommentMessage'
+                    "
                   >
-                  <span class="is-block has-text-left title">
-                    <strong>{{ $t("comment") }}</strong>
-                  </span>
+                    <span class="is-block has-text-left title">
+                      <strong>{{ $t("comment") }}</strong>
+                    </span>
                     <span class="is-block has-text-left name">
-                    {{ notification.nickname }}
-                  </span>
+                      {{ notification.nickname }}
+                    </span>
                   </div>
                   <div
-                          v-else-if="
-                    notification && notification['@type'] === 'SystemMessage'
-                  "
+                    v-else-if="
+                      notification && notification['@type'] === 'SystemMessage'
+                    "
                   >
-                  <span class="is-block has-text-left title">
-                    <strong>{{ $t("system_message") }}</strong>
-                  </span>
+                    <span class="is-block has-text-left title">
+                      <strong>{{ $t("system_message") }}</strong>
+                    </span>
                     <span class="is-block has-text-left name">
-                    {{ notification.nickname }}
-                  </span>
+                      {{ notification.nickname }}
+                    </span>
                   </div>
                   <div
-                          v-else-if="
-                    notification && notification['@type'] === 'GoalChangeMessage'
-                  "
+                    v-else-if="
+                      notification &&
+                        notification['@type'] === 'GoalChangeMessage'
+                    "
                   >
-                  <span class="is-block has-text-left title">
-                    <strong>{{ $t("goalchanged") }}</strong>
-                  </span>
+                    <span class="is-block has-text-left title">
+                      <strong>{{ $t("goalchanged") }}</strong>
+                    </span>
                     <span class="is-block has-text-left name">
-                    {{ notification.nickname }}
-                  </span>
+                      {{ notification.nickname }}
+                    </span>
                   </div>
                   <div
-                          v-else-if="
-                    notification &&
-                      notification['@type'] === 'BuddyDeviceChangeMessage'
-                  "
+                    v-else-if="
+                      notification &&
+                        notification['@type'] === 'BuddyDeviceChangeMessage'
+                    "
                   >
-                  <span class="is-block has-text-left title">
-                    <strong>{{ $t("deviceadded") }}</strong>
-                  </span>
+                    <span class="is-block has-text-left title">
+                      <strong>{{ $t("deviceadded") }}</strong>
+                    </span>
                     <span class="is-block has-text-left name">
-                    {{ notification.nickname }}
-                  </span>
+                      {{ notification.nickname }}
+                    </span>
                   </div>
                 </div>
                 <div
-                        class="column is-2"
-                        v-if="
-                  notification &&
-                    notification['@type'] === 'BuddyConnectRequestMessage'
-                "
+                  class="column is-2"
+                  v-if="
+                    notification &&
+                      notification['@type'] === 'BuddyConnectRequestMessage'
+                  "
                 >
                   <div
-                          v-if="notification['@type'] === 'BuddyConnectRequestMessage'"
+                    v-if="
+                      notification['@type'] === 'BuddyConnectRequestMessage'
+                    "
                   >
                     <div class="img-wrapper">
                       <img
-                              v-if="notification.status === 'ACCEPTED'"
-                              src="../../assets/images/icons/icn_accepted.svg"
+                        v-if="notification.status === 'ACCEPTED'"
+                        src="../../assets/images/icons/icn_accepted.svg"
                       />
                       <img
-                              v-else-if="notification.status === 'REJECTED'"
-                              src="../../assets/images/icons/icn_rejected.svg"
+                        v-else-if="notification.status === 'REJECTED'"
+                        src="../../assets/images/icons/icn_rejected.svg"
                       />
                     </div>
                   </div>
@@ -202,8 +213,8 @@
         </div>
       </div>
       <div
-              class="infinite-scroll"
-              v-observe-visibility="
+        class="infinite-scroll"
+        v-observe-visibility="
           (isVisible, entry) =>
             this.getNotifications(isVisible, entry, nextNotifications)
         "
@@ -230,7 +241,9 @@ interface Notification {
 
 @Component({
   components: {
-    ProfilePic, SwipeList, SwipeOut
+    ProfilePic,
+    SwipeList,
+    SwipeOut
   }
 })
 export default class Notifications extends Vue {
@@ -250,19 +263,27 @@ export default class Notifications extends Vue {
     }
   }
 
-  async deleteNotification(day_index: number, index: number, notification: any){
+  async deleteNotification(
+    day_index: number,
+    index: number,
+    notification: any
+  ) {
     this.loading = true;
 
-    let notification_deleted: any = await axios.delete(notification._links.edit.href).catch(error => {
-      console.log(error);
-    });
+    let notification_deleted: any = await axios
+      .delete(notification._links.edit.href)
+      .catch(error => {
+        console.log(error);
+      });
 
     this.loading = false;
 
-    if(notification_deleted){
-      this.all_notifications[day_index].notifications = this.all_notifications[day_index].notifications.filter((i: any) => i !== notification);
+    if (notification_deleted) {
+      this.all_notifications[day_index].notifications = this.all_notifications[
+        day_index
+      ].notifications.filter((i: any) => i !== notification);
       //@ts-ignore
-      this.$refs['list'+day_index+index][0].closeActions();
+      this.$refs["list" + day_index + index][0].closeActions();
     }
   }
 
@@ -314,8 +335,7 @@ export default class Notifications extends Vue {
 
   getLink(notification: any) {
     if (
-      notification &&
-      notification["@type"] === "BuddyInfoChangeMessage" ||
+      (notification && notification["@type"] === "BuddyInfoChangeMessage") ||
       notification["@type"] === "ActivityCommentMessage" ||
       notification["@type"] === "GoalChangeMessage" ||
       (notification["@type"] === "BuddyConnectResponseMessage" &&
@@ -562,7 +582,7 @@ export default class Notifications extends Vue {
         opacity: 0.6;
       }
 
-      .swipeout-content{
+      .swipeout-content {
         padding: 15px 25px 15px 25px;
       }
 
