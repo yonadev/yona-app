@@ -5,7 +5,12 @@
         {{ $t("privacy") }}
       </div>
     </div>
-    <!-- TODO: Add content from web -->
+    <iframe
+      width="100%"
+      height="100%"
+      src="https://www.yona.nu/app/privacy"
+      frameborder="0"
+    ></iframe>
   </div>
 </template>
 
@@ -19,5 +24,9 @@ export default class ChangePinCode extends Vue {}
 
 <style lang="scss">
 #privacy {
+  iframe {
+    width: 100%;
+    height: calc(100% - 50px - 77px);
+  }
 }
 </style>
