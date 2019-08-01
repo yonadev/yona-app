@@ -1,9 +1,9 @@
 {
-  "name": "cordova-plugin-crop-avavatar-plugin",
+  "name": "cordova-plugin-yona-crop",
   "version": "0.0.3",
   "description": "",
   "cordova": {
-    "id": "cordova-plugin-crop-avavatar-plugin",
+    "id": "cordova-plugin-yona-crop",
     "platforms": [
       "android",
       "ios"

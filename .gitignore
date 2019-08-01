@@ -27,4 +27,6 @@ yarn-error.log*
 # Cordova
 /src-cordova/platforms
 /src-cordova/plugins
+/src-cordova/google-services.json
+/src-cordova/GoogleServices-Info.plist
 /public/cordova.js

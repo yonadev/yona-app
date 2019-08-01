@@ -160,16 +160,28 @@ export default class Profile extends Vue {
   captureProfilePicture() {
     const self = this;
     //@ts-ignore
-    if (plugins != undefined && plugins.crop) {
+    if (plugins != undefined && plugins.crop && navigator.camera) {
       //@ts-ignore
-      plugins.crop(
-        function success(data: string) {
-          self.submitPhoto(data);
-        },
-        function fail() {},
-        { quality: 100 }
-      );
+      navigator.camera.getPicture(this.cropProfilePicture, null, {
+        quality: 50,
+        // @ts-ignore
+        destinationType: Camera.DestinationType.FILE_URI,
+        correctOrientation: true
+      });
     }
+  }
+
+  cropProfilePicture(imageData: string) {
+    const self = this;
+    //@ts-ignore
+    plugins.crop(
+      function success(data: string) {
+        self.submitPhoto(data);
+      },
+      function fail() {},
+      imageData,
+      { quality: 90, targetWidth: 90, targetHeight: 90 }
+    );
   }
 
   async submitPhoto(base64String: string) {
