@@ -53,7 +53,7 @@ export default class FriendsTimeLine extends Vue {
   }
 
   async getActivities(isVisible: boolean, entry: any, href: string) {
-    if (isVisible && !this.gettingActivities) {
+    if (isVisible && !this.gettingActivities && !this.loading) {
       this.loading = true;
       if (href) {
         let self = this;

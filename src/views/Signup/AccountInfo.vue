@@ -1,5 +1,5 @@
 <template>
-  <div id="account-info" class="header-template">
+  <div id="account-info" class="header-template" :loading="loading">
     <div class="colored-background purple-dark">
       <div class="nav-title">
         {{ $t("join") }}
@@ -73,6 +73,7 @@ export default class AccountInfo extends Vue {
   @State("account") account!: AccountState;
   @State("api") api!: ApiState;
   @Action("setProperty", { namespace: "account" }) setProperty: any;
+  loading: boolean = false;
   mobile: string | null = "";
   nickname: string | null = "";
   choose: boolean = false;
@@ -86,7 +87,9 @@ export default class AccountInfo extends Vue {
   async checkTelNumber() {
     let self = this;
     this.$validator.validate().then(async valid => {
-      if (valid) {
+      if (valid && !this.loading) {
+        this.loading = true;
+
         let response: any = await axios
           .post(this.api.host + "/users/", {
             firstName: this.account.firstname,
@@ -95,6 +98,7 @@ export default class AccountInfo extends Vue {
             nickname: this.account.nickname
           })
           .catch(error => {
+            self.loading = false;
             if (error.response.data.code === "error.user.exists") {
               //@ts-ignore
               if (navigator && navigator.notification) {
@@ -119,6 +123,8 @@ export default class AccountInfo extends Vue {
               self.server_error = error.response.data.message;
             }
           });
+
+        this.loading = false;
 
         if (response) {
           if (response.status === 201) {

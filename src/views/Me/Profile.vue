@@ -1,5 +1,5 @@
 <template>
-  <div id="profile" class="profile-template">
+  <div id="profile" class="profile-template" :loading="loading">
     <div class="colored-background purple-dark">
       <div class="heading">
         <div class="nav-title" v-if="active_tab === 'badges'"></div>
@@ -118,6 +118,7 @@ export default class Profile extends Vue {
   @State("account") account!: AccountState;
   @State("api") api!: ApiState;
   @Action("setProperty", { namespace: "account" }) setProperty: any;
+  loading: boolean = false;
   edit: boolean = false;
   active_tab: string = "profile";
   firstname: string | null = "";
@@ -140,6 +141,7 @@ export default class Profile extends Vue {
     if (valid) {
       if (this.edit) {
         if (this.api.links && this.api.links["edit"]) {
+          this.loading = true;
           let response: any = await axios
             .put(this.api.links["edit"].href, {
               firstName: this.firstname,
@@ -150,6 +152,8 @@ export default class Profile extends Vue {
             .catch(error => {
               console.log(error);
             });
+
+          this.loading = false;
         }
       }
 

@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <router-view />
-    <transition name="fade">
+    <transition :name="transitionName">
+      <router-view />
+    </transition>
+    <transition name="server-message">
       <div class="server-error-message" v-if="api.serverMessage">
         <p>
           {{ api.serverMessage }}
@@ -17,12 +19,19 @@ import { State } from "vuex-class";
 import Component from "vue-class-component";
 import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
 import { ApiState } from "@/store/api/types";
+import { Watch } from "vue-property-decorator";
 
 @Component({
   components: { ProfilePic }
 })
 export default class MeTabs extends Vue {
   @State("api") api!: ApiState;
+  transitionName: string = "";
+
+  @Watch("$route")
+  routeChange(to: any, from: any) {
+    this.transitionName = "fade";
+  }
 }
 </script>
 
@@ -40,17 +49,17 @@ export default class MeTabs extends Vue {
     margin: 20px 0;
   }
 }
-.fade-enter-active {
+.server-message-enter-active {
   transition: max-height 2s;
   max-height: 100px !important;
 }
-.fade-enter {
+.server-message-enter {
   max-height: 0 !important;
 }
-.fade-leave {
+.server-message-leave {
   max-height: 100px !important;
 }
-.fade-leave-active {
+.server-message-leave-active {
   transition: max-height 2s;
   max-height: 0 !important;
 }

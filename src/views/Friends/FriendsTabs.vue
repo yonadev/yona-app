@@ -1,5 +1,5 @@
 <template>
-  <div id="friends-tabs" class="header-template">
+  <div id="friends-tabs" class="header-template" :loading="loading">
     <div class="colored-background blue">
       <div class="nav-title">
         {{ $t("friends") }}
@@ -48,9 +48,12 @@ import UiControlsLabel from "@/components/UiControls/UiControlsLabel.vue";
 })
 export default class FriendsTabs extends Vue {
   @Action("update", { namespace: "buddies" }) update: any;
+  loading: boolean = false;
 
   async mounted() {
-    this.update();
+    this.loading = true;
+    await this.update();
+    this.loading = false;
   }
 }
 </script>

@@ -288,7 +288,7 @@ export default class Notifications extends Vue {
   }
 
   async getNotifications(isVisible: boolean, entry: any, href: string) {
-    if (isVisible && !this.gettingNotifications) {
+    if (isVisible && !this.gettingNotifications && !this.loading) {
       this.loading = true;
       if (href) {
         let self = this;

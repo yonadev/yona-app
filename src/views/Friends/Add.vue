@@ -1,5 +1,5 @@
 <template>
-  <div id="add-friend" class="header-template">
+  <div id="add-friend" class="header-template" :loading="loading">
     <div class="colored-background blue">
       <div class="nav-title">
         {{ $t("add_friend") }}
@@ -85,6 +85,7 @@ import axios from "@/utils/axios/axios";
 })
 export default class Add extends Vue {
   @State("api") api!: ApiState;
+  loading: boolean = false;
   active_tab: string = "manual";
   firstname: string | null = "";
   lastname: string | null = "";
@@ -104,7 +105,8 @@ export default class Add extends Vue {
   }
 
   async addFriend() {
-    if (this.api.embedded) {
+    if (this.api.embedded && !this.loading) {
+      this.loading = true;
       let response: any = await axios
         .post(this.api.embedded["yona:buddies"]._links.self.href, {
           sendingStatus: "REQUESTED",
@@ -123,6 +125,8 @@ export default class Add extends Vue {
         .catch(error => {
           console.log(error);
         });
+
+      this.loading = false;
 
       if (response) this.$router.push({ name: "FriendsOverview" });
     }
@@ -158,7 +162,8 @@ export default class Add extends Vue {
     border-color: $color-blue;
     color: $color-blue;
     background-color: transparent;
-    padding: 5px 40px;
+    width: 85%;
+    padding: 5px 0;
     font-size: 14px;
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div id="friends-overview">
+  <div id="friends-overview" :loading="loading">
     <div class="top-label">
       <strong>VERBONDEN</strong>
     </div>
@@ -94,12 +94,15 @@ export default class FriendsOverview extends Vue {
   @State("api") api!: ApiState;
   @Action("update", { namespace: "buddies" }) update: any;
   buddies_activities: {} = {};
+  loading: boolean = false;
   @State(state => state.buddies.buddies) buddies!: Buddy[];
   userStatus = userStatus;
   @Action("getBuddies", { namespace: "buddies" }) getBuddies: any;
 
-  mounted() {
-    this.getBuddies();
+  async mounted() {
+    this.loading = true;
+    await this.getBuddies();
+    this.loading = false;
   }
 }
 </script>

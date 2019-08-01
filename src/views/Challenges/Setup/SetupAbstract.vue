@@ -1,5 +1,5 @@
 <template>
-  <div id="challengesAbstractSetup">
+  <div id="challengesAbstractSetup" :loading="loading">
     <div class="header-template">
       <div class="colored-background green">
         <div class="nav-title">
@@ -74,6 +74,8 @@ export default class Setup extends Vue {
   @Getter("goal", { namespace: "challenges" })
   public goal!: (href: string) => Goal;
 
+  loading: boolean = false;
+
   headerData: HeaderDataInterface = {
     text: "",
     title: ""
@@ -134,6 +136,8 @@ export default class Setup extends Vue {
     const goal = this.goal(this.goal_url);
     const self = this;
 
+    this.loading = true;
+
     //@ts-ignore
     if (navigator && navigator.notification) {
       //@ts-ignore
@@ -145,6 +149,9 @@ export default class Setup extends Vue {
           } else if (result === 2) {
             if (goal._links.edit) {
               await this.deleteGoal(goal._links.edit.href);
+
+              this.loading = false;
+
               this.$router.push({
                 name: "ChallengesOverview",
                 params: { type: this.type }
@@ -162,6 +169,9 @@ export default class Setup extends Vue {
       if (confirm_response) {
         if (goal._links.edit) {
           await this.deleteGoal(goal._links.edit.href);
+
+          this.loading = false;
+
           this.$router.push({
             name: "ChallengesOverview",
             params: { type: this.type }

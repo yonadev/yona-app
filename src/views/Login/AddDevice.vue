@@ -1,5 +1,5 @@
 <template>
-  <div id="add-device" class="header-template">
+  <div id="add-device" class="header-template" :loading="loading">
     <div class="colored-background purple-dark">
       <div class="nav-title">
         {{ $t("adddevice") }}
@@ -63,6 +63,7 @@ import { Validator } from "vee-validate";
   }
 })
 export default class AddDevice extends Vue {
+  loading: boolean = false;
   mobile: string | null = "";
   mobile_exists = false;
   passcode: string | null = "";
@@ -81,12 +82,16 @@ export default class AddDevice extends Vue {
 
   checkPasscode() {
     this.$validator.validate().then(async valid => {
-      if (valid) {
+      if (valid && !this.loading) {
+        this.loading = true;
+
         let get_response: any = await axios
           .get(this.api.host + "/newDeviceRequests/" + this.mobile)
           .catch(error => {
             console.log(error);
           });
+
+        this.loading = false;
 
         if (get_response.status == 200) {
           this.mobile_exists = true;

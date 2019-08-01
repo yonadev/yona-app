@@ -161,7 +161,7 @@ export default class Messages extends Vue {
   }
 
   async getMessages(isVisible: boolean, entry: any, href: string) {
-    if (isVisible && !this.gettingMessages) {
+    if (isVisible && !this.gettingMessages && !this.loading) {
       this.loading = true;
       if (href) {
         let self = this;

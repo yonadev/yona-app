@@ -1,5 +1,5 @@
 <template>
-  <div id="challengesCreditSetup">
+  <div id="challengesCreditSetup" :loading="loading">
     <div class="wrapper grey-bg">
       <div class="slider-container">
         <div class="columns is-mobile">
@@ -51,6 +51,7 @@ export default class Setup extends Vue {
   @Action("updateGoal", { namespace: "challenges" }) updateGoal: any;
   @Prop() category!: string;
   @Prop() goal!: BudgetGoal;
+
 
   setupData: {
     maxDurationMinutes: number;

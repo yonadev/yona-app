@@ -1,5 +1,5 @@
 <template>
-  <div id="challengesTimezoneSetup">
+  <div id="challengesTimezoneSetup" :loading="loading">
     <div class="wrapper grey-bg">
       <div class="timezones-container">
         <div class="columns is-mobile">

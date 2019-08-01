@@ -269,12 +269,20 @@ export default new Router({
             {
               path: "day",
               name: "MeTimeLineDay",
-              component: () => import("../views/Me/Tabs/Day.vue")
+              component: () => import("../views/Me/Tabs/Day.vue"),
+              meta: {
+                parent: "MeTabs",
+                position: 1
+              }
             },
             {
               path: "week",
               name: "MeTimeLineWeek",
-              component: () => import("../views/Me/Tabs/Week.vue")
+              component: () => import("../views/Me/Tabs/Week.vue"),
+              meta: {
+                parent: "MeTabs",
+                position: 2
+              }
             }
           ]
         },

@@ -1,5 +1,5 @@
 <template>
-  <div id="friends-profile" class="profile-template">
+  <div id="friends-profile" class="profile-template" :loading="loading">
     <div class="colored-background blue">
       <div class="heading">
         <div class="nav-title"></div>
@@ -62,7 +62,6 @@
         :value="mobileNumber"
         icon="icn_mobile.svg"
       ></input-floating-label>
-
       <a class="button is-rounded remove-friend" @click="removeFriend"
         >VRIEND VERWIJDEREN</a
       >
@@ -88,6 +87,7 @@ import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
   }
 })
 export default class FriendsProfile extends Vue {
+  loading: boolean = false;
   active_tab: string | null = "profile";
   firstName: string | null = "";
   lastName: string | null = "";
@@ -110,11 +110,14 @@ export default class FriendsProfile extends Vue {
   }
 
   async removeFriend() {
+    this.loading = true;
     let buddy: any = await axios
       .delete((this.$route.query as any).link)
       .catch(error => {
         console.log(error);
       });
+
+    this.loading = false;
 
     if (buddy.status == 200) {
       this.$router.push({ name: "TimeLine" });

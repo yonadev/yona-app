@@ -1,5 +1,5 @@
 <template>
-  <div id="me" class="header-template">
+  <div id="me" class="header-template" :loading="loading">
     <div class="colored-background purple-dark">
       <div class="nav-title">
         <router-link :to="{ name: 'Profile' }">
@@ -55,15 +55,19 @@ import axios from "@/utils/axios/axios";
 export default class MeTabs extends Vue {
   @State("account") account!: AccountState;
   @State("api") api!: ApiState;
+  loading: boolean = false;
   notifications: number = 0;
 
   async mounted() {
     if (this.api.links && this.api.links["yona:messages"]) {
+      this.loading = true;
       let messages = await axios
         .get(this.api.links["yona:messages"].href)
         .catch((error: any) => {
           console.log(error);
         });
+
+      this.loading = false;
 
       if (messages && messages.data._embedded["yona:messages"]) {
         messages.data._embedded["yona:messages"].forEach((message: any) => {
