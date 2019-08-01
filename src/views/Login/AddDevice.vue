@@ -101,9 +101,10 @@ export default class AddDevice extends Vue {
 
             let firebaseInstanceId = null;
 
-            //@ts-ignore
             if (
+              //@ts-ignore
               typeof cordova.plugins !== undefined &&
+              //@ts-ignore
               cordova.plugins.firebase
             ) {
               //@ts-ignore

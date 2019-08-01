@@ -33,6 +33,7 @@ export default class Unsubscribe extends Vue {
     if (this.api.links) {
       //@ts-ignore
       if (typeof cordova.plugins !== undefined && cordova.plugins.firebase) {
+        //@ts-ignore
         await cordova.plugins.firebase.messaging.revokeToken();
       }
 
