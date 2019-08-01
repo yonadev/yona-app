@@ -65,14 +65,14 @@
     </div>
     <div class="thread-messages" v-if="replying">
       <div
-              class="columns is-mobile has-text-left"
-              v-for="(message, index) in replyingMessage.messages"
-              :key="index"
+        class="columns is-mobile has-text-left"
+        v-for="(message, index) in replyingMessage.messages"
+        :key="index"
       >
         <div class="column is-3 user-photo">
           <profile-pic
-                  v-if="index === 0"
-                  :src="
+            v-if="index === 0"
+            :src="
               message._links['yona:buddy']
                 ? buddy(message._links['yona:buddy'].href)._embedded[
                     'yona:user'
@@ -84,9 +84,9 @@
         <div class="column text">
           <p class="username is-vcentered" :class="{ replies: index !== 0 }">
             <profile-pic
-                    class="profile-img"
-                    v-if="index !== 0"
-                    :src="
+              class="profile-img"
+              v-if="index !== 0"
+              :src="
                 message._links['yona:buddy']
                   ? buddy(message._links['yona:buddy'].href)._embedded[
                       'yona:user'
@@ -99,11 +99,14 @@
             }}</span>
           </p>
           <p class="message">{{ message.message }}</p>
-          <br/>
+          <br />
         </div>
       </div>
     </div>
-    <div class="text-bar" v-if="buddy_href || (replyingMessage && replyingMessage.reply_link)">
+    <div
+      class="text-bar"
+      v-if="buddy_href || (replyingMessage && replyingMessage.reply_link)"
+    >
       <textarea v-model="newMessage"></textarea>
       <button @click="submitMessage">VERSTUREN</button>
     </div>
@@ -139,7 +142,7 @@ export default class Messages extends Vue {
     await this.getMessages(true, true, this.message_link);
   }
 
-  replyToMessage(thread: any){
+  replyToMessage(thread: any) {
     this.replying = true;
     this.replyingMessage = thread;
   }
