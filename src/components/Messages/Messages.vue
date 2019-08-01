@@ -140,7 +140,7 @@ export default class Messages extends Vue {
   public buddy!: (href: string) => Buddy;
 
   async mounted() {
-    if(this.thread){
+    if (this.thread) {
       this.gettingMessages = true;
       this.threadMessages.push({
         threadHeadMessageId: this.thread.threadHeadMessageId,
