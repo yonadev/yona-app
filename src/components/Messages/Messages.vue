@@ -1,10 +1,10 @@
 <template>
-  <div id="messages">
+  <div id="messages" :loading="loading">
     <div class="message-bar" v-if="threadMessages.length">
       <img :src="require('../../assets/images/icons/icn_comment.svg')" />
       <span class="chat-icon"></span>
     </div>
-    <div class="thread-messages">
+    <div class="thread-messages" v-if="!replying">
       <div v-for="(thread, t_index) in threadMessages" :key="'t' + t_index">
         <div
           class="columns is-mobile has-text-left"
@@ -49,7 +49,7 @@
             <a
               class="react-to"
               v-if="thread.reply_link"
-              @click="replyLink = thread.reply_link"
+              @click="replyToMessage(thread)"
               >Beantwoorden</a
             >
             <hr />
@@ -63,7 +63,50 @@
         "
       ></div>
     </div>
-    <div class="text-bar" v-if="buddy_href || replyLink">
+    <div class="thread-messages" v-if="replying">
+      <div
+        class="columns is-mobile has-text-left"
+        v-for="(message, index) in replyingMessage.messages"
+        :key="index"
+      >
+        <div class="column is-3 user-photo">
+          <profile-pic
+            v-if="index === 0"
+            :src="
+              message._links['yona:buddy']
+                ? buddy(message._links['yona:buddy'].href)._embedded[
+                    'yona:user'
+                  ]._links.self.href
+                : 'user_image'
+            "
+          ></profile-pic>
+        </div>
+        <div class="column text">
+          <p class="username is-vcentered" :class="{ replies: index !== 0 }">
+            <profile-pic
+              class="profile-img"
+              v-if="index !== 0"
+              :src="
+                message._links['yona:buddy']
+                  ? buddy(message._links['yona:buddy'].href)._embedded[
+                      'yona:user'
+                    ]._links.self.href
+                  : 'user_image'
+              "
+            ></profile-pic>
+            <span :class="{ 'with-img': index !== 0 }">{{
+              message.nickname
+            }}</span>
+          </p>
+          <p class="message">{{ message.message }}</p>
+          <br />
+        </div>
+      </div>
+    </div>
+    <div
+      class="text-bar"
+      v-if="buddy_href || (replyingMessage && replyingMessage.reply_link)"
+    >
       <textarea v-model="newMessage"></textarea>
       <button @click="submitMessage">VERSTUREN</button>
     </div>
@@ -84,21 +127,42 @@ import { Getter } from "vuex-class";
 export default class Messages extends Vue {
   @Prop({ default: "" }) message_link!: string;
   @Prop({ default: "" }) buddy_href!: string;
+  @Prop() thread!: any;
+  loading: boolean = false;
   newMessage: string = "";
   gettingMessages: boolean = false;
   nextMessages: string = "";
-  replyLink: string = "";
+  replying: boolean = false;
+  replyingMessage: any = [];
   threadMessages: any = [];
 
   @Getter("buddy", { namespace: "buddies" })
   public buddy!: (href: string) => Buddy;
 
   async mounted() {
-    await this.getMessages(true, true, this.message_link);
+    if (this.thread) {
+      this.gettingMessages = true;
+      this.threadMessages.push({
+        threadHeadMessageId: this.thread.threadHeadMessageId,
+        reply_link: this.thread._links["yona:reply"].href,
+        messages: [this.thread]
+      });
+
+      this.replying = true;
+      this.replyingMessage = this.threadMessages[0];
+    } else {
+      await this.getMessages(true, true, this.message_link);
+    }
+  }
+
+  replyToMessage(thread: any) {
+    this.replying = true;
+    this.replyingMessage = thread;
   }
 
   async getMessages(isVisible: boolean, entry: any, href: string) {
     if (isVisible && !this.gettingMessages) {
+      this.loading = true;
       if (href) {
         let self = this;
 
@@ -107,6 +171,8 @@ export default class Messages extends Vue {
         let messages: any = await axios.get(href).catch(error => {
           console.log(error);
         });
+
+        this.loading = false;
 
         if (messages) {
           if (messages.data._links.next) {
@@ -146,8 +212,8 @@ export default class Messages extends Vue {
   async submitMessage() {
     let message_href, body;
 
-    if (this.replyLink) {
-      message_href = this.replyLink;
+    if (this.replyingMessage && this.replyingMessage.reply_link) {
+      message_href = this.replyingMessage.reply_link;
       body = {
         properties: {
           message: this.newMessage
@@ -171,7 +237,8 @@ export default class Messages extends Vue {
       this.gettingMessages = false;
       await this.getMessages(true, true, this.message_link);
       this.newMessage = "";
-      this.replyLink = "";
+      this.replyingMessage = "";
+      this.replying = false;
     }
   }
 }

@@ -19,7 +19,7 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
 @Component({})
-export default class ChangePinCode extends Vue {}
+export default class Privacy extends Vue {}
 </script>
 
 <style lang="scss">

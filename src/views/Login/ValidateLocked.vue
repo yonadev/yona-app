@@ -95,8 +95,6 @@ export default class SmsValidation extends Vue {
     if (val && val.toString().length === this.length) {
       this.loading = true;
 
-      console.log(this.api.links);
-
       if (this.api.links && this.api.links["yona:verifyPinReset"]) {
         let response: any = await axios
           .post(this.api.links["yona:verifyPinReset"].href, {

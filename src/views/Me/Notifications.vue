@@ -298,6 +298,8 @@ export default class Notifications extends Vue {
           console.log(error);
         });
 
+        this.loading = false;
+
         if (messages) {
           if (messages.data._links.next) {
             this.nextNotifications = messages.data._links.next.href;
@@ -325,8 +327,6 @@ export default class Notifications extends Vue {
                 }
               }
             );
-
-            this.loading = false;
           }
         }
       }
@@ -396,14 +396,16 @@ export default class Notifications extends Vue {
             name: "DetailedViewWeek",
             params: {
               buddy_href: notification._links["yona:buddy"].href,
-              activity_link: notification._links["yona:weekDetails"].href
+              activity_link: notification._links["yona:weekDetails"].href,
+              thread: notification
             }
           });
         } else {
           this.$router.push({
             name: "DetailedViewWeek",
             params: {
-              activity_link: notification._links["yona:weekDetails"].href
+              activity_link: notification._links["yona:weekDetails"].href,
+              thread: notification
             }
           });
         }
@@ -419,14 +421,16 @@ export default class Notifications extends Vue {
             name: "DetailedViewDay",
             params: {
               buddy_href: notification._links["yona:buddy"].href,
-              activity_link: notification._links["yona:dayDetails"].href
+              activity_link: notification._links["yona:dayDetails"].href,
+              thread: notification
             }
           });
         } else {
           this.$router.push({
             name: "DetailedViewDay",
             params: {
-              activity_link: notification._links["yona:dayDetails"].href
+              activity_link: notification._links["yona:dayDetails"].href,
+              thread: notification
             }
           });
         }
