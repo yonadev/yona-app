@@ -118,7 +118,7 @@ import { ChallengesState, Goal, TimeZoneGoal } from "@/store/challenges/types";
 //@ts-ignore
 import { Datetime } from "vue-datetime";
 //@ts-ignore
-import { DateTime } from "luxon";
+import { DateTime as DateTimeLu } from "luxon";
 import "vue-datetime/dist/vue-datetime.css";
 
 //@ts-ignore
@@ -133,7 +133,7 @@ interface timeEntry {
 }
 
 @Component({
-  components: { SwipeList, SwipeOut, Datetime, DateTime }
+  components: { SwipeList, SwipeOut, Datetime, DateTimeLu }
 })
 export default class Setup extends Vue {
   @Action("saveGoal", { namespace: "challenges" }) saveGoal: any;
@@ -162,7 +162,7 @@ export default class Setup extends Vue {
   }
 
   formatTime(time: string) {
-    let timeFormat = DateTime.fromISO(time);
+    let timeFormat = DateTimeLu.fromISO(time);
     return timeFormat.toFormat("HH:mm");
   }
 
@@ -193,9 +193,9 @@ export default class Setup extends Vue {
             }
           },
           zones: this.setupData.items.map(zone => {
-            return `${DateTime.fromISO(zone.from).toFormat(
+            return `${DateTimeLu.fromISO(zone.from).toFormat(
               "HH:mm"
-            )}-${DateTime.fromISO(zone.to).toFormat("HH:mm")}`;
+            )}-${DateTimeLu.fromISO(zone.to).toFormat("HH:mm")}`;
           })
         }
       });
@@ -208,9 +208,9 @@ export default class Setup extends Vue {
           }
         },
         zones: this.setupData.items.map(zone => {
-          return `${DateTime.fromISO(zone.from).toFormat(
+          return `${DateTimeLu.fromISO(zone.from).toFormat(
             "HH:mm"
-          )}-${DateTime.fromISO(zone.to).toFormat("HH:mm")}`;
+          )}-${DateTimeLu.fromISO(zone.to).toFormat("HH:mm")}`;
         })
       });
     }

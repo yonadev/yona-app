@@ -21,6 +21,9 @@
           <strong>{{ $t("adddevice") }}</strong>
         </div>
       </router-link>
+      <div class="grey-bg-button" @click="contactUs()">
+        <strong>{{ $t("contact_us") }}</strong>
+      </div>
       <router-link :to="{ name: 'Unsubscribe' }">
         <div class="grey-bg-button">
           <strong>{{ $t("deleteuser") }}</strong>
@@ -33,9 +36,77 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import { State } from "vuex-class";
+import { ApiState } from "@/store/api/types";
 
 @Component({})
-export default class Settings extends Vue {}
+export default class Settings extends Vue {
+  @State("api") api!: ApiState;
+
+  contactUs() {
+    const self = this;
+    let OS = "ANDROID";
+    let OS_ver = "";
+    let brand = "";
+    let model = "";
+    let base_url = "";
+    //@ts-ignore
+    if (typeof device !== "undefined") {
+      //@ts-ignore
+      OS = device.platform.charAt(0).toUpperCase() + device.platform.slice(1);
+      //@ts-ignore
+      OS_ver = device.version;
+      //@ts-ignore
+      brand = device.manufacturer;
+      //@ts-ignore
+      model = device.model;
+    }
+
+    if (self.api.links) {
+      base_url = self.api.links.self.href;
+    }
+
+    //@ts-ignore
+    if (navigator && navigator.notification) {
+      //@ts-ignore
+      navigator.notification.confirm(
+        self.$t("usercredentialmsg"),
+        (result: number) => {
+          //@ts-ignore
+          cordova.plugins.email.open({
+            to: ["support@yona.nu"],
+            subject: self.$t("support_mail_subject"),
+            body:
+              `Base URL: ${escape(base_url)} <br/><br/>` +
+              (result === 2
+                ? `Password: ${self.api.yonaPassword} <br/><br/>`
+                : "") +
+              `App version: ${"1.0"} <br/>` + //ToDo: Add app version from Jenkins build
+              `App version code: ${"123"} <br/>` + //ToDo: Add app version code from Jenkins build
+              `${OS} version: ${OS_ver} <br/>` +
+              `Device brand: ${brand} <br/>` +
+              `Device model: ${model} <br/>`,
+            isHtml: true
+          });
+        },
+        self.$t("usercredential"),
+        [self.$t("no"), self.$t("yes")]
+      );
+    } else {
+      window.location.href =
+        `mailto:support@yona.nu?SUBJECT=${self.$t(
+          "support_mail_subject"
+        )}&BODY=` +
+        `Base URL%3A ${escape(base_url)} %0D%0A%0D%0A` +
+        `Password%3A ${self.api.yonaPassword} %0D%0A%0D%0A` +
+        `App version%3A ${"1.0"} %0D%0A` + //ToDo: Add app version from Jenkins build
+        `App version code%3A ${"123"} %0D%0A` + //ToDo: Add app version code from Jenkins build
+        `${OS} version%3A ${OS_ver} %0D%0A` +
+        `Device brand%3A ${brand} %0D%0A` +
+        `Device model%3A ${model} %0D%0A`;
+    }
+  }
+}
 </script>
 
 <style lang="scss">

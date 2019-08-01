@@ -16,6 +16,7 @@
     "android": "0.0.8",
     "cordova-android": "^8.0.0",
     "cordova-plugin-dialogs": "^2.0.2",
+    "cordova-plugin-email": "^1.2.7",
     "cordova-plugin-network-information": "^2.0.2",
     "cordova-plugin-permission": "^0.1.0",
     "cordova-plugin-splashscreen": "^5.0.3"
@@ -30,7 +31,8 @@
       "cordova-plugin-dialogs": {},
       "cordova-plugin-device": {},
       "cordova-plugin-permission": {},
-      "cordova-plugin-network-information": {}
+      "cordova-plugin-network-information": {},
+      "cordova-plugin-email": {}
     },
     "platforms": [
       "android"
