@@ -52,6 +52,7 @@
         v-if="day_activity && day_activity._links['yona:messages']"
         :message_link="day_activity._links['yona:messages'].href"
         :buddy_href="buddy_href"
+        :thread="thread"
       ></messages>
     </div>
   </div>
@@ -78,6 +79,7 @@ import Messages from "@/components/Messages/Messages.vue";
 export default class DetailedViewDay extends Vue {
   @Prop() activity_link!: string;
   @Prop({ default: "" }) buddy_href!: string;
+  @Prop() thread!: any;
 
   @Getter("buddy", { namespace: "buddies" })
   public buddy!: (buddy_href: string) => Buddy;

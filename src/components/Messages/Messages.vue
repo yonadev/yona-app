@@ -127,6 +127,7 @@ import { Getter } from "vuex-class";
 export default class Messages extends Vue {
   @Prop({ default: "" }) message_link!: string;
   @Prop({ default: "" }) buddy_href!: string;
+  @Prop() thread!: any;
   loading: boolean = false;
   newMessage: string = "";
   gettingMessages: boolean = false;
@@ -139,7 +140,19 @@ export default class Messages extends Vue {
   public buddy!: (href: string) => Buddy;
 
   async mounted() {
-    await this.getMessages(true, true, this.message_link);
+    if(this.thread){
+      this.gettingMessages = true;
+      this.threadMessages.push({
+        threadHeadMessageId: this.thread.threadHeadMessageId,
+        reply_link: this.thread._links["yona:reply"].href,
+        messages: [this.thread]
+      });
+
+      this.replying = true;
+      this.replyingMessage = this.threadMessages[0];
+    } else {
+      await this.getMessages(true, true, this.message_link);
+    }
   }
 
   replyToMessage(thread: any) {
