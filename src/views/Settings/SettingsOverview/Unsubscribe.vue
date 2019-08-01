@@ -31,6 +31,11 @@ export default class Unsubscribe extends Vue {
 
   async unsubscribe() {
     if (this.api.links) {
+      //@ts-ignore
+      if (typeof cordova.plugins !== undefined && cordova.plugins.firebase) {
+        await cordova.plugins.firebase.messaging.revokeToken();
+      }
+
       let delete_response: any = await axios
         .delete(this.api.links["edit"].href)
         .catch((error: any) => {

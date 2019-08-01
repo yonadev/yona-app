@@ -115,6 +115,8 @@ const app = new Vue({
   methods: {
     init() {
       const self = this;
+      //@ts-ignore
+      const crashlytics = FirebaseCrashlytics.initialise();
 
       //@ts-ignore
       const networkState = navigator.connection.type;

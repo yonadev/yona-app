@@ -79,7 +79,7 @@ export default class AddDevice extends Vue {
     }
   }
 
-  checkPasscode() {
+  async checkPasscode() {
     this.$validator.validate().then(async valid => {
       if (valid) {
         let get_response: any = await axios
@@ -99,6 +99,22 @@ export default class AddDevice extends Vue {
               OS = device.platform.toUpperCase();
             }
 
+            let firebaseInstanceId = null;
+
+            //@ts-ignore
+            if (
+              typeof cordova.plugins !== undefined &&
+              cordova.plugins.firebase
+            ) {
+              //@ts-ignore
+              await cordova.plugins.firebase.messaging.requestPermission({
+                forceShow: true
+              });
+
+              //@ts-ignore
+              firebaseInstanceId = await cordova.plugins.firebase.messaging.getToken();
+            }
+
             let response: any = await axios
               .post(
                 get_response.data._links["yona:registerDevice"].href,
@@ -108,8 +124,7 @@ export default class AddDevice extends Vue {
                   name: this.device_name,
                   appVersion: "1.1 build 83",
                   appVersionCode: 31,
-                  firebaseInstanceId:
-                    "d3cIznsu5VQ:APA91bGWLq7xBK1RDkpGURdliHb-S_nCBLqYnXhEWfGnItP_qGDZ6f2EF1mB66yHdBiicggV7APIWwkQXTUq_zJgwPkJtvcdqpUphYN7p8E8Sq02_ErljVApX8-n9-nvVxiyqmUg9ALZ"
+                  firebaseInstanceId
                 },
                 {
                   headers: {
