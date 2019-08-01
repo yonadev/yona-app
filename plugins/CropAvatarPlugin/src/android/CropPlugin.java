@@ -7,11 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
+import com.soundcloud.android.crop.Crop;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -22,19 +18,24 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 
 import java.io.IOException;
 
 public class CropPlugin extends CordovaPlugin {
     private CallbackContext callbackContext;
+    private Uri inputUri;
+    private Uri outputUri;
 
     @Override
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
       if (action.equals("cropImage")) {
           String imagePath = args.getString(0);
           JSONObject options = args.getJSONObject(1);
+          int targetWidth = options.getInt("targetWidth");
+          int targetHeight = options.getInt("targetHeight");
+
+          this.inputUri = Uri.parse(imagePath);
+          this.outputUri = Uri.fromFile(new File(getTempDirectoryPath() + "/" + System.currentTimeMillis()+ "-cropped.jpg"));
 
           PluginResult pr = new PluginResult(PluginResult.Status.NO_RESULT);
           pr.setKeepCallback(true);
@@ -42,14 +43,16 @@ public class CropPlugin extends CordovaPlugin {
           this.callbackContext = callbackContext;
 
           cordova.setActivityResultCallback(this);
-
-          CropImage.activity()
-				.setGuidelines(CropImageView.Guidelines.ON)
-				.setCropShape(CropImageView.CropShape.OVAL)
-				.setAspectRatio(1, 1)
-				.setInitialCropWindowPaddingRatio(0)
-				.start(cordova.getActivity());
-
+          Crop crop = Crop.of(this.inputUri, this.outputUri);
+          if(targetHeight != -1 && targetWidth != -1) {
+              crop.withMaxSize(targetWidth, targetHeight);
+              if(targetWidth == targetHeight) {
+                  crop.asSquare();
+              }
+          } else {
+              crop.asSquare();
+          }
+          crop.start(cordova.getActivity());
           return true;
       }
       return false;
@@ -57,15 +60,13 @@ public class CropPlugin extends CordovaPlugin {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-
-            CropImage.ActivityResult result = CropImage.getActivityResult(intent);
+        if (requestCode == Crop.REQUEST_CROP) {
             if (resultCode == Activity.RESULT_OK) {
-                String imageBase64 = compressFile(result);
+                Uri imageUri = Crop.getOutput(intent);
+                String imageBase64 = getBase64FromFile(imageUri);
                 this.callbackContext.success(imageBase64);
                 this.callbackContext = null;
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+            } else if (resultCode == Crop.RESULT_ERROR) {
                 try {
                     JSONObject err = new JSONObject();
                     err.put("message", "Error on cropping");
@@ -90,9 +91,10 @@ public class CropPlugin extends CordovaPlugin {
         super.onActivityResult(requestCode, resultCode, intent);
     }
 
-    private static String getBase64FromFile(File file) {
+    private static String getBase64FromFile(Uri imageUri) {
         String base64 = "";
         try {
+            File file = new File(imageUri.getPath());
             byte[] buffer = new byte[(int) file.length() + 100];
             @SuppressWarnings("resource")
             int length = new FileInputStream(file).read(buffer);
@@ -104,27 +106,6 @@ public class CropPlugin extends CordovaPlugin {
         }
         return base64;
     }
-
-
-    private String compressFile(CropImage.ActivityResult result)
-	{
-		File file = new File(getTempDirectoryPath(), "prof_pic_" + System.currentTimeMillis() + ".jpeg|");
-		try
-		{
-			FileInputStream fis = new FileInputStream(result.getUri().getPath());
-			Bitmap imageBitmap = BitmapFactory.decodeStream(fis);
-			imageBitmap = Bitmap.createScaledBitmap(imageBitmap, 90, 90, false);
-			FileOutputStream fos = new FileOutputStream(file);
-			imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-		}
-		catch (FileNotFoundException e)
-		{
-			e.printStackTrace();
-			return null;
-		}
-
-		return getBase64FromFile(file);
-	}
 
     private String getTempDirectoryPath() {
         File cache = null;
@@ -142,5 +123,32 @@ public class CropPlugin extends CordovaPlugin {
         // Create the cache directory if it doesn't exist
         cache.mkdirs();
         return cache.getAbsolutePath();
+    }
+
+    public Bundle onSaveInstanceState() {
+        Bundle state = new Bundle();
+
+        if (this.inputUri != null) {
+            state.putString("inputUri", this.inputUri.toString());
+        }
+
+        if (this.outputUri != null) {
+            state.putString("outputUri", this.outputUri.toString());
+        }
+
+        return state;
+    }
+
+    public void onRestoreStateForActivityResult(Bundle state, CallbackContext callbackContext) {
+
+        if (state.containsKey("inputUri")) {
+            this.inputUri = Uri.parse(state.getString("inputUri"));
+        }
+
+        if (state.containsKey("outputUri")) {
+            this.inputUri = Uri.parse(state.getString("outputUri"));
+        }
+
+        this.callbackContext = callbackContext;
     }
 }

@@ -1,15 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="cordova-plugin-crop-avavatar-plugin" version="0.0.3" xmlns="http://apache.org/cordova/ns/plugins/1.0"
+<plugin id="cordova-plugin-yona-crop" version="0.0.3" xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android">
     <name>CropAvatarPlugin</name>
 
     <license>MIT</license>
 
-
     <js-module src="www/CropAvatarPlugin.js" name="CropAvatarPlugin">
         <clobbers target="plugins.crop"/>
     </js-module>
-
 
     <!-- ios -->
     <platform name="ios">
@@ -45,15 +43,14 @@
             </feature>
         </config-file>
 
-        <framework src="com.theartofdev.edmodo:android-image-cropper:2.6.0"/>
+        <framework src="com.soundcloud.android:android-crop:1.0.0@aar" />
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
-            <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" android:theme="@style/Base.Theme.AppCompat"/>
+            <activity android:name="com.soundcloud.android.crop.CropImageActivity"/>
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest">
-            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
         </config-file>
 
         <source-file src="src/android/CropPlugin.java" target-dir="src/com/yona/crop"/>

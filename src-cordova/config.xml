@@ -24,6 +24,9 @@
     <preference name="Orientation" value="portrait" />
 
     <platform name="android">
+        <preference name="android-targetSdkVersion" value="26" />
+        <preference name="android-compileSdkVersion " value="28" />
+
         <allow-intent href="market:*" />
 
         <splash src="res/screen/android/splash-port-hdpi.png" density="port-hdpi"/>
@@ -38,6 +41,8 @@
         <icon src="res/icon/android/xxhdpi.png" density="xxhdpi" />
         <icon src="res/icon/android/xxxhdpi.png" density="xxxhdpi" />
 
+        <resource-file src="google-services.json" target="google-services.json" />
+        <resource-file src="google-services.json" target="app/google-services.json" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
