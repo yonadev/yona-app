@@ -52,7 +52,6 @@ export default class Setup extends Vue {
   @Prop() category!: string;
   @Prop() goal!: BudgetGoal;
 
-
   setupData: {
     maxDurationMinutes: number;
   } = {
