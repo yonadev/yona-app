@@ -66,6 +66,8 @@ export default class FriendsTimeLineDay extends Vue {
           console.log(error);
         });
 
+        this.loading = false;
+
         if (response) {
           if (response.data._links.next) {
             this.nextActivities = response.data._links.next.href;
@@ -79,7 +81,6 @@ export default class FriendsTimeLineDay extends Vue {
               self.dayActivityOverviews.push(message);
             }
           );
-          this.loading = false;
         }
       }
     }

@@ -298,6 +298,8 @@ export default class Notifications extends Vue {
           console.log(error);
         });
 
+        this.loading = false;
+
         if (messages) {
           if (messages.data._links.next) {
             this.nextNotifications = messages.data._links.next.href;
@@ -325,8 +327,6 @@ export default class Notifications extends Vue {
                 }
               }
             );
-
-            this.loading = false;
           }
         }
       }

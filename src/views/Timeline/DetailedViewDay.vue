@@ -113,6 +113,8 @@ export default class DetailedViewDay extends Vue {
         console.log(error);
       });
 
+    this.loading = false;
+
     if (detailed_response.status === 200) {
       this.day_activity = detailed_response.data;
 
@@ -130,7 +132,6 @@ export default class DetailedViewDay extends Vue {
         this.category = this.getActivityCategory(
           goal._links["yona:activityCategory"].href
         ).name;
-        this.loading = false;
       }
     }
   }

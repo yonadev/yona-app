@@ -140,7 +140,7 @@ export default class Setup extends Vue {
   @Action("updateGoal", { namespace: "challenges" }) updateGoal: any;
   @Prop() category!: string;
   @Prop() goal!: TimeZoneGoal;
-  loading = false;
+  loading: boolean = false;
 
   setupData: {
     items: timeEntry[];

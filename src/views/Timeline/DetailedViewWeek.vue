@@ -142,9 +142,10 @@ export default class DetailedViewWeek extends Vue {
         console.log(error);
       });
 
+    this.loading = false;
+
     if (detailed_response.status === 200) {
       this.week_activity = detailed_response.data;
-      this.loading = false;
     }
   }
 
