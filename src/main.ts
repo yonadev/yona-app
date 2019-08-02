@@ -129,13 +129,13 @@ const app = new Vue({
 
       this.$store.dispatch("login/resetLastRoute");
 
-      document.addEventListener("pause", () => this.pause(this), false);
+      document.addEventListener("pause", () => this.pause(), false);
 
       document.addEventListener(
         "offline",
         () => {
           self.$store.dispatch("api/setOffline");
-          self.pause(this);
+          self.pause();
         },
         false
       );
@@ -165,13 +165,11 @@ const app = new Vue({
         window.navigator.splashscreen.hide();
       }
     },
-    pause(param: any) {
+    pause() {
       this.$store.dispatch("login/setLastRoute");
       if(this.$store.state.login.lastRoute.name !== "FriendsAddAddressBook"){
         this.$store.dispatch("login/setLoggedOff");
       }
-
-      console.log(this.$store.state.login.lastRoute);
     }
   }
 }).$mount("#app");
