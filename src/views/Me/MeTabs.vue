@@ -69,7 +69,11 @@ export default class MeTabs extends Vue {
 
       this.loading = false;
 
-      if (messages && messages.data._embedded["yona:messages"]) {
+      if (
+        messages &&
+        messages.data._embedded &&
+        messages.data._embedded["yona:messages"]
+      ) {
         messages.data._embedded["yona:messages"].forEach((message: any) => {
           if (!message.isRead) {
             this.notifications++;

@@ -37,6 +37,10 @@ const actions: ActionTree<LoginState, RootState> = {
     dispatch("buddies/update", null, { root: true });
     dispatch("challenges/update", null, { root: true });
 
+    if (!rootState.api.deviceUUID) {
+      dispatch("api/setDeviceID", null, { root: true });
+    }
+
     if (rootState.api.links && rootState.api.links["yona:postOpenAppEvent"]) {
       let OS = "ANDROID";
       //@ts-ignore
@@ -48,8 +52,8 @@ const actions: ActionTree<LoginState, RootState> = {
       let openApp: any = await axios
         .post(rootState.api.links["yona:postOpenAppEvent"].href, {
           operatingSystem: OS,
-          appVersion: "1.1 build 83",
-          appVersionCode: 31
+          appVersion: "1.1 build 83", //ToDo: get from Jenkins build
+          appVersionCode: 31 //ToDo: get from Jenkins build
         })
         .catch(error => {
           console.log(error);

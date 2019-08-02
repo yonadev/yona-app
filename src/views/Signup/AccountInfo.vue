@@ -43,7 +43,6 @@
       <span class="button" @click="checkTelNumber">{{ $t("next") }}</span>
     </div>
 
-    <!-- ToDo: Make it a cordova modal -->
     <div class="is-centered" v-if="choose">
       <router-link class="button" :to="{ name: 'AddDevice' }">{{
         $t("adddevice")

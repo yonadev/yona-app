@@ -16,9 +16,9 @@
           <strong>{{ $t("privacy") }}</strong>
         </div>
       </router-link>
-      <router-link :to="{ name: 'SettingsAddDevice' }">
+      <router-link :to="{ name: 'Devices' }">
         <div class="grey-bg-button">
-          <strong>{{ $t("adddevice") }}</strong>
+          <strong>{{ $t("devices") }}</strong>
         </div>
       </router-link>
       <div class="grey-bg-button" @click="contactUs()">
