@@ -75,7 +75,9 @@ const actions: ActionTree<BuddiesState, RootState> = {
 
 const mutations: MutationTree<BuddiesState> = {
   setBuddies(state: BuddiesState, { data }) {
-    state.buddies = data._embedded["yona:buddies"];
+    if (data._embedded && data._embedded["yona:buddies"]) {
+      state.buddies = data._embedded["yona:buddies"];
+    }
     state.loaded = true;
   }
 };

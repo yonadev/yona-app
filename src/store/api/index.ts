@@ -6,6 +6,7 @@ import i18n from "@/utils/i18n";
 export const state: ApiState = {
   host: "https://app.prd.yona.nu",
   locale: "en-US",
+  deviceUUID: "",
   yonaPassword: "",
   serverMessage: "",
   online: true,
@@ -14,17 +15,17 @@ export const state: ApiState = {
 };
 
 const actions: ActionTree<ApiState, RootState> = {
-  setHeaderPassword({ commit }, data): any {
+  setHeaderPassword({ commit }, data): void {
     commit("setHeaderPassword", data);
   },
-  setServerError({ commit, dispatch }, data): any {
+  setServerError({ commit, dispatch }, data): void {
     commit("setServerError", data);
 
     setTimeout(() => {
       dispatch("removeServerError");
     }, 5000);
   },
-  removeServerError({ commit }): any {
+  removeServerError({ commit }): void {
     commit("setServerError", { serverMessage: "" });
   },
   setOffline({ commit, dispatch }): any {
@@ -36,17 +37,26 @@ const actions: ActionTree<ApiState, RootState> = {
   setLocale({ commit }, locale): void {
     commit("setLocale", locale);
   },
-  setOnline({ commit }): any {
+  setOnline({ commit }): void {
     commit("setOnlineStatus", true);
   },
-  setLinks({ commit }, data): any {
+  setLinks({ commit }, data): void {
     commit("setLinks", data);
   },
-  setEmbedded({ commit }, data): any {
+  setEmbedded({ commit }, data): void {
     commit("setEmbedded", data);
   },
-  setHost({ commit }, data): any {
+  setHost({ commit }, data): void {
     commit("setHost", data);
+  },
+  setDeviceID({ commit }): void {
+    let deviceUUID: string = "";
+    //@ts-ignore
+    if (typeof device !== "undefined") {
+      //@ts-ignore
+      deviceUUID = device.uuid;
+    }
+    commit("setDeviceID", deviceUUID);
   }
 };
 
@@ -71,6 +81,9 @@ const mutations: MutationTree<ApiState> = {
   },
   setHost(state, payload: ApiState) {
     state.host = payload.host;
+  },
+  setDeviceID(state, payload: ApiState) {
+    state.deviceUUID = payload.deviceUUID;
   }
 };
 
