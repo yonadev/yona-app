@@ -452,14 +452,28 @@ export default new Router({
               component: Privacy
             },
             {
-              path: "adddevice",
-              name: "SettingsAddDevice",
-              component: SettingsAddDevice
-            },
-            {
               path: "unsubscribe",
               name: "Unsubscribe",
               component: Unsubscribe
+            },
+            {
+              path: "devices-overview",
+              component: () =>
+                import("../views/Settings/SettingsOverview/Devices/AbstractDevices.vue"),
+              children: [
+                {
+                  path: "devices",
+                  name: "Devices",
+                  component: () =>
+                    import("../views/Settings/SettingsOverview/Devices/Devices.vue")
+                },
+                {
+                  path: "adddevice",
+                  name: "SettingsAddDevice",
+                  component: () =>
+                    import("../views/Settings/SettingsOverview/Devices/AddDevice.vue")
+                }
+              ]
             }
           ]
         },
