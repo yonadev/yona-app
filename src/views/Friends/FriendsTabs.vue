@@ -3,7 +3,7 @@
     <div class="colored-background blue">
       <div class="nav-title">
         {{ $t("friends") }}
-        <router-link :to="{ name: 'FriendAdd' }">
+        <router-link :to="{ name: 'FriendsAddManual' }">
           <img
             class="icon-img is-pulled-right"
             src="../../assets/images/icons/icn_add.svg"

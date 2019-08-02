@@ -343,9 +343,21 @@ export default new Router({
           ]
         },
         {
-          path: "add",
-          name: "FriendAdd",
-          component: () => import("../views/Friends/Add.vue")
+          path: "",
+          name: "FriendsAddTabs",
+          component: () => import("../views/Friends/FriendsAdd/FriendsAddTabs.vue"),
+          children: [
+            {
+              path: "add",
+              name: "FriendsAddManual",
+              component: () => import("../views/Friends/FriendsAdd/FriendsAddManual.vue")
+            },
+            {
+              path: "addressbook",
+              name: "FriendsAddAddressBook",
+              component: () => import("../views/Friends/FriendsAdd/FriendsAddAddressBook.vue")
+            }
+          ]
         },
         {
           path: ":buddy_href",

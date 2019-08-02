@@ -6,8 +6,13 @@
       </div>
     </div>
     <div class="wrapper">
+      <router-link :to="{ name: 'SettingsAddDevice' }">
+        <div class="grey-bg-button">
+          <strong>{{ $t("adddevice") }}</strong>
+        </div>
+      </router-link>
       <div v-for="(device, index) in devices" :key="index">
-        {{device}}
+        {{ device }}
       </div>
     </div>
   </div>
@@ -16,8 +21,8 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import {State} from "vuex-class";
-import {ApiState} from "@/store/api/types";
+import { State } from "vuex-class";
+import { ApiState } from "@/store/api/types";
 
 @Component({})
 export default class Devices extends Vue {
@@ -25,7 +30,7 @@ export default class Devices extends Vue {
   devices: [] = [];
 
   mounted() {
-    console.log(this.api)
+    console.log(this.api);
   }
 }
 </script>
