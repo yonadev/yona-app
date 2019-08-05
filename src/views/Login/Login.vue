@@ -62,6 +62,8 @@ export default class Login extends Vue {
               console.log(error);
             });
 
+          console.log(user_response);
+
           if (user_response) {
             this.setUserData(user_response.data);
           }

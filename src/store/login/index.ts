@@ -56,8 +56,14 @@ const actions: ActionTree<LoginState, RootState> = {
           appVersionCode: 31 //ToDo: get from Jenkins build
         })
         .catch(error => {
-          console.log(error);
+          if (error) {
+            commit("unregisterDevice");
+          }
         });
+
+      if (!openApp) {
+        commit("unregisterDevice");
+      }
     }
 
     if (state.lastRoute !== null) {
@@ -129,6 +135,12 @@ const actions: ActionTree<LoginState, RootState> = {
 const mutations: MutationTree<LoginState> = {
   setPincode(state, payload: LoginState) {
     state.pinCode = payload.pinCode;
+  },
+  unregisterDevice(state) {
+    state.isRegistered = false;
+    state.isLoggedIn = false;
+    state.pinIsSet = false;
+    state.pinCode = null;
   },
   increaseLoginAttempts(state) {
     state.loginAttempts++;
