@@ -23,7 +23,7 @@
 import Vue from "vue";
 import { Watch, Component } from "vue-property-decorator";
 import PinCode from "../../components/PinCode.vue";
-import axios from "../../utils/axios/axios";
+import axios from "@/utils/axios/axios";
 import { Action, State } from "vuex-class";
 import { LoginState } from "@/store/login/types";
 import { ApiState } from "@/store/api/types";

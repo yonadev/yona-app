@@ -487,6 +487,13 @@ export default new Router({
                   name: "SettingsAddDevice",
                   component: () =>
                     import("../views/Settings/SettingsOverview/Devices/AddDevice.vue")
+                },
+                {
+                  path: "viewdevice",
+                  name: "ViewDevice",
+                  component: () =>
+                    import("../views/Settings/SettingsOverview/Devices/ViewDevice.vue"),
+                  props: true
                 }
               ]
             }

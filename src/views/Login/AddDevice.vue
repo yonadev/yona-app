@@ -108,6 +108,8 @@ export default class AddDevice extends Vue {
 
             if (
               //@ts-ignore
+              typeof cordova !== "undefined" &&
+              //@ts-ignore
               typeof cordova.plugins !== undefined &&
               //@ts-ignore
               cordova.plugins.firebase
@@ -142,7 +144,7 @@ export default class AddDevice extends Vue {
                 console.log(error);
               });
 
-            if (response.status == 201) {
+            if (response) {
               this.$router.push({ name: "SetPinCode" });
             }
           }

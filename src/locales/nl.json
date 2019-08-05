@@ -28,6 +28,9 @@
   "step": "Stap",
   "from": "van",
   "to": "tot",
+
+  "operating_system": "Besturingsysteem",
+
   "connectionnotavailable": "OEPS! Geen internetverbinding beschikbaar, maak opnieuw verbinding en probeer opnieuw.",
   "somethingwentwrong": "Oeps! Er is iets mis gegaan",
   "server_not_rechable": "Server is niet toegankelijk. Probeer het nog eens",
@@ -229,10 +232,14 @@
   "requested": "VERZOEKEN",
   "accepted": "VERBONDEN",
   "rejected": "VERWORPEN",
+
+  "registered_at": "Geregistreerd  op",
+
   "last_seen_status_today": "Vandaag voor het laatst gezien",
   "last_seen_status_yesterday": "Gisteren voor het laatst gezien",
   "last_seen_status_in_week": "Laatst gezien %1$s dagen geleden",
   "last_seen_status_back_week": "Laatst gezien op %1$s",
+  "last_seen" : "Laatst gezien op",
   "last_seen_never_seen_online": "Nooit online gezien",
   "message_buddy_information_changed": "Vriend profiel bijgewerkt",
   "same_environment_change": "Server URL niet veranderd",

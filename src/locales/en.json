@@ -28,6 +28,9 @@
   "step": "Step",
   "from": "from",
   "to": "to",
+
+  "operating_system": "Operating system",
+
   "connectionnotavailable" : "OOPS! No Internet Connection Available, please connect and try again.",
   "somethingwentwrong" : "Oops, Something went wrong",
   "server_not_rechable" : "Server is not accessible. Try again.",
@@ -234,10 +237,13 @@
   "accepted" : "ACCEPTED",
   "rejected" : "REJECTED",
 
+  "registered_at": "Registered at",
+
   "last_seen_status_today" : "Last seen Today",
   "last_seen_status_yesterday" : "Last seen Yesterday",
   "last_seen_status_in_week" : "Last seen %1$s days ago",
   "last_seen_status_back_week" : "Last seen on %1$s",
+  "last_seen" : "Last seen on",
   "last_seen_never_seen_online" : "Never seen online",
   "message_buddy_information_changed" : "Friend profile updated",
   "same_environment_change" : "Server URL not changed",
