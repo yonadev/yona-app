@@ -122,8 +122,8 @@ export default class Devices extends Vue {
     }
   }
 
-  async getDevices(){
-    if(this.api.links) {
+  async getDevices() {
+    if (this.api.links) {
       await axios.get(this.api.links["self"].href).catch((error: any) => {
         console.log(error);
       });

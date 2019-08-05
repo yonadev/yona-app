@@ -16,7 +16,7 @@
         <router-link :to="{ name: 'ViewDevice', params: { device: device } }">
           <strong>{{ device.name }} </strong>
           <span v-if="device.requestingDevice">(Current device)</span><br />
-          <p>{{device.appLastOpenedDate}}</p>
+          <p>{{ device.appLastOpenedDate }}</p>
         </router-link>
       </div>
       <router-link :to="{ name: 'SettingsAddDevice' }">
@@ -54,10 +54,10 @@ export default class Devices extends Vue {
       background-image: linear-gradient(#f7f7f7, #fcfcfc);
       padding: 20px 25px 20px 25px;
       text-align: left;
-      span{
+      span {
         opacity: 0.6;
       }
-      p{
+      p {
         margin: 5px 0 0;
         opacity: 0.6;
       }
