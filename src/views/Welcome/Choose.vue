@@ -125,7 +125,7 @@ export default class Choose extends Vue {
       }
 
       this.setHost({
-        host: this.host
+        host: url
       });
     }
   }
