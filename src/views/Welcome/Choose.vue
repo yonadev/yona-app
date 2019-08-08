@@ -108,11 +108,13 @@ export default class Choose extends Vue {
       });
 
     if (response) {
+      self.host = url;
+
       //@ts-ignore
       if (navigator && navigator.notification) {
         //@ts-ignore
         navigator.notification.alert(
-          self.$t("new_environment_switch_success_msg") + " " + url, // message
+          self.$t("new_environment_switch_success_msg") + " " + self.host, // message
           () => {}, // callback
           self.$t("generic_alert_title"), // title
           "Close" // buttonName
@@ -120,12 +122,12 @@ export default class Choose extends Vue {
       } else {
         this.setServerError({
           serverMessage:
-            self.$t("new_environment_switch_success_msg") + " " + url
+            self.$t("new_environment_switch_success_msg") + " " + self.host
         });
       }
 
       this.setHost({
-        host: url
+        host: self.host
       });
     }
   }
