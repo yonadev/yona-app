@@ -4,7 +4,7 @@ import { RootState } from "../types";
 import i18n from "@/utils/i18n";
 
 export const state: ApiState = {
-  host: "https://app.prd.yona.nu",
+  host: "https://app.load.yona.nu",
   locale: "en-US",
   deviceUUID: "",
   yonaPassword: "",
