@@ -112,7 +112,7 @@ export default class Choose extends Vue {
       if (navigator && navigator.notification) {
         //@ts-ignore
         navigator.notification.alert(
-          self.$t("new_environment_switch_success_msg") + " " + this.host, // message
+          self.$t("new_environment_switch_success_msg") + " " + url, // message
           () => {}, // callback
           self.$t("generic_alert_title"), // title
           "Close" // buttonName
@@ -120,7 +120,7 @@ export default class Choose extends Vue {
       } else {
         this.setServerError({
           serverMessage:
-            self.$t("new_environment_switch_success_msg") + " " + this.host
+            self.$t("new_environment_switch_success_msg") + " " + url
         });
       }
 
