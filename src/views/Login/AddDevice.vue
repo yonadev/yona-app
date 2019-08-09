@@ -35,7 +35,7 @@
         id="passcode"
         :validate="{ required: true }"
         class="with-border-input"
-        :label="$t('pincode')"
+        :label="$t('passcode')"
         :value.sync="passcode"
         type="text"
         icon="icn_name.svg"
@@ -127,7 +127,7 @@ export default class AddDevice extends Vue {
               .post(
                 get_response.data._links["yona:registerDevice"].href,
                 {
-                  //Todo: implement Firebase and App Version
+                  //Todo: implement App Version
                   operatingSystem: OS,
                   name: this.device_name,
                   appVersion: "1.1 build 83",
