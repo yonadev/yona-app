@@ -49,6 +49,7 @@ export default class PhoneNumber extends Vue {
   @State("api") api!: ApiState;
   @Action("setProperty", { namespace: "account" }) setProperty: any;
   mobile: string = "";
+  loading: boolean = false;
 
   mounted() {
     this.mobile = this.account.phonenumber;
@@ -67,7 +68,8 @@ export default class PhoneNumber extends Vue {
   checkTelNumber() {
     let self = this;
     this.$validator.validate().then(async valid => {
-      if (valid) {
+      if (valid && !self.loading) {
+        self.loading = true;
         this.setProperty({ phonenumber: self.mobile });
 
         let response: any = await axios
@@ -79,14 +81,10 @@ export default class PhoneNumber extends Vue {
           .catch(error => {
             console.log(error);
           });
-
+        self.loading = false;
         if (response) {
-          if (response.status === 200) {
-            //Successfull
-            this.$router.push({ name: "RecoverSms" });
-          } else {
-            //Something went wrong
-          }
+          //Successfull
+          this.$router.push({ name: "RecoverSms" });
         }
       }
     });

@@ -105,14 +105,14 @@ export default class AccountInfo extends Vue {
                 navigator.notification.confirm(
                   self.$t("useroverride"),
                   (result: number) => {
-                    if (result === 0) {
+                    if (result === 2) {
                       self.$router.push({ name: "PhoneNumber" });
                     } else if (result === 1) {
                       self.$router.push({ name: "AddDevice" });
                     }
                   },
                   error.response.data.message,
-                  [self.$t("No"), self.$t("Yes")]
+                  [self.$t("no"), self.$t("yes")]
                 );
               } else {
                 self.choose = true;

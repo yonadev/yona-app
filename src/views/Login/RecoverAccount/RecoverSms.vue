@@ -75,6 +75,32 @@ export default class RecoverSms extends Vue {
       let self = this;
       this.$validator.validate().then(async valid => {
         if (valid) {
+          let OS = "ANDROID";
+          //@ts-ignore
+          if (typeof device !== "undefined") {
+            //@ts-ignore
+            OS = device.platform.toUpperCase();
+          }
+
+          let firebaseInstanceId = null;
+
+          if (
+            //@ts-ignore
+            typeof cordova !== "undefined" &&
+            //@ts-ignore
+            typeof cordova.plugins !== undefined &&
+            //@ts-ignore
+            cordova.plugins.firebase
+          ) {
+            //@ts-ignore
+            await cordova.plugins.firebase.messaging.requestPermission({
+              forceShow: true
+            });
+
+            //@ts-ignore
+            firebaseInstanceId = await cordova.plugins.firebase.messaging.getToken();
+          }
+
           let response: any = await axios
             .post(
               this.api.host + "/users/?overwriteUserConfirmationCode=" + val,
@@ -82,11 +108,15 @@ export default class RecoverSms extends Vue {
                 firstName: this.account.firstname,
                 lastName: this.account.lastname,
                 mobileNumber: this.account.phonenumber,
-                nickname: this.account.nickname
+                nickname: this.account.nickname,
+                //Todo: implement App Version
+                deviceName: `${OS} ${this.account.nickname}`,
+                deviceOperatingSystem: OS,
+                deviceAppVersion: "1.1 build 83",
+                deviceAppVersionCode: 31
               }
             )
             .catch(error => {
-              console.log(error);
               if (error) {
                 self.password = null;
                 if (error.response.status == 400) {
