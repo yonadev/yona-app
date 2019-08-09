@@ -15,7 +15,9 @@
       >
         <router-link :to="{ name: 'ViewDevice', params: { device: device } }">
           <strong>{{ device.name }} </strong>
-          <span v-if="device.requestingDevice">(Current device)</span><br />
+          <span v-if="device.requestingDevice">
+            ({{ $t("currentdevice") }})</span
+          ><br />
           <p>{{ device.appLastOpenedDate }}</p>
         </router-link>
       </div>

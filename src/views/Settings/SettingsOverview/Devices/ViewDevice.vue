@@ -5,6 +5,7 @@
         {{ $t("devices") }}
         <a @click="deleteDevice" v-if="!device.requestingDevice">
           <img
+            alt="delete_device"
             class="small-top-icon is-pulled-right"
             :src="require('@/assets/images/icons/icn_trash.svg')"
           />
@@ -63,7 +64,7 @@ export default class Devices extends Vue {
     this.device_name = this.device.name;
   }
 
-  formatDate(time: string) {
+  static formatDate(time: string) {
     let timeFormat = DateTime.fromISO(time);
     return timeFormat.toFormat("yyyy-LL-dd HH:mm");
   }
@@ -88,7 +89,7 @@ export default class Devices extends Vue {
     if (navigator && navigator.notification) {
       //@ts-ignore
       navigator.notification.confirm(
-        self.$t("challengedeletemsg"),
+        self.$t("devicedeletemsg"),
         async (result: number) => {
           if (result === 1) {
             //Cancel
