@@ -64,7 +64,7 @@ export default class Devices extends Vue {
     this.device_name = this.device.name;
   }
 
-  static formatDate(time: string) {
+  formatDate(time: string) {
     let timeFormat = DateTime.fromISO(time);
     return timeFormat.toFormat("yyyy-LL-dd HH:mm");
   }

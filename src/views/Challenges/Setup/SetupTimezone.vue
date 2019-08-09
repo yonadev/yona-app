@@ -79,6 +79,7 @@
             :input-id="'timeTo' + index"
             type="time"
             :minute-step="15"
+            :min-datetime="getMinTime(item.from)"
             format="HH:mm"
             value-zone="UTC+2"
             input-style="display:none;"
@@ -124,6 +125,7 @@ import "vue-datetime/dist/vue-datetime.css";
 //@ts-ignore
 import { SwipeList, SwipeOut } from "vue-swipe-actions";
 import { Prop } from "vue-property-decorator";
+import datetime from "luxon/src/datetime";
 
 interface timeEntry {
   id: number;
@@ -159,6 +161,10 @@ export default class Setup extends Vue {
         };
       });
     }
+  }
+
+  getMinTime(startTime: string) {
+    return DateTimeLu.fromISO(startTime).plus({ minutes: 15 }).toISO();
   }
 
   formatTime(time: string) {
