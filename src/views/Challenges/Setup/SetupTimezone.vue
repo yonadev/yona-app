@@ -125,7 +125,6 @@ import "vue-datetime/dist/vue-datetime.css";
 //@ts-ignore
 import { SwipeList, SwipeOut } from "vue-swipe-actions";
 import { Prop } from "vue-property-decorator";
-import datetime from "luxon/src/datetime";
 
 interface timeEntry {
   id: number;
