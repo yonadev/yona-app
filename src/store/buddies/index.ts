@@ -77,6 +77,8 @@ const mutations: MutationTree<BuddiesState> = {
   setBuddies(state: BuddiesState, { data }) {
     if (data._embedded && data._embedded["yona:buddies"]) {
       state.buddies = data._embedded["yona:buddies"];
+    } else {
+      state.buddies = [];
     }
     state.loaded = true;
   }
