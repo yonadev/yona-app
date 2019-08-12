@@ -160,7 +160,16 @@
                     "
                   >
                     <span class="is-block has-text-left title">
-                      <strong>{{ $t("goalchanged") }}</strong>
+                      <strong v-if="notification.change === 'GOAL_ADDED'">{{
+                        $t("goaladded")
+                      }}</strong>
+                      <strong
+                        v-else-if="notification.change === 'GOAL_CHANGED'"
+                        >{{ $t("goalchanged") }}</strong
+                      >
+                      <strong v-if="notification.change === 'GOAL_DELETED'">{{
+                        $t("goaldeleted")
+                      }}</strong>
                     </span>
                     <span class="is-block has-text-left name">
                       {{ notification.nickname }}
@@ -381,13 +390,22 @@ export default class Notifications extends Vue {
         params: { buddy_href: notification._links["yona:buddy"].href }
       });
     } else if (notification["@type"] === "GoalConflictMessage") {
-      this.$router.push({
-        name: "FriendsDetailedViewDay",
-        params: {
-          activity_link: notification._links["yona:dayDetails"].href,
-          buddy_href: notification._links["yona:buddy"].href
-        }
-      });
+      if (notification._links["yona:buddy"]) {
+        this.$router.push({
+          name: "FriendsDetailedViewDay",
+          params: {
+            activity_link: notification._links["yona:dayDetails"].href,
+            buddy_href: notification._links["yona:buddy"].href
+          }
+        });
+      } else {
+        this.$router.push({
+          name: "DetailedViewDay",
+          params: {
+            activity_link: notification._links["yona:dayDetails"].href
+          }
+        });
+      }
     } else if (notification["@type"] === "ActivityCommentMessage") {
       this.loading = true;
 
