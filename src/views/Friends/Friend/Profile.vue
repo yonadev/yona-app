@@ -112,11 +112,9 @@ export default class FriendsProfile extends Vue {
   async removeFriend() {
     this.loading = true;
     const buddyProfile = this.buddy(this.buddy_href);
-
     await axios.delete(buddyProfile._links.edit.href);
-
     this.loading = false;
-    this.$router.push({ name: "TimeLine" });
+    this.$router.push({ name: "FriendsOverview" });
   }
 }
 </script>
