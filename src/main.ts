@@ -160,6 +160,39 @@ const app = new Vue({
       }
 
       //@ts-ignore
+      if (typeof cordova.plugins.appUsage !== "undefined") {
+        /*
+        //@ts-ignore
+        cordova.plugins.appUsage.setDefaults({
+          title: "Yona",
+          text: self.$t("yona_notification_content"),
+          icon: "notification", // this will look for icon.png in platforms/android/res/drawable|mipmap
+          color: "6c2a58", // hex format like 'F14F4D'
+          resume: true,
+          channelName: self.$t("yona_service_notification_channel_name"),
+          allowClose: true
+        });
+        //@ts-ignore
+        cordova.plugins.appUsage.checkUsageAccess();
+        //@ts-ignore
+        cordova.plugins.appUsage.enable();
+        //@ts-ignore
+        cordova.plugins.appUsage.configure({
+          title: "Yona",
+          text: self.$t("yona_notification_content"),
+          color: "6c2a58"
+        });
+        //@ts-ignore
+        cordova.plugins.appUsage.openAppStartSettings(false);
+        //@ts-ignore
+        cordova.plugins.appUsage.on("activate", function() {
+          //@ts-ignore
+          cordova.plugins.appUsage.disableWebViewOptimizations();
+        });
+         */
+      }
+
+      //@ts-ignore
       if (window.navigator.splashscreen) {
         //@ts-ignore
         window.navigator.splashscreen.hide();

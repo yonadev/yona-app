@@ -27,10 +27,12 @@ export interface Buddy {
           href: string;
         };
       };
-    };
-    "yona:goals": {
       _embedded: {
-        "yona:goals": Goal[];
+        "yona:goals": {
+          _embedded: {
+            "yona:goals": Goal[];
+          };
+        }
       };
     };
   };

@@ -43,8 +43,12 @@
                   </div>
                   <div v-else class="img-wrapper">
                     <profile-pic
-                      v-if="getLink(notification)"
-                      :src="getLink(notification)"
+                      v-if="getPicLink(notification)"
+                      :src="getPicLink(notification)"
+                    ></profile-pic>
+                    <profile-pic
+                      v-else-if="getPicData(notification)"
+                      :data="getPicData(notification)"
                     ></profile-pic>
                   </div>
                 </div>
@@ -333,7 +337,7 @@ export default class Notifications extends Vue {
     }
   }
 
-  getLink(notification: any) {
+  getPicLink(notification: any) {
     if (
       (notification && notification["@type"] === "BuddyInfoChangeMessage") ||
       notification["@type"] === "ActivityCommentMessage" ||
@@ -343,8 +347,17 @@ export default class Notifications extends Vue {
       notification["@type"] === "BuddyDeviceChangeMessage"
     ) {
       return notification._links["yona:user"].href;
-    } else if (notification["@type"] === "BuddyConnectRequestMessage") {
-      return notification._embedded["yona:user"]._links.self.href;
+    }
+
+    return false;
+  }
+
+  getPicData(notification: any) {
+    if (notification["@type"] === "BuddyConnectRequestMessage") {
+      return {
+        type: "buddy",
+        text: notification.nickname
+      };
     }
     return false;
   }
