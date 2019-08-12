@@ -7,6 +7,7 @@ import { api, state as api_state } from "./api/index";
 import { login, state as login_state } from "./login/index";
 import { challenges, state as challenges_state } from "./challenges/index";
 import { buddies, state as buddies_state } from "./buddies/index";
+import router from "../router";
 
 const debug = process.env.NODE_ENV !== "production";
 
@@ -44,6 +45,18 @@ const store: StoreOptions<RootState> = {
     login,
     challenges,
     buddies
+  },
+  actions: {
+    async resetAll({ commit }) {
+      commit("resetAll");
+      //@ts-ignore
+      if (typeof cordova.plugins !== undefined && cordova.plugins.firebase) {
+        //@ts-ignore
+        await cordova.plugins.firebase.messaging.revokeToken();
+      }
+
+      router.push({ name: "Tour" });
+    }
   },
   mutations: {
     resetAll(state) {

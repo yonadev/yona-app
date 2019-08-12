@@ -89,12 +89,44 @@ export default class AccountInfo extends Vue {
       if (valid && !this.loading) {
         this.loading = true;
 
+        let OS = "ANDROID";
+        //@ts-ignore
+        if (typeof device !== "undefined") {
+          //@ts-ignore
+          OS = device.platform.toUpperCase();
+        }
+
+        let firebaseInstanceId = null;
+
+        if (
+          //@ts-ignore
+          typeof cordova !== "undefined" &&
+          //@ts-ignore
+          typeof cordova.plugins !== undefined &&
+          //@ts-ignore
+          cordova.plugins.firebase
+        ) {
+          //@ts-ignore
+          await cordova.plugins.firebase.messaging.requestPermission({
+            forceShow: true
+          });
+
+          //@ts-ignore
+          firebaseInstanceId = await cordova.plugins.firebase.messaging.getToken();
+        }
+
         let response: any = await axios
           .post(this.api.host + "/users/", {
             firstName: this.account.firstname,
             lastName: this.account.lastname,
             mobileNumber: this.account.phonenumber,
-            nickname: this.account.nickname
+            nickname: this.account.nickname,
+            //Todo: implement App Version
+            deviceName: `${OS} ${this.account.nickname}`,
+            deviceOperatingSystem: OS,
+            deviceAppVersion: "1.1 build 83",
+            deviceAppVersionCode: 31,
+            deviceFirebaseInstanceId: firebaseInstanceId
           })
           .catch(error => {
             self.loading = false;
