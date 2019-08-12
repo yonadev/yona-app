@@ -274,20 +274,16 @@ export default class Notifications extends Vue {
   ) {
     this.loading = true;
 
-    let notification_deleted: any = await axios
-      .delete(notification._links.edit.href)
-      .catch(error => {
-        console.log(error);
-      });
+    let notification_deleted: any = await axios.delete(
+      notification._links.edit.href
+    );
 
     this.loading = false;
 
     if (notification_deleted) {
-      this.all_notifications[day_index].notifications = this.all_notifications[
-        day_index
-      ].notifications.filter((i: any) => i !== notification);
       //@ts-ignore
       this.$refs["list" + day_index + index][0].closeActions();
+      this.all_notifications[day_index].notifications.splice(index, 1);
     }
   }
 
@@ -298,9 +294,7 @@ export default class Notifications extends Vue {
         let self = this;
         this.gettingNotifications = true;
 
-        let messages: any = await axios.get(href).catch(error => {
-          console.log(error);
-        });
+        let messages: any = await axios.get(href);
 
         this.loading = false;
 
@@ -364,13 +358,9 @@ export default class Notifications extends Vue {
 
   async goTo(notification: any) {
     if (!notification.isRead) {
-      let read_response: any = await axios
-        .post(notification._links["yona:markRead"].href, {
-          properties: {}
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      await axios.post(notification._links["yona:markRead"].href, {
+        properties: {}
+      });
     }
 
     if (
@@ -447,6 +437,13 @@ export default class Notifications extends Vue {
             }
           });
         }
+      }
+    } else if (notification["@type"] === "GoalChangeMessage") {
+      if (notification._links["yona:buddy"].href) {
+        this.$router.push({
+          name: "FriendTimeLineDay",
+          params: { buddy_href: notification._links["yona:buddy"].href }
+        });
       }
     } else if (notification["@type"] === "SystemMessage") {
       this.$router.push({
