@@ -1,5 +1,5 @@
 <template>
-  <div id="friends-timeline" :loading="loading">
+  <div id="friends-timeline">
     <div
       v-for="(buddy_activities, index) in buddies_activities"
       :key="'day' + index"
@@ -8,6 +8,7 @@
     </div>
     <div
       class="infinite-scroll"
+      :class="{loading}"
       v-observe-visibility="
         (isVisible, entry) =>
           this.getActivities(isVisible, entry, nextActivities)
@@ -156,10 +157,6 @@ export default class FriendsTimeLine extends Vue {
         opacity: 0.6;
       }
     }
-  }
-  .infinite-scroll {
-    height: 1px;
-    width: 100%;
   }
 }
 </style>

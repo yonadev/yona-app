@@ -1,5 +1,5 @@
 <template>
-  <div :loading="loading">
+  <div>
     <div
       v-for="(week_activities, index) in weekActivityOverviews"
       :key="'week' + index"
@@ -11,6 +11,7 @@
     </div>
     <div
       class="infinite-scroll"
+      :class="{loading}"
       v-observe-visibility="
         (isVisible, entry) => getActivities(isVisible, entry, nextActivities)
       "

@@ -1,5 +1,5 @@
 <template>
-  <div id="notification" class="header-template" :loading="loading">
+  <div id="notification" class="header-template">
     <div class="colored-background purple-dark">
       <div class="nav-title">
         {{ $t("message") }}
@@ -218,6 +218,7 @@
       </div>
       <div
         class="infinite-scroll"
+        :class="{loading}"
         v-observe-visibility="
           (isVisible, entry) =>
             this.getNotifications(isVisible, entry, nextNotifications)

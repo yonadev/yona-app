@@ -1,5 +1,5 @@
 <template>
-  <div id="messages" :loading="loading">
+  <div id="messages">
     <div class="message-bar" v-if="threadMessages.length">
       <img :src="require('../../assets/images/icons/icn_comment.svg')" />
       <span class="chat-icon"></span>
@@ -58,6 +58,7 @@
       </div>
       <div
         class="infinite-scroll"
+        :class="{loading}"
         v-observe-visibility="
           (isVisible, entry) => this.getMessages(isVisible, entry, nextMessages)
         "
