@@ -96,9 +96,9 @@ const getters: GetterTree<BuddiesState, RootState> = {
       });
 
       if (buddy) {
-        return buddy._embedded["yona:user"]._embedded["yona:goals"]._embedded["yona:goals"].find(
-          buddyGoal => buddyGoal._links.self.href === href
-        );
+        return buddy._embedded["yona:user"]._embedded["yona:goals"]._embedded[
+          "yona:goals"
+        ].find(buddyGoal => buddyGoal._links.self.href === href);
       }
     };
   }

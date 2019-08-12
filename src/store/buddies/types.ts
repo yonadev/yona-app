@@ -32,7 +32,7 @@ export interface Buddy {
           _embedded: {
             "yona:goals": Goal[];
           };
-        }
+        };
       };
     };
   };
