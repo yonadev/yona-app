@@ -51,11 +51,14 @@ instance.interceptors.response.use(
     return response;
   },
   error => {
-    console.log(error);
-    // Do something with response error
-    store.dispatch("api/setServerError", {
-      serverMessage: error.response.data.message
-    });
+    if(error.code && error.code === 'error.user.not.found.id'){
+        store.dispatch('resetAll');
+    } else {
+        // Do something with response error
+        store.dispatch("api/setServerError", {
+            serverMessage: error.response.data.message
+        });
+    }
     return Promise.reject(error);
   }
 );
