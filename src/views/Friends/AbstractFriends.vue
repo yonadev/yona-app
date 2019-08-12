@@ -9,9 +9,15 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import BottomMenu from "@/components/BottomMenu.vue";
+import { Action } from "vuex-class";
 
 @Component({
   components: { BottomMenu }
 })
-export default class AbstractFriends extends Vue {}
+export default class AbstractFriends extends Vue {
+  @Action("getBuddies", { namespace: "buddies" }) getBuddies: any;
+  mounted() {
+    this.getBuddies();
+  }
+}
 </script>
