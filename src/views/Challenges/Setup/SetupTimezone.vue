@@ -190,6 +190,10 @@ export default class Setup extends Vue {
     this.loading = true;
     let saved = false;
 
+    if (this.loading || this.setupData.items.length == 0) {
+      return false;
+    }
+
     if (this.goal && this.goal._links.edit) {
       saved = await this.updateGoal({
         url: this.goal._links.edit.href,
