@@ -73,6 +73,9 @@ export default class Setup extends Vue {
   }
 
   async save() {
+    if (this.loading || this.setupData.maxDurationMinutes === 0) {
+      return false;
+    }
     this.loading = true;
     if (this.goal && this.goal._links.edit) {
       await this.updateGoal({
