@@ -382,8 +382,11 @@ export default class Notifications extends Vue {
       });
     } else if (notification["@type"] === "GoalConflictMessage") {
       this.$router.push({
-        name: "DetailedViewDay",
-        params: { activity_link: notification._links["yona:dayDetails"].href }
+        name: "FriendsDetailedViewDay",
+        params: {
+          activity_link: notification._links["yona:dayDetails"].href,
+          buddy_href: notification._links["yona:buddy"].href
+        }
       });
     } else if (notification["@type"] === "ActivityCommentMessage") {
       this.loading = true;
@@ -397,7 +400,7 @@ export default class Notifications extends Vue {
 
         if (weekDetails && weekDetails.data._links["yona:buddy"]) {
           this.$router.push({
-            name: "DetailedViewWeek",
+            name: "FriendsDetailedViewWeek",
             params: {
               buddy_href: notification._links["yona:buddy"].href,
               activity_link: notification._links["yona:weekDetails"].href,
@@ -422,7 +425,7 @@ export default class Notifications extends Vue {
 
         if (dayDetails && dayDetails.data._links["yona:buddy"]) {
           this.$router.push({
-            name: "DetailedViewDay",
+            name: "FriendsDetailedViewDay",
             params: {
               buddy_href: notification._links["yona:buddy"].href,
               activity_link: notification._links["yona:dayDetails"].href,
