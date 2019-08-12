@@ -33,7 +33,7 @@ export default class Setup extends Vue {
 
   async save() {
     this.loading = true;
-    await this.saveGoal({
+    const saved = await this.saveGoal({
       "@type": "BudgetGoal",
       _links: {
         "yona:activityCategory": {
@@ -42,7 +42,14 @@ export default class Setup extends Vue {
       },
       maxDurationMinutes: 0
     });
-    this.$router.push({ name: "ChallengesOverview", params: { type: "nogo" } });
+    if (saved) {
+      this.$router.push({
+        name: "ChallengesOverview",
+        params: { type: "nogo" }
+      });
+    } else {
+      this.loading = false;
+    }
   }
 }
 </script>

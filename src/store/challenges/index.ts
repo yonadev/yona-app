@@ -25,40 +25,44 @@ const actions: ActionTree<ChallengesState, RootState> = {
   },
   async getGoals({ commit, rootState }) {
     if (rootState.api.embedded != null) {
-      const response = await axios.get(
-        rootState.api.embedded["yona:goals"]._links.self.href
-      );
+      const response = await axios
+        .get(rootState.api.embedded["yona:goals"]._links.self.href)
+        .catch(error => {
+          return false;
+        });
       commit("setGoals", response);
     }
   },
   async saveGoal({ commit, rootState, dispatch }, data) {
     if (rootState.api.embedded != null) {
-      const response = await axios.post(
-        rootState.api.embedded["yona:goals"]._links.self.href,
-        data
-      );
-      if (response.status === 200) {
-        dispatch("getGoals");
-        return true;
-      }
+      const response = await axios
+        .post(rootState.api.embedded["yona:goals"]._links.self.href, data)
+        .catch(error => {
+          return false;
+        });
+
+      dispatch("getGoals");
+      return true;
     }
   },
   async updateGoal({ commit, rootState, dispatch }, { url, data }) {
     if (rootState.api.embedded != null) {
-      const response = await axios.put(url, data);
-      if (response.status === 200) {
-        dispatch("getGoals");
-        return true;
-      }
+      const response = await axios.put(url, data).catch(error => {
+        return false;
+      });
+
+      dispatch("getGoals");
+      return true;
     }
   },
   async deleteGoal({ commit, rootState, dispatch }, goalUrl) {
     if (rootState.api.embedded != null) {
-      const response = await axios.delete(goalUrl);
-      if (response.status === 200) {
-        dispatch("getGoals");
-        return true;
-      }
+      const response = await axios.delete(goalUrl).catch(error => {
+        return false;
+      });
+
+      dispatch("getGoals");
+      return true;
     }
   }
 };

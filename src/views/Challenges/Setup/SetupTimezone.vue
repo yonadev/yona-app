@@ -188,9 +188,10 @@ export default class Setup extends Vue {
 
   async save() {
     this.loading = true;
+    let saved = false;
 
     if (this.goal && this.goal._links.edit) {
-      await this.updateGoal({
+      saved = await this.updateGoal({
         url: this.goal._links.edit.href,
         data: {
           "@type": "TimeZoneGoal",
@@ -207,7 +208,7 @@ export default class Setup extends Vue {
         }
       });
     } else {
-      await this.saveGoal({
+      saved = await this.saveGoal({
         "@type": "TimeZoneGoal",
         _links: {
           "yona:activityCategory": {
@@ -221,10 +222,15 @@ export default class Setup extends Vue {
         })
       });
     }
-    this.$router.push({
-      name: "ChallengesOverview",
-      params: { type: "timezone" }
-    });
+
+    if (saved) {
+      this.$router.push({
+        name: "ChallengesOverview",
+        params: { type: "timezone" }
+      });
+    } else {
+      this.loading = false;
+    }
   }
 }
 </script>

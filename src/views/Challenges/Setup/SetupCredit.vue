@@ -77,8 +77,10 @@ export default class Setup extends Vue {
       return false;
     }
     this.loading = true;
+    let saved = false;
+
     if (this.goal && this.goal._links.edit) {
-      await this.updateGoal({
+      saved = await this.updateGoal({
         url: this.goal._links.edit.href,
         data: {
           "@type": "BudgetGoal",
@@ -91,7 +93,7 @@ export default class Setup extends Vue {
         }
       });
     } else {
-      await this.saveGoal({
+      saved = await this.saveGoal({
         "@type": "BudgetGoal",
         _links: {
           "yona:activityCategory": {
@@ -101,10 +103,14 @@ export default class Setup extends Vue {
         maxDurationMinutes: this.setupData.maxDurationMinutes
       });
     }
-    this.$router.push({
-      name: "ChallengesOverview",
-      params: { type: "credit" }
-    });
+    if (saved) {
+      this.$router.push({
+        name: "ChallengesOverview",
+        params: { type: "credit" }
+      });
+    } else {
+      this.loading = false;
+    }
   }
 }
 </script>
