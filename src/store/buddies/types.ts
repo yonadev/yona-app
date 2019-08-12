@@ -40,6 +40,9 @@ export interface Buddy {
     self: {
       href: string;
     };
+    edit: {
+      href: string;
+    };
     "yona:weeklyActivityReports": {
       href: string;
     };

@@ -29,7 +29,7 @@
       <input-floating-label
         id="firstname"
         class="grey-bg-input"
-        label="VOORNAAM"
+        :label="$t('firstname')"
         type="text"
         :disabled="true"
         :value="firstName"
@@ -38,7 +38,7 @@
       <input-floating-label
         id="lastname"
         class="grey-bg-input"
-        label="ACHTERNAAM"
+        :label="$t('lastname')"
         type="text"
         :disabled="true"
         :value="lastName"
@@ -47,7 +47,7 @@
       <input-floating-label
         id="nickname"
         class="grey-bg-input"
-        label="NICK NAME"
+        :label="$t('nickname')"
         type="text"
         :disabled="true"
         :value="nickName"
@@ -56,15 +56,15 @@
       <input-floating-label
         id="mobile"
         class="grey-bg-input"
-        label="MOBIEL TELEFOONNUMMER"
+        :label="$t('mobilenumber')"
         type="text"
         :disabled="true"
         :value="mobileNumber"
         icon="icn_mobile.svg"
       ></input-floating-label>
-      <a class="button is-rounded remove-friend" @click="removeFriend"
-        >VRIEND VERWIJDEREN</a
-      >
+      <a class="button is-rounded remove-friend" @click="removeFriend">{{
+        $t("remove_friend_btn")
+      }}</a>
     </div>
     <div class="wrapper" v-if="active_tab === 'badges'"></div>
   </div>
@@ -111,17 +111,12 @@ export default class FriendsProfile extends Vue {
 
   async removeFriend() {
     this.loading = true;
-    let buddy: any = await axios
-      .delete((this.$route.query as any).link)
-      .catch(error => {
-        console.log(error);
-      });
+    const buddyProfile = this.buddy(this.buddy_href);
+
+    await axios.delete(buddyProfile._links.edit.href);
 
     this.loading = false;
-
-    if (buddy.status == 200) {
-      this.$router.push({ name: "TimeLine" });
-    }
+    this.$router.push({ name: "TimeLine" });
   }
 }
 </script>
