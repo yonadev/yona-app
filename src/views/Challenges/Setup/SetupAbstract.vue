@@ -145,7 +145,7 @@ export default class Setup extends Vue {
         self.$t("challengedeletemsg"),
         async (result: number) => {
           if (result === 1) {
-            //Cancel
+            this.loading = false;
           } else if (result === 2) {
             if (goal._links.edit) {
               await this.deleteGoal(goal._links.edit.href);
