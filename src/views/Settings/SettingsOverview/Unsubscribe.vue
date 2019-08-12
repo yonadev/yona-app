@@ -20,14 +20,14 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import { State, Mutation } from "vuex-class";
+import { State, Action } from "vuex-class";
 import { ApiState } from "@/store/api/types";
 import axios from "@/utils/axios/axios";
 
 @Component({})
 export default class Unsubscribe extends Vue {
   @State("api") api!: ApiState;
-  @Mutation("resetAll") resetAll: any;
+  @Action("resetAll") resetAll: any;
 
   async unsubscribe() {
     if (this.api.links) {
