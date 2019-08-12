@@ -113,7 +113,8 @@ export default class RecoverSms extends Vue {
                 deviceName: `${OS} ${this.account.nickname}`,
                 deviceOperatingSystem: OS,
                 deviceAppVersion: "1.1 build 83",
-                deviceAppVersionCode: 31
+                deviceAppVersionCode: 31,
+                deviceFirebaseInstanceId: firebaseInstanceId
               }
             )
             .catch(error => {
