@@ -22,14 +22,17 @@
             ? 'FriendsDetailedViewDay'
             : 'DetailedViewDay',
           params: {
-            buddy_href: buddy_href || (day_activity._links['yona:buddy'] || null),
+            buddy_href:
+              buddy_href || (day_activity._links['yona:buddy'] || null),
             activity_link: day_activity._links['yona:dayDetails'].href
           }
         }"
       >
         <ui-control
           :day_activity="day_activity"
-          :buddy_href="buddy_href || (day_activity._links['yona:buddy'] || null)"
+          :buddy_href="
+            buddy_href || (day_activity._links['yona:buddy'] || null)
+          "
           type="simple"
         ></ui-control>
       </router-link>

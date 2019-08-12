@@ -11,7 +11,7 @@
     </div>
     <div
       class="infinite-scroll"
-      :class="{loading}"
+      :class="{ loading }"
       v-observe-visibility="
         (isVisible, entry) => getActivities(isVisible, entry, nextActivities)
       "

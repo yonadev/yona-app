@@ -218,7 +218,7 @@
       </div>
       <div
         class="infinite-scroll"
-        :class="{loading}"
+        :class="{ loading }"
         v-observe-visibility="
           (isVisible, entry) =>
             this.getNotifications(isVisible, entry, nextNotifications)

@@ -32,20 +32,20 @@ import { Component, Prop } from "vue-property-decorator";
 export default class ProfilePic extends Vue {
   @Prop() src!: string;
   @Prop() data!: {
-    type: string,
-    text: string
-  }
+    type: string;
+    text: string;
+  };
 
   pic_data: {} = {};
 
   mounted() {
-    if(this.src) {
+    if (this.src) {
       const pic_src = window.localStorage.getItem(this.src);
 
       if (pic_src !== null) {
         this.pic_data = JSON.parse(pic_src);
       }
-    } else if(this.data) {
+    } else if (this.data) {
       this.pic_data = this.data;
     }
   }

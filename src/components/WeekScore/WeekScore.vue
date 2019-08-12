@@ -34,7 +34,7 @@
                 week_activity.dayActivities[day_of_week]._links[
                   'yona:dayDetails'
                 ].href,
-                buddy_href
+              buddy_href
             }
           }"
         >

@@ -163,7 +163,9 @@ export default class Setup extends Vue {
   }
 
   getMinTime(startTime: string) {
-    return DateTimeLu.fromISO(startTime).plus({ minutes: 15 }).toISO();
+    return DateTimeLu.fromISO(startTime)
+      .plus({ minutes: 15 })
+      .toISO();
   }
 
   formatTime(time: string) {

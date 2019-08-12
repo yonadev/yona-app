@@ -33,7 +33,11 @@
                 'yona:user'
               ]._links.self.href
             "
-            :username="buddy(user_activity._links['yona:buddy'].href)._embedded['yona:user'].nickname"
+            :username="
+              buddy(user_activity._links['yona:buddy'].href)._embedded[
+                'yona:user'
+              ].nickname
+            "
             :goal="
               buddyGoal(
                 user_activity._links['yona:buddy'].href,
