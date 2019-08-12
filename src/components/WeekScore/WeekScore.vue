@@ -25,7 +25,27 @@
             !week_activity.dayActivities[day_of_week].goalAccomplished
         }"
       >
-        <span class="date">
+        <router-link
+          v-if="detailed && week_activity.dayActivities[day_of_week]"
+          :to="{
+            name: 'DetailedViewDay',
+            params: {
+              activity_link:
+                week_activity.dayActivities[day_of_week]._links[
+                  'yona:dayDetails'
+                ].href,
+                buddy_href
+            }
+          }"
+        >
+          <span class="date">
+            <p>
+              {{ day_initial_of_week[$i18n.locale][index] }}<br />
+              {{ getDate(index) }}
+            </p>
+          </span>
+        </router-link>
+        <span v-else class="date">
           <p>
             {{ day_initial_of_week[$i18n.locale][index] }}<br />
             {{ getDate(index) }}
@@ -55,6 +75,10 @@ export default class WeekScore extends Vue {
   };
   @Prop() week_number!: string;
   @Prop() title!: string;
+  @Prop({
+    default: false
+  })
+  detailed!: boolean;
   @Prop({
     default: ""
   })

@@ -47,6 +47,7 @@
         :buddy_href="buddy_href"
         :week_activity="week_activity"
         :week_number="week_activity.date"
+        :detailed="true"
       ></week-score>
       <time-bucket-control
         v-if="
