@@ -60,24 +60,23 @@ export default class Login extends Vue {
       }
       if (val === this.login.pinCode) {
         if (this.api.links) {
-          let user_response: any = await axios
-            .get(this.api.links["self"].href)
-            .catch(error => {
-              console.log(error);
-            });
+          let user_response: any = await axios.get(this.api.links["self"].href);
 
           if (user_response) {
-            this.setUserData(user_response.data);
+            const success = await this.setUserData(user_response.data);
+
+            if(!success) {
+              return;
+            }
           }
 
           if (this.api.links["yona:userPhoto"]) {
-            let photo_response: any = await axios
-              .get(this.api.links["yona:userPhoto"].href, {
+            let photo_response: any = await axios.get(
+              this.api.links["yona:userPhoto"].href,
+              {
                 responseType: "arraybuffer"
-              })
-              .catch(error => {
-                console.log(error);
-              });
+              }
+            );
 
             if (photo_response) {
               //@ts-ignore

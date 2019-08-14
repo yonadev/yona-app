@@ -48,8 +48,7 @@ const actions: ActionTree<AccountState, RootState> = {
   setProperty({ commit }, data): void {
     commit("setProperty", data);
   },
-  async setUserData({ commit, rootState }, data) {
-    console.log(data);
+  async setUserData({ commit, rootState, dispatch }, data) {
     commit("setUserData", {
       firstname: data.firstName,
       lastname: data.lastName,
@@ -66,19 +65,38 @@ const actions: ActionTree<AccountState, RootState> = {
       });
     }
 
-    if (
-      // @ts-ignore
-      typeof cordova !== "undefined" &&
-      // @ts-ignore
-      typeof cordova.plugins !== "undefined" &&
-      // @ts-ignore
-      typeof cordova.plugins.UserPreferences !== "undefined"
-    ) {
-      // @ts-ignore
-      const sharedPreferences = cordova.plugins.UserPreferences.getInstance();
-      sharedPreferences.putString("YonaPassword", data.yonaPassword);
-      sharedPreferences.putString("BaseUrl", rootState.api.host);
-      if (currentDevice) {
+    if (currentDevice) {
+      if (currentDevice._links["yona:postOpenAppEvent"]) {
+        let OS = "ANDROID";
+        //@ts-ignore
+        if (typeof device !== "undefined") {
+          //@ts-ignore
+          OS = device.platform.toUpperCase();
+        }
+
+        let openApp: any = await axios
+          .post(currentDevice._links["yona:postOpenAppEvent"].href, {
+            operatingSystem: OS,
+            appVersion: "1.1 build 83", //ToDo: get from Jenkins build
+            appVersionCode: 31 //ToDo: get from Jenkins build
+          })
+          .catch(error => {
+            dispatch("resetAll", null, { root: true });
+          });
+      }
+
+      if (
+        // @ts-ignore
+        typeof cordova !== "undefined" &&
+        // @ts-ignore
+        typeof cordova.plugins !== "undefined" &&
+        // @ts-ignore
+        typeof cordova.plugins.UserPreferences !== "undefined"
+      ) {
+        // @ts-ignore
+        const sharedPreferences = cordova.plugins.UserPreferences.getInstance();
+        sharedPreferences.putString("YonaPassword", data.yonaPassword);
+        sharedPreferences.putString("BaseUrl", rootState.api.host);
         if (typeof currentDevice._links["yona:appActivity"] !== "undefined") {
           sharedPreferences.putString(
             "appActivityLink",
@@ -102,7 +120,12 @@ const actions: ActionTree<AccountState, RootState> = {
           sharedPreferences.putString("ovpnProfile", vpnProfile.data);
         }
       }
+
+      return true;
+    } else {
+      dispatch("resetAll", null, { root: true });
     }
+    return false;
   },
   setPermission({ commit }, data): void {
     commit("setPermission", data);

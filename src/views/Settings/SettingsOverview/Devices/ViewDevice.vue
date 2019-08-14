@@ -113,7 +113,7 @@ export default class Devices extends Vue {
           }
         },
         "",
-        [self.$t("No"), self.$t("Yes")]
+        [self.$t("no"), self.$t("yes")]
       );
     } else {
       let response: any = await axios

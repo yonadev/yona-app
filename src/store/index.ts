@@ -49,21 +49,34 @@ const store: StoreOptions<RootState> = {
   actions: {
     async resetAll({ commit }) {
       commit("resetAll");
-      //@ts-ignore
-      if (typeof cordova.plugins !== undefined && cordova.plugins.firebase) {
+      if (
+        //@ts-ignore
+        typeof cordova !== "undefined" &&
+        //@ts-ignore
+        typeof cordova.plugins !== "undefined" &&
+        //@ts-ignore
+        cordova.plugins.firebase
+      ) {
         //@ts-ignore
         await cordova.plugins.firebase.messaging.revokeToken();
       }
 
-      // @ts-ignore
-      if (typeof cordova.plugins.SharedPreferences !== "undefined") {
+      if (
+        //@ts-ignore
+        typeof cordova !== "undefined" &&
+        //@ts-ignore
+        typeof cordova.plugins.SharedPreferences !== "undefined"
+      ) {
         // @ts-ignore
         const sharedPreferences = cordova.plugins.SharedPreferences.getInstance();
         sharedPreferences.clear();
       }
-
-      //@ts-ignore
-      if (typeof cordova.plugins.YonaServices !== "undefined") {
+      if (
+        //@ts-ignore
+        typeof cordova !== "undefined" &&
+        //@ts-ignore
+        typeof cordova.plugins.YonaServices !== "undefined"
+      ) {
         //@ts-ignore
         cordova.plugins.YonaServices.disable();
       }

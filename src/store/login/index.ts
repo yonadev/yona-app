@@ -42,31 +42,6 @@ const actions: ActionTree<LoginState, RootState> = {
       dispatch("api/setDeviceID", null, { root: true });
     }
 
-    if (rootState.api.links && rootState.api.links["yona:postOpenAppEvent"]) {
-      let OS = "ANDROID";
-      //@ts-ignore
-      if (typeof device !== "undefined") {
-        //@ts-ignore
-        OS = device.platform.toUpperCase();
-      }
-
-      let openApp: any = await axios
-        .post(rootState.api.links["yona:postOpenAppEvent"].href, {
-          operatingSystem: OS,
-          appVersion: "1.1 build 83", //ToDo: get from Jenkins build
-          appVersionCode: 31 //ToDo: get from Jenkins build
-        })
-        .catch(error => {
-          if (error) {
-            commit("unregisterDevice");
-          }
-        });
-
-      if (!openApp) {
-        commit("unregisterDevice");
-      }
-    }
-
     if (state.lastRoute !== null) {
       router.push(state.lastRoute);
     } else if (data.view !== "changePin") {
@@ -136,12 +111,6 @@ const actions: ActionTree<LoginState, RootState> = {
 const mutations: MutationTree<LoginState> = {
   setPincode(state, payload: LoginState) {
     state.pinCode = payload.pinCode;
-  },
-  unregisterDevice(state) {
-    state.isRegistered = false;
-    state.isLoggedIn = false;
-    state.pinIsSet = false;
-    state.pinCode = null;
   },
   increaseLoginAttempts(state) {
     state.loginAttempts++;
