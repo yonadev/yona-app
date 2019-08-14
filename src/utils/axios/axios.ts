@@ -51,7 +51,10 @@ instance.interceptors.response.use(
     return response;
   },
   error => {
-    if (error.response.data.code && error.response.data.code === "error.user.not.found.id") {
+    if (
+      error.response.data.code &&
+      error.response.data.code === "error.user.not.found.id"
+    ) {
       store.dispatch("resetAll");
     } else {
       // Do something with response error

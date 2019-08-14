@@ -160,10 +160,9 @@ const app = new Vue({
       }
 
       //@ts-ignore
-      if (typeof cordova.plugins.appUsage !== "undefined") {
-        /*
+      if (typeof cordova.plugins.YonaServices !== "undefined") {
         //@ts-ignore
-        cordova.plugins.appUsage.setDefaults({
+        cordova.plugins.YonaServices.setDefaults({
           title: "Yona",
           text: self.$t("yona_notification_content"),
           icon: "notification", // this will look for icon.png in platforms/android/res/drawable|mipmap
@@ -173,23 +172,23 @@ const app = new Vue({
           allowClose: true
         });
         //@ts-ignore
-        cordova.plugins.appUsage.checkUsageAccess();
+        cordova.plugins.YonaServices.checkUsageAccess();
+        console.log('calling YonaServices enable' + Math.random());
         //@ts-ignore
-        cordova.plugins.appUsage.enable();
+        cordova.plugins.YonaServices.enable();
         //@ts-ignore
-        cordova.plugins.appUsage.configure({
+        cordova.plugins.YonaServices.configure({
           title: "Yona",
           text: self.$t("yona_notification_content"),
           color: "6c2a58"
         });
         //@ts-ignore
-        cordova.plugins.appUsage.openAppStartSettings(false);
+        cordova.plugins.YonaServices.openAppStartSettings(false);
         //@ts-ignore
-        cordova.plugins.appUsage.on("activate", function() {
+        cordova.plugins.YonaServices.on("activate", function() {
           //@ts-ignore
-          cordova.plugins.appUsage.disableWebViewOptimizations();
+          cordova.plugins.YonaServices.disableWebViewOptimizations();
         });
-         */
       }
 
       //@ts-ignore
@@ -200,7 +199,10 @@ const app = new Vue({
     },
     pause() {
       this.$store.dispatch("login/setLastRoute");
-      if (this.$store.state.login.lastRoute.name !== "FriendsAddAddressBook") {
+      if (
+        this.$store.state.login.lastRoute !== null &&
+        this.$store.state.login.lastRoute.name !== "FriendsAddAddressBook"
+      ) {
         this.$store.dispatch("login/setLoggedOff");
       }
     }

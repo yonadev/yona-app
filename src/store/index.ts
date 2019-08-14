@@ -55,6 +55,13 @@ const store: StoreOptions<RootState> = {
         await cordova.plugins.firebase.messaging.revokeToken();
       }
 
+      // @ts-ignore
+      if (typeof cordova.plugins.SharedPreferences !== "undefined") {
+        // @ts-ignore
+        const sharedPreferences = cordova.plugins.SharedPreferences.getInstance();
+        sharedPreferences.clear();
+      }
+
       router.push({ name: "Tour" });
     }
   },

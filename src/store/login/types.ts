@@ -2,6 +2,7 @@ export interface LoginState {
   isRegistered: boolean;
   isLocked: boolean;
   isLoggedIn: boolean;
+  isInRecovery: boolean;
   pinIsReset: boolean;
   pinIsSet: boolean;
   pinCode: number | null;

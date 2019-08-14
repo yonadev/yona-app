@@ -9,6 +9,7 @@ export const state: LoginState = {
   isRegistered: false,
   isLocked: false,
   isLoggedIn: false,
+  isInRecovery: false,
   pinIsReset: false,
   pinIsSet: false,
   pinCode: null,

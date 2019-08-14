@@ -1,6 +1,7 @@
 import { Module, ActionTree, MutationTree, GetterTree } from "vuex";
 import { AccountState } from "./types";
 import { RootState } from "../types";
+import axios from "../../utils/axios/axios";
 
 export const state: AccountState = {
   firstname: "",
@@ -47,13 +48,59 @@ const actions: ActionTree<AccountState, RootState> = {
   setProperty({ commit }, data): void {
     commit("setProperty", data);
   },
-  setUserData({ commit }, data): void {
+  async setUserData({ commit }, data) {
+    console.log(data);
     commit("setUserData", {
       firstname: data.firstName,
       lastname: data.lastName,
       phonenumber: data.mobileNumber,
       nickname: data.nickname
     });
+
+    let currentDevice = null;
+    if (data._embedded["yona:devices"]) {
+      currentDevice = data._embedded["yona:devices"]._embedded[
+        "yona:devices"
+      ].find((device : any) => {
+        return device.requestingDevice;
+      });
+    }
+
+    if (
+      // @ts-ignore
+      typeof cordova.plugins !== "undefined" &&
+      // @ts-ignore
+      typeof cordova.plugins.SharedPreferences !== "undefined"
+    ) {
+      // @ts-ignore
+      const sharedPreferences = cordova.plugins.SharedPreferences.getInstance();
+      sharedPreferences.putString("YonaPassword", data.yonaPassword);
+
+      if (currentDevice) {
+        if (typeof currentDevice._links["yona:appActivity"] !== "undefined") {
+          sharedPreferences.putString(
+            "appActivityLink",
+            currentDevice._links["yona:appActivity"].href
+          );
+        }
+        if (typeof currentDevice.vpnProfile !== "undefined") {
+          sharedPreferences.putString(
+            "vpnLoginID",
+            currentDevice.vpnProfile.vpnLoginID
+          );
+          sharedPreferences.putString(
+            "vpnPassword",
+            currentDevice.vpnProfile.vpnLoginID
+          );
+
+          const vpnProfile = await axios.get(
+            currentDevice.vpnProfile._links["yona:ovpnProfile"].href
+          );
+
+          sharedPreferences.putString("ovpnProfile", vpnProfile.data);
+        }
+      }
+    }
   },
   setPermission({ commit }, data): void {
     commit("setPermission", data);
