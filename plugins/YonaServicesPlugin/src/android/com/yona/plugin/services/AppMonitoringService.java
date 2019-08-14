@@ -1,10 +1,7 @@
 package com.yona.plugin.services;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.*;
 import android.app.usage.UsageStats;
@@ -14,7 +11,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.drawable.Icon;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
@@ -29,10 +25,14 @@ import java.util.TreeMap;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
-
-import static android.os.PowerManager.PARTIAL_WAKE_LOCK;
+import com.yona.plugin.services.api.manager.APIManager;
+import com.yona.plugin.services.api.model.Activity;
+import com.yona.plugin.services.api.receiver.YonaReceiver;
+import com.yona.plugin.services.api.service.Stopwatch;
+import com.yona.plugin.services.utils.AppConstant;
+import com.yona.plugin.services.utils.AppUtils;
+import com.yona.plugin.services.utils.DateUtility;
+import com.yona.plugin.services.utils.Logger;
 
 /**
  * Puts the service in a foreground state, where the system considers it to be
@@ -394,13 +394,13 @@ public class AppMonitoringService extends Service {
     private void scheduleMethod()
 	{
 
-		scheduledFuture = Scheduler.getInitializeScheduler().scheduleAtFixedRate(new Runnable()
+		scheduledFuture = AppUtils.getInitializeScheduler().scheduleAtFixedRate(new Runnable()
 		{
 
 			@Override
 			public void run()
 			{
-				if (Scheduler.getScheduler() == null)
+				if (AppUtils.getScheduler() == null)
 				{
 					scheduledFuture.cancel(true);
 					return;
@@ -442,12 +442,21 @@ public class AppMonitoringService extends Service {
 		}
 	}
 
+    private Activity getAppActivity(String applicationName, Date startDate, Date endDate)
+    {
+        Activity activity = new Activity();
+        activity.setApplication(applicationName);
+        activity.setStartTime(DateUtility.getLongFormatDate(startDate));
+        activity.setEndTime(DateUtility.getLongFormatDate(endDate));
+        return activity;
+    }
+
     private void updateOnServer(String pkgname)
 	{
 		Logger.logi(AppMonitoringService.class, "pck: " + pkgname);
 		if (previousAppName != null && !pkgname.equals("NULL") && startTime != null && endTime != null && startTime.before(endTime))
 		{
-			//APIManager.getInstance().getActivityManager().postActivityToDB(previousAppName, startTime, endTime);
+			APIManager.getInstance().getActivityManager(getApplicationContext()).postActivityToDB(previousAppName, startTime, endTime);
 		}
 	}
 
@@ -465,10 +474,10 @@ public class AppMonitoringService extends Service {
 	{
 		try
 		{
-			if (Scheduler.getScheduler() != null)
+			if (AppUtils.getScheduler() != null)
 			{
-				Scheduler.getScheduler().shutdownNow();
-				Scheduler.setNullScheduler();
+                AppUtils.getScheduler().shutdownNow();
+                AppUtils.setNullScheduler();
 			}
 			if (scheduledFuture != null)
 			{

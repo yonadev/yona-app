@@ -21,13 +21,12 @@ import org.json.JSONObject;
 import org.json.JSONException;
 
 import com.yona.plugin.services.AppMonitoringService.ForegroundBinder;
+import com.yona.plugin.services.api.receiver.YonaReceiver;
+import com.yona.plugin.services.utils.Logger;
 
 import static android.content.Context.BIND_AUTO_CREATE;
 
 public class BackgroundMode extends CordovaPlugin {
-
-    // Event types for callbacks
-    private enum Event { ACTIVATE, DEACTIVATE, FAILURE }
 
     public static final String PREFS = "autostart";
 
@@ -54,12 +53,13 @@ public class BackgroundMode extends CordovaPlugin {
         {
             ForegroundBinder binder = (ForegroundBinder) service;
             BackgroundMode.this.service = binder.getService();
+            Logger.logi(BackgroundMode.class, "service connected");
         }
 
         @Override
         public void onServiceDisconnected (ComponentName name)
         {
-            fireEvent(Event.FAILURE, "'service disconnected'");
+            Logger.logi(BackgroundMode.class, "service disconnected");
         }
     };
 
@@ -76,6 +76,9 @@ public class BackgroundMode extends CordovaPlugin {
     @Override
     public boolean execute (String action, JSONArray args,
                             CallbackContext callback) throws JSONException {
+
+        Logger.logi(BackgroundMode.class, "Received action: " + action);
+
         if ( action.equalsIgnoreCase("configure") ) {
             configure(args.optJSONObject(0), args.optBoolean(1));
             return true;
@@ -89,6 +92,7 @@ public class BackgroundMode extends CordovaPlugin {
             this.checkUsageAccess(callback);
             return true;
         }
+
         return false;
     }
 
@@ -98,6 +102,14 @@ public class BackgroundMode extends CordovaPlugin {
 
     private void disableServices() {
         setEnabled(false);
+    }
+
+    private void setUserPreferences() {
+
+    }
+
+    private void unsetUserPreferences() {
+
     }
 
     private void setEnabled(boolean enabled) {
@@ -229,17 +241,19 @@ public class BackgroundMode extends CordovaPlugin {
         if (isDisabled || isBind)
             return;
 
+        isBind = true;
+
         Intent intent = new Intent(context, AppMonitoringService.class);
+
+        Logger.logi(BackgroundMode.class, "Start Service");
 
         try {
             context.bindService(intent, connection, BIND_AUTO_CREATE);
-            fireEvent(Event.ACTIVATE, null);
             context.startService(intent);
         } catch (Exception e) {
-            fireEvent(Event.FAILURE, String.format("'%s'", e.getMessage()));
+            Logger.loge(BackgroundMode.class, e.getMessage());
+            isBind = false;
         }
-
-        isBind = true;
     }
 
     /**
@@ -253,35 +267,9 @@ public class BackgroundMode extends CordovaPlugin {
 
         if (!isBind) return;
 
-        fireEvent(Event.DEACTIVATE, null);
         context.unbindService(connection);
         context.stopService(intent);
 
         isBind = false;
-    }
-
-    /**
-     * Fire vent with some parameters inside the web view.
-     *
-     * @param event The name of the event
-     * @param params Optional arguments for the event
-     */
-    private void fireEvent (Event event, String params)
-    {
-        String eventName = event.name().toLowerCase();
-        Boolean active   = event == Event.ACTIVATE;
-
-        String str = String.format("%s._setActive(%b)",
-                JS_NAMESPACE, active);
-
-        str = String.format("%s;%s.on('%s', %s)",
-                str, JS_NAMESPACE, eventName, params);
-
-        str = String.format("%s;%s.fireEvent('%s',%s);",
-                str, JS_NAMESPACE, eventName, params);
-
-        final String js = str;
-
-        cordova.getActivity().runOnUiThread(() -> webView.loadUrl("javascript:" + js));
     }
 }

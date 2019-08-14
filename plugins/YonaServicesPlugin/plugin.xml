@@ -15,10 +15,13 @@
     <dependency id="cordova-plugin-device" />
 
     <!-- js -->
-    <js-module src="www/ServicesPlugin.js" name="AppUsage">
-        <clobbers target="cordova.plugins.appUsage" />
-        <clobbers target="plugin.appUsage" />
+    <js-module src="www/ServicesPlugin.js" name="YonaServices">
+        <clobbers target="cordova.plugins.YonaServices" />
     </js-module>
+
+    <js-module src="www/UserPreferences.js" name="UserPreferences">
+  		<clobbers target="cordova.plugins.UserPreferences" />
+  	</js-module>
 
     <!-- android -->
     <platform name="android">
@@ -34,6 +37,9 @@
             <feature name="VpnPlugin">
                 <param name="android-package" value="com.yona.plugin.services.VpnPlugin"/>
             </feature>
+            <feature name="UserPreferences">
+                <param name="android-package" value="com.yona.plugin.services.UserPreferences"/>
+            </feature>
         </config-file>
 
         <config-file target="res/xml/config.xml" parent="/*">
@@ -41,9 +47,9 @@
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
-            <service android:name="com.yona.plugin.services.ForegroundService" />
+            <service android:enabled="true" android:exported="false" android:name="com.yona.plugin.services.AppMonitoringService" android:stopWithTask="false" />
 
-            <receiver android:name="com.yona.plugin.services.YonaReceiver" android:enabled="false">
+            <receiver android:name="com.yona.plugin.services.api.receiver.YonaReceiver" android:enabled="false">
                 <intent-filter>
                     <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                     <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -68,53 +74,15 @@
             <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
         </config-file>
          <source-file
-            src="src/android/AppConstant.java"
-            target-dir="src/com/yona/plugin/services" />
-
-         <source-file
-            src="src/android/AppUtils.java"
-            target-dir="src/com/yona/plugin/services" />
-
-         <source-file
-            src="src/android/Logger.java"
-            target-dir="src/com/yona/plugin/services" />
-
-         <source-file
-            src="src/android/YonaReceiver.java"
-            target-dir="src/com/yona/plugin/services" />
-
-         <source-file
-            src="src/android/BackgroundMode.java"
-            target-dir="src/com/yona/plugin/services" />
-
-        <source-file
-            src="src/android/BackgroundModeExt.java"
-            target-dir="src/com/yona/plugin/services" />
-
-        <source-file
-            src="src/android/AppMonitoringService.java"
-            target-dir="src/com/yona/plugin/services" />
-        <source-file
-            src="src/android/Scheduler.java"
-            target-dir="src/com/yona/plugin/services" />
-
-        <source-file
-            src="src/android/Stopwatch.java"
-            target-dir="src/com/yona/plugin/services" />
-
-        <source-file
-            src="src/android/Notifications.java"
-            target-dir="src/com/yona/plugin/services" />
-
-        <source-file
-            src="src/android/Settings.java"
-            target-dir="src/com/yona/plugin/services" />
-
-        <source-file
-            src="src/android/VpnPlugin.java"
-            target-dir="src/com/yona/plugin/services" />
+            src="src/android/com/yona/plugin/services"
+            target-dir="java/com/yona/plugin" />
 
         <framework src="com.android.support:support-compat:27.1.1" />
+        <framework src="com.google.code.gson:gson:2.4" />
+        <framework src="com.squareup.retrofit2:retrofit:2.0.2" />
+        <framework src="com.squareup.okhttp3:okhttp:3.2.0" />
+        <framework src="com.squareup.retrofit2:converter-gson:2.0.0" />
+
         <resource-file src="src/android/res/drawable/mdpi.png" target="res/drawable/notification.png" />
         <resource-file src="src/android/res/drawable/mdpi.png" target="res/drawable-mdpi/notification.png" />
         <resource-file src="src/android/res/drawable/hdpi.png" target="res/drawable-hdpi/notification.png" />

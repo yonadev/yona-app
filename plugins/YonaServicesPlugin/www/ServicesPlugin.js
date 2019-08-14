@@ -33,7 +33,6 @@ exports.enable = function()
 
     var fn = function() {
         exports._isEnabled = true;
-        exports.fireEvent('enable');
     };
 
     cordova.exec(fn, null, 'BackgroundMode', 'enable', []);
@@ -53,7 +52,6 @@ exports.enable = function()
 
     var fn = function() {
         exports._isEnabled = true;
-        exports.fireEvent('enable');
     };
 
     cordova.exec(fn, null, 'BackgroundMode', 'enable', []);
@@ -72,7 +70,6 @@ exports.disable = function()
 
     var fn = function() {
         exports._isEnabled = false;
-        exports.fireEvent('disable');
     };
 
     cordova.exec(fn, null, 'BackgroundMode', 'disable', []);
@@ -279,31 +276,6 @@ exports.isActive = function()
 exports._listener = {};
 
 /**
- * Fire event with given arguments.
- *
- * @param [ String ] event The event's name.
- * @param [ Array<Object> ] The callback's arguments.
- *
- * @return [ Void ]
- */
-exports.fireEvent = function (event)
-{
-    var args     = Array.apply(null, arguments).slice(1),
-        listener = this._listener[event];
-
-    if (!listener)
-        return;
-
-    for (var i = 0; i < listener.length; i++)
-    {
-        var fn    = listener[i][0],
-            scope = listener[i][1];
-
-        fn.apply(scope, args);
-    }
-};
-
-/**
  * Register callback for given event.
  *
  * @param [ String ] event The event's name.
@@ -449,14 +421,6 @@ exports._pluginInitialize = function()
 {
     this._isAndroid = device.platform.match(/^android|amazon/i) !== null;
     this.setDefaults({});
-
-    if (device.platform == 'browser')
-    {
-        this.enable();
-        this._isEnabled = true;
-    }
-
-    this._isActive  = this._isActive || device.platform == 'browser';
 };
 
 // Called before 'deviceready' listener will be called
@@ -465,18 +429,4 @@ channel.onCordovaReady.subscribe(function()
     channel.onCordovaInfoReady.subscribe(function() {
         exports._pluginInitialize();
     });
-});
-
-// Called after 'deviceready' event
-channel.deviceready.subscribe(function()
-{
-    if (exports.isEnabled())
-    {
-        exports.fireEvent('enable');
-    }
-
-    if (exports.isActive())
-    {
-        exports.fireEvent('activate');
-    }
 });
