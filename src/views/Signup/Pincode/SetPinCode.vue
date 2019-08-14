@@ -1,7 +1,7 @@
 <template>
   <div id="pincode" class="colored-background purple-dark pincode-template">
     <div class="nav-title">
-      PINCODE
+      {{ $t("pincode") }}
     </div>
     <div class="wrapper">
       <img
@@ -9,14 +9,13 @@
         src="../../../assets/images/signup/account/icn_account_created.svg"
       />
       <p class="icon-title">
-        Account is aangemaakt
+        {{ $t("passcodestep1title") }}
       </p>
       <div class="progress-bar">
         <div class="progress"></div>
       </div>
       <p class="icon-text">
-        Voor een goede beveiliging is het verplicht om de Yona app te voorzien
-        van een pincode. Stel je pincode hieronder in.
+        {{ $t("passcodestep1desc") }}
       </p>
       <pin-code :pincode.sync="password" :length="length"></pin-code>
     </div>

@@ -11,7 +11,11 @@
       <p v-if="error" class="has-text-white-ter">
         {{ $t("passcodeincorrect", { tries: 5 - login.loginAttempts }) }}
       </p>
-      <pin-code :pincode.sync="password" :length="length"></pin-code>
+      <pin-code
+        :pincode.sync="password"
+        :length="length"
+        ref="pincode"
+      ></pin-code>
       <p class="reset" @click="pinReset">
         {{ $t("passcodereset") }}
       </p>

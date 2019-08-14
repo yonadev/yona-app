@@ -34,6 +34,10 @@ a{
   text-decoration: none;
 }
 
+a, input, button, select {
+  font-family: $font-family;
+}
+
 #app {
   text-align: center;
   color: #2c3e50;

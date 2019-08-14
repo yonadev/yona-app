@@ -21,7 +21,7 @@ class RouteProtect {
 
     const trackPermission = this.store.state.account.permissions.tracking
       .is_allowed;
-    const filePermission = this.store.state.account.permissions.store_files
+    const filePermission = this.store.state.account.permissions.autostart
       .is_allowed;
     const certificatePermission = this.store.state.account.permissions
       .certificate.is_allowed;

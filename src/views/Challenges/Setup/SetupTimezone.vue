@@ -187,12 +187,13 @@ export default class Setup extends Vue {
   }
 
   async save() {
-    this.loading = true;
     let saved = false;
 
     if (this.loading || this.setupData.items.length == 0) {
       return false;
     }
+
+    this.loading = true;
 
     if (this.goal && this.goal._links.edit) {
       saved = await this.updateGoal({

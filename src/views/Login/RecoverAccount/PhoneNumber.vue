@@ -8,24 +8,26 @@
         <img src="../../../assets/images/signup/account/icn_avatar.svg" />
       </div>
     </div>
-    <div class="wrapper">
-      <p class="disclaimer">
-        {{ $t("useroverride", { mobile: mobile }) }}
-      </p>
+    <form @submit.prevent="checkTelNumber()">
+      <div class="wrapper">
+        <p class="disclaimer">
+          {{ $t("useroverride", { mobile: mobile }) }}
+        </p>
 
-      <input-floating-label
-        :validate="{ required: true, mobile: true }"
-        id="mobile"
-        class="with-border-input"
-        :label="$t('mobilenumber')"
-        type="tel"
-        :value.sync="mobile"
-        icon="icn_mobile.svg"
-      ></input-floating-label>
-    </div>
-    <div class="is-centered bottom-aligned">
-      <span class="button" @click="checkTelNumber">{{ $t("login") }}</span>
-    </div>
+        <input-floating-label
+          :validate="{ required: true, mobile: true }"
+          id="mobile"
+          class="with-border-input"
+          :label="$t('mobilenumber')"
+          type="tel"
+          :value.sync="mobile"
+          icon="icn_mobile.svg"
+        ></input-floating-label>
+      </div>
+      <div class="is-centered bottom-aligned">
+        <input type="submit" class="button" :value="$t('login')" />
+      </div>
+    </form>
   </div>
 </template>
 

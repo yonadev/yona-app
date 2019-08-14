@@ -63,7 +63,7 @@ public class YonaReceiver extends BroadcastReceiver
 				handleRestartVPNBroadcast(context);
 				break;
 			case AppConstant.CONNECT_VPN:
-				AppUtils.removeVPNConnectNotification(context);
+				//AppUtils.removeVPNConnectNotification(context);
 				handleConnectVPNBroadcast(context);
 				break;
 			default:
@@ -207,7 +207,7 @@ public class YonaReceiver extends BroadcastReceiver
 	private void handleConnectVPNBroadcast(Context context)
 	{
 		Logger.logi(YonaReceiver.class, "Connect VPN Broadcast received");
-		AppUtils.startVPN(context, false);
+		//AppUtils.startVPN(context, false);
 	}
 
 	/*

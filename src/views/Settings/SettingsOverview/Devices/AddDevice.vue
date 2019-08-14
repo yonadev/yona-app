@@ -1,5 +1,5 @@
 <template>
-  <div id="settings" class="header-template">
+  <div id="add-device" class="header-template">
     <div class="colored-background yellow">
       <div class="nav-title">
         {{ $t("adddevice") }}
@@ -7,7 +7,13 @@
     </div>
     <div class="wrapper">
       <p>
-        {{ $t("yonaadddevicemessage", { code: OTP }) }}
+        {{ $t("yonaadddevicemessage") }}
+
+        <span class="otp">
+          <span class="char" v-for="(char, index) in OTP" :key="index">{{
+            char
+          }}</span>
+        </span>
       </p>
     </div>
   </div>
@@ -68,6 +74,26 @@ export default class AddDevice extends Vue {
 </script>
 
 <style lang="scss">
-#settings {
+#add-device {
+  .wrapper {
+    padding-top: 15px;
+    font-size: 13px;
+
+    span.otp {
+      margin-top: 25px;
+      display: block;
+      font-size: 19px;
+      font-family: serif;
+
+      span.char {
+        background: white;
+        border: 1px solid lightgrey;
+        padding: 8px;
+        min-width: 16px;
+        display: inline-block;
+        margin-left: 5px;
+      }
+    }
+  }
 }
 </style>

@@ -4,7 +4,7 @@
     class="colored-background purple-dark pincode-template"
   >
     <div class="nav-title">
-      DOE MEE
+      {{ $t("join") }}
     </div>
     <div class="wrapper">
       <img
@@ -12,19 +12,18 @@
         src="../../assets/images/signup/account/add_avatar.svg"
       />
       <p class="icon-title">
-        Account wordt aangemaakt
+        {{ $t("accountlogin") }}
       </p>
       <div class="progress-bar">
         <div class="progress"></div>
       </div>
       <p class="icon-text">
-        Als extra beveiliging ontvang je een code per SMS, graag deze code
-        hieronder invullen.
+        {{ $t("accountloginsecuritymessage") }}
       </p>
       <pin-code :pincode.sync="password" :length="length"></pin-code>
       <router-link :to="{ name: '' }">
         <p class="reset">
-          Stuur code opnieuw
+          {{ $t("sendotpagain") }}
         </p>
       </router-link>
     </div>

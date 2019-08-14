@@ -17,11 +17,11 @@ export const state: AccountState = {
       icon: "tracking_icon_small.svg",
       is_allowed: false
     },
-    store_files: {
-      title: "Geef Yona toestemming om bestanden op te slaan",
+    autostart: {
+      title: "Geef Yona toestemming om automatisch op te starten",
       text:
-        "Yona wil bestanden op je telefoon bewaren. " +
-        "We zullen nooit bestanden van je telefoon bekijken of gegevens doorgeven aan derden.",
+        "Geef toestemming om de app automatisch te starten. " +
+        "Dit zorgt ervoor dat de Yona app altijd automatisch actief is.",
       icon: "store_files_icon_small.svg",
       is_allowed: false
     },
@@ -48,7 +48,7 @@ const actions: ActionTree<AccountState, RootState> = {
   setProperty({ commit }, data): void {
     commit("setProperty", data);
   },
-  async setUserData({ commit }, data) {
+  async setUserData({ commit, rootState }, data) {
     console.log(data);
     commit("setUserData", {
       firstname: data.firstName,
@@ -61,21 +61,23 @@ const actions: ActionTree<AccountState, RootState> = {
     if (data._embedded["yona:devices"]) {
       currentDevice = data._embedded["yona:devices"]._embedded[
         "yona:devices"
-      ].find((device : any) => {
+      ].find((device: any) => {
         return device.requestingDevice;
       });
     }
 
     if (
       // @ts-ignore
+      typeof cordova !== "undefined" &&
+      // @ts-ignore
       typeof cordova.plugins !== "undefined" &&
       // @ts-ignore
-      typeof cordova.plugins.SharedPreferences !== "undefined"
+      typeof cordova.plugins.UserPreferences !== "undefined"
     ) {
       // @ts-ignore
-      const sharedPreferences = cordova.plugins.SharedPreferences.getInstance();
+      const sharedPreferences = cordova.plugins.UserPreferences.getInstance();
       sharedPreferences.putString("YonaPassword", data.yonaPassword);
-
+      sharedPreferences.putString("BaseUrl", rootState.api.host);
       if (currentDevice) {
         if (typeof currentDevice._links["yona:appActivity"] !== "undefined") {
           sharedPreferences.putString(

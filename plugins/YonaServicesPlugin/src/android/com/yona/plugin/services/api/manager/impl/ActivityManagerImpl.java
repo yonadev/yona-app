@@ -108,9 +108,9 @@ public class ActivityManagerImpl implements ActivityManager
         Set<String> keys = sharedPreferences.getAll().keySet();
         Logger.logi(ActivityManagerImpl.class, keys.toString());
 
-        if (sharedPreferences.contains("YonaPassword") && sharedPreferences.contains("appActivityLink")) {
+        if (sharedPreferences.contains("BaseUrl") && sharedPreferences.contains("YonaPassword") && sharedPreferences.contains("appActivityLink")) {
             String yonaPassword = sharedPreferences.getString("YonaPassword", "");
-            String appActivityUrl = sharedPreferences.getString("YonaPassword", "");
+            String appActivityUrl = sharedPreferences.getString("appActivityLink", "");
 
             Logger.logi(ActivityManagerImpl.class, "appActivityUrl: " + appActivityUrl);
 

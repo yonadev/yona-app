@@ -4,7 +4,7 @@
     class="colored-background purple-dark pincode-template"
   >
     <div class="nav-title">
-      PINCODE
+      {{ $t("pincode") }}
     </div>
     <div class="wrapper">
       <img
@@ -12,16 +12,16 @@
         src="../../../assets/images/signup/account/icn_secure.svg"
       />
       <p class="icon-title">
-        Bevestig pincode
+        {{ $t("passcodestep2title") }}
       </p>
       <div class="progress-bar">
         <div class="progress"></div>
       </div>
       <p class="icon-text">
-        Vul je pincode nog een keer in ter bevestiging.
+        {{ $t("passcodestep2desc") }}
       </p>
       <p class="icon-text" v-if="error">
-        De pincode komt niet overeen!
+        {{ $t("passcodestep1retrytitle") }}
       </p>
       <pin-code :pincode.sync="password" :length="length"></pin-code>
     </div>

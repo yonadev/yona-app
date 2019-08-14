@@ -5,6 +5,7 @@ import router from "./router";
 import AuthGuard from "./router/guard";
 import "@/utils/validate/validate";
 import i18n from "@/utils/i18n";
+import { EventBus } from "@/utils/eventbus";
 
 import moment from "moment";
 moment.locale("nl");
@@ -130,6 +131,7 @@ const app = new Vue({
       this.$store.dispatch("login/resetLastRoute");
 
       document.addEventListener("pause", () => this.pause(), false);
+      document.addEventListener("resume", () => this.resume(), false);
 
       document.addEventListener(
         "offline",
@@ -160,42 +162,12 @@ const app = new Vue({
       }
 
       //@ts-ignore
-      if (typeof cordova.plugins.YonaServices !== "undefined") {
-        //@ts-ignore
-        cordova.plugins.YonaServices.setDefaults({
-          title: "Yona",
-          text: self.$t("yona_notification_content"),
-          icon: "notification", // this will look for icon.png in platforms/android/res/drawable|mipmap
-          color: "6c2a58", // hex format like 'F14F4D'
-          resume: true,
-          channelName: self.$t("yona_service_notification_channel_name"),
-          allowClose: true
-        });
-        //@ts-ignore
-        cordova.plugins.YonaServices.checkUsageAccess();
-        console.log('calling YonaServices enable' + Math.random());
-        //@ts-ignore
-        cordova.plugins.YonaServices.enable();
-        //@ts-ignore
-        cordova.plugins.YonaServices.configure({
-          title: "Yona",
-          text: self.$t("yona_notification_content"),
-          color: "6c2a58"
-        });
-        //@ts-ignore
-        cordova.plugins.YonaServices.openAppStartSettings(false);
-        //@ts-ignore
-        cordova.plugins.YonaServices.on("activate", function() {
-          //@ts-ignore
-          cordova.plugins.YonaServices.disableWebViewOptimizations();
-        });
-      }
-
-      //@ts-ignore
       if (window.navigator.splashscreen) {
         //@ts-ignore
         window.navigator.splashscreen.hide();
       }
+
+      EventBus.$emit("device-ready");
     },
     pause() {
       this.$store.dispatch("login/setLastRoute");
@@ -205,6 +177,9 @@ const app = new Vue({
       ) {
         this.$store.dispatch("login/setLoggedOff");
       }
+    },
+    resume() {
+      EventBus.$emit("device-ready");
     }
   }
 }).$mount("#app");

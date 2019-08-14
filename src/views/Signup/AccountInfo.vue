@@ -8,40 +8,42 @@
         <img src="../../assets/images/signup/account/add_avatar.svg" />
       </div>
     </div>
-    <div class="wrapper">
-      <input-floating-label
-        :validate="{ required: true, mobile: true }"
-        id="mobile"
-        class="with-border-input"
-        :label="$t('mobilenumber')"
-        type="tel"
-        :value.sync="mobile"
-        icon="icn_mobile.svg"
-      ></input-floating-label>
-      <input-floating-label
-        :validate="{ required: true }"
-        id="nickname"
-        class="with-border-input"
-        :label="$t('nickname')"
-        type="text"
-        :value.sync="nickname"
-        icon="icn_nickname.svg"
-      ></input-floating-label>
+    <form @submit.prevent="checkTelNumber()">
+      <div class="wrapper">
+        <input-floating-label
+          :validate="{ required: true, mobile: true }"
+          id="mobile"
+          class="with-border-input"
+          :label="$t('mobilenumber')"
+          type="tel"
+          :value.sync="mobile"
+          icon="icn_mobile.svg"
+        ></input-floating-label>
+        <input-floating-label
+          :validate="{ required: true }"
+          id="nickname"
+          class="with-border-input"
+          :label="$t('nickname')"
+          type="text"
+          :value.sync="nickname"
+          icon="icn_nickname.svg"
+        ></input-floating-label>
 
-      <p class="api-error" v-if="server_error">
-        {{ server_error }}
-      </p>
+        <p class="api-error" v-if="server_error">
+          {{ server_error }}
+        </p>
 
-      <p class="disclaimer">
-        {{ $t("usersignupmessage") }}
-      </p>
-    </div>
-    <div class="is-centered bottom-aligned">
-      <router-link class="button" :to="{ name: 'Names' }">{{
-        $t("previous")
-      }}</router-link>
-      <span class="button" @click="checkTelNumber">{{ $t("next") }}</span>
-    </div>
+        <p class="disclaimer">
+          {{ $t("usersignupmessage") }}
+        </p>
+      </div>
+      <div class="is-centered bottom-aligned">
+        <router-link class="button" :to="{ name: 'Names' }">{{
+          $t("previous")
+        }}</router-link>
+        <input type="submit" class="button" :value="$t('next')" />
+      </div>
+    </form>
 
     <div class="is-centered" v-if="choose">
       <router-link class="button" :to="{ name: 'AddDevice' }">{{

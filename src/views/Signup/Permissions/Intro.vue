@@ -66,7 +66,7 @@ export default class Intro extends Vue {
   checkPermissions() {
     if (
       this.account.permissions.tracking.is_allowed &&
-      this.account.permissions.store_files.is_allowed &&
+      this.account.permissions.autostart.is_allowed &&
       this.account.permissions.certificate.is_allowed &&
       this.account.permissions.vpn.is_allowed
     )

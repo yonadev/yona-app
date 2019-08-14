@@ -13,29 +13,33 @@
       </div>
     </div>
     <div class="wrapper">
-      <input-floating-label
-        id="firstname"
-        class="grey-bg-input"
-        :label="$t('device_name')"
-        type="text"
-        :value.sync="device_name"
-        icon="icn_mobile.svg"
-      ></input-floating-label>
-      <div class="grey-bg-button">
-        <strong>{{ $t("operating_system") }}:</strong>
-        {{ device.operatingSystem }}
-      </div>
-      <div class="grey-bg-button">
-        <strong>{{ $t("last_seen") }}:</strong>
-        {{ device.appLastOpenedDate }}
-      </div>
-      <div class="grey-bg-button">
-        <strong>{{ $t("registered_at") }}:</strong>
-        {{ formatDate(device.registrationTime) }}
-      </div>
-      <a class="button is-rounded save-device" @click="updateDevice">{{
-        $t("save")
-      }}</a>
+      <form @submit.prevent="updateDevice()">
+        <input-floating-label
+          id="firstname"
+          class="grey-bg-input"
+          :label="$t('device_name')"
+          type="text"
+          :value.sync="device_name"
+          icon="icn_mobile.svg"
+        ></input-floating-label>
+        <div class="grey-bg-button">
+          <strong>{{ $t("operating_system") }}:</strong>
+          {{ device.operatingSystem }}
+        </div>
+        <div class="grey-bg-button">
+          <strong>{{ $t("last_seen") }}:</strong>
+          {{ device.appLastOpenedDate }}
+        </div>
+        <div class="grey-bg-button">
+          <strong>{{ $t("registered_at") }}:</strong>
+          {{ formatDate(device.registrationTime) }}
+        </div>
+        <input
+          type="submit"
+          class="button is-rounded save-device"
+          :value="$t('save')"
+        />
+      </form>
     </div>
   </div>
 </template>
@@ -81,6 +85,8 @@ export default class Devices extends Vue {
     if (response && this.api.links) {
       await this.getDevices();
     }
+
+    this.$router.push({ path: "Devices" });
   }
 
   async deleteDevice() {
@@ -141,7 +147,7 @@ export default class Devices extends Vue {
     padding: 30px 15px 15px 25px;
   }
   .wrapper {
-    padding: 0;
+    padding: 0 0 65px;
     background: #f3f3f3;
     .grey-bg-button {
       background-image: linear-gradient(#f7f7f7, #fcfcfc);
@@ -157,12 +163,13 @@ export default class Devices extends Vue {
     }
 
     .save-device {
+      height: auto;
       margin: 20px 0;
       border-color: $color-yellow;
       color: $color-yellow;
       background-color: transparent;
       width: 85%;
-      padding: 5px 0;
+      padding: 12px 0;
       font-size: 14px;
     }
   }

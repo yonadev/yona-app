@@ -10,7 +10,7 @@ export interface AccountState {
       icon: string;
       is_allowed: boolean;
     };
-    store_files: {
+    autostart: {
       title: string;
       text: string;
       icon: string;

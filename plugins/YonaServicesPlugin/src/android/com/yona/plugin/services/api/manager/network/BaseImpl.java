@@ -9,6 +9,7 @@
 package com.yona.plugin.services.api.manager.network;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -18,6 +19,7 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 
+import com.yona.plugin.services.utils.AppConstant;
 import com.yona.plugin.services.api.model.ErrorMessage;
 
 import com.yona.plugin.services.listener.DataLoadListener;
@@ -44,10 +46,13 @@ public class BaseImpl
 {
     private final int maxStale = 60 * 60 * 24 * 28; // keep cache for 28 days.
     private Context appContext;
+    private SharedPreferences sharedPreferences;
 
     protected BaseImpl(Context context)
     {
         appContext = context;
+        sharedPreferences = context.getSharedPreferences(AppConstant.USER_PREFERENCE_KEY, android.app.Activity.MODE_PRIVATE);
+
     }
 
     private final Interceptor getInterceptor = new Interceptor()
@@ -100,12 +105,13 @@ public class BaseImpl
      */
     Retrofit getRetrofit()
     {
-        if (retrofit == null)
+        if (retrofit == null && sharedPreferences.contains("BaseUrl"))
         {
+
+            String serverUrl = sharedPreferences.getString("BaseUrl", "");
+
             retrofit = new Retrofit.Builder()
-                    //Todo: add correct BASE URL
-                    //.baseUrl(YonaApplication.getEventChangeManager().getDataState().getServerUrl())
-                    .baseUrl("https://app.load.yona.nu/")
+                    .baseUrl(serverUrl)
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(gethttpClient())
                     .build();

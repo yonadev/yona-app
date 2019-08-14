@@ -25,7 +25,7 @@
 
     <!-- android -->
     <platform name="android">
-        <framework src="src/android/openvpn/" custom="true"  />
+        <!--<framework src="src/android/openvpn/" custom="true"  />-->
 
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="BackgroundMode">
@@ -34,9 +34,9 @@
             <feature name="BackgroundModeExt">
                 <param name="android-package" value="com.yona.plugin.services.BackgroundModeExt"/>
             </feature>
-            <feature name="VpnPlugin">
+            <!--<feature name="VpnPlugin">
                 <param name="android-package" value="com.yona.plugin.services.VpnPlugin"/>
-            </feature>
+            </feature>-->
             <feature name="UserPreferences">
                 <param name="android-package" value="com.yona.plugin.services.UserPreferences"/>
             </feature>
@@ -60,8 +60,8 @@
                 </intent-filter>
                 <intent-filter>
                     <action android:name="com.yona.app.RESTART_DEVICE" />
-                    <action android:name="com.yona.app.RESTART_VPN" />
-                    <action android:name="com.yona.app.CONNECT_VPN" />
+                    <!--<action android:name="com.yona.app.RESTART_VPN" />
+                    <action android:name="com.yona.app.CONNECT_VPN" />-->
                 </intent-filter>
             </receiver>
         </config-file>
@@ -73,7 +73,7 @@
             <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
             <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
         </config-file>
-         <source-file
+        <source-file
             src="src/android/com/yona/plugin/services"
             target-dir="java/com/yona/plugin" />
 

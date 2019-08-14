@@ -62,6 +62,12 @@ const store: StoreOptions<RootState> = {
         sharedPreferences.clear();
       }
 
+      //@ts-ignore
+      if (typeof cordova.plugins.YonaServices !== "undefined") {
+        //@ts-ignore
+        cordova.plugins.YonaServices.disable();
+      }
+
       router.push({ name: "Tour" });
     }
   },

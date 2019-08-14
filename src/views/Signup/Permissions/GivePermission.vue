@@ -58,7 +58,37 @@ export default class GivePermission extends Vue {
   }
 
   goNext() {
-    //ToDo: Ask for permission based on current permission
+    //@ts-ignore
+    if (
+      //@ts-ignore
+      typeof cordova !== "undefined" &&
+      //@ts-ignore
+      typeof cordova.plugins.YonaServices !== "undefined") {
+      if (this.permission === "tracking") {
+        //@ts-ignore
+        cordova.plugins.YonaServices.setDefaults({
+          title: "Yona",
+          text: this.$t("yona_notification_content"),
+          icon: "notification", // this will look for icon.png in platforms/android/res/drawable|mipmap
+          color: "6c2a58", // hex format like 'F14F4D'
+          resume: true,
+          channelName: this.$t("yona_service_notification_channel_name"),
+          allowClose: true
+        });
+        //@ts-ignore
+        cordova.plugins.YonaServices.checkUsageAccess();
+        //@ts-ignore
+        cordova.plugins.YonaServices.enable();
+        //@ts-ignore
+        cordova.plugins.YonaServices.on("activate", function() {
+          //@ts-ignore
+          cordova.plugins.YonaServices.disableWebViewOptimizations();
+        });
+      } else if (this.permission === "autostart") {
+        //@ts-ignore
+        cordova.plugins.YonaServices.openAppStartSettings(false);
+      }
+    }
     this.setPermission({
       key: this.permission,
       value: true

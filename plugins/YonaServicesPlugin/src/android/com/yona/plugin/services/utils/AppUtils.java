@@ -12,10 +12,10 @@ import com.yona.plugin.services.api.manager.APIManager;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-import de.blinkt.openvpn.LaunchVPN;
-import de.blinkt.openvpn.VpnProfile;
-import de.blinkt.openvpn.core.ProfileManager;
-import de.blinkt.openvpn.core.VpnStatus;
+//import de.blinkt.openvpn.LaunchVPN;
+//import de.blinkt.openvpn.VpnProfile;
+//import de.blinkt.openvpn.core.ProfileManager;
+//import de.blinkt.openvpn.core.VpnStatus;
 
 public class AppUtils {
 
@@ -68,7 +68,7 @@ public class AppUtils {
         scheduler = null;
     }
 
-    public static boolean isVPNConnected(Context context)
+    /*public static boolean isVPNConnected(Context context)
     {
         String profileUUID = context.getSharedPreferences(AppConstant.USER_PREFERENCE_KEY, Context.MODE_PRIVATE).getString(AppConstant.PROFILE_UUID, "");
         VpnProfile profile = ProfileManager.get(context, profileUUID);
@@ -80,7 +80,7 @@ public class AppUtils {
 
         String profileUUID = context.getSharedPreferences(AppConstant.USER_PREFERENCE_KEY, Context.MODE_PRIVATE).getString(AppConstant.PROFILE_UUID, "");
         VpnProfile profile = ProfileManager.get(context, profileUUID);
-        /*User user = getAppUser();
+        User user = getAppUser();
         if (profile == null || VpnStatus.isVPNActive() || user == null || getAppUser().getVpnProfile() == null)
         {
             return null;
@@ -91,7 +91,7 @@ public class AppUtils {
         if (returnIntent)
         {
             return getVPNIntent(profile, context);
-        }*/
+        }
         startVPN(profile, context);
         return null;
     }
@@ -117,12 +117,12 @@ public class AppUtils {
     public static void stopVPN(Context context)
     {
         String profileUUID = context.getSharedPreferences(AppConstant.USER_PREFERENCE_KEY, Context.MODE_PRIVATE).getString(AppConstant.PROFILE_UUID, "");
-        /*VpnProfile profile = ProfileManager.get(context, profileUUID);
+        VpnProfile profile = ProfileManager.get(context, profileUUID);
         if (!VpnStatus.isVPNActive() || !(ProfileManager.getLastConnectedVpn() == profile))
         {
             return;
         }
-        context.getApplicationContext().stopOpenVPNService();*/
+        context.getApplicationContext().stopOpenVPNService();
         Logger.loge(AppUtils.class, "VPN stop called");
     }
 
@@ -138,6 +138,6 @@ public class AppUtils {
         }
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(AppConstant.VPN_CONNECT_NOTIFICATION_ID);
-    }
+    }*/
 
 }

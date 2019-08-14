@@ -81,7 +81,7 @@ export default class Settings extends Vue {
             to: ["support@yona.nu"],
             subject: self.$t("support_mail_subject"),
             body:
-              `Base URL: ${escape(base_url)} <br/><br/>` +
+              `Base URL: ${base_url} <br/><br/>` +
               (result === 2
                 ? `Password: ${self.api.yonaPassword} <br/><br/>`
                 : "") +

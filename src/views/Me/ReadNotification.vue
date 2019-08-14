@@ -6,8 +6,7 @@
       </div>
     </div>
     <div class="wrapper grey-bg">
-      <!--ToDo: Show the proper message instead of response (no response available atm so dont know what needs to be displayed)-->
-      {{ notification }}
+      {{ notification.message }}
     </div>
   </div>
 </template>
@@ -15,14 +14,9 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
 import { Prop } from "vue-property-decorator";
 
-@Component({
-  components: {
-    ProfilePic
-  }
-})
+@Component({})
 export default class ReadNotification extends Vue {
   @Prop() notification!: any;
 
@@ -34,5 +28,13 @@ export default class ReadNotification extends Vue {
 @import "../../sass/variables";
 
 #read-notification {
+  .wrapper {
+    padding: 30px;
+    text-align: left;
+
+    &.grey-bg {
+      background-color: #f3f3f3;
+    }
+  }
 }
 </style>

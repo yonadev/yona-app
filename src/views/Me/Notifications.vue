@@ -41,6 +41,12 @@
                       "
                     />
                   </div>
+                  <div
+                    v-else-if="
+                      notification && notification['@type'] === 'SystemMessage'
+                    "
+                    class="img-wrapper"
+                  ></div>
                   <div v-else class="img-wrapper">
                     <profile-pic
                       v-if="getPicLink(notification)"
@@ -196,21 +202,15 @@
                       notification['@type'] === 'BuddyConnectRequestMessage'
                   "
                 >
-                  <div
-                    v-if="
-                      notification['@type'] === 'BuddyConnectRequestMessage'
-                    "
-                  >
-                    <div class="img-wrapper">
-                      <img
-                        v-if="notification.status === 'ACCEPTED'"
-                        src="../../assets/images/icons/icn_accepted.svg"
-                      />
-                      <img
-                        v-else-if="notification.status === 'REJECTED'"
-                        src="../../assets/images/icons/icn_rejected.svg"
-                      />
-                    </div>
+                  <div class="img-wrapper">
+                    <img
+                      v-if="notification.status === 'ACCEPTED'"
+                      src="../../assets/images/icons/icn_accepted.svg"
+                    />
+                    <img
+                      v-else-if="notification.status === 'REJECTED'"
+                      src="../../assets/images/icons/icn_rejected.svg"
+                    />
                   </div>
                 </div>
               </div>
@@ -554,6 +554,7 @@ export default class Notifications extends Vue {
 
 <style lang="scss">
 @import "../../sass/variables";
+@import "~vue-swipe-actions/src/styles/vue-swipe-actions.css";
 
 #notification {
   height: 100%;

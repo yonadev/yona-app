@@ -3,9 +3,8 @@
     <div class="wrapper grey-bg">
       <div class="challenge-header">
         <div class="text">
-          {{ $t("challengestegoedheader") }}
+          {{ headerText }}
         </div>
-
         <br clear="left" />
       </div>
 
@@ -38,5 +37,16 @@ export default class ChallengesCategoryChoose extends Vue {
 
   @Getter("unusedCategories", { namespace: "challenges" })
   public unusedCategories!: (href: string) => ActivityCategory[];
+
+  get headerText() {
+    switch (this.type) {
+      case "nogo":
+        return this.$t("challengesnogoheader");
+      case "timezone":
+        return this.$t("challengestijdzoneheader");
+      default:
+        return this.$t("challengestegoedheader");
+    }
+  }
 }
 </script>
