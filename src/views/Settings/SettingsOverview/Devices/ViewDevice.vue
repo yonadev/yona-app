@@ -51,7 +51,7 @@ import { Prop } from "vue-property-decorator";
 import axios from "@/utils/axios/axios";
 
 //@ts-ignore
-import { DateTime } from "luxon";
+import moment from "moment";
 import { State } from "vuex-class";
 import { ApiState } from "@/store/api/types";
 import InputFloatingLabel from "@/components/InputFloatingLabel.vue";
@@ -69,8 +69,7 @@ export default class Devices extends Vue {
   }
 
   formatDate(time: string) {
-    let timeFormat = DateTime.fromISO(time);
-    return timeFormat.toFormat("yyyy-LL-dd HH:mm");
+    return moment(time).format("YYYY-MM-DD HH:mm");
   }
 
   async updateDevice() {

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Copyright (c) 2016 Stichting Yona Foundation
+  ~
+  ~  This Source Code Form is subject to the terms of the Mozilla Public
+  ~  License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  ~
+  ~
+  -->
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <dimen name="mdtp_date_picker_header_height">45dp</dimen>
+    <dimen name="mdtp_time_label_right_padding">16dp</dimen>
+    <dimen name="mdtp_time_label_size">64dp</dimen>
+    <dimen name="mdtp_time_label_subscript_size">32dp</dimen>
+    <dimen name="mdtp_ampm_label_size">16dp</dimen>
+    <dimen name="mdtp_ampm_left_padding">6dip</dimen>
+    <dimen name="mdtp_separator_padding">5dip</dimen>
+    <dimen name="mdtp_header_height">96dip</dimen>
+    <dimen name="mdtp_footer_height">48dip</dimen>
+    <dimen name="mdtp_left_side_width">400dip</dimen>
+
+</resources>

@@ -22,7 +22,11 @@
       <div class="timezone-entries">
         <swipe-list ref="list" :items="setupData.items" item-key="id">
           <template v-slot="{ item, index }">
-            <div ref="content" class="item-wrapper">
+            <div
+              ref="content"
+              class="item-wrapper"
+              @click="editTimezoneEntry(item)"
+            >
               <div class="item-inner">
                 <div class="item-slot">
                   <img :src="require('@/assets/images/icons/icn_bounds.svg')" />
@@ -31,7 +35,7 @@
                   <label :for="'timeFrom' + index">
                     <div class="time-entry-content">
                       <div class="label">{{ $t("from") }}</div>
-                      <div class="time-value">{{ formatTime(item.from) }}</div>
+                      <div class="time-value">{{ item.from }}</div>
                     </div>
                   </label>
                 </div>
@@ -39,7 +43,7 @@
                   <label :for="'timeTo' + index">
                     <div class="time-entry-content">
                       <div class="label">{{ $t("to") }}</div>
-                      <div class="time-value">{{ formatTime(item.to) }}</div>
+                      <div class="time-value">{{ item.to }}</div>
                     </div>
                   </label>
                 </div>
@@ -54,45 +58,6 @@
             </div>
           </template>
         </swipe-list>
-        <div v-for="(item, index) in setupData.items" :key="'dateTime' + index">
-          <datetime
-            v-model="item.from"
-            :input-id="'timeFrom' + index"
-            type="time"
-            :minute-step="15"
-            format="HH:mm"
-            value-zone="UTC+2"
-            input-style="display:none;"
-            :title="$t('from')"
-          >
-            <template slot="button-cancel">
-              {{ $t("cancel") }}
-            </template>
-            <template slot="button-confirm">
-              <label :for="'timeTo' + index">
-                {{ $t("next") }}
-              </label>
-            </template>
-          </datetime>
-          <datetime
-            v-model="item.to"
-            :input-id="'timeTo' + index"
-            type="time"
-            :minute-step="15"
-            :min-datetime="getMinTime(item.from)"
-            format="HH:mm"
-            value-zone="UTC+2"
-            input-style="display:none;"
-            :title="$t('to')"
-          >
-            <template slot="button-cancel">
-              {{ $t("cancel") }}
-            </template>
-            <template slot="button-confirm">
-              {{ $t("save") }}
-            </template>
-          </datetime>
-        </div>
       </div>
     </div>
 
@@ -113,14 +78,8 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import { Action, State } from "vuex-class";
-import { ChallengesState, Goal, TimeZoneGoal } from "@/store/challenges/types";
-
-//@ts-ignore
-import { Datetime } from "vue-datetime";
-//@ts-ignore
-import { DateTime as DateTimeLu } from "luxon";
-import "vue-datetime/dist/vue-datetime.css";
+import { Action } from "vuex-class";
+import { TimeZoneGoal } from "@/store/challenges/types";
 
 //@ts-ignore
 import { SwipeList, SwipeOut } from "vue-swipe-actions";
@@ -134,7 +93,7 @@ interface timeEntry {
 }
 
 @Component({
-  components: { SwipeList, SwipeOut, Datetime, DateTimeLu }
+  components: { SwipeList, SwipeOut }
 })
 export default class Setup extends Vue {
   @Action("saveGoal", { namespace: "challenges" }) saveGoal: any;
@@ -162,23 +121,47 @@ export default class Setup extends Vue {
     }
   }
 
-  getMinTime(startTime: string) {
-    return DateTimeLu.fromISO(startTime)
-      .plus({ minutes: 15 })
-      .toISO();
-  }
+  async addTimezoneEntry() {
+    const response = await this.openTimePicker(null, null);
 
-  formatTime(time: string) {
-    let timeFormat = DateTimeLu.fromISO(time);
-    return timeFormat.toFormat("HH:mm");
-  }
-
-  addTimezoneEntry() {
     this.setupData.items.push({
       id: Math.random(),
-      from: "00:00",
-      to: "00:00",
+      from: response.startTime,
+      to: response.endTime,
       swiped: false
+    });
+  }
+
+  async editTimezoneEntry(item: timeEntry) {
+    const response = await this.openTimePicker(item.from, item.to);
+    item.from = response.startTime;
+    item.to = response.endTime;
+  }
+
+  openTimePicker(
+    startTime: string | null,
+    endTime: string | null
+  ): Promise<{ startTime: string; endTime: string }> {
+    return new Promise(resolve => {
+      if (
+        //@ts-ignore
+        typeof cordova !== "undefined" &&
+        //@ts-ignore
+        typeof cordova.plugins !== "undefined" &&
+        //@ts-ignore
+        typeof cordova.plugins.TimePicker !== "undefined"
+      ) {
+        //@ts-ignore
+        cordova.plugins.TimePicker.pick(
+          {
+            startTime,
+            endTime
+          },
+          resolve
+        );
+      } else {
+        resolve({ startTime: "00:00", endTime: "04:00" });
+      }
     });
   }
 
@@ -195,37 +178,25 @@ export default class Setup extends Vue {
 
     this.loading = true;
 
+    const data = {
+      "@type": "TimeZoneGoal",
+      _links: {
+        "yona:activityCategory": {
+          href: this.category
+        }
+      },
+      zones: this.setupData.items.map(zone => {
+        return `${zone.from}-${zone.to}`;
+      })
+    };
+
     if (this.goal && this.goal._links.edit) {
       saved = await this.updateGoal({
         url: this.goal._links.edit.href,
-        data: {
-          "@type": "TimeZoneGoal",
-          _links: {
-            "yona:activityCategory": {
-              href: this.category
-            }
-          },
-          zones: this.setupData.items.map(zone => {
-            return `${DateTimeLu.fromISO(zone.from).toFormat(
-              "HH:mm"
-            )}-${DateTimeLu.fromISO(zone.to).toFormat("HH:mm")}`;
-          })
-        }
+        data
       });
     } else {
-      saved = await this.saveGoal({
-        "@type": "TimeZoneGoal",
-        _links: {
-          "yona:activityCategory": {
-            href: this.category
-          }
-        },
-        zones: this.setupData.items.map(zone => {
-          return `${DateTimeLu.fromISO(zone.from).toFormat(
-            "HH:mm"
-          )}-${DateTimeLu.fromISO(zone.to).toFormat("HH:mm")}`;
-        })
-      });
+      saved = await this.saveGoal(data);
     }
 
     if (saved) {
