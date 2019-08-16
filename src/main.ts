@@ -1,3 +1,5 @@
+require("intersection-observer");
+
 import Vue from "vue";
 import "@/utils/router/hooks";
 import App from "./App.vue";
@@ -68,12 +70,12 @@ Validator.localize(i18n.locale, dictionary); // overwrites some messages
 import store from "./store/index";
 
 Vue.directive("fixed-scroll", {
-  inserted(el, binding) {
+  update(el, binding) {
     const elementTop = el.getBoundingClientRect().top;
     const elementHeight = el.offsetHeight;
 
     const f = (evt: any) => {
-      const scrollTop = evt.target.scrollingElement.scrollTop;
+      const scrollTop = window.scrollY;
 
       if (elementTop < scrollTop) {
         if (el.parentElement) {

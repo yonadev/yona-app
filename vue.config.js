@@ -1,7 +1,7 @@
 module.exports = {
   publicPath: "",
 
-  transpileDependencies: ["vue-swipe-actions"],
+  transpileDependencies: ["vue-swipe-actions", "vuex-persist"],
 
   pluginOptions: {
     i18n: {

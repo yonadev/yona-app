@@ -58,6 +58,11 @@ import { Prop, Component } from "vue-property-decorator";
 @Component({})
 export default class BottomMenu extends Vue {
   @Prop({ default: "" }) active_page!: string;
+
+  mounted() {
+    if (this.$el.parentElement)
+      this.$el.parentElement.style.paddingBottom = "50px";
+  }
 }
 </script>
 
