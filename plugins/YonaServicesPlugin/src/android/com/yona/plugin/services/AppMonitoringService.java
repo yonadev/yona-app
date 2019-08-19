@@ -48,11 +48,7 @@ public class AppMonitoringService extends Service {
     public static final int NOTIFICATION_ID = -574543954;
 
     // Default title of the background notification
-    private static final String NOTIFICATION_TITLE =
-            "Yona";
-
-    // Default text of the background notification
-    private static String NOTIFICATION_TEXT =
+    private static String NOTIFICATION_TITLE =
             "Monitoring app usage";
 
     // Default icon of the background notification
@@ -107,7 +103,7 @@ public class AppMonitoringService extends Service {
         super.onCreate();
 
         if(Locale.getDefault().toString().startsWith("nl")) {
-            NOTIFICATION_TEXT = "Monitort appgebruik";
+            NOTIFICATION_TITLE = "Monitort appgebruik";
         }
 
         restartReceiver(getApplicationContext());
@@ -248,7 +244,6 @@ public class AppMonitoringService extends Service {
             getNotificationManager().createNotificationChannel(mChannel);
         }
         String title    = settings.optString("title", NOTIFICATION_TITLE);
-        String text     = settings.optString("text", NOTIFICATION_TEXT);
         boolean bigText = settings.optBoolean("bigText", false);
         String subText = settings.optString("subText", "");
 
@@ -259,7 +254,6 @@ public class AppMonitoringService extends Service {
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentTitle(title)
-                .setContentText(text)
                 .setOngoing(true)
                 .setSmallIcon(getIconResId(settings))
                 .setShowWhen(settings.optBoolean("showWhen", true));
@@ -268,14 +262,9 @@ public class AppMonitoringService extends Service {
             notification.setSubText(subText);
         }
 
-        if (bigText || text.contains("\n")) {
-            notification.setStyle(
-                    new NotificationCompat.BigTextStyle().bigText(text));
-        }
-
         setColor(notification, settings);
 
-        if (intent != null && settings.optBoolean("resume")) {
+        if (intent != null) {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             PendingIntent contentIntent = PendingIntent.getActivity(
                     context, NOTIFICATION_ID, intent,
