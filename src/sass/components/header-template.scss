@@ -1,5 +1,6 @@
 .header-template {
   min-height:100%;
+  position: relative;
   background-color:#fff;
   .colored-background{
     height:auto;
@@ -9,7 +10,7 @@
     padding-bottom:50px;
   }
   .wrapper{
-    padding:0 30px 65px;
+    padding:0 30px 100px;
     box-sizing: border-box;
     background: #fff;
     width:100%;

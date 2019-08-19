@@ -65,9 +65,11 @@ export default class Login extends Vue {
           if (user_response) {
             const success = await this.setUserData(user_response.data);
 
-            if(!success) {
+            if (!success) {
               return;
             }
+          } else {
+            return;
           }
 
           if (this.api.links["yona:userPhoto"]) {

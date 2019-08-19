@@ -8,42 +8,44 @@
         <img src="../../assets/images/signup/account/icn_avatar.svg" />
       </div>
     </div>
-    <div class="wrapper">
-      <p class="disclaimer">
-        {{ $t("loggedinadddevicemessage") }}
-      </p>
+    <form @submit.prevent="checkPasscode()">
+      <div class="wrapper">
+        <p class="disclaimer">
+          {{ $t("loggedinadddevicemessage") }}
+        </p>
 
-      <input-floating-label
-        :validate="{ required: true }"
-        id="device_name"
-        class="with-border-input"
-        :label="$t('device_name')"
-        type="text"
-        :value.sync="device_name"
-        icon="icn_mobile.svg"
-      ></input-floating-label>
-      <input-floating-label
-        :validate="{ required: true, mobile: true }"
-        id="mobile"
-        class="with-border-input"
-        :label="$t('mobilenumber')"
-        type="tel"
-        :value.sync="mobile"
-        icon="icn_mobile.svg"
-      ></input-floating-label>
-      <input-floating-label
-        id="passcode"
-        :validate="{ required: true }"
-        class="with-border-input"
-        :label="$t('passcode')"
-        :value.sync="passcode"
-        type="text"
-        icon="icn_name.svg"
-      ></input-floating-label>
-    </div>
-    <div class="is-centered bottom-aligned">
-      <div class="button" @click="checkPasscode">{{ $t("login") }}</div>
-    </div>
+        <input-floating-label
+          :validate="{ required: true }"
+          id="device_name"
+          class="with-border-input"
+          :label="$t('device_name')"
+          type="text"
+          :value.sync="device_name"
+          icon="icn_mobile.svg"
+        ></input-floating-label>
+        <input-floating-label
+          :validate="{ required: true, mobile: true }"
+          id="mobile"
+          class="with-border-input"
+          :label="$t('mobilenumber')"
+          type="tel"
+          :value.sync="mobile"
+          icon="icn_mobile.svg"
+        ></input-floating-label>
+        <input-floating-label
+          id="passcode"
+          :validate="{ required: true }"
+          class="with-border-input"
+          :label="$t('passcode')"
+          :value.sync="passcode"
+          type="text"
+          icon="icn_name.svg"
+        ></input-floating-label>
+      </div>
+      <div class="is-centered bottom-aligned">
+        <input type="submit" class="button" :value="$t('login')" />
+      </div>
+    </form>
   </div>
 </template>
 
@@ -86,14 +88,11 @@ export default class AddDevice extends Vue {
         this.loading = true;
 
         let get_response: any = await axios
-          .get(this.api.host + "/newDeviceRequests/" + this.mobile)
-          .catch(error => {
-            console.log(error);
-          });
+          .get(this.api.host + "/newDeviceRequests/" + this.mobile);
 
         this.loading = false;
 
-        if (get_response.status == 200) {
+        if (get_response && get_response.status == 200) {
           this.mobile_exists = true;
 
           if (this.passcode) {
@@ -157,10 +156,9 @@ export default class AddDevice extends Vue {
 
 <style lang="scss">
 #add-device {
-  padding-bottom: 130px;
   .bottom-aligned {
     .button {
-      position: fixed;
+      position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;

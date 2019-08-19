@@ -2,6 +2,7 @@
   <div
     id="confirm-pincode"
     class="colored-background purple-dark pincode-template"
+    :loading="loading"
   >
     <div class="nav-title">
       {{ $t("pincode") }}
@@ -47,14 +48,16 @@ export default class ConfirmPinCode extends Vue {
   private password: number | null = null;
   private length: number = 4;
   private error: boolean = false;
+  private loading: boolean = false;
 
   @Watch("password")
-  onChildChanged(val: number | null) {
+  async onChildChanged(val: number | null) {
     if (val && val.toString().length === this.length) {
       if (val === this.login.pinCode) {
+        this.loading = true;
         this.resetLock();
-        this.setRegistered();
-        this.$router.push({ name: "Login" });
+        await this.setRegistered();
+        this.loading = false;
       } else {
         this.error = true;
         this.password = null;

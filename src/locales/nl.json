@@ -74,6 +74,7 @@
 
   "accountlogin": "Account wordt aangemaakt",
   "accountloginsecuritymessage": "Als extra beveiliging ontvang je een code per SMS. Graag deze code hieronder invullen.",
+  "firstdevicename": "Eerste apparaat",
   "sendotpagain": "Stuur code opnieuw",
   "adddevice": "APPARAAT TOEVOEGEN",
   "devices": "APPARATEN",
@@ -264,5 +265,7 @@
   "mandatory_user_fetch_failure": "De Yona-app heeft deze keer een netwerkverbinding nodig om te starten.",
   "usage_access_unavailable_message": "Sta Yona in het instellingenmenu toe om de gebruiksstatistieken van apps in te zien.",
   "stop_vpn_setting": "STOP VPN",
-  "start_vpn_setting": "START VPN"
+  "start_vpn_setting": "START VPN",
+  "error_user_not_found": "Uw gebruiker bestaat niet meer, u dient zich opnieuw te registreren.",
+  "error_device_not_Found": "Dit apparaat bestaat niet meer, u dient dit apparaat opnieuw te registreren."
 }

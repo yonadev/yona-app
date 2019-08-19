@@ -1,5 +1,6 @@
 import axios from "axios";
 import store from "@/store";
+import i18n from "@/utils/i18n";
 
 const instance = axios.create({
   timeout: 15000,
@@ -56,6 +57,9 @@ instance.interceptors.response.use(
       error.response.data.code === "error.user.not.found.id"
     ) {
       store.dispatch("resetAll");
+      store.dispatch("api/setServerError", {
+        serverMessage: i18n.t("error_user_not_found")
+      });
     } else {
       // Do something with response error
       store.dispatch("api/setServerError", {

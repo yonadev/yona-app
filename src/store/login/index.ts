@@ -44,7 +44,7 @@ const actions: ActionTree<LoginState, RootState> = {
 
     if (state.lastRoute !== null) {
       router.push(state.lastRoute);
-    } else if (data.view !== "changePin") {
+    } else if (data && data.view !== "changePin") {
       router.push({ name: "MeTimeLineDay" });
     }
   },
@@ -65,8 +65,9 @@ const actions: ActionTree<LoginState, RootState> = {
   resetLastRoute({ commit }): void {
     commit("setLastRoute", null);
   },
-  setRegistered({ commit }): void {
+  async setRegistered({ commit, dispatch }): Promise<void> {
     commit("setRegistered");
+    await dispatch("setLoggedIn", {});
   },
   async pinReset({ commit, rootState, dispatch }, data) {
     if (rootState.api.links && rootState.api.links["yona:requestPinReset"]) {

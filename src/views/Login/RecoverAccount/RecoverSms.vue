@@ -110,7 +110,7 @@ export default class RecoverSms extends Vue {
                 mobileNumber: this.account.phonenumber,
                 nickname: this.account.nickname,
                 //Todo: implement App Version
-                deviceName: `${OS} ${this.account.nickname}`,
+                deviceName: `${this.$t("firstdevicename")}`,
                 deviceOperatingSystem: OS,
                 deviceAppVersion: "1.1 build 83",
                 deviceAppVersionCode: 31,

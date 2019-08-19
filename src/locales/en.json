@@ -75,6 +75,7 @@
 
   "accountlogin" : "Account is being created",
   "accountloginsecuritymessage" : "For security, you will receive a code by SMS. Please enter this code below.",
+  "firstdevicename": "First device",
   "sendotpagain" : "Send code again",
   "adddevice" : "ADD DEVICE",
   "devices" : "DEVICES",
@@ -267,5 +268,7 @@
   "mandatory_user_fetch_failure" : "The Yona app this time needs network connectivity to start",
   "usage_access_unavailable_message" : "In the device settings, please permit Yona to see app usage statistics.",
   "stop_vpn_setting" : "STOP VPN",
-  "start_vpn_setting" : "START VPN"
+  "start_vpn_setting" : "START VPN",
+  "error_user_not_found": "Your user doesn't exist anymore, you need to register again.",
+  "error_device_not_Found": "This device doesn't exist anymore, you need to register this device again."
 }

@@ -1,5 +1,6 @@
 <template>
   <div id="names" class="header-template">
+    <form @submit.prevent="validateFields()">
     <div class="colored-background purple-dark">
       <div class="nav-title">
         {{ $t("join") }}
@@ -8,7 +9,6 @@
         <img src="../../assets/images/signup/account/add_avatar.svg" />
       </div>
     </div>
-    <form @submit.prevent="validateFields()">
       <div class="wrapper">
         <input-floating-label
           :validate="{ required: true }"

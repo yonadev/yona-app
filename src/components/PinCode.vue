@@ -69,6 +69,8 @@ export default class PinCode extends Vue {
 @import "../sass/variables";
 
 .pincode {
+  padding-bottom: 50px;
+
   label {
     position: relative;
     display: block;
@@ -112,7 +114,6 @@ export default class PinCode extends Vue {
       background: none;
       outline: none;
       border: none;
-      padding: 0px 25px;
       color: transparent;
       letter-spacing: 70px;
       position: absolute;

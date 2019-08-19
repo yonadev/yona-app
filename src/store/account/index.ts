@@ -2,6 +2,8 @@ import { Module, ActionTree, MutationTree, GetterTree } from "vuex";
 import { AccountState } from "./types";
 import { RootState } from "../types";
 import axios from "../../utils/axios/axios";
+import i18n from "../../utils/i18n";
+import store from "@/store";
 
 export const state: AccountState = {
   firstname: "",
@@ -45,7 +47,7 @@ export const state: AccountState = {
 };
 
 const actions: ActionTree<AccountState, RootState> = {
-  setProperty({ commit }, data): void {
+  setProperty({ commit, dispatch }, data): void {
     commit("setProperty", data);
   },
   async setUserData({ commit, rootState, dispatch }, data) {
@@ -82,6 +84,13 @@ const actions: ActionTree<AccountState, RootState> = {
           })
           .catch(error => {
             dispatch("resetAll", null, { root: true });
+            dispatch(
+              "api/setServerError",
+              {
+                serverMessage: i18n.t("error_device_not_Found")
+              },
+              { root: true }
+            );
           });
       }
 
@@ -124,6 +133,13 @@ const actions: ActionTree<AccountState, RootState> = {
       return true;
     } else {
       dispatch("resetAll", null, { root: true });
+      dispatch(
+        "api/setServerError",
+        {
+          serverMessage: i18n.t("error_device_not_Found")
+        },
+        { root: true }
+      );
     }
     return false;
   },
