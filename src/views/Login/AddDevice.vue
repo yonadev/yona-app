@@ -87,8 +87,9 @@ export default class AddDevice extends Vue {
       if (valid && !this.loading) {
         this.loading = true;
 
-        let get_response: any = await axios
-          .get(this.api.host + "/newDeviceRequests/" + this.mobile);
+        let get_response: any = await axios.get(
+          this.api.host + "/newDeviceRequests/" + this.mobile
+        );
 
         this.loading = false;
 

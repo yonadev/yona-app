@@ -1,14 +1,14 @@
 <template>
   <div id="names" class="header-template">
     <form @submit.prevent="validateFields()">
-    <div class="colored-background purple-dark">
-      <div class="nav-title">
-        {{ $t("join") }}
+      <div class="colored-background purple-dark">
+        <div class="nav-title">
+          {{ $t("join") }}
+        </div>
+        <div class="header-icon">
+          <img src="../../assets/images/signup/account/add_avatar.svg" />
+        </div>
       </div>
-      <div class="header-icon">
-        <img src="../../assets/images/signup/account/add_avatar.svg" />
-      </div>
-    </div>
       <div class="wrapper">
         <input-floating-label
           :validate="{ required: true }"
