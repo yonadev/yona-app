@@ -20,6 +20,7 @@ import androidx.core.app.NotificationCompat;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.ScheduledFuture;
@@ -48,14 +49,14 @@ public class AppMonitoringService extends Service {
 
     // Default title of the background notification
     private static final String NOTIFICATION_TITLE =
-            "App is running in background";
+            "Yona";
 
     // Default text of the background notification
-    private static final String NOTIFICATION_TEXT =
-            "Doing heavy tasks.";
+    private static String NOTIFICATION_TEXT =
+            "Monitoring app usage";
 
     // Default icon of the background notification
-    private static final String NOTIFICATION_ICON = "icon";
+    private static final String NOTIFICATION_ICON = "notification";
 
     // Binder given to clients
     private final IBinder binder = new ForegroundBinder();
@@ -104,6 +105,11 @@ public class AppMonitoringService extends Service {
     public void onCreate()
     {
         super.onCreate();
+
+        if(Locale.getDefault().toString().startsWith("nl")) {
+            NOTIFICATION_TEXT = "Monitort appgebruik";
+        }
+
         restartReceiver(getApplicationContext());
         powerManager = ((PowerManager)getSystemService(Context.POWER_SERVICE));
     }
@@ -225,12 +231,12 @@ public class AppMonitoringService extends Service {
     private Notification makeNotification (JSONObject settings)
     {
         // use channelid for Oreo and higher
-        String CHANNEL_ID = "cordova-plugin-background-mode-id";
+        String CHANNEL_ID = "yona-appmonitoring";
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // The user-visible name of the channel.
-            CharSequence name = settings.optString("channelName", "yona-plugin-appusage");
+            CharSequence name = "yona-appmonitoring";
             // The user-visible description of the channel.
-            String description = settings.optString("channelDescription", "yona-plugin-appusage notification");
+            String description = "yona-plugin-appmonitoring notification";
 
             int importance = NotificationManager.IMPORTANCE_LOW;
 
@@ -260,19 +266,6 @@ public class AppMonitoringService extends Service {
 
         if (!subText.equals("")) {
             notification.setSubText(subText);
-        }
-
-        if (settings.optBoolean("allowClose", false)) {
-
-            final Intent clostAppIntent = new Intent("com.backgroundmode.close" + pkgName);
-            final PendingIntent closeIntent = PendingIntent.getBroadcast(context, 1337, clostAppIntent, 0);
-            final String closeIconName = settings.optString("closeIcon", "power");
-            NotificationCompat.Action.Builder closeAction = new NotificationCompat.Action.Builder(getIconResId(closeIconName), settings.optString("closeTitle", "Close"), closeIntent);
-            notification.addAction(closeAction.build());
-        }
-
-        if (settings.optBoolean("hidden", true)) {
-            notification.setPriority(Notification.PRIORITY_MIN);
         }
 
         if (bigText || text.contains("\n")) {
