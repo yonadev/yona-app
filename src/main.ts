@@ -163,7 +163,7 @@ const app = new Vue({
         }
       }
 
-       //@ts-ignore
+      //@ts-ignore
       if (
         //@ts-ignore
         typeof cordova !== "undefined" &&
@@ -172,11 +172,9 @@ const app = new Vue({
       ) {
         //@ts-ignore
         cordova.plugins.YonaServices.setDefaults({
-          title: "Yona",
-          text: this.$t("yona_notification_content"),
+          title: this.$t("yona_notification_content"),
           icon: "notification", // this will look for icon.png in platforms/android/res/drawable|mipmap
           color: "6c2a58", // hex format like 'F14F4D'
-          resume: true,
           channelName: this.$t("yona_service_notification_channel_name"),
           allowClose: false
         });
