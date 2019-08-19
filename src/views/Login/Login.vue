@@ -16,7 +16,7 @@
         :length="length"
         ref="pincode"
       ></pin-code>
-      <p class="reset" @click="pinReset">
+      <p class="reset" @click="confirmPinReset">
         {{ $t("passcodereset") }}
       </p>
     </div>
@@ -50,6 +50,30 @@ export default class Login extends Vue {
   password: number | null = null;
   length: number = 4;
   error: boolean = false;
+
+  confirmPinReset() {
+    const self = this;
+
+    //@ts-ignore
+    if (navigator && navigator.notification) {
+      //@ts-ignore
+      navigator.notification.confirm(
+        self.$t("resetpinalert"),
+        (result: number) => {
+          if (result === 2) {
+            self.pinReset();
+          }
+        },
+        "",
+        [self.$t("cancel"), self.$t("yes")]
+      );
+    } else {
+      //@ts-ignore
+      if (confirm(self.$t("resetpinalert"))) {
+        self.pinReset();
+      }
+    }
+  }
 
   @Watch("password")
   async onChildChanged(val: number) {

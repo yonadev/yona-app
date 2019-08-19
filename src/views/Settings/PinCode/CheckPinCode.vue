@@ -21,7 +21,7 @@
         {{ $t("passcodeincorrect", { tries: 5 - login.loginAttempts }) }}
       </p>
       <pin-code :pincode.sync="password" :length="length"></pin-code>
-      <p class="reset" @click="pinReset({ view: 'changePin' })">
+      <p class="reset" @click="confirmPinReset()">
         {{ $t("passcodereset") }}
       </p>
     </div>
@@ -49,6 +49,30 @@ export default class CheckPinCode extends Vue {
   password: number | null = null;
   length: number = 4;
   error: boolean = false;
+
+  confirmPinReset() {
+    const self = this;
+
+    //@ts-ignore
+    if (navigator && navigator.notification) {
+      //@ts-ignore
+      navigator.notification.confirm(
+        self.$t("resetpinalert"),
+        (result: number) => {
+          if (result === 2) {
+            self.pinReset({ view: "changePin" });
+          }
+        },
+        "",
+        [self.$t("cancel"), self.$t("yes")]
+      );
+    } else {
+      //@ts-ignore
+      if (confirm(self.$t("resetpinalert"))) {
+        self.pinReset({ view: "changePin" });
+      }
+    }
+  }
 
   @Watch("password")
   onChildChanged(val: number) {

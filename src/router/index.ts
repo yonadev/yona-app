@@ -30,7 +30,8 @@ export default new Router({
           name: "Choose",
           component: () => import("../views/Welcome/Choose.vue"),
           meta: {
-            public: true
+            public: true,
+            prev: "Tour"
           }
         }
       ]
@@ -80,7 +81,8 @@ export default new Router({
           name: "AddDevice",
           component: () => import("../views/Login/AddDevice.vue"),
           meta: {
-            public: true
+            public: true,
+            prev: "Choose"
           }
         },
         {
@@ -97,7 +99,8 @@ export default new Router({
               component: () =>
                 import("../views/Login/RecoverAccount/PhoneNumber.vue"),
               meta: {
-                public: true
+                public: true,
+                prev: "AccountInfo"
               }
             },
             {
@@ -106,7 +109,8 @@ export default new Router({
               component: () =>
                 import("../views/Login/RecoverAccount/RecoverSms.vue"),
               meta: {
-                public: true
+                public: true,
+                prev: "PhoneNumber"
               }
             }
           ]
@@ -125,7 +129,8 @@ export default new Router({
           name: "Names",
           component: () => import("../views/Signup/Names.vue"),
           meta: {
-            public: true
+            public: true,
+            prev: "Choose"
           }
         },
         {
@@ -133,7 +138,8 @@ export default new Router({
           name: "AccountInfo",
           component: () => import("../views/Signup/AccountInfo.vue"),
           meta: {
-            public: true
+            public: true,
+            prev: "Names"
           }
         },
         {
@@ -141,7 +147,8 @@ export default new Router({
           name: "SmsValidation",
           component: () => import("../views/Signup/SmsValidation.vue"),
           meta: {
-            public: true
+            public: true,
+            prev: "Names"
           }
         },
         {
@@ -158,7 +165,8 @@ export default new Router({
               component: () => import("../views/Signup/Pincode/SetPinCode.vue"),
               meta: {
                 public: true,
-                pinreset: true
+                pinreset: true,
+                prev: "actual"
               }
             },
             {
@@ -168,7 +176,8 @@ export default new Router({
                 import("../views/Signup/Pincode/ConfirmPinCode.vue"),
               meta: {
                 public: true,
-                pinreset: true
+                pinreset: true,
+                prev: "SetPinCode"
               }
             }
           ]
@@ -223,7 +232,8 @@ export default new Router({
               component: () => import("../views/Me/Tabs/Week.vue"),
               meta: {
                 parent: "MeTabs",
-                position: 2
+                position: 2,
+                prev: "MeTimeLineDay"
               }
             }
           ]
@@ -231,36 +241,54 @@ export default new Router({
         {
           path: "profile",
           name: "Profile",
-          component: () => import("../views/Me/Profile.vue")
+          component: () => import("../views/Me/Profile.vue"),
+          meta: {
+            prev: "MeTimeLineDay"
+          }
         },
         {
           path: "notifications",
           name: "Notifications",
-          component: () => import("../views/Me/Notifications.vue")
+          component: () => import("../views/Me/Notifications.vue"),
+          meta: {
+            prev: "MeTimeLineDay"
+          }
         },
         {
           path: "read-notification",
           name: "ReadNotification",
           component: () => import("../views/Me/ReadNotification.vue"),
-          props: true
+          props: true,
+          meta: {
+            prev: "Notifications"
+          }
         },
         {
           path: "friendrequest",
           name: "FriendRequest",
           component: () => import("../views/Me/FriendRequest.vue"),
-          props: true
+          props: true,
+          meta: {
+            prev: "Notifications"
+          }
         },
         {
           path: "detailed-day/:activity_link",
           name: "DetailedViewDay",
           component: () => import("../views/Timeline/DetailedViewDay.vue"),
-          props: true
+          props: true,
+          meta: {
+            prev: "MeTimeLineDay"
+          }
         },
         {
           path: "detailed-week/:activity_link",
           name: "DetailedViewWeek",
           component: () => import("../views/Timeline/DetailedViewWeek.vue"),
-          props: true
+          props: true,
+          meta: {
+            prev: "MeTimeLineWeek"
+          }
         }
       ]
     },
@@ -276,12 +304,18 @@ export default new Router({
             {
               path: "timeline",
               name: "FriendsTimeLine",
-              component: () => import("../views/Friends/FriendsTimeLine.vue")
+              component: () => import("../views/Friends/FriendsTimeLine.vue"),
+              meta: {
+                prev: "MeTimeLineDay"
+              }
             },
             {
               path: "overview",
               name: "FriendsOverview",
-              component: () => import("../views/Friends/FriendsOverview.vue")
+              component: () => import("../views/Friends/FriendsOverview.vue"),
+              meta: {
+                prev: "FriendsTimeLine"
+              }
             }
           ]
         },
@@ -295,13 +329,19 @@ export default new Router({
               path: "add",
               name: "FriendsAddManual",
               component: () =>
-                import("../views/Friends/FriendsAdd/FriendsAddManual.vue")
+                import("../views/Friends/FriendsAdd/FriendsAddManual.vue"),
+              meta: {
+                prev: "FriendsOverview"
+              }
             },
             {
               path: "addressbook",
               name: "FriendsAddAddressBook",
               component: () =>
-                import("../views/Friends/FriendsAdd/FriendsAddAddressBook.vue")
+                import("../views/Friends/FriendsAdd/FriendsAddAddressBook.vue"),
+              meta: {
+                prev: "FriendsOverview"
+              }
             }
           ]
         },
@@ -313,19 +353,28 @@ export default new Router({
               path: "profile",
               name: "FriendsProfile",
               component: () => import("../views/Friends/Friend/Profile.vue"),
-              props: true
+              props: true,
+              meta: {
+                prev: "FriendsOverview"
+              }
             },
             {
               path: "detailed-day/:activity_link",
               name: "FriendsDetailedViewDay",
               component: () => import("../views/Timeline/DetailedViewDay.vue"),
-              props: true
+              props: true,
+              meta: {
+                prev: "FriendTimeLineDay"
+              }
             },
             {
               path: "detailed-week/:activity_link",
               name: "FriendsDetailedViewWeek",
               component: () => import("../views/Timeline/DetailedViewWeek.vue"),
-              props: true
+              props: true,
+              meta: {
+                prev: "FriendTimeLineWeek"
+              }
             },
             {
               path: "timeline",
@@ -339,14 +388,20 @@ export default new Router({
                   name: "FriendTimeLineDay",
                   component: () =>
                     import("../views/Friends/Friend/TimeLine/Tabs/Day.vue"),
-                  props: true
+                  props: true,
+                  meta: {
+                    prev: "FriendsProfile"
+                  }
                 },
                 {
                   path: "week",
                   name: "FriendTimeLineWeek",
                   component: () =>
                     import("../views/Friends/Friend/TimeLine/Tabs/Week.vue"),
-                  props: true
+                  props: true,
+                  meta: {
+                    prev: "FriendTimeLineDay"
+                  }
                 }
               ]
             }
@@ -367,14 +422,20 @@ export default new Router({
               name: "ChallengesOverview",
               component: () =>
                 import("../views/Challenges/ChallengesOverview.vue"),
-              props: true
+              props: true,
+              meta: {
+                prev: "MeTimeLineDay"
+              }
             },
             {
               path: ":type/chooseCategory",
               name: "ChallengesCategoryChoose",
               component: () =>
                 import("../views/Challenges/ChallengesCategoryChoose.vue"),
-              props: true
+              props: true,
+              meta: {
+                prev: "ChallengesOverview"
+              }
             }
           ]
         },
@@ -388,7 +449,10 @@ export default new Router({
               path: ":type/:category/:goal_url?",
               name: "ChallengesSetup",
               component: () => import("../views/Challenges/Setup/Setup.vue"),
-              props: true
+              props: true,
+              meta: {
+                prev: "ChallengesOverview"
+              }
             }
           ]
         }
@@ -407,19 +471,28 @@ export default new Router({
               path: "",
               name: "Settings",
               component: () =>
-                import("../views/Settings/SettingsOverview/Settings.vue")
+                import("../views/Settings/SettingsOverview/Settings.vue"),
+              meta: {
+                prev: "MeTimeLineDay"
+              }
             },
             {
               path: "privacy",
               name: "Privacy",
               component: () =>
-                import("../views/Settings/SettingsOverview/Privacy.vue")
+                import("../views/Settings/SettingsOverview/Privacy.vue"),
+              meta: {
+                prev: "Settings"
+              }
             },
             {
               path: "unsubscribe",
               name: "Unsubscribe",
               component: () =>
-                import("../views/Settings/SettingsOverview/Unsubscribe.vue")
+                import("../views/Settings/SettingsOverview/Unsubscribe.vue"),
+              meta: {
+                prev: "Settings"
+              }
             },
             {
               path: "devices-overview",
@@ -430,20 +503,29 @@ export default new Router({
                   path: "devices",
                   name: "Devices",
                   component: () =>
-                    import("../views/Settings/SettingsOverview/Devices/Devices.vue")
+                    import("../views/Settings/SettingsOverview/Devices/Devices.vue"),
+                  meta: {
+                    prev: "Settings"
+                  }
                 },
                 {
                   path: "adddevice",
                   name: "SettingsAddDevice",
                   component: () =>
-                    import("../views/Settings/SettingsOverview/Devices/AddDevice.vue")
+                    import("../views/Settings/SettingsOverview/Devices/AddDevice.vue"),
+                  meta: {
+                    prev: "Devices"
+                  }
                 },
                 {
                   path: "viewdevice",
                   name: "ViewDevice",
                   component: () =>
                     import("../views/Settings/SettingsOverview/Devices/ViewDevice.vue"),
-                  props: true
+                  props: true,
+                  meta: {
+                    prev: "Devices"
+                  }
                 }
               ]
             }
@@ -452,21 +534,30 @@ export default new Router({
         {
           path: "checkpin",
           name: "CheckPinCode",
-          component: () => import("../views/Settings/PinCode/CheckPinCode.vue")
+          component: () => import("../views/Settings/PinCode/CheckPinCode.vue"),
+          meta: {
+            prev: "Settings"
+          }
         },
         {
           path: "changepin/:wrong_pincode",
           name: "ChangePinCode",
           component: () =>
             import("../views/Settings/PinCode/ChangePinCode.vue"),
-          props: true
+          props: true,
+          meta: {
+            prev: "Settings"
+          }
         },
         {
           path: "confirmpin/:pincode",
           name: "ConfirmNewPinCode",
           component: () =>
             import("../views/Settings/PinCode/ConfirmNewPinCode.vue"),
-          props: true
+          props: true,
+          meta: {
+            prev: "ChangePinCode"
+          }
         },
         {
           path: "changelocked",

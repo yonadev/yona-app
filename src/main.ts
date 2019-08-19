@@ -163,6 +163,23 @@ const app = new Vue({
         }
       }
 
+      document.addEventListener(
+        "backbutton",
+        function() {
+          const currentRoute = self.$router.currentRoute;
+          if (currentRoute.meta.prev) {
+            const metaPrev = currentRoute.meta.prev;
+
+            if (metaPrev === "actual") {
+              self.$router.back();
+            } else {
+              self.$router.push({ name: currentRoute.meta.prev });
+            }
+          }
+        },
+        false
+      );
+
       //@ts-ignore
       if (window.navigator.splashscreen) {
         //@ts-ignore
