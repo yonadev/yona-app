@@ -80,11 +80,6 @@ export default class GivePermission extends Vue {
         cordova.plugins.YonaServices.checkUsageAccess();
         //@ts-ignore
         cordova.plugins.YonaServices.enable();
-        //@ts-ignore
-        cordova.plugins.YonaServices.on("activate", function() {
-          //@ts-ignore
-          cordova.plugins.YonaServices.disableWebViewOptimizations();
-        });
       } else if (this.permission === "autostart") {
         //@ts-ignore
         cordova.plugins.YonaServices.openAppStartSettings(false);

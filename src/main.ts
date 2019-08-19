@@ -130,6 +130,29 @@ const app = new Vue({
         self.$store.dispatch("api/setOnline");
       }
 
+      //@ts-ignore
+      if (
+        //@ts-ignore
+        typeof cordova !== "undefined" &&
+        //@ts-ignore
+        typeof cordova.plugins.YonaServices !== "undefined"
+      ) {
+        //@ts-ignore
+        cordova.plugins.YonaServices.setDefaults({
+          title: "Yona",
+          text: this.$t("yona_notification_content"),
+          icon: "notification", // this will look for icon.png in platforms/android/res/drawable|mipmap
+          color: "6c2a58", // hex format like 'F14F4D'
+          resume: true,
+          channelName: this.$t("yona_service_notification_channel_name"),
+          allowClose: false
+        });
+
+        if (self.$store.state.account.permissions.tracking.is_allowed) {
+          //@ts-ignore
+          cordova.plugins.YonaServices.enable();
+        }
+      }
       this.$store.dispatch("login/resetLastRoute");
 
       document.addEventListener("pause", () => this.pause(), false);
