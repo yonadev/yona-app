@@ -5,6 +5,8 @@ import { ChallengesState } from "@/store/challenges/types";
 import { BuddiesState } from "@/store/buddies/types";
 
 export interface RootState {
+  versionNumber: string;
+  versionCode: number;
   api: ApiState;
   login: LoginState;
   account: AccountState;

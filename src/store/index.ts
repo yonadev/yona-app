@@ -31,6 +31,8 @@ Vue.use(Vuex);
 
 // initial state
 const initialState: RootState = {
+  versionNumber: "1.0",
+  versionCode: 1,
   api: { ...api_state },
   account: { ...account_state },
   login: { ...login_state },
@@ -47,6 +49,23 @@ const store: StoreOptions<RootState> = {
     buddies
   },
   actions: {
+    async setAppVersion({ commit }) {
+      if (
+        //@ts-ignore
+        typeof cordova !== "undefined" &&
+        //@ts-ignore
+        typeof cordova.plugins !== "undefined" &&
+        //@ts-ignore
+        typeof cordova.plugins.AppVersion !== "undefined"
+      ) {
+        //@ts-ignore
+        const versionNumber = await cordova.plugins.AppVersion.getVersionNumber();
+        commit("setVersionNumber", versionNumber);
+        //@ts-ignore
+        const versionCode = await cordova.plugins.AppVersion.getVersionCode();
+        commit("setVersionCode", versionCode);
+      }
+    },
     async resetAll({ commit }) {
       commit("resetAll");
       if (
@@ -85,6 +104,12 @@ const store: StoreOptions<RootState> = {
     }
   },
   mutations: {
+    setVersionNumber(state, number) {
+      Vue.set(state, "versionNumber", number);
+    },
+    setVersionCode(state, code) {
+      Vue.set(state, "versionCode", code);
+    },
     resetAll(state) {
       Vue.set(state, "api", initialState.api);
       Vue.set(state, "account", initialState.account);

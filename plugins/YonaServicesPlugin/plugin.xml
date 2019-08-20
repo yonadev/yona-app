@@ -14,6 +14,10 @@
     <!-- dependencies -->
     <dependency id="cordova-plugin-device" />
 
+    <js-module src="www/AppVersion.js">
+        <clobbers target="cordova.plugins.AppVersion" />
+    </js-module>
+
     <!-- android -->
     <platform name="android">
 
@@ -49,6 +53,9 @@
             <feature name="TimePicker">
                 <param name="android-package" value="com.yona.plugin.timepicker.TimePicker"/>
                 <param name="onload" value="true"/>
+            </feature>
+            <feature name="AppVersion">
+                <param name="android-package" value="com.yona.plugin.appversion.AppVersion"/>
             </feature>
         </config-file>
 
@@ -89,6 +96,10 @@
             target-dir="java/com/yona/plugin" />
 
         <source-file
+            src="src/android/com/yona/plugin/appversion"
+            target-dir="java/com/yona/plugin" />
+
+        <source-file
             src="src/android/com/yona/plugin/timepicker"
             target-dir="java/com/yona/plugin" />
 
@@ -104,6 +115,20 @@
         <resource-file src="src/android/res/drawable/xdpi.png" target="res/drawable-xhdpi/notification.png" />
         <resource-file src="src/android/res/drawable/xxdpi.png" target="res/drawable-xxhdpi/notification.png" />
         <resource-file src="src/android/res/drawable/xxxdpi.png" target="res/drawable-xxxhdpi/notification.png" />
+
+    </platform>
+
+    <platform name="ios">
+        <plugins-plist key="AppVersion" string="AppVersion" />
+
+        <config-file target="config.xml" parent="/*">
+            <feature name="AppVersion">
+                <param name="ios-package" value="AppVersion" />
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/appVersion/AppVersion.h" />
+        <source-file src="src/ios/appVersion/AppVersion.m" />
 
     </platform>
 

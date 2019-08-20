@@ -49,6 +49,9 @@ import { ApiState } from "@/store/api/types";
 export default class RecoverSms extends Vue {
   @State("account") account!: AccountState;
   @State("api") api!: ApiState;
+  @State("versionNumber") versionNumber!: string;
+  @State("versionCode") versionCode!: number;
+
   password: number | null = null;
   length: number = 4;
   attempts: number | null = 0;
@@ -109,11 +112,10 @@ export default class RecoverSms extends Vue {
                 lastName: this.account.lastname,
                 mobileNumber: this.account.phonenumber,
                 nickname: this.account.nickname,
-                //Todo: implement App Version
                 deviceName: `${this.$t("firstdevicename")}`,
                 deviceOperatingSystem: OS,
-                deviceAppVersion: "1.1 build 83",
-                deviceAppVersionCode: 31,
+                deviceAppVersion: this.versionNumber,
+                deviceAppVersionCode: this.versionCode,
                 deviceFirebaseInstanceId: firebaseInstanceId
               }
             )

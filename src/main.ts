@@ -130,6 +130,7 @@ const app = new Vue({
         self.$store.dispatch("api/setOnline");
       }
 
+      this.$store.dispatch("setAppVersion");
       this.$store.dispatch("login/resetLastRoute");
 
       document.addEventListener("pause", () => this.pause(), false);

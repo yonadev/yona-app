@@ -79,8 +79,8 @@ const actions: ActionTree<AccountState, RootState> = {
         let openApp: any = await axios
           .post(currentDevice._links["yona:postOpenAppEvent"].href, {
             operatingSystem: OS,
-            appVersion: "1.1 build 83", //ToDo: get from Jenkins build
-            appVersionCode: 31 //ToDo: get from Jenkins build
+            appVersion: rootState.versionNumber,
+            appVersionCode: rootState.versionCode
           })
           .catch(error => {
             dispatch("resetAll", null, { root: true });

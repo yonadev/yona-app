@@ -73,6 +73,8 @@ import { ApiState } from "@/store/api/types";
 export default class AccountInfo extends Vue {
   @State("account") account!: AccountState;
   @State("api") api!: ApiState;
+  @State("versionNumber") versionNumber!: string;
+  @State("versionCode") versionCode!: number;
   @Action("setProperty", { namespace: "account" }) setProperty: any;
   loading: boolean = false;
   mobile: string | null = "";
@@ -123,11 +125,10 @@ export default class AccountInfo extends Vue {
             lastName: this.account.lastname,
             mobileNumber: this.account.phonenumber,
             nickname: this.account.nickname,
-            //Todo: implement App Version
             deviceName: `${this.$t("firstdevicename")}`,
             deviceOperatingSystem: OS,
-            deviceAppVersion: "1.1 build 83",
-            deviceAppVersionCode: 31,
+            deviceAppVersion: this.versionNumber,
+            deviceAppVersionCode: this.versionCode,
             deviceFirebaseInstanceId: firebaseInstanceId
           })
           .catch(error => {

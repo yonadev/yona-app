@@ -32,6 +32,10 @@
           <strong>{{ $t("deleteuser") }}</strong>
         </div>
       </router-link>
+
+      <div class="app_version">
+        Version: {{ versionNumber }} {{ versionCode }}
+      </div>
     </div>
   </div>
 </template>
@@ -46,6 +50,8 @@ import axios from "@/utils/axios/axios";
 @Component({})
 export default class Settings extends Vue {
   @State("api") api!: ApiState;
+  @State("versionNumber") versionNumber!: string;
+  @State("versionCode") versionCode!: number;
 
   contactUs() {
     const self = this;
@@ -85,8 +91,8 @@ export default class Settings extends Vue {
               (result === 2
                 ? `Password: ${self.api.yonaPassword} <br/><br/>`
                 : "") +
-              `App version: ${"1.0"} <br/>` + //ToDo: Add app version from Jenkins build
-              `App version code: ${"123"} <br/>` + //ToDo: Add app version code from Jenkins build
+              `App version: ${this.versionNumber} <br/>` +
+              `App version code: ${this.versionCode} <br/>` +
               `${OS} version: ${OS_ver} <br/>` +
               `Device brand: ${brand} <br/>` +
               `Device model: ${model} <br/>`,
@@ -103,8 +109,8 @@ export default class Settings extends Vue {
         )}&BODY=` +
         `Base URL%3A ${escape(base_url)} %0D%0A%0D%0A` +
         `Password%3A ${self.api.yonaPassword} %0D%0A%0D%0A` +
-        `App version%3A ${"1.0"} %0D%0A` + //ToDo: Add app version from Jenkins build
-        `App version code%3A ${"123"} %0D%0A` + //ToDo: Add app version code from Jenkins build
+        `App version%3A ${this.versionNumber} %0D%0A` +
+        `App version code%3A ${this.versionCode} %0D%0A` +
         `${OS} version%3A ${OS_ver} %0D%0A` +
         `Device brand%3A ${brand} %0D%0A` +
         `Device model%3A ${model} %0D%0A`;
@@ -155,6 +161,13 @@ export default class Settings extends Vue {
       background-image: linear-gradient(#f7f7f7, #fcfcfc);
       padding: 20px 25px 20px 25px;
       text-align: left;
+    }
+
+    .app_version {
+      position: absolute;
+      bottom: 65px;
+      width: 100%;
+      text-align: center;
     }
   }
 }

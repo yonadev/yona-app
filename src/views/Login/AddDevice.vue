@@ -71,6 +71,8 @@ export default class AddDevice extends Vue {
   passcode: string | null = "";
   device_name: string | null = "";
   @State("api") api!: ApiState;
+  @State("versionNumber") versionNumber!: string;
+  @State("versionCode") versionCode!: number;
 
   @Watch("mobile")
   async mobileChanged(val: string | null) {
@@ -127,11 +129,10 @@ export default class AddDevice extends Vue {
               .post(
                 get_response.data._links["yona:registerDevice"].href,
                 {
-                  //Todo: implement App Version
                   operatingSystem: OS,
                   name: this.device_name,
-                  appVersion: "1.1 build 83",
-                  appVersionCode: 31,
+                  appVersion: this.versionNumber,
+                  appVersionCode: this.versionCode,
                   firebaseInstanceId
                 },
                 {
