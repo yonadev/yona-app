@@ -1,11 +1,25 @@
-var exec    = require('cordova/exec'),
-    channel = require('cordova/channel');
+var exec = require("cordova/exec"),
+  channel = require("cordova/channel");
 
-exports.startVPN = function(params)
-{
-   return new Promise(function(resolve, reject) {
-     cordova.exec(resolve, reject, "VpnPlugin", "startVPN", [params.vpnConfig, params.vpnLoginId, params.vpnPassword]);
-   });
+exports.startVPN = function(params) {
+  return new Promise(function(resolve, reject) {
+    cordova.exec(resolve, reject, "VpnPlugin", "startVPN", [
+      params.vpnConfig,
+      params.vpnLoginId,
+      params.vpnPassword
+    ]);
+  });
+};
+
+/**
+ * Checks if user has usageaccess
+ *
+ * @return [ boolean ]
+ */
+exports.checkUsageAccess = function(userCallback) {
+  return new Promise(function(resolve, reject) {
+    cordova.exec(resolve, reject, "BackgroundMode", "checkUsageAccess", []);
+  });
 };
 
 /**
@@ -14,9 +28,8 @@ exports.startVPN = function(params)
  *
  * @return [ Void ]
  */
-exports.checkUsageAccess = function()
-{
-    cordova.exec(null, null, 'BackgroundMode', 'checkUsageAccess', []);
+exports.getUsageAccess = function() {
+  cordova.exec(null, null, "BackgroundMode", "getUsageAccess", []);
 };
 
 /**
@@ -26,16 +39,14 @@ exports.checkUsageAccess = function()
  *
  * @return [ Void ]
  */
-exports.enable = function()
-{
-    if (this.isEnabled())
-        return;
+exports.enable = function() {
+  if (this.isEnabled()) return;
 
-    var fn = function() {
-        exports._isEnabled = true;
-    };
+  var fn = function() {
+    exports._isEnabled = true;
+  };
 
-    cordova.exec(fn, null, 'BackgroundMode', 'enable', []);
+  cordova.exec(fn, null, "BackgroundMode", "enable", []);
 };
 
 /**
@@ -45,16 +56,14 @@ exports.enable = function()
  *
  * @return [ Void ]
  */
-exports.enable = function()
-{
-    if (this.isEnabled())
-        return;
+exports.enable = function() {
+  if (this.isEnabled()) return;
 
-    var fn = function() {
-        exports._isEnabled = true;
-    };
+  var fn = function() {
+    exports._isEnabled = true;
+  };
 
-    cordova.exec(fn, null, 'BackgroundMode', 'enable', []);
+  cordova.exec(fn, null, "BackgroundMode", "enable", []);
 };
 
 /**
@@ -63,16 +72,14 @@ exports.enable = function()
  *
  * @return [ Void ]
  */
-exports.disable = function()
-{
-    if (!this.isEnabled())
-        return;
+exports.disable = function() {
+  if (!this.isEnabled()) return;
 
-    var fn = function() {
-        exports._isEnabled = false;
-    };
+  var fn = function() {
+    exports._isEnabled = false;
+  };
 
-    cordova.exec(fn, null, 'BackgroundMode', 'disable', []);
+  cordova.exec(fn, null, "BackgroundMode", "disable", []);
 };
 
 /**
@@ -82,13 +89,12 @@ exports.disable = function()
  *
  * @return [ Void ]
  */
-exports.setEnabled = function (enable)
-{
-    if (enable) {
-        this.enable();
-    } else {
-        this.disable();
-    }
+exports.setEnabled = function(enable) {
+  if (enable) {
+    this.enable();
+  } else {
+    this.disable();
+  }
 };
 
 /**
@@ -96,9 +102,8 @@ exports.setEnabled = function (enable)
  *
  * @return [ Object ]
  */
-exports.getDefaults = function()
-{
-    return this._defaults;
+exports.getDefaults = function() {
+  return this._defaults;
 };
 
 /**
@@ -106,9 +111,8 @@ exports.getDefaults = function()
  *
  * @return [ Object ]
  */
-exports.getSettings = function()
-{
-    return this._settings || {};
+exports.getSettings = function() {
+  return this._settings || {};
 };
 
 /**
@@ -118,22 +122,18 @@ exports.getSettings = function()
  *
  * @return [ Void ]
  */
-exports.setDefaults = function (overrides)
-{
-    var defaults = this.getDefaults();
+exports.setDefaults = function(overrides) {
+  var defaults = this.getDefaults();
 
-    for (var key in defaults)
-    {
-        if (overrides.hasOwnProperty(key))
-        {
-            defaults[key] = overrides[key];
-        }
+  for (var key in defaults) {
+    if (overrides.hasOwnProperty(key)) {
+      defaults[key] = overrides[key];
     }
+  }
 
-    if (this._isAndroid)
-    {
-        cordova.exec(null, null, 'BackgroundMode', 'configure', [defaults, false]);
-    }
+  if (this._isAndroid) {
+    cordova.exec(null, null, "BackgroundMode", "configure", [defaults, false]);
+  }
 };
 
 /**
@@ -144,25 +144,22 @@ exports.setDefaults = function (overrides)
  *
  * @return [ Void ]
  */
-exports.configure = function (options)
-{
-    var settings = this.getSettings(),
-        defaults = this.getDefaults();
+exports.configure = function(options) {
+  var settings = this.getSettings(),
+    defaults = this.getDefaults();
 
-    if (!this._isAndroid)
-        return;
+  if (!this._isAndroid) return;
 
-    if (!this._isActive)
-    {
-        console.log('BackgroundMode is not active, skipped...');
-        return;
-    }
+  if (!this._isActive) {
+    console.log("BackgroundMode is not active, skipped...");
+    return;
+  }
 
-    this._mergeObjects(options, settings);
-    this._mergeObjects(options, defaults);
-    this._settings = options;
+  this._mergeObjects(options, settings);
+  this._mergeObjects(options, defaults);
+  this._settings = options;
 
-    cordova.exec(null, null, 'BackgroundMode', 'configure', [options, true]);
+  cordova.exec(null, null, "BackgroundMode", "configure", [options, true]);
 };
 
 /**
@@ -170,12 +167,10 @@ exports.configure = function (options)
  *
  * @return [ Void ]
  */
-exports.disableWebViewOptimizations = function()
-{
-    if (this._isAndroid)
-    {
-        cordova.exec(null, null, 'BackgroundModeExt', 'webview', []);
-    }
+exports.disableWebViewOptimizations = function() {
+  if (this._isAndroid) {
+    cordova.exec(null, null, "BackgroundModeExt", "webview", []);
+  }
 };
 
 /**
@@ -183,12 +178,21 @@ exports.disableWebViewOptimizations = function()
  *
  * @return [ Void ]
  */
-exports.disableBatteryOptimizations = function()
-{
-    if (this._isAndroid)
-    {
-        cordova.exec(null, null, 'BackgroundModeExt', 'battery', []);
-    }
+exports.disableBatteryOptimizations = function() {
+  if (this._isAndroid) {
+    cordova.exec(null, null, "BackgroundModeExt", "battery", []);
+  }
+};
+
+/**
+ * Checks if there is an available intent for autostart for current device.
+ *
+ * @return [ boolean ]
+ */
+exports.checkAppStartSettings = function(options, userCallback) {
+  return new Promise(function(resolve, reject) {
+    cordova.exec(resolve, reject, "BackgroundModeExt", "checkappstart", []);
+  });
 };
 
 /**
@@ -200,12 +204,10 @@ exports.disableBatteryOptimizations = function()
  *
  * @return [ Void ]
  */
-exports.openAppStartSettings = function (options)
-{
-    if (this._isAndroid)
-    {
-        cordova.exec(null, null, 'BackgroundModeExt', 'appstart', [options]);
-    }
+exports.openAppStartSettings = function(options) {
+  if (this._isAndroid) {
+    cordova.exec(null, null, "BackgroundModeExt", "appstart", [options]);
+  }
 };
 
 /**
@@ -213,12 +215,10 @@ exports.openAppStartSettings = function (options)
  *
  * @return [ Void ]
  */
-exports.excludeFromTaskList = function()
-{
-    if (this._isAndroid)
-    {
-        cordova.exec(null, null, 'BackgroundModeExt', 'tasklist', []);
-    }
+exports.excludeFromTaskList = function() {
+  if (this._isAndroid) {
+    cordova.exec(null, null, "BackgroundModeExt", "tasklist", []);
+  }
 };
 
 /**
@@ -227,11 +227,14 @@ exports.excludeFromTaskList = function()
  *
  * @return [ Void ]
  */
-exports.overrideBackButton = function()
-{
-    document.addEventListener('backbutton', function() {
-        exports.moveToBackground();
-    }, false);
+exports.overrideBackButton = function() {
+  document.addEventListener(
+    "backbutton",
+    function() {
+      exports.moveToBackground();
+    },
+    false
+  );
 };
 
 /**
@@ -241,16 +244,12 @@ exports.overrideBackButton = function()
  *
  * @return [ Void ]
  */
-exports.isScreenOff = function (fn)
-{
-    if (this._isAndroid)
-    {
-        cordova.exec(fn, null, 'BackgroundModeExt', 'dimmed', []);
-    }
-    else
-    {
-        fn(undefined);
-    }
+exports.isScreenOff = function(fn) {
+  if (this._isAndroid) {
+    cordova.exec(fn, null, "BackgroundModeExt", "dimmed", []);
+  } else {
+    fn(undefined);
+  }
 };
 
 /**
@@ -258,9 +257,8 @@ exports.isScreenOff = function (fn)
  *
  * @return [ Boolean ]
  */
-exports.isEnabled = function()
-{
-    return this._isEnabled !== false;
+exports.isEnabled = function() {
+  return this._isEnabled !== false;
 };
 
 /**
@@ -268,9 +266,8 @@ exports.isEnabled = function()
  *
  * @return [ Boolean ]
  */
-exports.isActive = function()
-{
-    return this._isActive !== false;
+exports.isActive = function() {
+  return this._isActive !== false;
 };
 
 exports._listener = {};
@@ -284,19 +281,16 @@ exports._listener = {};
  *
  * @return [ Void ]
  */
-exports.on = function (event, callback, scope)
-{
-    if (typeof callback !== "function")
-        return;
+exports.on = function(event, callback, scope) {
+  if (typeof callback !== "function") return;
 
-    if (!this._listener[event])
-    {
-        this._listener[event] = [];
-    }
+  if (!this._listener[event]) {
+    this._listener[event] = [];
+  }
 
-    var item = [callback, scope || window];
+  var item = [callback, scope || window];
 
-    this._listener[event].push(item);
+  this._listener[event].push(item);
 };
 
 /**
@@ -307,23 +301,19 @@ exports.on = function (event, callback, scope)
  *
  * @return [ Void ]
  */
-exports.un = function (event, callback)
-{
-    var listener = this._listener[event];
+exports.un = function(event, callback) {
+  var listener = this._listener[event];
 
-    if (!listener)
-        return;
+  if (!listener) return;
 
-    for (var i = 0; i < listener.length; i++)
-    {
-        var fn = listener[i][0];
+  for (var i = 0; i < listener.length; i++) {
+    var fn = listener[i][0];
 
-        if (fn == callback)
-        {
-            listener.splice(i, 1);
-            break;
-        }
+    if (fn == callback) {
+      listener.splice(i, 1);
+      break;
     }
+  }
 };
 
 /**
@@ -347,21 +337,21 @@ exports._isActive = false;
  */
 
 exports._defaults = {
-    title:              'App is running in background',
-    text:               'Doing heavy tasks.',
-    subText:            '',
-    bigText:            false,
-    resume:             true,
-    silent:             false,
-    hidden:             true,
-    color:              undefined,
-    icon:               'icon',
-    channelName:        'cordova-plugin-background-mode',
-    channelDescription: 'cordova-plugin-background-moden notification',
-    allowClose:         false,
-    closeIcon:          'power',
-    closeTitle:         'Close',
-    showWhen:           true
+  title: "App is running in background",
+  text: "Doing heavy tasks.",
+  subText: "",
+  bigText: false,
+  resume: true,
+  silent: false,
+  hidden: true,
+  color: undefined,
+  icon: "icon",
+  channelName: "cordova-plugin-background-mode",
+  channelDescription: "cordova-plugin-background-moden notification",
+  allowClose: false,
+  closeIcon: "power",
+  closeTitle: "Close",
+  showWhen: true
 };
 
 /**
@@ -374,18 +364,15 @@ exports._defaults = {
  *
  * @return [ Object ] Default values merged with custom values.
  */
-exports._mergeObjects = function (options, toMergeIn)
-{
-    for (var key in toMergeIn)
-    {
-        if (!options.hasOwnProperty(key))
-        {
-            options[key] = toMergeIn[key];
-            continue;
-        }
+exports._mergeObjects = function(options, toMergeIn) {
+  for (var key in toMergeIn) {
+    if (!options.hasOwnProperty(key)) {
+      options[key] = toMergeIn[key];
+      continue;
     }
+  }
 
-    return options;
+  return options;
 };
 
 /**
@@ -398,13 +385,11 @@ exports._mergeObjects = function (options, toMergeIn)
  *
  * @return [ Void ]
  */
-exports._setActive = function(value)
-{
-    if (this._isActive == value)
-        return;
+exports._setActive = function(value) {
+  if (this._isActive == value) return;
 
-    this._isActive = value;
-    this._settings = value ? this._mergeObjects({}, this._defaults) : {};
+  this._isActive = value;
+  this._settings = value ? this._mergeObjects({}, this._defaults) : {};
 };
 
 /**
@@ -417,16 +402,14 @@ exports._setActive = function(value)
  *
  * @return [ Void ]
  */
-exports._pluginInitialize = function()
-{
-    this._isAndroid = device.platform.match(/^android|amazon/i) !== null;
-    this.setDefaults({});
+exports._pluginInitialize = function() {
+  this._isAndroid = device.platform.match(/^android|amazon/i) !== null;
+  this.setDefaults({});
 };
 
 // Called before 'deviceready' listener will be called
-channel.onCordovaReady.subscribe(function()
-{
-    channel.onCordovaInfoReady.subscribe(function() {
-        exports._pluginInitialize();
-    });
+channel.onCordovaReady.subscribe(function() {
+  channel.onCordovaInfoReady.subscribe(function() {
+    exports._pluginInitialize();
+  });
 });

@@ -50,8 +50,8 @@ import axios from "@/utils/axios/axios";
 @Component({})
 export default class Settings extends Vue {
   @State("api") api!: ApiState;
-  @State("versionNumber") versionNumber!: string;
-  @State("versionCode") versionCode!: number;
+  @State(state => state.app.versionNumber) versionNumber!: string;
+  @State(state => state.app.versionCode) versionCode!: number;
 
   contactUs() {
     const self = this;

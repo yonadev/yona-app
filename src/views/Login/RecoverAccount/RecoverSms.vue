@@ -49,8 +49,8 @@ import { ApiState } from "@/store/api/types";
 export default class RecoverSms extends Vue {
   @State("account") account!: AccountState;
   @State("api") api!: ApiState;
-  @State("versionNumber") versionNumber!: string;
-  @State("versionCode") versionCode!: number;
+  @State(state => state.app.versionNumber) versionNumber!: string;
+  @State(state => state.app.versionCode) versionCode!: number;
 
   password: number | null = null;
   length: number = 4;

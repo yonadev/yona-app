@@ -91,6 +91,9 @@ public class BackgroundMode extends CordovaPlugin {
         } else if ( action.equalsIgnoreCase("checkUsageAccess") ) {
             this.checkUsageAccess(callback);
             return true;
+        } else if ( action.equalsIgnoreCase("getUsageAccess") ) {
+            this.getUsageAccess(callback);
+            return true;
         }
 
         return false;
@@ -133,6 +136,13 @@ public class BackgroundMode extends CordovaPlugin {
     }
 
     private void checkUsageAccess(CallbackContext callbackContext) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            boolean hasAccess = hasUsageAccess();
+            callbackContext.success((hasAccess ? "true" : "false"));
+        }
+    }
+
+    private void getUsageAccess(CallbackContext callbackContext) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (!hasUsageAccess()) {
                 openPermissionSettings(callbackContext);

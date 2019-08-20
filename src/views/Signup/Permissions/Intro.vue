@@ -16,6 +16,7 @@
       <ul class="permissions-list">
         <li
           v-for="(permission, index) in account.permissions"
+          v-show="!permission.disabled"
           :key="index"
           class="columns is-mobile"
         >
@@ -56,22 +57,21 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-import { State } from "vuex-class";
+import { Getter, State } from "vuex-class";
 import { AccountState } from "@/store/account/types";
 
 @Component({})
 export default class Intro extends Vue {
   @State("account") account!: AccountState;
+  @Getter("hasAllPermissions", { namespace: "account" })
+  hasAllPermissions!: boolean;
 
   checkPermissions() {
-    if (
-      this.account.permissions.tracking.is_allowed &&
-      this.account.permissions.autostart.is_allowed &&
-      this.account.permissions.certificate.is_allowed &&
-      this.account.permissions.vpn.is_allowed
-    )
+    if (this.hasAllPermissions) {
       this.$router.push({ name: "MeTimeLineDay" });
-    else this.$router.push({ name: "GivePermission" });
+    } else {
+      this.$router.push({ name: "GivePermission" });
+    }
   }
 }
 </script>

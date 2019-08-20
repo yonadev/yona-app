@@ -19,13 +19,9 @@ class RouteProtect {
     const pinIsReset = this.store.state.login.pinIsReset;
     const pinIsSet = this.store.state.login.pinIsSet;
 
-    const trackPermission = this.store.state.account.permissions.tracking
-      .is_allowed;
-    const filePermission = this.store.state.account.permissions.autostart
-      .is_allowed;
-    const certificatePermission = this.store.state.account.permissions
-      .certificate.is_allowed;
-    const vpnPermission = this.store.state.account.permissions.vpn.is_allowed;
+    const hasAllPermissions: boolean = this.store.getters[
+      "account/hasAllPermissions"
+    ];
 
     if (!registered && !to.meta.public) {
       return next({ name: "Tour" });
@@ -50,14 +46,7 @@ class RouteProtect {
       }
     } else if (registered && !loggedIn && !locked && !to.meta.login) {
       return next({ name: "Login" });
-    } else if (
-      (!trackPermission ||
-        !filePermission ||
-        !certificatePermission ||
-        !vpnPermission) &&
-      !to.meta.permission &&
-      registered
-    ) {
+    } else if (!hasAllPermissions && !to.meta.permission && registered) {
       //Check if phone has necessary permissions
       return next({ name: "Intro" });
     }

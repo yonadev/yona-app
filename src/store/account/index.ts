@@ -3,6 +3,7 @@ import { AccountState } from "./types";
 import { RootState } from "../types";
 import axios from "../../utils/axios/axios";
 import i18n from "../../utils/i18n";
+import Vue from "vue";
 import store from "@/store";
 
 export const state: AccountState = {
@@ -17,7 +18,8 @@ export const state: AccountState = {
         "Yona wil het gebruik van je apps graag kunnen meten. " +
         "Deze data is compleet veilig en zal nooit gedeeld worden met derden.",
       icon: "tracking_icon_small.svg",
-      is_allowed: false
+      is_allowed: false,
+      disabled: false
     },
     autostart: {
       title: "Geef Yona toestemming om automatisch op te starten",
@@ -25,7 +27,8 @@ export const state: AccountState = {
         "Geef toestemming om de app automatisch te starten. " +
         "Dit zorgt ervoor dat de Yona app altijd automatisch actief is.",
       icon: "store_files_icon_small.svg",
-      is_allowed: false
+      is_allowed: false,
+      disabled: false
     },
     certificate: {
       title: "Accepteer Yona certificaat",
@@ -33,7 +36,8 @@ export const state: AccountState = {
         "Voor een veilige verbinding is het nodig een certificaat te installeren. " +
         "Het certificaat zorgt ervoor dat je data nergens weg kan lekken.",
       icon: "certificate_icon_small.svg",
-      is_allowed: false
+      is_allowed: false,
+      disabled: true
     },
     vpn: {
       title: "Activeer VPN verbinding",
@@ -41,7 +45,8 @@ export const state: AccountState = {
         "Bijna klaar. Nu het certificaat is geaccepteerd kan er een veilige VPN verbinding worden gemaakt. " +
         "Ook hier is jouw toestemming nodig.",
       icon: "vpn_profile_icon_small.svg",
-      is_allowed: false
+      is_allowed: false,
+      disabled: true
     }
   }
 };
@@ -79,8 +84,8 @@ const actions: ActionTree<AccountState, RootState> = {
         let openApp: any = await axios
           .post(currentDevice._links["yona:postOpenAppEvent"].href, {
             operatingSystem: OS,
-            appVersion: rootState.versionNumber,
-            appVersionCode: rootState.versionCode
+            appVersion: rootState.app.versionNumber,
+            appVersionCode: rootState.app.versionCode
           })
           .catch(error => {
             dispatch("resetAll", null, { root: true });
@@ -143,8 +148,35 @@ const actions: ActionTree<AccountState, RootState> = {
     }
     return false;
   },
+  async setDefaultPermissions({ commit }) {
+    if (
+      //@ts-ignore
+      typeof cordova !== "undefined" &&
+      //@ts-ignore
+      typeof cordova.plugins.YonaServices !== "undefined"
+    ) {
+      //@ts-ignore
+      cordova.plugins.YonaServices.checkUsageAccess().then(function(
+        hasUsageAccess: boolean
+      ) {
+        commit("setPermission", {
+          key: "tracking",
+          value: hasUsageAccess
+        });
+      });
+      //@ts-ignore
+      cordova.plugins.YonaServices.checkAppStartSettings().then(function(
+        isAvailable: boolean
+      ) {
+        commit("setAutoStart", !isAvailable);
+      });
+    }
+  },
   setPermission({ commit }, data): void {
     commit("setPermission", data);
+  },
+  setAutoStart({ commit }, data): void {
+    commit("setAutoStart", data);
   }
 };
 
@@ -156,11 +188,42 @@ const mutations: MutationTree<AccountState> = {
     Object.assign(state, payload);
   },
   setPermission(state, { key, value }) {
-    (state.permissions as any)[key].is_allowed = value;
+    switch (key) {
+      case "tracking":
+        Vue.set(state.permissions.tracking, "is_allowed", value);
+        break;
+      case "autostart":
+        Vue.set(state.permissions.autostart, "is_allowed", value);
+        break;
+      case "certificate":
+        Vue.set(state.permissions.certificate, "is_allowed", value);
+        break;
+      case "vpn":
+        Vue.set(state.permissions.vpn, "is_allowed", value);
+        break;
+    }
+  },
+  setAutoStart(state, value) {
+    Vue.set(state.permissions.autostart, "disabled", value);
   }
 };
 
-const getters: GetterTree<AccountState, RootState> = {};
+const getters: GetterTree<AccountState, RootState> = {
+  hasAllPermissions(state) {
+    if (
+      (state.permissions.tracking.is_allowed ||
+        state.permissions.tracking.disabled) &&
+      (state.permissions.autostart.is_allowed ||
+        state.permissions.autostart.disabled) &&
+      (state.permissions.certificate.is_allowed ||
+        state.permissions.certificate.disabled) &&
+      (state.permissions.vpn.is_allowed || state.permissions.vpn.disabled)
+    ) {
+      return true;
+    }
+    return false;
+  }
+};
 
 const namespaced: boolean = true;
 export const account: Module<AccountState, RootState> = {

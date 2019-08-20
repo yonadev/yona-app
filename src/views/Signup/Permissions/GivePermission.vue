@@ -44,11 +44,13 @@ export default class GivePermission extends Vue {
   permission: string = "";
   index: number = 0;
 
-  mounted() {
-    //Check permission
+  async mounted() {
     let i = 0;
     for (let permission in this.account.permissions) {
-      if (!(this.account.permissions as any)[permission].is_allowed) {
+      if (
+        !(this.account.permissions as any)[permission].is_allowed &&
+        !(this.account.permissions as any)[permission].disabled
+      ) {
         this.index = i;
         this.permission = permission;
         break;
@@ -67,17 +69,7 @@ export default class GivePermission extends Vue {
     ) {
       if (this.permission === "tracking") {
         //@ts-ignore
-        cordova.plugins.YonaServices.setDefaults({
-          title: "Yona",
-          text: this.$t("yona_notification_content"),
-          icon: "notification", // this will look for icon.png in platforms/android/res/drawable|mipmap
-          color: "6c2a58", // hex format like 'F14F4D'
-          resume: true,
-          channelName: this.$t("yona_service_notification_channel_name"),
-          allowClose: true
-        });
-        //@ts-ignore
-        cordova.plugins.YonaServices.checkUsageAccess();
+        cordova.plugins.YonaServices.getUsageAccess();
         //@ts-ignore
         cordova.plugins.YonaServices.enable();
       } else if (this.permission === "autostart") {

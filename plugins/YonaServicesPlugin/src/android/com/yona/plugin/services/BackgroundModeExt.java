@@ -64,26 +64,32 @@ public class BackgroundModeExt extends CordovaPlugin {
         {
             case "battery":
                 disableBatteryOptimizations();
+                callback.success();
                 break;
             case "webview":
                 disableWebViewOptimizations();
+                callback.success();
                 break;
             case "appstart":
                 openAppStart(args.opt(0));
+                callback.success();
+                break;
+            case "checkappstart":
+                callback.success((needsAppStart() ? "true" : "false"));
                 break;
             case "tasklist":
                 excludeFromTaskList();
+                callback.success();
                 break;
             case "dimmed":
                 isDimmed(callback);
+                callback.success();
                 break;
             default:
                 validAction = false;
         }
 
-        if (validAction) {
-            callback.success();
-        } else {
+        if (!validAction) {
             callback.error("Invalid action: " + action);
         }
 
@@ -141,6 +147,23 @@ public class BackgroundModeExt extends CordovaPlugin {
 
         cordova.getActivity().startActivity(intent);
     }
+
+    private boolean needsAppStart ()
+    {
+        Activity activity = cordova.getActivity();
+        PackageManager pm = activity.getPackageManager();
+
+        for (Intent intent : getAppStartIntents())
+        {
+            if (pm.resolveActivity(intent, MATCH_DEFAULT_ONLY) != null)
+            {
+                return true;
+            }
+        }
+
+       return false;
+    }
+
 
     /**
      * Opens the system settings dialog where the user can tweak or turn off any
