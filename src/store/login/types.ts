@@ -13,4 +13,5 @@ export interface LoginState {
     params: {};
     query: {};
   } | null;
+  logOffOnPause: boolean;
 }

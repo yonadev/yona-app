@@ -151,11 +151,11 @@ const actions: ActionTree<AccountState, RootState> = {
     ) {
       //@ts-ignore
       cordova.plugins.YonaServices.checkUsageAccess().then(function(
-        hasUsageAccess: boolean
+        hasUsageAccess: string
       ) {
         commit("setPermission", {
           key: "tracking",
-          value: hasUsageAccess
+          value: hasUsageAccess === "true"
         });
       });
       //@ts-ignore

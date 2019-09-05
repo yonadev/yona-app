@@ -15,7 +15,8 @@ export const state: LoginState = {
   pinCode: null,
   loginAttempts: 0,
   locked_timer: 0,
-  lastRoute: null
+  lastRoute: null,
+  logOffOnPause: true
 };
 
 const actions: ActionTree<LoginState, RootState> = {
@@ -106,6 +107,9 @@ const actions: ActionTree<LoginState, RootState> = {
   },
   resetLock({ commit }): void {
     commit("resetLock");
+  },
+  setLogOffOnPause({ commit }, bool): void {
+    commit("setLogOffOnPause", bool);
   }
 };
 
@@ -146,6 +150,9 @@ const mutations: MutationTree<LoginState> = {
     state.locked_timer = 0;
     state.isLocked = false;
     state.pinIsReset = false;
+  },
+  setLogOffOnPause(state, bool: boolean) {
+    state.logOffOnPause = bool;
   }
 };
 
