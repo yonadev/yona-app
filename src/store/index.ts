@@ -12,6 +12,7 @@ import router from "../router";
 
 const debug = process.env.NODE_ENV !== "production";
 
+//Todo: switch to different storage solution for iOS
 const vuexLocal: { plugin: Plugin<RootState> } = new VuexPersistence({
   storage: window.localStorage,
   reducer: state => ({
@@ -24,7 +25,26 @@ const vuexLocal: { plugin: Plugin<RootState> } = new VuexPersistence({
       isLoggedIn: false,
       online: true
     },
-    account: state.account
+    account: {
+      ...state.account,
+      permissions: {
+        tracking: {
+          is_allowed: state.account.permissions.vpn.is_allowed
+        },
+        autostart: {
+          is_allowed: state.account.permissions.autostart.is_allowed
+        },
+        certificate: {
+          is_allowed: state.account.permissions.certificate.is_allowed
+        },
+        store_files: {
+          is_allowed: state.account.permissions.store_files.is_allowed
+        },
+        vpn: {
+          is_allowed: state.account.permissions.vpn.is_allowed
+        }
+      }
+    }
   })
 });
 
@@ -82,6 +102,8 @@ const store: StoreOptions<RootState> = {
       ) {
         //@ts-ignore
         cordova.plugins.YonaServices.disable();
+        //@ts-ignore
+        cordova.plugins.YonaServices.stopVPN();
       }
 
       await dispatch("app/setAppVersion", null, { root: true });

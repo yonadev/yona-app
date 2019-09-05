@@ -33,6 +33,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import axios from "@/utils/axios/axios";
 import { Component } from "vue-property-decorator";
 import { AccountState } from "@/store/account/types";
 import { Action, State } from "vuex-class";
@@ -59,8 +60,7 @@ export default class GivePermission extends Vue {
     }
   }
 
-  goNext() {
-    //@ts-ignore
+  async goNext() {
     if (
       //@ts-ignore
       typeof cordova !== "undefined" &&
@@ -72,17 +72,148 @@ export default class GivePermission extends Vue {
         cordova.plugins.YonaServices.getUsageAccess();
         //@ts-ignore
         cordova.plugins.YonaServices.enable();
+
+        this.setPermission({
+          key: this.permission,
+          value: true
+        });
       } else if (this.permission === "autostart") {
         //@ts-ignore
         cordova.plugins.YonaServices.openAppStartSettings(false);
+        this.setPermission({
+          key: this.permission,
+          value: true
+        });
+      } else if (this.permission === "store_files") {
+        const hasPermission = await this.hasFileWritePermission().catch(err =>
+          console.log(err)
+        );
+        let requestedSucces = null;
+        if (!hasPermission) {
+          requestedSucces = await this.requestFileWritePermission().catch(err =>
+            console.log(err)
+          );
+        }
+
+        console.log("hasPermission" + hasPermission);
+        console.log("requestedSucces" + requestedSucces);
+
+        this.setPermission({
+          key: this.permission,
+          value: hasPermission === true || requestedSucces === true
+        });
+      } else if (this.permission === "vpn") {
+        if (this.account.currentDevice) {
+          const vpnProfile = await axios.get(
+            this.account.currentDevice.vpnProfile._links["yona:ovpnProfile"]
+              .href
+          );
+
+          let fileName = vpnProfile.config.url;
+          if (fileName) {
+            fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
+            const vpnProfilePath = await this.writeToFile(
+              fileName,
+              vpnProfile.data
+            ).catch(err => console.log(err));
+
+            //@ts-ignore
+            const vpnConfigured = await cordova.plugins.YonaServices.configureVPN(
+              {
+                ...this.account.currentDevice.vpnProfile,
+                vpnProfilePath: vpnProfilePath
+              }
+            );
+
+            this.setPermission({
+              key: this.permission,
+              value: vpnConfigured === true
+            });
+          }
+        }
+      } else {
+        this.setPermission({
+          key: this.permission,
+          value: true
+        });
       }
     }
-    this.setPermission({
-      key: this.permission,
-      value: true
-    });
 
     this.$router.push({ name: "Intro" });
+  }
+
+  writeToFile(fileName: string, data: any): Promise<string> {
+    return new Promise((resolve, reject) => {
+      //@ts-ignore
+      window.resolveLocalFileSystemURL(
+        //@ts-ignore
+        cordova.file.dataDirectory,
+        function(directoryEntry: any) {
+          directoryEntry.getFile(
+            fileName,
+            { create: true },
+            function(fileEntry: any) {
+              fileEntry.createWriter(
+                function(fileWriter: any) {
+                  fileWriter.onwriteend = function() {
+                    resolve(fileEntry.nativeURL);
+                  };
+
+                  fileWriter.onerror = function(e: Error) {
+                    reject(e.toString());
+                  };
+
+                  const blob = new Blob([data], { type: "text/plain" });
+                  fileWriter.write(blob);
+                },
+                (e: Error) => reject(e.toString())
+              );
+            },
+            (e: Error) => reject(e.toString())
+          );
+        },
+        (e: Error) => reject(e.toString())
+      );
+    });
+  }
+
+  hasFileWritePermission(): Promise<boolean> {
+    //@ts-ignore
+    const Permission = window.plugins.Permission;
+    const permission = "android.permission.WRITE_EXTERNAL_STORAGE";
+
+    return new Promise((resolve, reject) => {
+      Permission.has(
+        permission,
+        function(results: any) {
+          if (!results[permission]) {
+            resolve(false);
+          } else {
+            resolve(true);
+          }
+        },
+        (err: string) => reject(err)
+      );
+    });
+  }
+
+  requestFileWritePermission(): Promise<boolean> {
+    //@ts-ignore
+    const Permission = window.plugins.Permission;
+    const permission = "android.permission.WRITE_EXTERNAL_STORAGE";
+    return new Promise((resolve, reject) => {
+      Permission.request(
+        permission,
+        function(results: any) {
+          if (results[permission]) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        },
+        (err: string) => reject(err)
+      );
+    });
   }
 }
 </script>

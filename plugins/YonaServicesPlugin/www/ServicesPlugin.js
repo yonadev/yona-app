@@ -1,13 +1,37 @@
 var exec = require("cordova/exec"),
   channel = require("cordova/channel");
 
-exports.startVPN = function(params) {
+exports.configureVPN = function(params) {
   return new Promise(function(resolve, reject) {
-    cordova.exec(resolve, reject, "VpnPlugin", "startVPN", [
-      params.vpnConfig,
-      params.vpnLoginId,
+    cordova.exec(resolve, reject, "VpnPlugin", "configureVPN", [
+      params.vpnProfilePath,
+      params.vpnLoginID,
       params.vpnPassword
     ]);
+  });
+};
+
+exports.startVPN = function(params) {
+  return new Promise(function(resolve, reject) {
+    cordova.exec(resolve, reject, "VpnPlugin", "startVPN", []);
+  });
+};
+
+exports.VPNLogEnabled = function(params) {
+  return new Promise(function(resolve, reject) {
+    cordova.exec(resolve, reject, "VpnPlugin", "VPNLogEnabled", []);
+  });
+};
+
+exports.toggleVPNLog = function(params) {
+  return new Promise(function(resolve, reject) {
+    cordova.exec(resolve, reject, "VpnPlugin", "toggleVPNLog", []);
+  });
+};
+
+exports.stopVPN = function(params) {
+  return new Promise(function(resolve, reject) {
+    cordova.exec(resolve, reject, "VpnPlugin", "stopVPN", []);
   });
 };
 

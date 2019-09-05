@@ -24,8 +24,12 @@
       <div class="grey-bg-button" @click="contactUs()">
         <strong>{{ $t("contact_us") }}</strong>
       </div>
-      <div class="grey-bg-button" @click="getVpnProfile()" v-if="1 == 2">
-        <strong>Get VPN Profile</strong>
+      <div class="grey-bg-button" @click="toggleVPNLog()">
+        <strong
+          >{{ $t("showopenvpnlog") }} ({{
+            logEnabled ? $t("yes") : $t("no")
+          }})</strong
+        >
       </div>
       <router-link :to="{ name: 'Unsubscribe' }">
         <div class="grey-bg-button">
@@ -52,6 +56,16 @@ export default class Settings extends Vue {
   @State("api") api!: ApiState;
   @State(state => state.app.versionNumber) versionNumber!: string;
   @State(state => state.app.versionCode) versionCode!: number;
+
+  logEnabled: boolean = false;
+
+  async mounted() {
+    //@ts-ignore
+    if (typeof cordova.plugins.YonaServices !== "undefined") {
+      //@ts-ignore
+      this.logEnabled = await cordova.plugins.YonaServices.VPNLogEnabled();
+    }
+  }
 
   contactUs() {
     const self = this;
@@ -117,34 +131,11 @@ export default class Settings extends Vue {
     }
   }
 
-  async getVpnProfile() {
-    if (
-      this.api.embedded &&
-      typeof this.api.embedded["yona:devices"] !== "undefined"
-    ) {
-      const device = this.api.embedded["yona:devices"]._embedded[
-        "yona:devices"
-      ].find(device => {
-        return device.requestingDevice;
-      });
-
-      if (typeof device !== "undefined") {
-        console.log(device.vpnProfile);
-        const vpnProfile = await axios.get(
-          device.vpnProfile._links["yona:ovpnProfile"].href
-        );
-        console.log(vpnProfile);
-
-        //@ts-ignore
-        if (typeof cordova.plugins.appUsage !== "undefined") {
-          //@ts-ignore
-          cordova.plugins.appUsage.startVPN({
-            vpnConfig: vpnProfile.data,
-            vpnLoginId: device.vpnProfile.vpnLoginID,
-            vpnPassword: device.vpnProfile.vpnPassword
-          });
-        }
-      }
+  async toggleVPNLog() {
+    //@ts-ignore
+    if (typeof cordova.plugins.YonaServices !== "undefined") {
+      //@ts-ignore
+      this.logEnabled = await cordova.plugins.YonaServices.toggleVPNLog();
     }
   }
 }

@@ -185,6 +185,11 @@ const app = new Vue({
           //@ts-ignore
           cordova.plugins.YonaServices.enable();
         }
+
+        if (self.$store.state.account.permissions.vpn.is_allowed) {
+          //@ts-ignore
+          cordova.plugins.YonaServices.startVPN();
+        }
       }
 
       document.addEventListener(
@@ -216,7 +221,8 @@ const app = new Vue({
       this.$store.dispatch("login/setLastRoute");
       if (
         this.$store.state.login.lastRoute !== null &&
-        this.$store.state.login.lastRoute.name !== "FriendsAddAddressBook"
+        this.$store.state.login.lastRoute.name !== "FriendsAddAddressBook" &&
+        this.$store.state.login.lastRoute.name !== "GivePermission"
       ) {
         this.$store.dispatch("login/setLoggedOff");
       }

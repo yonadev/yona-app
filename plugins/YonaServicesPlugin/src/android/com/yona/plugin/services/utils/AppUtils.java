@@ -6,16 +6,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
+import android.text.TextUtils;
 
 import com.yona.plugin.services.api.manager.APIManager;
+import com.yona.plugin.services.state.SharedPreference;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.security.KeyStore;
+import java.util.Enumeration;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-//import de.blinkt.openvpn.LaunchVPN;
-//import de.blinkt.openvpn.VpnProfile;
-//import de.blinkt.openvpn.core.ProfileManager;
-//import de.blinkt.openvpn.core.VpnStatus;
+import de.blinkt.openvpn.LaunchVPN;
+import de.blinkt.openvpn.VpnProfile;
+import de.blinkt.openvpn.core.ProfileManager;
+import de.blinkt.openvpn.core.VpnStatus;
 
 public class AppUtils {
 
@@ -68,26 +75,32 @@ public class AppUtils {
         scheduler = null;
     }
 
-    /*public static boolean isVPNConnected(Context context)
+    public static boolean isVPNConnected(Context context)
     {
-        String profileUUID = context.getSharedPreferences(AppConstant.USER_PREFERENCE_KEY, Context.MODE_PRIVATE).getString(AppConstant.PROFILE_UUID, "");
+        SharedPreference sharedPreference  = new SharedPreference(context);
+
+        String profileUUID = sharedPreference.getUserPreferences().getString(AppConstant.PROFILE_UUID, "");
         VpnProfile profile = ProfileManager.get(context, profileUUID);
         return (VpnStatus.isVPNActive() && ProfileManager.getLastConnectedVpn() == profile);
     }
 
     public static Intent startVPN(Context context, boolean returnIntent)
     {
+        SharedPreference sharedPreference  = new SharedPreference(context);
 
-        String profileUUID = context.getSharedPreferences(AppConstant.USER_PREFERENCE_KEY, Context.MODE_PRIVATE).getString(AppConstant.PROFILE_UUID, "");
+        String profileUUID = sharedPreference.getUserPreferences().getString(AppConstant.PROFILE_UUID, "");
         VpnProfile profile = ProfileManager.get(context, profileUUID);
-        User user = getAppUser();
-        if (profile == null || VpnStatus.isVPNActive() || user == null || getAppUser().getVpnProfile() == null)
+
+        String VpnLoginId = sharedPreference.getVpnLoginID();
+        String VpnPassword = sharedPreference.getVpnPassword();
+
+        if (profile == null || VpnStatus.isVPNActive() || VpnLoginId == null || VpnPassword == null)
         {
             return null;
         }
         AppUtils.removeVPNConnectNotification(context);
-        profile.mUsername = !TextUtils.isEmpty(user.getVpnProfile().getVpnLoginID()) ? user.getVpnProfile().getVpnLoginID() : "";
-        profile.mPassword = !TextUtils.isEmpty(user.getVpnProfile().getVpnPassword()) ? user.getVpnProfile().getVpnPassword() : "";
+        profile.mUsername = !TextUtils.isEmpty(VpnLoginId) ? VpnLoginId : "";
+        profile.mPassword = !TextUtils.isEmpty(VpnPassword) ? VpnPassword : "";
         if (returnIntent)
         {
             return getVPNIntent(profile, context);
@@ -98,32 +111,22 @@ public class AppUtils {
 
     private static void startVPN(VpnProfile profile, Context context)
     {
+        Logger.logi(AppUtils.class, "Start VPN");
         context.startActivity(getVPNIntent(profile, context));
     }
 
     private static Intent getVPNIntent(VpnProfile profile, Context context)
     {
+        SharedPreference sharedPreference  = new SharedPreference(context);
         ProfileManager.getInstance(context).saveProfile(context, profile);
         Intent intent = new Intent(context, LaunchVPN.class);
         intent.putExtra(LaunchVPN.EXTRA_KEY, profile.getUUID().toString());
         intent.setAction(Intent.ACTION_MAIN);
         intent.putExtra(AppConstant.FROM_LOGIN, true);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        boolean showOpenVpnLog = context.getSharedPreferences(AppConstant.APP_PREFERENCE_KEY, Context.MODE_PRIVATE).getBoolean(AppConstant.SHOW_VPN_WINDOW, false);
+        boolean showOpenVpnLog = sharedPreference.getAppPreferences().getBoolean(AppConstant.SHOW_VPN_WINDOW, false);
         intent.putExtra(LaunchVPN.EXTRA_HIDELOG, !showOpenVpnLog);
         return intent;
-    }
-
-    public static void stopVPN(Context context)
-    {
-        String profileUUID = context.getSharedPreferences(AppConstant.USER_PREFERENCE_KEY, Context.MODE_PRIVATE).getString(AppConstant.PROFILE_UUID, "");
-        VpnProfile profile = ProfileManager.get(context, profileUUID);
-        if (!VpnStatus.isVPNActive() || !(ProfileManager.getLastConnectedVpn() == profile))
-        {
-            return;
-        }
-        context.getApplicationContext().stopOpenVPNService();
-        Logger.loge(AppUtils.class, "VPN stop called");
     }
 
     @TargetApi(Build.VERSION_CODES.O)
@@ -138,6 +141,70 @@ public class AppUtils {
         }
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(AppConstant.VPN_CONNECT_NOTIFICATION_ID);
-    }*/
+    }
+
+    public static byte[] getCACertificate(String path)
+    {
+        if (path != null && !TextUtils.isEmpty(path))
+        {
+            File file = new File(path);
+            int size = (int) file.length();
+            byte[] bytes = new byte[size];
+            try
+            {
+                BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+                buf.read(bytes, 0, bytes.length);
+                buf.close();
+                return bytes;
+            }
+            catch (java.io.IOException e)
+            {
+                Logger.loge(AppUtils.class, e.getMessage());
+            }
+        }
+        return null;
+    }
+
+    public static boolean checkCACertificate(Context context)
+    {
+        boolean isCertExist = false;
+        try
+        {
+            KeyStore ks = KeyStore.getInstance("AndroidCAStore");
+            if (ks == null)
+            {
+                return false;
+            }
+            ks.load(null, null);
+            Enumeration aliases = ks.aliases();
+            SharedPreference sharedPreference = new SharedPreference(context);
+
+            String caCertName = sharedPreference.getSslRootCertCN();
+
+            if (caCertName == null)
+            {
+                return false;
+            }
+
+            if (!TextUtils.isEmpty(caCertName))
+            {
+                while (aliases.hasMoreElements())
+                {
+                    String alias = (String) aliases.nextElement();
+                    java.security.cert.X509Certificate cert = (java.security.cert.X509Certificate) ks.getCertificate(alias);
+                    if (cert.getIssuerDN().getName().contains(caCertName))
+                    {
+                        isCertExist = true;
+                        break;
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Logger.loge(AppUtils.class, e.getMessage());
+        }
+        return isCertExist;
+    }
 
 }

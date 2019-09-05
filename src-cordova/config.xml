@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="vue2.yona.app" version="1.0.9" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Yona DEV</name>
+<widget id="nu.yona.app" version="2.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Yona</name>
     <description>
         Yona application
     </description>
-    <author email="support@yona.nu" href="http://yona.ny">
-        Yona Foundations
+    <author email="support@yona.nu" href="http://yona.nu">
+        Yona Foundation
     </author>
     <hook src="../node_modules/vue-cli-plugin-cordova/serve-config-hook.js" type="after_prepare" />
     <content src="index.html" />
@@ -35,6 +35,7 @@
         <icon density="xxxhdpi" src="res/icon/android/xxxhdpi.png" />
         <resource-file src="google-services.json" target="google-services.json" />
         <resource-file src="google-services.json" target="app/google-services.json" />
+        <preference name="AndroidPersistentFileLocation" value="Compatibility" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />

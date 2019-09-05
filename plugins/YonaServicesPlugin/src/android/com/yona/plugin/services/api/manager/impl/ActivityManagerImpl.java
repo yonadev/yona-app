@@ -19,6 +19,7 @@ import com.yona.plugin.services.api.model.AppActivity;
 import com.yona.plugin.services.api.model.ErrorMessage;
 import com.yona.plugin.services.api.manager.network.ActivityNetworkImpl;
 import com.yona.plugin.services.listener.DataLoadListenerImpl;
+import com.yona.plugin.services.state.SharedPreference;
 import com.yona.plugin.services.utils.AppConstant;
 import com.yona.plugin.services.utils.DateUtility;
 import com.yona.plugin.services.utils.Logger;
@@ -36,7 +37,7 @@ public class ActivityManagerImpl implements ActivityManager
 
     private final ActivityNetworkImpl activityNetwork;
     private final ActivityTrackerDAO activityTrackerDAO;
-    private SharedPreferences sharedPreferences;
+    private SharedPreference sharedPreferences;
 
 
     /**
@@ -48,7 +49,7 @@ public class ActivityManagerImpl implements ActivityManager
     {
         activityNetwork = new ActivityNetworkImpl(context);
         activityTrackerDAO = new ActivityTrackerDAO(DatabaseHelper.getInstance(context));
-        sharedPreferences = context.getSharedPreferences(AppConstant.USER_PREFERENCE_KEY, android.app.Activity.MODE_PRIVATE);
+        sharedPreferences = new SharedPreference(context);
     }
 
     /**
@@ -102,16 +103,12 @@ public class ActivityManagerImpl implements ActivityManager
 
         DataLoadListenerImpl dataLoadListenerImpl = new DataLoadListenerImpl<>((result) -> handlePostAppActivityOnSuccess(), (result) -> handlePostAppActivityOnFailure(result), null);
         Logger.logi(ActivityManagerImpl.class, "post app activity: " + activity.toString());
-        //activityNetwork.postAppActivity(getAppUser().getPostDeviceAppActivityLink(), YonaApplication.getEventChangeManager().getSharedPreference().getYonaPassword(), activity, dataLoadListenerImpl);
-        //Todo: add link
 
-        Set<String> keys = sharedPreferences.getAll().keySet();
-        Logger.logi(ActivityManagerImpl.class, keys.toString());
+        String serverUrl = sharedPreferences.getServerUrl();
+        String appActivityUrl = sharedPreferences.getAppActivityUrl();
+        String yonaPassword = sharedPreferences.getYonaPassword();
 
-        if (sharedPreferences.contains("BaseUrl") && sharedPreferences.contains("YonaPassword") && sharedPreferences.contains("appActivityLink")) {
-            String yonaPassword = sharedPreferences.getString("YonaPassword", "");
-            String appActivityUrl = sharedPreferences.getString("appActivityLink", "");
-
+        if (serverUrl != null && appActivityUrl != null && yonaPassword != null) {
             Logger.logi(ActivityManagerImpl.class, "appActivityUrl: " + appActivityUrl);
 
             activityNetwork.postAppActivity(appActivityUrl, yonaPassword, activity, dataLoadListenerImpl);

@@ -11,6 +11,7 @@ export const state: AccountState = {
   lastname: "",
   phonenumber: "",
   nickname: "",
+  currentDevice: null,
   permissions: {
     tracking: {
       title: "Maak app-tracking mogelijk",
@@ -39,6 +40,14 @@ export const state: AccountState = {
       is_allowed: false,
       disabled: true
     },
+    store_files: {
+      title: "Geef Yona toestemming om bestanden op te slaan",
+      text:
+        "Yona wil bestanden op je telefoon bewaren. We zullen nooit bestanden van je telefoon bekijken of gegevens doorgeven aan derden.",
+      icon: "certificate_icon_small.svg",
+      is_allowed: false,
+      disabled: false
+    },
     vpn: {
       title: "Activeer VPN verbinding",
       text:
@@ -46,13 +55,13 @@ export const state: AccountState = {
         "Ook hier is jouw toestemming nodig.",
       icon: "vpn_profile_icon_small.svg",
       is_allowed: false,
-      disabled: true
+      disabled: false
     }
   }
 };
 
 const actions: ActionTree<AccountState, RootState> = {
-  setProperty({ commit, dispatch }, data): void {
+  setProperty({ commit, dispatch, state }, data): void {
     commit("setProperty", data);
   },
   async setUserData({ commit, rootState, dispatch }, data) {
@@ -73,6 +82,8 @@ const actions: ActionTree<AccountState, RootState> = {
     }
 
     if (currentDevice) {
+      commit("setCurrentDevice", currentDevice);
+
       if (currentDevice._links["yona:postOpenAppEvent"]) {
         let OS = "ANDROID";
         //@ts-ignore
@@ -108,30 +119,13 @@ const actions: ActionTree<AccountState, RootState> = {
         typeof cordova.plugins.UserPreferences !== "undefined"
       ) {
         // @ts-ignore
-        const sharedPreferences = cordova.plugins.UserPreferences.getInstance();
-        sharedPreferences.putString("YonaPassword", data.yonaPassword);
-        sharedPreferences.putString("BaseUrl", rootState.api.host);
+        const userPreferences = cordova.plugins.UserPreferences;
+        userPreferences.setYonaPassword(data.yonaPassword);
+        userPreferences.setServerUrl(rootState.api.host);
         if (typeof currentDevice._links["yona:appActivity"] !== "undefined") {
-          sharedPreferences.putString(
-            "appActivityLink",
+          userPreferences.setAppActivityUrl(
             currentDevice._links["yona:appActivity"].href
           );
-        }
-        if (typeof currentDevice.vpnProfile !== "undefined") {
-          sharedPreferences.putString(
-            "vpnLoginID",
-            currentDevice.vpnProfile.vpnLoginID
-          );
-          sharedPreferences.putString(
-            "vpnPassword",
-            currentDevice.vpnProfile.vpnLoginID
-          );
-
-          const vpnProfile = await axios.get(
-            currentDevice.vpnProfile._links["yona:ovpnProfile"].href
-          );
-
-          sharedPreferences.putString("ovpnProfile", vpnProfile.data);
         }
       }
 
@@ -187,6 +181,9 @@ const mutations: MutationTree<AccountState> = {
   setUserData(state, payload: AccountState) {
     Object.assign(state, payload);
   },
+  setCurrentDevice(state, payload) {
+    Vue.set(state, "currentDevice", payload);
+  },
   setPermission(state, { key, value }) {
     switch (key) {
       case "tracking":
@@ -197,6 +194,9 @@ const mutations: MutationTree<AccountState> = {
         break;
       case "certificate":
         Vue.set(state.permissions.certificate, "is_allowed", value);
+        break;
+      case "store_files":
+        Vue.set(state.permissions.store_files, "is_allowed", value);
         break;
       case "vpn":
         Vue.set(state.permissions.vpn, "is_allowed", value);
@@ -217,6 +217,8 @@ const getters: GetterTree<AccountState, RootState> = {
         state.permissions.autostart.disabled) &&
       (state.permissions.certificate.is_allowed ||
         state.permissions.certificate.disabled) &&
+      (state.permissions.store_files.is_allowed ||
+        state.permissions.store_files.disabled) &&
       (state.permissions.vpn.is_allowed || state.permissions.vpn.disabled)
     ) {
       return true;

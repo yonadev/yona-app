@@ -14,7 +14,12 @@ package com.yona.plugin.services.utils;
 public interface AppConstant
 {
 
+	String SERVER_URL = "serverUrl";
 	String SHOW_VPN_WINDOW = "showVpnWindow";
+
+
+	int FILE_WRITE_PERMISSION = 10002;
+	int WRITE_EXTERNAL_SYSTEM = 10003;
 
 	/**
 	 * The constant ONE_SECOND.
@@ -60,6 +65,12 @@ public interface AppConstant
 	 * The constant YONA_PASSCODE.
 	 */
 	String YONA_PASSCODE = "yonaPasscode";
+
+	/**
+	 * The constant APP_ACTIVITY_LINK.
+	 */
+	String APP_ACTIVITY_LINK = "appActivityLink";
+
 	/**
 	 * The constant YONA_WRONG_PASSCODE_COUNTER.
 	 */
@@ -75,4 +86,20 @@ public interface AppConstant
 	 * The constant YONA_LONG_DATE_FORMAT.
 	 */
 	String YONA_LONG_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+
+	String VPN_PROFILE_PATH = "vpnProfilePath";
+
+	String VPN_LOGIN_ID = "vpnLoginId";
+
+	String VPN_PASSWORD = "vpnPassword";
+
+	String VPN_PROFILE_ACTIVE = "vpnProfileActive";
+
+	String ROOT_CERTIFICATE = "rootCertificate";
+
+	String ROOT_CERTIFICATE_CN = "rootCertificateCN";
+
+	String ROOT_CERTIFICATE_ACTIVE = "rootCertificateActive";
+
+	String YONA_ENCRYPTION_METHOD = "yonaEncryptionMethod";
 }

@@ -18,6 +18,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.PowerManager;
 import androidx.core.app.NotificationCompat;
@@ -27,6 +28,8 @@ import com.yona.plugin.services.AppMonitoringService;
 import com.yona.plugin.services.utils.AppConstant;
 import com.yona.plugin.services.utils.Logger;
 import com.yona.plugin.services.utils.AppUtils;
+
+import nu.yona.app.R;
 
 import static android.content.Context.POWER_SERVICE;
 
@@ -207,7 +210,7 @@ public class YonaReceiver extends BroadcastReceiver
 	private void handleConnectVPNBroadcast(Context context)
 	{
 		Logger.logi(YonaReceiver.class, "Connect VPN Broadcast received");
-		//AppUtils.startVPN(context, false);
+		AppUtils.startVPN(context, false);
 	}
 
 	/*
@@ -261,8 +264,7 @@ public class YonaReceiver extends BroadcastReceiver
 		mBuilder.setContentText(message);
 		//Todo: add r.string.appname
 		mBuilder.setTicker("Yona");
-		//Todo: add r.drawable.app_monitor_notif_icon
-		//mBuilder.setSmallIcon(R.drawable.app_monitor_notif_icon);
+		mBuilder.setSmallIcon(R.drawable.notification);
 		mBuilder.setPriority(Notification.PRIORITY_MAX);
 		mBuilder.setAutoCancel(true);
 		return mBuilder.build();

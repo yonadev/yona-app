@@ -17,9 +17,12 @@
     <js-module src="www/AppVersion.js">
         <clobbers target="cordova.plugins.AppVersion" />
     </js-module>
-
+    <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
+        <application android:theme="@style/Theme.AppCompat.Light" />
+    </edit-config>
     <!-- android -->
     <platform name="android">
+        <hook type="after_prepare" src="scripts/apply-to-gradle.properties.js" />
 
         <!-- js -->
         <js-module src="www/ServicesPlugin.js" name="YonaServices">
@@ -34,7 +37,7 @@
             <clobbers target="cordova.plugins.TimePicker" />
         </js-module>
 
-        <!--<framework src="src/android/openvpn/" custom="true"  />-->
+        <framework src="src/android/openvpn/" custom="true"  />
         <framework src="src/android/libTimepicker/" custom="true"  />
 
         <config-file target="res/xml/config.xml" parent="/*">
@@ -44,9 +47,9 @@
             <feature name="BackgroundModeExt">
                 <param name="android-package" value="com.yona.plugin.services.BackgroundModeExt"/>
             </feature>
-            <!--<feature name="VpnPlugin">
+            <feature name="VpnPlugin">
                 <param name="android-package" value="com.yona.plugin.services.VpnPlugin"/>
-            </feature>-->
+            </feature>
             <feature name="UserPreferences">
                 <param name="android-package" value="com.yona.plugin.services.UserPreferences"/>
             </feature>
@@ -77,14 +80,16 @@
                 </intent-filter>
                 <intent-filter>
                     <action android:name="com.yona.app.RESTART_DEVICE" />
-                    <!--<action android:name="com.yona.app.RESTART_VPN" />
-                    <action android:name="com.yona.app.CONNECT_VPN" />-->
+                    <action android:name="com.yona.app.RESTART_VPN" />
+                    <action android:name="com.yona.app.CONNECT_VPN" />
                 </intent-filter>
             </receiver>
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest">
             <uses-permission android:name="android.permission.WAKE_LOCK" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 			<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
             <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
             <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />

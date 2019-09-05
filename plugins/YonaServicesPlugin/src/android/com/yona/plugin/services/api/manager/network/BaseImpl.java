@@ -26,6 +26,7 @@ import com.yona.plugin.services.listener.DataLoadListener;
 import com.yona.plugin.services.listener.DataLoadListenerImpl;
 import com.yona.plugin.services.api.utils.NetworkUtils;
 import com.yona.plugin.services.api.utils.ServerErrorCode;
+import com.yona.plugin.services.state.SharedPreference;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -46,12 +47,12 @@ public class BaseImpl
 {
     private final int maxStale = 60 * 60 * 24 * 28; // keep cache for 28 days.
     private Context appContext;
-    private SharedPreferences sharedPreferences;
+    private SharedPreference sharedPreferences;
 
     protected BaseImpl(Context context)
     {
         appContext = context;
-        sharedPreferences = context.getSharedPreferences(AppConstant.USER_PREFERENCE_KEY, android.app.Activity.MODE_PRIVATE);
+        sharedPreferences = new SharedPreference(context);
 
     }
 
@@ -105,11 +106,10 @@ public class BaseImpl
      */
     Retrofit getRetrofit()
     {
-        if (retrofit == null && sharedPreferences.contains("BaseUrl"))
+
+        String serverUrl = sharedPreferences.getServerUrl();
+        if (retrofit == null && serverUrl != null)
         {
-
-            String serverUrl = sharedPreferences.getString("BaseUrl", "");
-
             retrofit = new Retrofit.Builder()
                     .baseUrl(serverUrl)
                     .addConverterFactory(GsonConverterFactory.create())
