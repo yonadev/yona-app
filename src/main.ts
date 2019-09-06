@@ -219,11 +219,8 @@ const app = new Vue({
     },
     pause() {
       this.$store.dispatch("login/setLastRoute");
-      if (
-        this.$store.state.login.lastRoute !== null &&
-        this.$store.state.login.lastRoute.name !== "FriendsAddAddressBook" &&
-        this.$store.state.login.lastRoute.name !== "GivePermission"
-      ) {
+
+      if (this.$store.state.login.logOffOnPause) {
         this.$store.dispatch("login/setLoggedOff");
       }
     },

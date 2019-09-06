@@ -71,7 +71,10 @@ export default class GivePermission extends Vue {
       //@ts-ignore
       typeof cordova.plugins.YonaServices !== "undefined"
     ) {
-      if (this.permission === "tracking") {
+      if (
+        this.permission === "tracking" &&
+        !(this.account.permissions as any)[this.permission].is_allowed
+      ) {
         //@ts-ignore
         const hasUsageAccess = await cordova.plugins.YonaServices.checkUsageAccess();
 

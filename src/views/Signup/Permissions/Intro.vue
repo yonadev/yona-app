@@ -57,17 +57,29 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-import { Getter, State } from "vuex-class";
+import { Action, Getter, State } from "vuex-class";
 import { AccountState } from "@/store/account/types";
 
 @Component({})
 export default class Intro extends Vue {
   @State("account") account!: AccountState;
+  @Action("setPermission", { namespace: "account" }) setPermission: any;
   @Getter("hasAllPermissions", { namespace: "account" })
   hasAllPermissions!: boolean;
 
-  mounted() {
-    alert("check usage access");
+  async mounted() {
+    //@ts-ignore
+    const hasUsageAccess = await cordova.plugins.YonaServices.checkUsageAccess();
+
+    if (hasUsageAccess === "true") {
+      //@ts-ignore
+      cordova.plugins.YonaServices.enable();
+
+      this.setPermission({
+        key: "tracking",
+        value: true
+      });
+    }
   }
 
   checkPermissions() {
