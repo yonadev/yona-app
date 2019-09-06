@@ -66,6 +66,10 @@ export default class Intro extends Vue {
   @Getter("hasAllPermissions", { namespace: "account" })
   hasAllPermissions!: boolean;
 
+  mounted() {
+    alert("check usage access");
+  }
+
   checkPermissions() {
     if (this.hasAllPermissions) {
       this.$router.push({ name: "MeTimeLineDay" });

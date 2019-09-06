@@ -56,9 +56,7 @@ export default class GivePermission extends Vue {
         this.index = i;
         this.permission = permission;
         break;
-      } else if (
-        (this.account.permissions as any)[permission].disabled
-      ){
+      } else if ((this.account.permissions as any)[permission].disabled) {
         i--;
       }
       i++;
@@ -74,25 +72,22 @@ export default class GivePermission extends Vue {
       typeof cordova.plugins.YonaServices !== "undefined"
     ) {
       if (this.permission === "tracking") {
-        this.setLogOffOnPause(false);
         //@ts-ignore
-        cordova.plugins.YonaServices.getUsageAccess().then(function(
-          hasUsageAccess: string
-        ) {
-          console.log(hasUsageAccess);
+        const hasUsageAccess = await cordova.plugins.YonaServices.checkUsageAccess();
 
+        if (hasUsageAccess === "true") {
           //@ts-ignore
           cordova.plugins.YonaServices.enable();
 
-          /* self.setPermission({
+          self.setPermission({
             key: self.permission,
             value: hasUsageAccess === "true"
-          }); */
-
-          if( hasUsageAccess === "true") {
-            self.setLogOffOnPause(true);
-          }
-        });
+          });
+        } else {
+          this.setLogOffOnPause(false);
+          //@ts-ignore
+          cordova.plugins.YonaServices.getUsageAccess();
+        }
       } else if (this.permission === "autostart") {
         this.setLogOffOnPause(false);
         //@ts-ignore

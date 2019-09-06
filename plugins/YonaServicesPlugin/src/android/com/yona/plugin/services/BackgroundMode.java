@@ -177,9 +177,8 @@ public class BackgroundMode extends CordovaPlugin {
             Context context = this.cordova.getActivity().getApplicationContext();
             Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            let result = context.startActivityForResult(intent);
-            console.log(result);
-            checkUsageAccess(callbackContext);
+            context.startActivity(intent);
+            callbackContext.success("true");
         } catch(Exception e){
             e.printStackTrace();
             callbackContext.error(e.toString());
