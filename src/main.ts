@@ -204,6 +204,9 @@ const app = new Vue({
             } else {
               self.$router.push({ name: currentRoute.meta.prev });
             }
+          } else if (currentRoute.name === "MeTimeLineDay") {
+            //@ts-ignore
+            navigator.app.exitApp();
           }
         },
         false
