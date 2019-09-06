@@ -52,8 +52,10 @@ exports.checkUsageAccess = function(userCallback) {
  *
  * @return [ Void ]
  */
-exports.getUsageAccess = function() {
-  cordova.exec(null, null, "BackgroundMode", "getUsageAccess", []);
+exports.getUsageAccess = function(userCallback) {
+  return new Promise(function(resolve, reject) {
+    cordova.exec(resolve, reject, "BackgroundMode", "getUsageAccess", []);
+  });
 };
 
 /**

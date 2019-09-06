@@ -42,6 +42,7 @@ import { Action, State } from "vuex-class";
 export default class GivePermission extends Vue {
   @State("account") account!: AccountState;
   @Action("setPermission", { namespace: "account" }) setPermission: any;
+  @Action("setLogOffOnPause", { namespace: "login" }) setLogOffOnPause: any;
   permission: string = "";
   index: number = 0;
 
@@ -55,12 +56,17 @@ export default class GivePermission extends Vue {
         this.index = i;
         this.permission = permission;
         break;
+      } else if (
+        (this.account.permissions as any)[permission].disabled
+      ){
+        i--;
       }
       i++;
     }
   }
 
   async goNext() {
+    let self = this;
     if (
       //@ts-ignore
       typeof cordova !== "undefined" &&
@@ -68,23 +74,36 @@ export default class GivePermission extends Vue {
       typeof cordova.plugins.YonaServices !== "undefined"
     ) {
       if (this.permission === "tracking") {
+        this.setLogOffOnPause(false);
         //@ts-ignore
-        cordova.plugins.YonaServices.getUsageAccess();
-        //@ts-ignore
-        cordova.plugins.YonaServices.enable();
+        cordova.plugins.YonaServices.getUsageAccess().then(function(
+          hasUsageAccess: string
+        ) {
+          console.log(hasUsageAccess);
 
-        this.setPermission({
-          key: this.permission,
-          value: true
+          //@ts-ignore
+          cordova.plugins.YonaServices.enable();
+
+          /* self.setPermission({
+            key: self.permission,
+            value: hasUsageAccess === "true"
+          }); */
+
+          if( hasUsageAccess === "true") {
+            self.setLogOffOnPause(true);
+          }
         });
       } else if (this.permission === "autostart") {
+        this.setLogOffOnPause(false);
         //@ts-ignore
         cordova.plugins.YonaServices.openAppStartSettings(false);
         this.setPermission({
           key: this.permission,
           value: true
         });
+        this.setLogOffOnPause(true);
       } else if (this.permission === "store_files") {
+        this.setLogOffOnPause(false);
         const hasPermission = await this.hasFileWritePermission().catch(err =>
           console.log(err)
         );
@@ -95,15 +114,14 @@ export default class GivePermission extends Vue {
           );
         }
 
-        console.log("hasPermission" + hasPermission);
-        console.log("requestedSucces" + requestedSucces);
-
         this.setPermission({
           key: this.permission,
           value: hasPermission === true || requestedSucces === true
         });
+        this.setLogOffOnPause(true);
       } else if (this.permission === "vpn") {
         if (this.account.currentDevice) {
+          this.setLogOffOnPause(false);
           const vpnProfile = await axios.get(
             this.account.currentDevice.vpnProfile._links["yona:ovpnProfile"]
               .href
@@ -129,6 +147,8 @@ export default class GivePermission extends Vue {
               key: this.permission,
               value: vpnConfigured === true
             });
+
+            this.setLogOffOnPause(true);
           }
         }
       } else {
@@ -137,6 +157,12 @@ export default class GivePermission extends Vue {
           value: true
         });
       }
+    } else {
+      //In browser
+      this.setPermission({
+        key: this.permission,
+        value: true
+      });
     }
 
     this.$router.push({ name: "Intro" });
