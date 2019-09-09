@@ -83,6 +83,8 @@ export default class Intro extends Vue {
         key: "tracking",
         value: true
       });
+
+      return true;
     }
   }
 

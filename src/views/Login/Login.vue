@@ -110,28 +110,47 @@ export default class Login extends Vue {
                 photo_response.data,
                 "binary"
               ).toString("base64");
-              window.localStorage.setItem(
+              //@ts-ignore
+              NativeStorage.setItem(
                 "user_image",
                 JSON.stringify({
                   type: "me",
                   src: "data:image/png;base64," + userPhoto
-                })
+                }),
+                function(success: any) {
+                  console.log(success);
+                },
+                function(error: any) {
+                  console.log(error);
+                }
               );
             }
           } else {
-            const user_image = window.localStorage.getItem("user_image");
-
-            if (!user_image) {
-              window.localStorage.setItem(
-                "user_image",
-                JSON.stringify({
-                  type: "me",
-                  text:
-                    user_response.data.firstName.charAt(0) +
-                    user_response.data.lastName.charAt(0)
-                })
-              );
-            }
+            //@ts-ignore
+            NativeStorage.getItem(
+              "user_image",
+              function(success: any) {
+                console.log(success);
+              },
+              function(error: any) {
+                //@ts-ignore
+                NativeStorage.setItem(
+                  "user_image",
+                  JSON.stringify({
+                    type: "me",
+                    text:
+                      user_response.data.firstName.charAt(0) +
+                      user_response.data.lastName.charAt(0)
+                  }),
+                  function(success: any) {
+                    console.log(success);
+                  },
+                  function(error: any) {
+                    console.log(error);
+                  }
+                );
+              }
+            );
           }
 
           this.setLoggedIn(true);
