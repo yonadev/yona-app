@@ -164,6 +164,30 @@ const actions: ActionTree<AccountState, RootState> = {
       ) {
         commit("setAutoStart", !isAvailable);
       });
+      //@ts-ignore
+      const Permission = window.plugins.Permission;
+      const permission = "android.permission.WRITE_EXTERNAL_STORAGE";
+
+      let hasPermission = await new Promise((resolve, reject) => {
+        Permission.has(
+          permission,
+          function(results: any) {
+            if (!results[permission]) {
+              resolve(false);
+            } else {
+              resolve(true);
+            }
+          },
+          (err: string) => reject(err)
+        );
+      });
+
+      console.log(hasPermission);
+
+      commit("setPermission", {
+        key: "store_files",
+        value: hasPermission === true
+      });
     }
   },
   setPermission({ commit }, data): void {

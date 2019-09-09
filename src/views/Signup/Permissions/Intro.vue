@@ -68,6 +68,10 @@ export default class Intro extends Vue {
   hasAllPermissions!: boolean;
 
   async mounted() {
+    await this.checkUsageAccess();
+  }
+
+  async checkUsageAccess() {
     //@ts-ignore
     const hasUsageAccess = await cordova.plugins.YonaServices.checkUsageAccess();
 
@@ -82,10 +86,11 @@ export default class Intro extends Vue {
     }
   }
 
-  checkPermissions() {
+  async checkPermissions() {
     if (this.hasAllPermissions) {
       this.$router.push({ name: "MeTimeLineDay" });
     } else {
+      await this.checkUsageAccess();
       this.$router.push({ name: "GivePermission" });
     }
   }

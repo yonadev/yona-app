@@ -48,6 +48,7 @@ export default class GivePermission extends Vue {
 
   async mounted() {
     let i = 0;
+
     for (let permission in this.account.permissions) {
       if (
         !(this.account.permissions as any)[permission].is_allowed &&
