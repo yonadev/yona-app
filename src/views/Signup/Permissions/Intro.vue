@@ -72,19 +72,26 @@ export default class Intro extends Vue {
   }
 
   async checkUsageAccess() {
-    //@ts-ignore
-    const hasUsageAccess = await cordova.plugins.YonaServices.checkUsageAccess();
-
-    if (hasUsageAccess === "true") {
+    if (
       //@ts-ignore
-      cordova.plugins.YonaServices.enable();
+      typeof cordova !== "undefined" &&
+      //@ts-ignore
+      typeof cordova.plugins.YonaServices !== "undefined"
+    ) {
+      //@ts-ignore
+      const hasUsageAccess = await cordova.plugins.YonaServices.checkUsageAccess();
 
-      this.setPermission({
-        key: "tracking",
-        value: true
-      });
+      if (hasUsageAccess === "true") {
+        //@ts-ignore
+        cordova.plugins.YonaServices.enable();
 
-      return true;
+        this.setPermission({
+          key: "tracking",
+          value: true
+        });
+
+        return true;
+      }
     }
   }
 

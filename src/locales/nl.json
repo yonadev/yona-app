@@ -257,6 +257,7 @@
   "generic_alert_title": "Waarschuwing",
   "generic_exception_message": "Onbekende fout. Neem contact op met Yona support.",
   "generic_mobile_number_format_error": "Ongeldig telefoonnummer. Controleer het formaat",
+  "new_notification": "Je hebt een nieuwe notificatie ontvangen, wil je deze bekijken?",
   "yona_notification_content": "Monitort appgebruik",
   "notification_disabled_message": "Omdat meldingen voor de Yona-applicatie zijn uitgeschakeld kan Yona appgebruik niet meer bijhouden. Zet in de Android instellingen meldingen weer aan voor de Yona app.",
   "support_mail_subject": "Probleem met Yona app",

@@ -250,6 +250,7 @@ export default new Router({
           path: "notifications",
           name: "Notifications",
           component: () => import("../views/Me/Notifications.vue"),
+          props: true,
           meta: {
             prev: "MeTimeLineDay"
           }

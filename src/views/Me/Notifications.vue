@@ -18,7 +18,10 @@
           v-for="(notification, index) in day_notification.notifications"
           :key="'not' + index"
           class="grey-bg-div notification"
-          :class="{ 'is-not-read': !notification.isRead }"
+          :class="{
+            'is-not-read': !notification.isRead,
+            'push-notification': isFromPushNotification(notification)
+          }"
         >
           <swipe-out :ref="'list' + day_index + index">
             <template v-slot>
@@ -247,6 +250,7 @@ import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
 
 //@ts-ignore
 import { SwipeList, SwipeOut } from "vue-swipe-actions";
+import { Prop } from "vue-property-decorator";
 
 interface Notification {
   creationTime: string;
@@ -262,6 +266,7 @@ interface Notification {
 })
 export default class Notifications extends Vue {
   @State("api") api!: ApiState;
+  @Prop() messageId!: string;
   all_notifications: any = [];
   gettingNotifications: boolean = false;
   nextNotifications: string = "";
@@ -275,6 +280,10 @@ export default class Notifications extends Vue {
         this.api.links["yona:messages"].href
       );
     }
+  }
+
+  isFromPushNotification(notification: any) {
+    return this.messageId && this.messageId === notification.messageId + "";
   }
 
   async deleteNotification(
@@ -573,8 +582,22 @@ export default class Notifications extends Vue {
     padding: 0;
     .grey-bg-div {
       background-image: linear-gradient(#f7f7f7, #fcfcfc);
+      position: relative;
       &.is-not-read {
         background: #ecf2f8;
+      }
+      &.push-notification {
+        &:after {
+          content: " ";
+          height: 20px;
+          width: 20px;
+          display: block;
+          background-color: $color-purple;
+          border-radius: 100%;
+          position: absolute;
+          right: 30px;
+          top: 30px;
+        }
       }
     }
     .notification {

@@ -182,8 +182,6 @@ const actions: ActionTree<AccountState, RootState> = {
         );
       });
 
-      console.log(hasPermission);
-
       commit("setPermission", {
         key: "store_files",
         value: hasPermission === true
@@ -195,6 +193,31 @@ const actions: ActionTree<AccountState, RootState> = {
   },
   setAutoStart({ commit }, data): void {
     commit("setAutoStart", data);
+  },
+  async updateCurrentDevice({ commit, state, rootState }, firebaseInstanceId) {
+    if (state.currentDevice) {
+      let response: any = await axios
+        .put(state.currentDevice._links.edit.href, {
+          name: state.currentDevice.name,
+          firebaseInstanceId
+        })
+        .catch(function(error: any) {
+          console.log(error);
+        });
+
+      //This will get the devices and set it through axios interceptor
+      if (rootState.api.links) {
+        await axios
+          .get(rootState.api.links["self"].href)
+          .catch((error: any) => {
+            console.log(error);
+          });
+      }
+
+      if (response) {
+        commit("setCurrentDevice", response.data);
+      }
+    }
   }
 };
 

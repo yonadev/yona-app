@@ -116,7 +116,7 @@ const app = new Vue({
   i18n,
   render: h => h(App),
   methods: {
-    init() {
+    async init() {
       const self = this;
       //@ts-ignore
       const crashlytics = FirebaseCrashlytics.initialise();
@@ -165,7 +165,65 @@ const app = new Vue({
         }
       }
 
-      //@ts-ignore
+      if (
+        //@ts-ignore
+        typeof cordova !== "undefined" &&
+        //@ts-ignore
+        typeof cordova.plugins !== undefined &&
+        //@ts-ignore
+        cordova.plugins.firebase
+      ) {
+        //@ts-ignore
+        cordova.plugins.firebase.messaging.onBackgroundMessage(function(
+          payload: any
+        ) {
+          self.$store.dispatch("login/setLastRoute", {
+            name: "Notifications",
+            params: { messageId: payload.messageId },
+            query: ""
+          });
+        });
+        //@ts-ignore
+        cordova.plugins.firebase.messaging.onMessage(function(payload: any) {
+          //@ts-ignore
+          if (navigator && navigator.notification) {
+            //@ts-ignore
+            navigator.notification.confirm(
+              self.$t("new_notification"),
+              (result: number) => {
+                if (result === 2) {
+                  self.$router.push({
+                    name: "Notifications",
+                    params: { messageId: payload.messageId }
+                  });
+                }
+              },
+              "",
+              [self.$t("no"), self.$t("yes")]
+            );
+          } else {
+            //@ts-ignore
+            if (confirm(self.$t("new_notification"))) {
+              self.$router.push({
+                name: "Notifications",
+                params: { messageId: payload.messageId }
+              });
+            }
+          }
+        });
+
+        //@ts-ignore
+        cordova.plugins.firebase.messaging.onTokenRefresh(async function() {
+          let firebaseInstanceId = null;
+          //@ts-ignore
+          firebaseInstanceId = await cordova.plugins.firebase.messaging.getToken();
+          self.$store.dispatch(
+            "account/updateCurrentDevice",
+            firebaseInstanceId
+          );
+        });
+      }
+
       if (
         //@ts-ignore
         typeof cordova !== "undefined" &&
@@ -221,7 +279,7 @@ const app = new Vue({
       EventBus.$emit("device-ready");
     },
     pause() {
-      this.$store.dispatch("login/setLastRoute");
+      this.$store.dispatch("login/setLastRoute", false);
 
       if (this.$store.state.login.logOffOnPause) {
         this.$store.dispatch("login/setLoggedOff");

@@ -260,6 +260,7 @@
   "generic_alert_title" : "Alert",
   "generic_exception_message" : "Unknown Exception. Please contact Yona support",
   "generic_mobile_number_format_error" : "Invalid Mobile Number. Please check the format",
+  "new_notification": "You've received a new notification, would you like to see it?",
   "yona_notification_content" : "Monitoring app usage",
   "notification_disabled_message" : "Yona cannot monitor app activity because notifications for the Yona application have been disabled. Enable notifications for Yona again in the device settings.",
   "yona_service_notification_channel_name" : "Persistent notifications",

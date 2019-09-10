@@ -129,9 +129,7 @@ export default class Login extends Vue {
             //@ts-ignore
             NativeStorage.getItem(
               "user_image",
-              function(success: any) {
-                console.log(success);
-              },
+              function(success: any) {},
               function(error: any) {
                 //@ts-ignore
                 NativeStorage.setItem(

@@ -5,6 +5,7 @@ export interface AccountState {
   nickname: string | null;
   currentDevice: {
     sslRootCertCN: boolean;
+    name: string;
     vpnProfile: {
       vpnLoginID: string;
       vpnPassword: string;
@@ -22,6 +23,9 @@ export interface AccountState {
         href: string;
       };
       "yona:sslRootCert": {
+        href: string;
+      };
+      edit: {
         href: string;
       };
     };

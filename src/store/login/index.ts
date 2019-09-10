@@ -55,13 +55,16 @@ const actions: ActionTree<LoginState, RootState> = {
     dispatch("challenges/update", null, { root: true });
     router.push({ name: "Login" });
   },
-  setLastRoute({ commit, state }): void {
-    if (state.isLoggedIn)
+  setLastRoute({ commit, state }, customRoute): void {
+    if (state.isLoggedIn && !customRoute) {
       commit("setLastRoute", {
         name: router.currentRoute.name,
         params: router.currentRoute.params,
         query: router.currentRoute.query
       });
+    } else {
+      commit("setLastRoute", customRoute);
+    }
   },
   resetLastRoute({ commit }): void {
     commit("setLastRoute", null);
