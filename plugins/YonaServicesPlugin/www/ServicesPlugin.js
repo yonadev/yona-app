@@ -76,23 +76,6 @@ exports.enable = function() {
 };
 
 /**
- * Activates the background mode. When activated the application
- * will be prevented from going to sleep while in background
- * for the next time.
- *
- * @return [ Void ]
- */
-exports.enable = function() {
-  if (this.isEnabled()) return;
-
-  var fn = function() {
-    exports._isEnabled = true;
-  };
-
-  cordova.exec(fn, null, "BackgroundMode", "enable", []);
-};
-
-/**
  * Deactivates the background mode. When deactivated the application
  * will not stay awake while in background.
  *

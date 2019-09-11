@@ -100,7 +100,6 @@ export default class GivePermission extends Vue {
           key: this.permission,
           value: true
         });
-        this.setLogOffOnPause(true);
       } else if (this.permission === "store_files") {
         this.setLogOffOnPause(false);
         const hasPermission = await this.hasFileWritePermission().catch(err =>
@@ -117,7 +116,6 @@ export default class GivePermission extends Vue {
           key: this.permission,
           value: hasPermission === true || requestedSucces === true
         });
-        this.setLogOffOnPause(true);
       } else if (this.permission === "vpn") {
         if (this.account.currentDevice) {
           this.setLogOffOnPause(false);
@@ -142,12 +140,12 @@ export default class GivePermission extends Vue {
               }
             );
 
+            this.setLogOffOnPause(false);
+
             this.setPermission({
               key: this.permission,
               value: vpnConfigured === true
             });
-
-            this.setLogOffOnPause(true);
           }
         }
       } else {

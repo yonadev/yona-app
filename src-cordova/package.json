@@ -56,8 +56,8 @@
       "cordova-plugin-whitelist": {},
       "cordova-plugin-keyboard": {},
       "cordova-plugin-file": {},
-      "cordova-plugin-yona-services": {},
-      "cordova-plugin-nativestorage": {}
+      "cordova-plugin-nativestorage": {},
+      "cordova-plugin-yona-services": {}
     },
     "platforms": []
   }

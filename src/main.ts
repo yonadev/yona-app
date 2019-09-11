@@ -264,7 +264,7 @@ const app = new Vue({
             }
           } else if (currentRoute.name === "MeTimeLineDay") {
             //@ts-ignore
-            navigator.app.exitApp();
+            cordova.plugins.YonaServices.moveToBackground();
           }
         },
         false
@@ -283,6 +283,8 @@ const app = new Vue({
 
       if (this.$store.state.login.logOffOnPause) {
         this.$store.dispatch("login/setLoggedOff");
+      } else {
+        this.$store.dispatch("login/setLogOffOnPause", true);
       }
     },
     resume() {
