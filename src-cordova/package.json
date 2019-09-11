@@ -59,6 +59,8 @@
       "cordova-plugin-nativestorage": {},
       "cordova-plugin-yona-services": {}
     },
-    "platforms": []
+    "platforms": [
+      "android"
+    ]
   }
 }

@@ -65,80 +65,86 @@ const actions: ActionTree<AccountState, RootState> = {
     commit("setProperty", data);
   },
   async setUserData({ commit, rootState, dispatch }, data) {
-    commit("setUserData", {
-      firstname: data.firstName,
-      lastname: data.lastName,
-      phonenumber: data.mobileNumber,
-      nickname: data.nickname
-    });
-
-    let currentDevice = null;
-    if (data._embedded["yona:devices"]) {
-      currentDevice = data._embedded["yona:devices"]._embedded[
-        "yona:devices"
-      ].find((device: any) => {
-        return device.requestingDevice;
-      });
-    }
-
-    if (currentDevice) {
-      commit("setCurrentDevice", currentDevice);
-
-      if (currentDevice._links["yona:postOpenAppEvent"]) {
-        let OS = "ANDROID";
-        //@ts-ignore
-        if (typeof device !== "undefined") {
-          //@ts-ignore
-          OS = device.platform.toUpperCase();
-        }
-
-        let openApp: any = await axios
-          .post(currentDevice._links["yona:postOpenAppEvent"].href, {
-            operatingSystem: OS,
-            appVersion: rootState.app.versionNumber,
-            appVersionCode: rootState.app.versionCode
-          })
-          .catch(error => {
-            dispatch("resetAll", null, { root: true });
-            dispatch(
-              "api/setServerError",
-              {
-                serverMessage: i18n.t("error_device_not_Found")
-              },
-              { root: true }
-            );
-          });
-      }
-
-      if (
-        // @ts-ignore
-        typeof cordova !== "undefined" &&
-        // @ts-ignore
-        typeof cordova.plugins !== "undefined" &&
-        // @ts-ignore
-        typeof cordova.plugins.UserPreferences !== "undefined"
-      ) {
-        // @ts-ignore
-        const userPreferences = cordova.plugins.UserPreferences;
-        userPreferences.setYonaPassword(data.yonaPassword);
-        userPreferences.setServerUrl(rootState.api.host);
-        if (typeof currentDevice._links["yona:appActivity"] !== "undefined") {
-          userPreferences.setAppActivityUrl(
-            currentDevice._links["yona:appActivity"].href
-          );
-        }
-      }
-
-      return true;
-    } else {
-      dispatch("resetAll", null, { root: true });
-      dispatch(
-        "api/setServerError",
-        {
-          serverMessage: i18n.t("error_device_not_Found")
-        },
-        { root: true }
+    if (rootState.api.links) {
+      let user_response: any = await axios.get(
+        rootState.api.links["self"].href
       );
+
+      commit("setUserData", {
+        firstname: data.firstName,
+        lastname: data.lastName,
+        phonenumber: data.mobileNumber,
+        nickname: data.nickname
+      });
+
+      let currentDevice = null;
+      if (data._embedded["yona:devices"]) {
+        currentDevice = data._embedded["yona:devices"]._embedded[
+          "yona:devices"
+        ].find((device: any) => {
+          return device.requestingDevice;
+        });
+      }
+
+      if (currentDevice) {
+        commit("setCurrentDevice", currentDevice);
+
+        if (currentDevice._links["yona:postOpenAppEvent"]) {
+          let OS = "ANDROID";
+          //@ts-ignore
+          if (typeof device !== "undefined") {
+            //@ts-ignore
+            OS = device.platform.toUpperCase();
+          }
+
+          let openApp: any = await axios
+            .post(currentDevice._links["yona:postOpenAppEvent"].href, {
+              operatingSystem: OS,
+              appVersion: rootState.app.versionNumber,
+              appVersionCode: rootState.app.versionCode
+            })
+            .catch(error => {
+              dispatch("resetAll", null, { root: true });
+              dispatch(
+                "api/setServerError",
+                {
+                  serverMessage: i18n.t("error_device_not_Found")
+                },
+                { root: true }
+              );
+            });
+        }
+
+        if (
+          // @ts-ignore
+          typeof cordova !== "undefined" &&
+          // @ts-ignore
+          typeof cordova.plugins !== "undefined" &&
+          // @ts-ignore
+          typeof cordova.plugins.UserPreferences !== "undefined"
+        ) {
+          // @ts-ignore
+          const userPreferences = cordova.plugins.UserPreferences;
+          userPreferences.setYonaPassword(data.yonaPassword);
+          userPreferences.setServerUrl(rootState.api.host);
+          if (typeof currentDevice._links["yona:appActivity"] !== "undefined") {
+            userPreferences.setAppActivityUrl(
+              currentDevice._links["yona:appActivity"].href
+            );
+          }
+        }
+
+        return true;
+      } else {
+        dispatch("resetAll", null, { root: true });
+        dispatch(
+          "api/setServerError",
+          {
+            serverMessage: i18n.t("error_device_not_Found")
+          },
+          { root: true }
+        );
+      }
     }
     return false;
   },
