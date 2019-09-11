@@ -62,7 +62,7 @@ const actions: ActionTree<LoginState, RootState> = {
         params: router.currentRoute.params,
         query: router.currentRoute.query
       });
-    } else {
+    } else if (customRoute) {
       commit("setLastRoute", customRoute);
     }
   },
