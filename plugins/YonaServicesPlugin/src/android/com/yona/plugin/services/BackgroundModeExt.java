@@ -74,6 +74,10 @@ public class BackgroundModeExt extends CordovaPlugin {
                 openAppStart(args.opt(0));
                 callback.success();
                 break;
+            case "background":
+                moveToBackground();
+                callback.success();
+                break;
             case "checkappstart":
                 callback.success((needsAppStart() ? "true" : "false"));
                 break;
@@ -94,6 +98,18 @@ public class BackgroundModeExt extends CordovaPlugin {
         }
 
         return validAction;
+    }
+
+    /**
+     * Moves the app to the background.
+     */
+    private void moveToBackground()
+    {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+
+        intent.addCategory(Intent.CATEGORY_HOME);
+
+        getApp().startActivity(intent);
     }
 
     /**

@@ -237,6 +237,17 @@ exports.openAppStartSettings = function(options) {
 };
 
 /**
+ * Move app to background (Android only).
+ *
+ * @return [ Void ]
+ */
+exports.moveToBackground = function() {
+  if (this._isAndroid) {
+    cordova.exec(null, null, "BackgroundModeExt", "background", []);
+  }
+};
+
+/**
  * Exclude the app from the recent tasks list (Android only).
  *
  * @return [ Void ]
@@ -245,22 +256,6 @@ exports.excludeFromTaskList = function() {
   if (this._isAndroid) {
     cordova.exec(null, null, "BackgroundModeExt", "tasklist", []);
   }
-};
-
-/**
- * Override the back button on Android to go to background
- * instead of closing the app.
- *
- * @return [ Void ]
- */
-exports.overrideBackButton = function() {
-  document.addEventListener(
-    "backbutton",
-    function() {
-      exports.moveToBackground();
-    },
-    false
-  );
 };
 
 /**
