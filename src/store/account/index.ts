@@ -64,11 +64,18 @@ const actions: ActionTree<AccountState, RootState> = {
   setProperty({ commit, dispatch, state }, data): void {
     commit("setProperty", data);
   },
-  async setUserData({ commit, rootState, dispatch }, data) {
+  async setUserData({ commit, rootState, dispatch }) {
     if (rootState.api.links) {
       let user_response: any = await axios.get(
         rootState.api.links["self"].href
       );
+
+      let data;
+      if (user_response) {
+        data = user_response.data;
+      } else {
+        return false;
+      }
 
       commit("setUserData", {
         firstname: data.firstName,
@@ -132,6 +139,61 @@ const actions: ActionTree<AccountState, RootState> = {
               currentDevice._links["yona:appActivity"].href
             );
           }
+        }
+
+        if (rootState.api.links["yona:userPhoto"]) {
+          let photo_response: any = await axios.get(
+            rootState.api.links["yona:userPhoto"].href,
+            {
+              responseType: "arraybuffer"
+            }
+          );
+
+          if (photo_response) {
+            //@ts-ignore
+            const userPhoto = new Buffer.from(
+              photo_response.data,
+              "binary"
+            ).toString("base64");
+            //@ts-ignore
+            NativeStorage.setItem(
+              "user_image",
+              JSON.stringify({
+                type: "me",
+                src: "data:image/png;base64," + userPhoto
+              }),
+              function(success: any) {
+                console.log(success);
+              },
+              function(error: any) {
+                console.log(error);
+              }
+            );
+          }
+        } else {
+          //@ts-ignore
+          NativeStorage.getItem(
+            "user_image",
+            function(success: any) {},
+            function(error: any) {
+              //@ts-ignore
+              NativeStorage.setItem(
+                "user_image",
+                JSON.stringify({
+                  type: "me",
+                  text:
+                    user_response.data.firstName.charAt(0) +
+                    user_response.data.lastName.charAt(0)
+                }),
+                function(success: any) {
+                  console.log(success);
+                },
+                function(error: any) {
+                  console.log(error);
+                }
+              );
+            }
+          );
         }
 
         return true;

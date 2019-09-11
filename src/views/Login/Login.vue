@@ -84,71 +84,10 @@ export default class Login extends Vue {
       }
       if (val === this.login.pinCode) {
         if (this.api.links) {
-          let user_response: any = await axios.get(this.api.links["self"].href);
+          const success = await this.setUserData();
 
-          if (user_response) {
-            const success = await this.setUserData(user_response.data);
-
-            if (!success) {
-              return;
-            }
-          } else {
+          if (!success) {
             return;
-          }
-
-          if (this.api.links["yona:userPhoto"]) {
-            let photo_response: any = await axios.get(
-              this.api.links["yona:userPhoto"].href,
-              {
-                responseType: "arraybuffer"
-              }
-            );
-
-            if (photo_response) {
-              //@ts-ignore
-              const userPhoto = new Buffer.from(
-                photo_response.data,
-                "binary"
-              ).toString("base64");
-              //@ts-ignore
-              NativeStorage.setItem(
-                "user_image",
-                JSON.stringify({
-                  type: "me",
-                  src: "data:image/png;base64," + userPhoto
-                }),
-                function(success: any) {
-                  console.log(success);
-                },
-                function(error: any) {
-                  console.log(error);
-                }
-              );
-            }
-          } else {
-            //@ts-ignore
-            NativeStorage.getItem(
-              "user_image",
-              function(success: any) {},
-              function(error: any) {
-                //@ts-ignore
-                NativeStorage.setItem(
-                  "user_image",
-                  JSON.stringify({
-                    type: "me",
-                    text:
-                      user_response.data.firstName.charAt(0) +
-                      user_response.data.lastName.charAt(0)
-                  }),
-                  function(success: any) {
-                    console.log(success);
-                  },
-                  function(error: any) {
-                    console.log(error);
-                  }
-                );
-              }
-            );
           }
 
           this.setLoggedIn(true);

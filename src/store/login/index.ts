@@ -71,6 +71,7 @@ const actions: ActionTree<LoginState, RootState> = {
   },
   async setRegistered({ commit, dispatch }): Promise<void> {
     commit("setRegistered");
+    dispatch("account/setUserData", null, { root: true });
     await dispatch("setLoggedIn", {});
   },
   async pinReset({ commit, rootState, dispatch }, data) {
