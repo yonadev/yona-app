@@ -40,19 +40,11 @@ export default class ProfilePic extends Vue {
 
   mounted() {
     if (this.src) {
-      let self = this;
-      //@ts-ignore
-      const pic_src = NativeStorage.getItem(
-        this.src,
-        function(pic_src: any) {
-          if (pic_src !== null) {
-            self.pic_data = JSON.parse(pic_src);
-          }
-        },
-        function(error: any) {
-          console.log(error);
-        }
-      );
+      const pic_src = window.localStorage.getItem(this.src);
+
+      if (pic_src !== null) {
+        this.pic_data = JSON.parse(pic_src);
+      }
     } else if (this.data) {
       this.pic_data = this.data;
     }

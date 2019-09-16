@@ -215,19 +215,12 @@ export default class Profile extends Vue {
             photo_response.data,
             "binary"
           ).toString("base64");
-          //@ts-ignore
-          NativeStorage.setItem(
+          window.localStorage.setItem(
             "user_image",
             JSON.stringify({
               type: "me",
               src: "data:image/png;base64," + userPhoto
-            }),
-            function(success: any) {
-              console.log(success);
-            },
-            function(error: any) {
-              console.log(error);
-            }
+            })
           );
           self.edit = false;
         }

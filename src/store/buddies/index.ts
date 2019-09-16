@@ -46,40 +46,26 @@ const actions: ActionTree<BuddiesState, RootState> = {
               userPhotoResponse.data,
               "binary"
             ).toString("base64");
-            //@ts-ignore
-            NativeStorage.setItem(
+            window.localStorage.setItem(
               buddy._embedded["yona:user"]._links.self.href,
               JSON.stringify({
                 type: "buddy",
                 src: "data:image/png;base64," + userPhoto
-              }),
-              function(success: any) {
-                console.log(success);
-              },
-              function(error: any) {
-                console.log(error);
-              }
+              })
             );
             hasPhoto = true;
           }
         }
 
         if (!hasPhoto) {
-          //@ts-ignore
-          NativeStorage.setItem(
+          window.localStorage.setItem(
             buddy._embedded["yona:user"]._links.self.href,
             JSON.stringify({
               type: "buddy",
               text:
                 buddy._embedded["yona:user"].firstName.charAt(0) +
                 buddy._embedded["yona:user"].lastName.charAt(0)
-            }),
-            function(success: any) {
-              console.log(success);
-            },
-            function(error: any) {
-              console.log(error);
-            }
+            })
           );
         }
       })

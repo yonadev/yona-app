@@ -155,45 +155,28 @@ const actions: ActionTree<AccountState, RootState> = {
               photo_response.data,
               "binary"
             ).toString("base64");
-            //@ts-ignore
-            NativeStorage.setItem(
+            window.localStorage.setItem(
               "user_image",
               JSON.stringify({
                 type: "me",
                 src: "data:image/png;base64," + userPhoto
-              }),
-              function(success: any) {
-                console.log(success);
-              },
-              function(error: any) {
-                console.log(error);
-              }
+              })
             );
           }
         } else {
-          //@ts-ignore
-          NativeStorage.getItem(
-            "user_image",
-            function(success: any) {},
-            function(error: any) {
-              //@ts-ignore
-              NativeStorage.setItem(
-                "user_image",
-                JSON.stringify({
-                  type: "me",
-                  text:
-                    user_response.data.firstName.charAt(0) +
-                    user_response.data.lastName.charAt(0)
-                }),
-                function(success: any) {
-                  console.log(success);
-                },
-                function(error: any) {
-                  console.log(error);
-                }
-              );
-            }
-          );
+          const user_image = window.localStorage.getItem("user_image");
+
+          if (!user_image) {
+            window.localStorage.setItem(
+              "user_image",
+              JSON.stringify({
+                type: "me",
+                text:
+                  user_response.data.firstName.charAt(0) +
+                  user_response.data.lastName.charAt(0)
+              })
+            );
+          }
         }
 
         return true;
@@ -228,9 +211,9 @@ const actions: ActionTree<AccountState, RootState> = {
       });
       //@ts-ignore
       cordova.plugins.YonaServices.checkAppStartSettings().then(function(
-        isAvailable: boolean
+        isAvailable: string
       ) {
-        commit("setAutoStart", !isAvailable);
+        commit("setAutoStart", isAvailable !== "true");
       });
       //@ts-ignore
       const Permission = window.plugins.Permission;

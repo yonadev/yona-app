@@ -14,36 +14,7 @@ const debug = process.env.NODE_ENV !== "production";
 
 //Todo: switch to different storage solution for iOS
 const vuexLocal = new VuexPersistence<RootState>({
-  asyncStorage: true,
-  restoreState: function(key, storage): Promise<any> {
-    return new Promise(resolve => {
-      //@ts-ignore
-      NativeStorage.getItem(
-        key,
-        function(value: any) {
-          resolve(value);
-        },
-        function(error: any) {
-          resolve();
-        }
-      );
-    });
-  },
-  saveState: function(key, state, storage): Promise<any> {
-    return new Promise((resolve, reject) => {
-      //@ts-ignore
-      NativeStorage.setItem(
-        key,
-        state,
-        function(value: any) {
-          resolve(value);
-        },
-        function(error: any) {
-          reject(error);
-        }
-      );
-    });
-  },
+  storage: window.localStorage,
   reducer: state => ({
     api: {
       ...state.api,

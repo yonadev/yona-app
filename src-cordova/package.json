@@ -25,7 +25,6 @@
     "cordova-plugin-firebase-messaging": "^3.0.0",
     "cordova-plugin-keyboard": "^1.2.0",
     "cordova-plugin-messaging": "0.0.0",
-    "cordova-plugin-nativestorage": "^2.3.2",
     "cordova-plugin-network-information": "^2.0.2",
     "cordova-plugin-permission": "^0.1.0",
     "cordova-plugin-splashscreen": "^5.0.3",
@@ -56,7 +55,6 @@
       "cordova-plugin-whitelist": {},
       "cordova-plugin-keyboard": {},
       "cordova-plugin-file": {},
-      "cordova-plugin-nativestorage": {},
       "cordova-plugin-yona-services": {}
     },
     "platforms": [
