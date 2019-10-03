@@ -32,9 +32,7 @@
           </p>
         </div>
       </div>
-      <div class="tabs">
-
-      </div>
+      <div class="tabs"></div>
     </div>
     <div class="wrapper">
       <div class="grey-bg-div">
