@@ -169,7 +169,7 @@ export default class Devices extends Vue {
       background-color: transparent;
       width: 85%;
       padding: 12px 0;
-      font-size: 14px;
+      font-size: 1.2rem;
     }
   }
 }

@@ -158,23 +158,23 @@ export default class TimelineCategory extends Vue {
       margin-bottom: 0 !important;
       margin-top: 10px !important;
       &.title {
-        font-size: 13px;
+        font-size: 1.1rem;
       }
       &.minutes {
-        font-size: 10px;
+        font-size: 0.8rem;
       }
     }
 
     .current-minutes {
       font-family: Oswald, sans-serif;
-      font-size: 28px;
+      font-size: 2.5rem;
 
       &.warning {
         color: $color-purple;
       }
     }
     .minutes-budget {
-      font-size: 10px;
+      font-size: 0.8rem;
       opacity: 0.6;
     }
   }

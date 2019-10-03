@@ -60,7 +60,7 @@ export default class Unsubscribe extends Vue {
     color: $color-yellow;
     background-color: transparent;
     padding: 5px 40px;
-    font-size: 14px;
+    font-size: 1.2rem;
   }
 }
 </style>

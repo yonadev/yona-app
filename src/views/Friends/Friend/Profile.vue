@@ -139,7 +139,7 @@ export default class FriendsProfile extends Vue {
     span {
       display: block;
       color: #fff;
-      font-size: 20px;
+      font-size: 1.6rem;
       padding: 25px 0;
     }
   }
@@ -161,7 +161,7 @@ export default class FriendsProfile extends Vue {
       background-color: transparent;
       width: 85%;
       padding: 5px 0;
-      font-size: 14px;
+      font-size: 1.2rem;
     }
     .control {
       .input-floating-label.is-focused label {

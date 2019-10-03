@@ -77,12 +77,12 @@ export default class AddDevice extends Vue {
 #add-device {
   .wrapper {
     padding-top: 15px;
-    font-size: 13px;
+    font-size: 1.1rem;
 
     span.otp {
       margin-top: 25px;
       display: block;
-      font-size: 19px;
+      font-size: 1.6rem;
       font-family: serif;
 
       span.char {

@@ -573,7 +573,7 @@ export default class Notifications extends Vue {
   .top-label {
     background: #e7e7e7;
     padding: 17px;
-    font-size: 11px;
+    font-size: 0.9rem;
     opacity: 0.6;
     border-bottom: 1px solid #d5d5d5;
     border-top: 1px solid #d5d5d5;
@@ -630,7 +630,7 @@ export default class Notifications extends Vue {
             padding: 12px 0;
             position: relative;
             display: block;
-            font-size: 18px;
+            font-size: 1.5rem;
           }
         }
       }

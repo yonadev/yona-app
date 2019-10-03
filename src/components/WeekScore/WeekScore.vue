@@ -175,10 +175,10 @@ export default class WeekScore extends Vue {
     margin-bottom: 0 !important;
     .current-accomplished {
       font-family: Oswald, sans-serif;
-      font-size: 28px;
+      font-size: 2.5rem;
     }
     .goal-accomplished {
-      font-size: 11px;
+      font-size: 0.9rem;
       letter-spacing: normal;
       opacity: 0.6;
     }

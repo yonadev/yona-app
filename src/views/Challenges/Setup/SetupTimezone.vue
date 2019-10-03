@@ -222,7 +222,7 @@ export default class Setup extends Vue {
     .challengeInfoColumn {
       text-align: left;
       strong {
-        font-size: 14px;
+        font-size: 1.2rem;
       }
       p {
         margin-top: 4px;
@@ -230,7 +230,7 @@ export default class Setup extends Vue {
     }
 
     .add-tz-btn {
-      font-size: 30px;
+      font-size: 2.5rem;
       text-align: right;
     }
   }
@@ -276,13 +276,13 @@ export default class Setup extends Vue {
               width: 100%;
               padding: 8px 0 0 10px;
               text-align: left;
-              font-size: 16px;
+              font-size: 1.33rem;
               text-transform: uppercase;
             }
 
             .time-value {
               width: 100%;
-              font-size: 32px;
+              font-size: 2.6rem;
               text-align: left;
               padding-left: 10px;
               font-family: Oswald, sans-serif;

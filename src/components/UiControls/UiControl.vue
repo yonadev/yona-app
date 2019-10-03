@@ -145,14 +145,14 @@ export default class UiControl extends Vue {
 
     .current-minutes {
       font-family: Oswald, sans-serif;
-      font-size: 28px;
+      font-size: 2.5rem;
 
       &.warning {
         color: $color-purple;
       }
     }
     .minutes-budget {
-      font-size: 10px;
+      font-size: 0.8rem;
       opacity: 0.6;
     }
   }

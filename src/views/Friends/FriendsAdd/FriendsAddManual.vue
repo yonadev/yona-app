@@ -122,7 +122,7 @@ export default class FriendsAddManual extends Vue {
     background-color: transparent;
     width: 85%;
     padding: 5px 0;
-    font-size: 14px;
+    font-size: 1.2rem;
   }
 }
 </style>

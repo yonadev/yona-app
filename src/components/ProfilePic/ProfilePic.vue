@@ -11,7 +11,7 @@
       <text
         dominant-baseline="middle"
         text-anchor="middle"
-        font-size="15"
+        font-size="1.25rem"
         fill="white"
         x="25"
         y="26"

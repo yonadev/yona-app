@@ -224,7 +224,7 @@ export default class Setup extends Vue {
         color: $color-blue;
         background-color: transparent;
         padding: 5px 0;
-        font-size: 14px;
+        font-size: 1.2rem;
         text-transform: uppercase;
         font-weight: bold;
         width: 85%;

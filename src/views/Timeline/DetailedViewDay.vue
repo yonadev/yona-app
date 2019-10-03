@@ -232,7 +232,7 @@ export default class DetailedViewDay extends Vue {
     .top-label {
       background: #e7e7e7;
       padding: 17px;
-      font-size: 11px;
+      font-size: 0.9rem;
       opacity: 0.6;
       border-bottom: 1px solid #d5d5d5;
       border-top: 1px solid #d5d5d5;
