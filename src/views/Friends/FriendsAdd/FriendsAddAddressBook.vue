@@ -53,7 +53,7 @@ import Component from "vue-class-component";
 import InputFloatingLabel from "@/components/InputFloatingLabel.vue";
 import { Watch } from "vue-property-decorator";
 import { ApiState } from "@/store/api/types";
-import { State } from "vuex-class";
+import { Action, State } from "vuex-class";
 import axios from "@/utils/axios/axios";
 
 @Component({
@@ -63,6 +63,7 @@ import axios from "@/utils/axios/axios";
 })
 export default class FriendsAddAddressBook extends Vue {
   @State("api") api!: ApiState;
+  @Action("setLogOffOnPause", { namespace: "login" }) setLogOffOnPause: any;
   loading: boolean = false;
   firstname: string | null = "";
   lastname: string | null = "";
@@ -115,6 +116,7 @@ export default class FriendsAddAddressBook extends Vue {
 
   async addFromAddressBook() {
     const self = this;
+    this.setLogOffOnPause(false);
     //@ts-ignore
     navigator.contacts.pickContact(
       function(contact: any) {

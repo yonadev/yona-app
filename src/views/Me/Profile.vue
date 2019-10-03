@@ -114,6 +114,7 @@ export default class Profile extends Vue {
   @State("account") account!: AccountState;
   @State("api") api!: ApiState;
   @Action("setProperty", { namespace: "account" }) setProperty: any;
+  @Action("setLogOffOnPause", { namespace: "login" }) setLogOffOnPause: any;
   loading: boolean = false;
   edit: boolean = false;
   active_tab: string = "profile";
@@ -161,6 +162,7 @@ export default class Profile extends Vue {
     const self = this;
     //@ts-ignore
     if (plugins != undefined && plugins.crop && navigator.camera) {
+      this.setLogOffOnPause(false);
       //@ts-ignore
       navigator.camera.getPicture(this.cropProfilePicture, null, {
         quality: 50,
@@ -173,6 +175,7 @@ export default class Profile extends Vue {
 
   cropProfilePicture(imageData: string) {
     const self = this;
+    this.setLogOffOnPause(false);
     //@ts-ignore
     plugins.crop(
       function success(data: string) {
