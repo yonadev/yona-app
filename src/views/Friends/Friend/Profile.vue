@@ -19,9 +19,6 @@
           <li :class="{ 'is-active': active_tab === 'profile' }">
             <a @click.prevent="active_tab = 'profile'">Profiel</a>
           </li>
-          <li :class="{ 'is-active': active_tab === 'badges' }">
-            <a @click.prevent="active_tab = 'badges'">Badges</a>
-          </li>
         </ul>
       </div>
     </div>
@@ -66,7 +63,6 @@
         $t("remove_friend_btn")
       }}</a>
     </div>
-    <div class="wrapper" v-if="active_tab === 'badges'"></div>
   </div>
 </template>
 
