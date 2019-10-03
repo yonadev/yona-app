@@ -99,7 +99,7 @@
   "challenges.addBudgetGoal.budgetChallengeDescription": "Bepaal hier hoeveel tijd je aan {category} wilt besteden",
   "challenges.addBudgetGoal.deletedGoalMessage": "Verwijder challenge",
   "deleteuser": "UITSCHRIJVEN",
-  "usercredential": "User Credential",
+  "usercredential": "Deel encryptie sleutel",
   "challengesaddBudgetGoalcannotDeleteMandatoryGoalMessage": "Kan verplichte challenge niet verwijderen",
   "deleteusermessage": "Uitschrijven betekent dat je alle informatie (vrienden, meldingen, uitdagingen, activiteiten, etc.) op al je apparaten verliest. Druk op OK wanneer dit de bedoeling is.",
   "usercredentialmsg": "Alle gegevens zijn encrypted opgeslagen. Om bepaalde problemen op te kunnen lossen moeten we deze decrypten. Gebruik deze optie alleen wanneer het support team hier om vraagt.",
