@@ -45,9 +45,6 @@
           <li :class="{ 'is-active': active_tab === 'profile' }">
             <a @click.prevent="active_tab = 'profile'">{{ $t("profile") }}</a>
           </li>
-          <li :class="{ 'is-active': active_tab === 'badges' }">
-            <a @click.prevent="active_tab = 'badges'">{{ $t("badges") }}</a>
-          </li>
         </ul>
       </div>
     </div>
@@ -93,7 +90,6 @@
         icon="icn_mobile.svg"
       ></input-floating-label>
     </div>
-    <div class="wrapper" v-if="active_tab === 'badges'"></div>
   </div>
 </template>
 
