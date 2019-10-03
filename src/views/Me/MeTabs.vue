@@ -89,8 +89,6 @@ export default class MeTabs extends Vue {
   async getPhoto(message: any) {
     let hasPhoto = false;
 
-    console.log(message);
-
     if (message._links["yona:userPhoto"]) {
       const userPhotoResponse: any = await axios.get(
         message._links["yona:userPhoto"].href,
@@ -135,14 +133,14 @@ export default class MeTabs extends Vue {
 @import "../../sass/variables";
 #me {
   .profile-img {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.9rem;
+    height: 2.9rem;
     margin-right: 20px;
     display: inline-block;
     border-radius: 50%;
     img {
-      width: 2.5rem;
-      height: 2.5rem;
+      width: 2.9rem;
+      height: 2.9rem;
       background-color: #915c80;
       margin-right: 20px;
       display: inline-block;

@@ -58,44 +58,4 @@ export default class FriendTimeLineTabs extends Vue {
 }
 </script>
 
-<style lang="scss">
-#me {
-  .profile-img {
-    width: 30px;
-    height: 30px;
-    margin-right: 20px;
-    display: inline-block;
-    border-radius: 50%;
-    img {
-      width: 30px;
-      height: 30px;
-      background-color: #915c80;
-      margin-right: 20px;
-      display: inline-block;
-      border-radius: 50%;
-    }
-  }
-  .small-top-icon {
-    vertical-align: middle;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    position: relative;
-  }
-  .dashboard-title {
-    display: inline-block;
-    vertical-align: top;
-    height: 30px;
-    line-height: 30px;
-  }
-  .nav-title {
-    padding: 30px 15px 10px 15px;
-  }
-  .wrapper {
-    padding: 0;
-    &.grey-bg {
-      background-color: #f3f3f3;
-    }
-  }
-}
-</style>
+<style lang="scss"></style>

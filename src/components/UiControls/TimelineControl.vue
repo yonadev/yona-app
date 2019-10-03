@@ -23,31 +23,28 @@
         </div>
       </div>
       <div class="column">
-        <div
+        <no-go-control
           v-if="
             goal &&
               goal['@type'] === 'BudgetGoal' &&
               this.goal.maxDurationMinutes === 0
           "
-        >
-          <no-go-control
-            :username="username"
-            :goal="goal"
-            :dayActivity="day_activity"
-          ></no-go-control>
-        </div>
-        <div v-else-if="goal && goal['@type'] === 'BudgetGoal'">
-          <time-bucket-control
-            :goal="goal"
-            :dayActivity="day_activity"
-          ></time-bucket-control>
-        </div>
-        <div v-else-if="goal">
-          <time-frame-control
-            :goal="goal"
-            :dayActivity="day_activity"
-          ></time-frame-control>
-        </div>
+          :username="username"
+          :goal="goal"
+          :dayActivity="day_activity"
+        ></no-go-control>
+
+        <time-bucket-control
+          v-else-if="goal && goal['@type'] === 'BudgetGoal'"
+          :goal="goal"
+          :dayActivity="day_activity"
+        ></time-bucket-control>
+
+        <time-frame-control
+          v-else-if="goal"
+          :goal="goal"
+          :dayActivity="day_activity"
+        ></time-frame-control>
       </div>
     </div>
   </div>
@@ -93,8 +90,8 @@ export default class TimelineControl extends Vue {
 @import "../../sass/variables";
 .timeline-control {
   img {
-    width: 35px;
-    height: 35px;
+    width: 2.9rem;
+    height: 2.9rem;
   }
 }
 </style>

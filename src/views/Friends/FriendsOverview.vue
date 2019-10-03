@@ -3,9 +3,10 @@
     <div class="top-label">
       <strong>VERBONDEN</strong>
     </div>
+
     <div
-      v-for="(buddy, index) in buddies"
-      :key="'accepted' + index"
+      v-for="buddy in buddies"
+      :key="'accepted' + buddy._embedded['yona:user'].nickname"
       :class="{
         'grey-bg-div': buddy && buddy.receivingStatus === userStatus.Accepted
       }"
@@ -51,7 +52,7 @@
     >
       <div
         v-if="buddy && buddy.receivingStatus === userStatus.Requested"
-        class="columns is-mobile"
+        class="columns is-mobile is-vcentered"
       >
         <div class="column is-2">
           <div class="img-wrapper">

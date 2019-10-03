@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <span>
     <img width="100%" v-if="pic_data && pic_data.src" :src="pic_data.src" />
     <svg
       style="min-height:2.5rem;min-width:2.5rem;"
@@ -23,7 +23,7 @@
         {{ pic_data.text }}
       </text>
     </svg>
-  </div>
+  </span>
 </template>
 
 <script lang="ts">

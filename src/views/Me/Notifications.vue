@@ -321,7 +321,6 @@ export default class Notifications extends Vue {
           if (messages.data._embedded) {
             messages.data._embedded["yona:messages"].forEach(
               (notification: Notification) => {
-                console.log(notification);
                 let not = self.all_notifications.find((not: any) => {
                   return (
                     this.getDayLabel(notification.creationTime) === not.date
@@ -593,8 +592,8 @@ export default class Notifications extends Vue {
     }
     .notification {
       .img-wrapper {
-        width: 50px;
-        height: 50px;
+        width: 4rem;
+        height: 4rem;
         -webkit-border-radius: 100%;
         -moz-border-radius: 100%;
         border-radius: 100%;
@@ -612,8 +611,8 @@ export default class Notifications extends Vue {
           max-width: 100%;
         }
         .profile-img {
-          height: 50px;
-          width: 50px;
+          height: 4rem;
+          width: 4rem;
           background-color: $color-purple-dark;
           color: #fff;
           position: relative;
