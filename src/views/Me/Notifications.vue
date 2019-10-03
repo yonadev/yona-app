@@ -51,14 +51,7 @@
                     class="img-wrapper"
                   ></div>
                   <div v-else class="img-wrapper">
-                    <profile-pic
-                      v-if="getPicLink(notification)"
-                      :src="getPicLink(notification)"
-                    ></profile-pic>
-                    <profile-pic
-                      v-else-if="getPicData(notification)"
-                      :data="getPicData(notification)"
-                    ></profile-pic>
+                    <profile-pic :src="getPicLink(notification)"></profile-pic>
                   </div>
                 </div>
                 <div class="column">
@@ -328,6 +321,7 @@ export default class Notifications extends Vue {
           if (messages.data._embedded) {
             messages.data._embedded["yona:messages"].forEach(
               (notification: Notification) => {
+                console.log(notification);
                 let not = self.all_notifications.find((not: any) => {
                   return (
                     this.getDayLabel(notification.creationTime) === not.date
@@ -360,18 +354,14 @@ export default class Notifications extends Vue {
       notification["@type"] === "BuddyDeviceChangeMessage"
     ) {
       return notification._links["yona:user"].href;
+    } else if (notification["@type"] === "BuddyConnectRequestMessage") {
+      if (notification._links["yona:userPhoto"]) {
+        return notification._links["yona:userPhoto"].href;
+      } else {
+        return notification._links.self.href;
+      }
     }
 
-    return false;
-  }
-
-  getPicData(notification: any) {
-    if (notification["@type"] === "BuddyConnectRequestMessage") {
-      return {
-        type: "buddy",
-        text: notification.nickname
-      };
-    }
     return false;
   }
 
@@ -392,7 +382,8 @@ export default class Notifications extends Vue {
       });
     } else if (
       notification["@type"] === "BuddyInfoChangeMessage" ||
-      notification["@type"] === "BuddyConnectResponseMessage"
+      (notification["@type"] === "BuddyConnectResponseMessage" &&
+        notification.status !== "REJECTED")
     ) {
       this.$router.push({
         name: "FriendsProfile",

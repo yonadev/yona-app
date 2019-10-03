@@ -75,11 +75,57 @@ export default class MeTabs extends Vue {
         messages.data._embedded["yona:messages"]
       ) {
         messages.data._embedded["yona:messages"].forEach((message: any) => {
+          if (message["@type"] === "BuddyConnectRequestMessage") {
+            this.getPhoto(message);
+          }
           if (!message.isRead) {
             this.notifications++;
           }
         });
       }
+    }
+  }
+
+  async getPhoto(message: any) {
+    let hasPhoto = false;
+
+    console.log(message);
+
+    if (message._links["yona:userPhoto"]) {
+      const userPhotoResponse: any = await axios.get(
+        message._links["yona:userPhoto"].href,
+        {
+          responseType: "arraybuffer"
+        }
+      );
+
+      if (userPhotoResponse) {
+        // @ts-ignore
+        const userPhoto = new Buffer.from(
+          userPhotoResponse.data,
+          "binary"
+        ).toString("base64");
+        window.localStorage.setItem(
+          message._links["yona:userPhoto"].href,
+          JSON.stringify({
+            type: "buddy",
+            src: "data:image/png;base64," + userPhoto
+          })
+        );
+        hasPhoto = true;
+      }
+    }
+
+    if (!hasPhoto) {
+      window.localStorage.setItem(
+        message._links.self.href,
+        JSON.stringify({
+          type: "buddy",
+          text:
+            message._embedded["yona:user"].firstName.charAt(0) +
+            message._embedded["yona:user"].lastName.charAt(0)
+        })
+      );
     }
   }
 }
