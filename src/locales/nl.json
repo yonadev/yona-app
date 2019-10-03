@@ -101,7 +101,7 @@
   "deleteuser": "UITSCHRIJVEN",
   "usercredential": "Deel encryptie sleutel",
   "challengesaddBudgetGoalcannotDeleteMandatoryGoalMessage": "Kan verplichte challenge niet verwijderen",
-  "deleteusermessage": "Uitschrijven betekent dat je alle informatie (vrienden, meldingen, uitdagingen, activiteiten, etc.) op al je apparaten verliest. Druk op OK wanneer dit de bedoeling is.",
+  "deleteusermessage": "Uitschrijven betekent dat je alle informatie (vrienden, meldingen, uitdagingen, activiteiten, etc.) op al je apparaten verliest. Druk op UITSCHRIJVEN wanneer dit de bedoeling is.",
   "usercredentialmsg": "Alle gegevens zijn encrypted opgeslagen. Om bepaalde problemen op te kunnen lossen moeten we deze decrypten. Gebruik deze optie alleen wanneer het support team hier om vraagt.",
   "cancel": "ANNULEREN",
   "save": "OPSLAAN",

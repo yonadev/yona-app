@@ -102,7 +102,7 @@
   "deleteuser" : "UNSUBSCRIBE",
   "usercredential" : "Share encryption key",
   "challengesaddBudgetGoalcannotDeleteMandatoryGoalMessage" : "Can't remove mandatory challenge",
-  "deleteusermessage" : "Unsubscribing means you lose all information (friends, notifications, challenges, activities, etc.) on all of your devices. Press OK if this is intended.",
+  "deleteusermessage" : "Unsubscribing means you lose all information (friends, notifications, challenges, activities, etc.) on all of your devices. Press UNSUBSCRIBE if this is intended.",
   "usercredentialmsg" : "All data is encrypted. To solve some problems we have to decrypt. Only use this option when your support team ask for it.",
   "cancel" : "CANCEL",
   "save" : "SAVE",
