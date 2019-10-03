@@ -1,49 +1,52 @@
 <template>
   <div id="add-friend" class="wrapper grey-bg" :loading="loading">
-    <input-floating-label
-      id="firstname"
-      class="grey-bg-input"
-      :label="$t('firstname')"
-      type="text"
-      :value.sync="firstname"
-      icon="icn_name.svg"
-    ></input-floating-label>
-    <input-floating-label
-      id="lastname"
-      class="grey-bg-input"
-      :label="$t('lastname')"
-      type="text"
-      :value.sync="lastname"
-      icon="icn_name.svg"
-    ></input-floating-label>
-    <input-floating-label
-      id="email"
-      class="grey-bg-input"
-      :label="$t('email')"
-      type="email"
-      :value.sync="email"
-      icon="icn_mail.svg"
-    ></input-floating-label>
-    <input-floating-label
-      id="mobile"
-      class="grey-bg-input"
-      :label="$t('mobilenumber')"
-      type="text"
-      :value.sync="mobile"
-      icon="icn_mobile.svg"
-    ></input-floating-label>
-    <input-floating-label
-      id="message"
-      class="grey-bg-input"
-      :label="$t('comment')"
-      type="text"
-      :value.sync="message"
-      icon="icn_name.svg"
-    ></input-floating-label>
-
-    <a class="button is-rounded add-friend" @click="addFriend">{{
-      $t("invitefriend")
-    }}</a>
+    <form @submit.prevent="addFriend()">
+      <input-floating-label
+        id="firstname"
+        class="grey-bg-input"
+        :label="$t('firstname')"
+        type="text"
+        :value.sync="firstname"
+        icon="icn_name.svg"
+      ></input-floating-label>
+      <input-floating-label
+        id="lastname"
+        class="grey-bg-input"
+        :label="$t('lastname')"
+        type="text"
+        :value.sync="lastname"
+        icon="icn_name.svg"
+      ></input-floating-label>
+      <input-floating-label
+        id="email"
+        class="grey-bg-input"
+        :label="$t('email')"
+        type="email"
+        :value.sync="email"
+        icon="icn_mail.svg"
+      ></input-floating-label>
+      <input-floating-label
+        id="mobile"
+        class="grey-bg-input"
+        :label="$t('mobilenumber')"
+        type="text"
+        :value.sync="mobile"
+        icon="icn_mobile.svg"
+      ></input-floating-label>
+      <input-floating-label
+        id="message"
+        class="grey-bg-input"
+        :label="$t('comment')"
+        type="text"
+        :value.sync="message"
+        icon="icn_name.svg"
+      ></input-floating-label>
+      <input
+        type="submit"
+        class="button is-rounded add-friend"
+        :value="$t('invitefriend')"
+      />
+    </form>
   </div>
 </template>
 
