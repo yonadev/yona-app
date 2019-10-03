@@ -61,6 +61,7 @@ export default class Setup extends Vue {
   sliderOption: Object = {
     min: 0,
     max: 240,
+    interval: 5,
     tooltip: "none"
   };
 
