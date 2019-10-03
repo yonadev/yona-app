@@ -15,11 +15,12 @@
     <div class="wrapper">
       <form @submit.prevent="updateDevice()">
         <input-floating-label
-          id="firstname"
+          id="device_name"
           class="grey-bg-input"
           :label="$t('device_name')"
           type="text"
           :value.sync="device_name"
+          :validate="{ required: true }"
           icon="icn_mobile.svg"
         ></input-floating-label>
         <div class="grey-bg-button">
@@ -73,19 +74,24 @@ export default class Devices extends Vue {
   }
 
   async updateDevice() {
-    let response: any = await axios
-      .put(this.device._links.edit.href, {
-        name: this.device_name
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
+    let self = this;
+    this.$validator.validate().then(async valid => {
+      if (valid) {
+        let response: any = await axios
+          .put(self.device._links.edit.href, {
+            name: self.device_name
+          })
+          .catch((error: any) => {
+            console.log(error);
+          });
 
-    if (response && this.api.links) {
-      await this.getDevices();
-    }
+        if (response && self.api.links) {
+          await self.getDevices();
+        }
 
-    this.$router.push({ path: "Devices" });
+        this.$router.push({ path: "Devices" });
+      }
+    });
   }
 
   async deleteDevice() {
