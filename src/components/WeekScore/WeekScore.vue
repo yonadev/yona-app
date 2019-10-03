@@ -201,8 +201,8 @@ export default class WeekScore extends Vue {
         }
       }
       .date {
-        height: 35px;
-        width: 35px;
+        height: 2.9rem;
+        width: 2.9rem;
         background-color: #d5d5d5;
         display: inline-block;
         border-radius: 100%;

@@ -197,12 +197,12 @@ export default class DetailedViewDay extends Vue {
 #detailed-day {
   .nav-title {
     padding: 30px 15px 5px 25px;
-    line-height: 30px;
-    min-height: 30px;
+    line-height: 2.5rem;
+    min-height: 2.5rem;
     .small-top-icon {
       vertical-align: middle;
-      width: 30px;
-      height: 30px;
+      width: 2.5rem;
+      height: 2.5rem;
       border-radius: 50%;
       position: relative;
       svg {

@@ -17,7 +17,7 @@
           params: { buddy_href: buddy._links.self.href }
         }"
         tag="div"
-        class="columns is-mobile"
+        class="columns is-mobile is-vcentered"
       >
         <div class="column is-2">
           <div class="img-wrapper">
@@ -130,8 +130,8 @@ export default class FriendsOverview extends Vue {
       background-image: linear-gradient(#f7f7f7, #fcfcfc);
       padding: 15px 25px 15px 25px;
       .img-wrapper {
-        width: 50px;
-        height: 50px;
+        width: 2.5rem;
+        height: 2.5rem;
         -webkit-border-radius: 100%;
         -moz-border-radius: 100%;
         border-radius: 100%;
@@ -154,8 +154,8 @@ export default class FriendsOverview extends Vue {
           background-color: $color-purple-dark;
         }
         .profile-img {
-          height: 50px;
-          width: 50px;
+          height: 2.5rem;
+          width: 2.5rem;
           background-color: $color-purple-dark;
           color: #fff;
           position: relative;
@@ -169,7 +169,6 @@ export default class FriendsOverview extends Vue {
       }
       .title {
         margin-bottom: 5px;
-        margin-top: 8px;
       }
       .date {
         opacity: 0.6;

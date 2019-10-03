@@ -89,14 +89,14 @@ export default class MeTabs extends Vue {
 @import "../../sass/variables";
 #me {
   .profile-img {
-    width: 30px;
-    height: 30px;
+    width: 2.5rem;
+    height: 2.5rem;
     margin-right: 20px;
     display: inline-block;
     border-radius: 50%;
     img {
-      width: 30px;
-      height: 30px;
+      width: 2.5rem;
+      height: 2.5rem;
       background-color: #915c80;
       margin-right: 20px;
       display: inline-block;
@@ -105,14 +105,14 @@ export default class MeTabs extends Vue {
   }
   .small-top-icon {
     vertical-align: middle;
-    width: 25px;
-    height: 25px;
+    width: 2rem;
+    height: 2rem;
     border-radius: 50%;
     position: relative;
     &.notification-amount {
       background-color: $color-purple;
-      height: 25px;
-      width: 25px;
+      width: 2rem;
+      height: 2rem;
       display: block;
       padding: 4px;
       -webkit-box-sizing: border-box;
@@ -123,8 +123,8 @@ export default class MeTabs extends Vue {
   .dashboard-title {
     display: inline-block;
     vertical-align: top;
-    height: 30px;
-    line-height: 30px;
+    height: 2.5rem;
+    line-height: 2.5rem;
   }
   .nav-title {
     padding: 30px 15px 10px 15px;

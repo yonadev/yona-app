@@ -81,8 +81,8 @@ export default class FriendsTabs extends Vue {
       background-image: linear-gradient(#f7f7f7, #fcfcfc);
       padding: 15px 25px 15px 25px;
       .img-wrapper {
-        width: 50px;
-        height: 50px;
+        width: 2.5rem;
+        height: 2.5rem;
         -webkit-border-radius: 100%;
         -moz-border-radius: 100%;
         border-radius: 100%;

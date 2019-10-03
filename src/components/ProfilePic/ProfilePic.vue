@@ -1,7 +1,11 @@
 <template>
   <div>
     <img width="100%" v-if="pic_data && pic_data.src" :src="pic_data.src" />
-    <svg width="100%" height="35px" viewBox="0 0 50 50" v-else-if="pic_data">
+    <svg
+      style="min-height:2.5rem;min-width:2.5rem;"
+      viewBox="0 0 50 50"
+      v-else-if="pic_data"
+    >
       <circle
         cx="25"
         cy="25"

@@ -71,7 +71,7 @@ export default class BottomMenu extends Vue {
 
 #bottom-menu {
   position: fixed;
-  height: 50px;
+  height: 4rem;
   background-color: #fff;
   bottom: 0;
   width: 100%;
@@ -80,6 +80,9 @@ export default class BottomMenu extends Vue {
   .columns {
     margin: 0;
     height: 100%;
+  }
+  img {
+    width: 2.5rem;
   }
 }
 </style>
