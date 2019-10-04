@@ -4,7 +4,6 @@ import { RootState } from "../types";
 import axios from "../../utils/axios/axios";
 import i18n from "../../utils/i18n";
 import Vue from "vue";
-import store from "@/store";
 
 export const state: AccountState = {
   firstname: "",
