@@ -401,7 +401,8 @@ export default class Notifications extends Vue {
         this.$router.push({
           name: "DetailedViewDay",
           params: {
-            activity_link: notification._links["yona:dayDetails"].href
+            activity_link: notification._links["yona:dayDetails"].href,
+            url: notification.url ? notification.url : ""
           }
         });
       }
@@ -454,6 +455,7 @@ export default class Notifications extends Vue {
             name: "DetailedViewDay",
             params: {
               activity_link: notification._links["yona:dayDetails"].href,
+              url: notification.url ? notification.url : "",
               thread: notification
             }
           });

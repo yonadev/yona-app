@@ -48,6 +48,12 @@
         :day_activity="day_activity"
         type="detailed"
       ></ui-control>
+      <div v-if="url" class="grey-bg-div has-text-left">
+        <div class="sub-title">
+          <strong>{{ $t("link") }}</strong>
+        </div>
+        {{ url }}
+      </div>
       <messages
         v-if="day_activity && day_activity._links['yona:messages']"
         :message_link="day_activity._links['yona:messages'].href"
@@ -63,11 +69,12 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import axios from "@/utils/axios/axios";
 import UiControl from "@/components/UiControls/UiControl.vue";
-import { Getter } from "vuex-class";
+import { Getter, State } from "vuex-class";
 import { ActivityCategory, Goal } from "@/store/challenges/types";
 import { Buddy } from "@/store/buddies/types";
 import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
 import Messages from "@/components/Messages/Messages.vue";
+import { ApiState } from "@/store/api/types";
 
 @Component({
   components: {
@@ -80,6 +87,7 @@ export default class DetailedViewDay extends Vue {
   @Prop() activity_link!: string;
   @Prop({ default: "" }) buddy_href!: string;
   @Prop() thread!: any;
+  @Prop() url!: string;
 
   @Getter("buddy", { namespace: "buddies" })
   public buddy!: (buddy_href: string) => Buddy;
@@ -223,6 +231,12 @@ export default class DetailedViewDay extends Vue {
       &.is-not-read {
         background: #ecf2f8;
       }
+    }
+
+    .sub-title {
+      padding: 15px 0;
+      border-bottom: 1px solid #f3f3f3;
+      margin-bottom: 15px;
     }
 
     .ui-control {
