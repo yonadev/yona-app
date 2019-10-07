@@ -59,6 +59,18 @@ exports.getUsageAccess = function(userCallback) {
 };
 
 /**
+ * Send app activities to the server
+ *
+ * @return [ Void ]
+ */
+exports.postActivitiesToServer = function(userCallback) {
+  return new Promise(function(resolve, reject) {
+    cordova.exec(resolve, reject, "BackgroundMode", "postActivitiesToServer", []);
+  });
+};
+
+
+/**
  * Activates the background mode. When activated the application
  * will be prevented from going to sleep while in background
  * for the next time.

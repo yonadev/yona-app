@@ -22,6 +22,7 @@ import org.json.JSONException;
 
 import com.yona.plugin.services.AppMonitoringService.ForegroundBinder;
 import com.yona.plugin.services.api.receiver.YonaReceiver;
+import com.yona.plugin.services.utils.AppUtils;
 import com.yona.plugin.services.utils.Logger;
 
 import static android.content.Context.BIND_AUTO_CREATE;
@@ -94,6 +95,9 @@ public class BackgroundMode extends CordovaPlugin {
         } else if ( action.equalsIgnoreCase("getUsageAccess") ) {
             this.getUsageAccess(callback);
             return true;
+        } else if ( action.equalsIgnoreCase("postActivitiesToServer") ) {
+            this.postActivitiesToServer(callback);
+            return true;
         }
 
         return false;
@@ -105,14 +109,6 @@ public class BackgroundMode extends CordovaPlugin {
 
     private void disableServices() {
         setEnabled(false);
-    }
-
-    private void setUserPreferences() {
-
-    }
-
-    private void unsetUserPreferences() {
-
     }
 
     private void setEnabled(boolean enabled) {
@@ -165,6 +161,12 @@ public class BackgroundMode extends CordovaPlugin {
         } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
+    }
+
+    private void postActivitiesToServer(CallbackContext callbackContext) {
+        Context context = this.cordova.getActivity().getApplicationContext();
+        AppUtils.sendLogToServer(context, 0);
+        callbackContext.success("true");
     }
 
     /**

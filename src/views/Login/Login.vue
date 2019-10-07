@@ -90,6 +90,16 @@ export default class Login extends Vue {
             return;
           }
 
+          if (
+            //@ts-ignore
+            typeof cordova !== "undefined" &&
+            //@ts-ignore
+            typeof cordova.plugins.YonaServices !== "undefined"
+          ) {
+            //@ts-ignore
+            await cordova.plugins.YonaServices.postActivitiesToServer();
+          }
+
           this.setLoggedIn(true);
         }
       } else {
