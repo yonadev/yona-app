@@ -35,10 +35,15 @@
         <icon density="xxxhdpi" src="res/icon/android/xxxhdpi.png" />
         <resource-file src="google-services.json" target="google-services.json" />
         <resource-file src="google-services.json" target="app/google-services.json" />
+        <resource-file src="res/production/strings.xml" target="app/src/main/res/production/strings.xml" />
         <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+        <preference name="AndroidLaunchMode" value="singleInstance" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
+    <universal-links>
+        <host name="@string/host_name" scheme="@string/https_scheme" pathPrefix="@string/prefix" />
+    </universal-links>
 </widget>
