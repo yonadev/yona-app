@@ -128,6 +128,7 @@ export default new Router({
           path: "names",
           name: "Names",
           component: () => import("../views/Signup/Names.vue"),
+          props: true,
           meta: {
             public: true,
             prev: "Choose"
@@ -137,6 +138,7 @@ export default new Router({
           path: "accountinfo",
           name: "AccountInfo",
           component: () => import("../views/Signup/AccountInfo.vue"),
+          props: true,
           meta: {
             public: true,
             prev: "Names"

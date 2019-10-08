@@ -58,7 +58,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Watch, Component } from "vue-property-decorator";
+import { Watch, Component, Prop } from "vue-property-decorator";
 import InputFloatingLabel from "@/components/InputFloatingLabel.vue";
 import { Action, State } from "vuex-class";
 import { AccountState } from "@/store/account/types";
@@ -76,6 +76,7 @@ export default class AccountInfo extends Vue {
   @State(state => state.app.versionNumber) versionNumber!: string;
   @State(state => state.app.versionCode) versionCode!: number;
   @Action("setProperty", { namespace: "account" }) setProperty: any;
+  @Prop() buddy_invite!: any;
   loading: boolean = false;
   mobile: string | null = "";
   nickname: string | null = "";
@@ -119,49 +120,76 @@ export default class AccountInfo extends Vue {
           firebaseInstanceId = await cordova.plugins.firebase.messaging.getToken();
         }
 
-        let response: any = await axios
-          .post(this.api.host + "/users/", {
-            firstName: this.account.firstname,
-            lastName: this.account.lastname,
-            mobileNumber: this.account.phonenumber,
-            nickname: this.account.nickname,
-            deviceName: `${this.$t("firstdevicename")}`,
-            deviceOperatingSystem: OS,
-            deviceAppVersion: this.versionNumber,
-            deviceAppVersionCode: this.versionCode,
-            deviceFirebaseInstanceId: firebaseInstanceId
-          })
-          .catch(error => {
-            self.loading = false;
-            if (error.response.data.code === "error.user.exists") {
-              //@ts-ignore
-              if (navigator && navigator.notification) {
-                //@ts-ignore
-                navigator.notification.confirm(
-                  self.$t("useroverride"),
-                  (result: number) => {
-                    if (result === 2) {
-                      self.$router.push({ name: "PhoneNumber" });
-                    } else if (result === 1) {
-                      self.$router.push({ name: "AddDevice" });
-                    }
-                  },
-                  error.response.data.message,
-                  [self.$t("no"), self.$t("yes")]
-                );
-              } else {
-                self.choose = true;
+        let response: any;
+
+        if (this.buddy_invite && this.buddy_invite.url) {
+          response = await axios
+            .put(this.buddy_invite.url, {
+              firstName: this.account.firstname,
+              lastName: this.account.lastname,
+              mobileNumber: this.account.phonenumber,
+              nickname: this.account.nickname,
+              deviceName: `${this.$t("firstdevicename")}`,
+              deviceOperatingSystem: OS,
+              deviceAppVersion: this.versionNumber,
+              deviceAppVersionCode: this.versionCode,
+              deviceFirebaseInstanceId: firebaseInstanceId
+            })
+            .catch(error => {
+              self.loading = false;
+              if (error.response.data) {
+                self.server_error = error.response.data.message;
               }
-              self.server_error = error.response.data.message;
-            } else if (error.response.data) {
-              self.server_error = error.response.data.message;
-            }
-          });
+            });
+        } else {
+          response = await axios
+            .post(this.api.host + "/users/", {
+              firstName: this.account.firstname,
+              lastName: this.account.lastname,
+              mobileNumber: this.account.phonenumber,
+              nickname: this.account.nickname,
+              deviceName: `${this.$t("firstdevicename")}`,
+              deviceOperatingSystem: OS,
+              deviceAppVersion: this.versionNumber,
+              deviceAppVersionCode: this.versionCode,
+              deviceFirebaseInstanceId: firebaseInstanceId
+            })
+            .catch(error => {
+              self.loading = false;
+              if (
+                error.response.data.code === "error.user.exists" ||
+                error.response.data.code ===
+                  "error.user.exists.created.on.buddy.request"
+              ) {
+                //@ts-ignore
+                if (navigator && navigator.notification) {
+                  //@ts-ignore
+                  navigator.notification.confirm(
+                    self.$t("useroverride"),
+                    (result: number) => {
+                      if (result === 2) {
+                        self.$router.push({ name: "PhoneNumber" });
+                      } else if (result === 1) {
+                        self.$router.push({ name: "AddDevice" });
+                      }
+                    },
+                    error.response.data.message,
+                    [self.$t("no"), self.$t("yes")]
+                  );
+                } else {
+                  self.choose = true;
+                }
+                self.server_error = error.response.data.message;
+              } else if (error.response.data) {
+                self.server_error = error.response.data.message;
+              }
+            });
+        }
 
         this.loading = false;
 
         if (response) {
-          if (response.status === 201) {
+          if (response.status === 201 || response.status === 200) {
             //Successfull
             this.$router.push({ name: "SmsValidation" });
           } else if (response.status !== 201) {

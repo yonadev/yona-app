@@ -250,6 +250,17 @@ const app = new Vue({
         }
       }
 
+      //@ts-ignore
+      if (typeof universalLinks !== "undefined") {
+        //@ts-ignore
+        universalLinks.subscribe(null, function(eventData) {
+          self.$router.push({
+            name: "Names",
+            params: { buddy_invite: eventData }
+          });
+        });
+      }
+
       document.addEventListener(
         "backbutton",
         function() {

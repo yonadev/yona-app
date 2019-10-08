@@ -44,6 +44,8 @@
         <allow-intent href="itms-apps:*" />
     </platform>
     <universal-links>
-        <host name="@string/host_name" scheme="@string/https_scheme" pathPrefix="@string/prefix" />
+        <host name="*.prd.yona.nu" scheme="https">
+            <path url="/users/*" />
+        </host>
     </universal-links>
 </widget>

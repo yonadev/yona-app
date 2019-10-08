@@ -50,7 +50,8 @@ import Vue from "vue";
 import InputFloatingLabel from "@/components/InputFloatingLabel.vue";
 import { Action, State } from "vuex-class";
 import { AccountState } from "@/store/account/types";
-import { Watch, Component } from "vue-property-decorator";
+import { Watch, Component, Prop } from "vue-property-decorator";
+import axios from "@/utils/axios/axios";
 
 @Component({
   components: {
@@ -60,10 +61,34 @@ import { Watch, Component } from "vue-property-decorator";
 export default class Names extends Vue {
   @State("account") account!: AccountState;
   @Action("setProperty", { namespace: "account" }) setProperty: any;
+  @Action("setHeaderPassword", { namespace: "api" }) setHeaderPassword: any;
+  @Prop() buddy_invite!: any;
   firstname: string | null = "";
   lastname: string | null = "";
 
-  mounted() {
+  async mounted() {
+    if (this.buddy_invite && this.buddy_invite.url) {
+      let userInfo: any = await axios
+        .get(this.buddy_invite.url)
+        .catch(error => {
+          if (error) {
+            console.log(error);
+          }
+        });
+
+      if (userInfo && userInfo.data) {
+        this.setHeaderPassword({
+          yonaPassword: ""
+        });
+        this.setProperty({
+          firstname: userInfo.data.firstName,
+          lastname: userInfo.data.lastName,
+          phonenumber: userInfo.data.mobileNumber,
+          nickname: userInfo.data.nickname
+        });
+      }
+    }
+
     this.firstname = this.account.firstname;
     this.lastname = this.account.lastname;
   }
@@ -71,7 +96,16 @@ export default class Names extends Vue {
   validateFields() {
     this.$validator.validate().then(valid => {
       if (valid) {
-        this.$router.push({ name: "AccountInfo" });
+        if (this.buddy_invite && this.buddy_invite.url) {
+          this.$router.push({
+            name: "AccountInfo",
+            params: {
+              buddy_invite: this.buddy_invite
+            }
+          });
+        } else {
+          this.$router.push({ name: "AccountInfo" });
+        }
       }
     });
   }
