@@ -68,6 +68,10 @@ export default class Names extends Vue {
 
   async mounted() {
     if (this.buddy_invite && this.buddy_invite.url) {
+      this.setHeaderPassword({
+        yonaPassword: ""
+      });
+
       let userInfo: any = await axios
         .get(this.buddy_invite.url)
         .catch(error => {
@@ -77,9 +81,6 @@ export default class Names extends Vue {
         });
 
       if (userInfo && userInfo.data) {
-        this.setHeaderPassword({
-          yonaPassword: ""
-        });
         this.setProperty({
           firstname: userInfo.data.firstName,
           lastname: userInfo.data.lastName,
