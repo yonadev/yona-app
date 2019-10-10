@@ -243,7 +243,7 @@ export default class Setup extends Vue {
       width: 100%;
       .swipeout-list-item {
         background-image: linear-gradient(#fcfcfc, #f7f7f7);
-        height: 80px;
+        height: 7rem;
         width: 100%;
         display: block;
         position: relative;
