@@ -76,6 +76,7 @@ export default class AccountInfo extends Vue {
   @State(state => state.app.versionNumber) versionNumber!: string;
   @State(state => state.app.versionCode) versionCode!: number;
   @Action("setProperty", { namespace: "account" }) setProperty: any;
+  @Action("setHeaderPassword", { namespace: "api" }) setHeaderPassword: any;
   @Prop() buddy_invite!: any;
   loading: boolean = false;
   mobile: string | null = "";
@@ -123,6 +124,10 @@ export default class AccountInfo extends Vue {
         let response: any;
 
         if (this.buddy_invite && this.buddy_invite.url) {
+          this.setHeaderPassword({
+            yonaPassword: ""
+          });
+
           response = await axios
             .put(this.buddy_invite.url, {
               firstName: this.account.firstname,
