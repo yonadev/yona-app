@@ -1,7 +1,7 @@
 pipeline {
   agent {
     docker {
-      label 'master'
+      label 'yona'
       image 'unitedclassifiedsapps/gitlab-ci-android-fastlane:1.0.5'
     }
   }
@@ -15,7 +15,7 @@ pipeline {
       }
       steps {
         checkout scm
-        /*
+
         slackSend color: 'good', channel: '#new-dev', message: "<${currentBuild.absoluteUrl}|Android app build ${env.BUILD_NUMBER}> on branch ${BRANCH_NAME} is awaiting release notes input to start the build"
         script {
           def enReleaseNotes = input message: 'User input required',
@@ -32,7 +32,7 @@ pipeline {
           writeFile file: "src-cordova/fastlane/metadata/android/nl-NL/changelogs/${env.NEW_VERSION_CODE}.txt", text: "${nlReleaseNotes}"
           writeFile file: "src-cordova/fastlane/metadata/android/en-US/changelogs/${env.NEW_VERSION_CODE}.txt", text: "${enReleaseNotes}"
         }
-        */
+
         sh "npm i -g @vue/cli"
         sh "npm i -g cordova"
         sh "npm run cordova-prepare"
