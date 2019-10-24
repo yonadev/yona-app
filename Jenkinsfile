@@ -1,7 +1,7 @@
 pipeline {
   agent {
     docker {
-      label 'yona'
+      label 'hoofdnode'
       image 'unitedclassifiedsapps/gitlab-ci-android-fastlane:1.0.5'
     }
   }
