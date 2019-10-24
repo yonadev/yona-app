@@ -19,6 +19,26 @@ instance.interceptors.request.use(
       config.headers["Yona-Password"] = store.getters["api/yonaPassword"];
     }
 
+    let OS = "ANDROID";
+    //@ts-ignore
+    if (typeof device !== "undefined") {
+      //@ts-ignore
+      OS = device.platform.toUpperCase();
+    }
+    let versionNumber,
+      versionCode: string = "";
+    if (store.getters["app/versionNumber"]) {
+      versionNumber = store.getters["app/versionNumber"];
+    }
+    if (store.getters["app/versionCode"]) {
+      versionCode = store.getters["app/versionCode"];
+    }
+
+    if (OS && versionNumber && versionCode) {
+      config.headers["Yona-App-Version"] =
+        OS + "/" + versionCode + "/" + versionNumber;
+    }
+
     config.headers["content-language"] = store.state.api.locale;
 
     return config;

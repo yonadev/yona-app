@@ -38,7 +38,14 @@ const mutations: MutationTree<AppState> = {
   }
 };
 
-const getters: GetterTree<AppState, RootState> = {};
+const getters: GetterTree<AppState, RootState> = {
+  versionNumber(state) {
+    return state.versionNumber;
+  },
+  versionCode(state) {
+    return state.versionCode;
+  }
+};
 
 const namespaced: boolean = true;
 export const app: Module<AppState, RootState> = {
