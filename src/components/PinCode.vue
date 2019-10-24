@@ -95,6 +95,7 @@ export default class PinCode extends Vue {
           width: 55px;
           height: 55px;
           margin: 7px;
+          padding: 13px;
         }
 
         .dot {
