@@ -2,7 +2,7 @@ pipeline {
   agent {
     docker {
       label 'yona'
-      image 'unitedclassifiedsapps/gitlab-ci-android-fastlane:1.0.5'
+      dockerfile true
     }
   }
   stages {
@@ -33,8 +33,6 @@ pipeline {
           writeFile file: "src-cordova/fastlane/metadata/android/en-US/changelogs/${env.NEW_VERSION_CODE}.txt", text: "${enReleaseNotes}"
         }
 
-        sh "npm i -g @vue/cli"
-        sh "npm i -g cordova"
         sh "npm run cordova-prepare"
         sh "npm run cordova-build-only-www-android"
         sh "cd src-cordova && bundle update --verbose fastlane && cd .."
@@ -49,23 +47,20 @@ pipeline {
 
         sh 'git config --global user.email build@yona.nu'
         sh 'git config --global user.name yonabuild'
-        sh 'git add app/version.properties'
+        sh 'git add src-cordova/version.properties'
         sh "git add src-cordova/fastlane/metadata/android/nl-NL/changelogs/${env.NEW_VERSION_CODE}.txt"
         sh "git add src-cordova/fastlane/metadata/android/en-US/changelogs/${env.NEW_VERSION_CODE}.txt"
-        sh "git add app/Gemfile.lock"
+        sh "git add src-cordova/Gemfile.lock"
         sh 'git commit -m "Build $BUILD_NUMBER updated versionCode to $NEW_VERSION_CODE [ci skip]"'
         sh 'git push https://${GIT_USR}:${GIT_PSW}@github.com/yonadev/yona-app.git HEAD:$BRANCH_NAME'
         sh 'git tag -a $BRANCH_NAME-build-$BUILD_NUMBER -m "Jenkins"'
         sh 'git push https://${GIT_USR}:${GIT_PSW}@github.com/yonadev/yona-app.git --tags'
-        archiveArtifacts 'app/build/outputs/apk/**/*.apk'
+        archiveArtifacts 'src-cordova/platforms/android/app/build/outputs/apk/**/*.apk'
         script {
           env.BUILD_NUMBER_TO_DEPLOY = env.BUILD_NUMBER
         }
       }
       post {
-        always {
-          junit '**/build/test-results/*/*.xml'
-        }
         success {
           slackSend color: 'good', channel: '#new-dev', message: "<${currentBuild.absoluteUrl}|Android app build ${env.BUILD_NUMBER}> on branch ${BRANCH_NAME} completed successfully"
         }
@@ -184,7 +179,7 @@ pipeline {
 }
 
 def incrementVersion() {
-  def versionPropsFileName = "app/version.properties"
+  def versionPropsFileName = "src-cordova/version.properties"
   def versionProps = readProperties file: versionPropsFileName
   env.NEW_VERSION_CODE = versionProps['VERSION_CODE'].toInteger() + 1
   versionProps['VERSION_CODE']=env.NEW_VERSION_CODE
