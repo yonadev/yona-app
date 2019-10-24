@@ -15,6 +15,7 @@ pipeline {
       }
       steps {
         checkout scm
+        /*
         slackSend color: 'good', channel: '#new-dev', message: "<${currentBuild.absoluteUrl}|Android app build ${env.BUILD_NUMBER}> on branch ${BRANCH_NAME} is awaiting release notes input to start the build"
         script {
           def enReleaseNotes = input message: 'User input required',
@@ -31,17 +32,21 @@ pipeline {
           writeFile file: "src-cordova/fastlane/metadata/android/nl-NL/changelogs/${env.NEW_VERSION_CODE}.txt", text: "${nlReleaseNotes}"
           writeFile file: "src-cordova/fastlane/metadata/android/en-US/changelogs/${env.NEW_VERSION_CODE}.txt", text: "${enReleaseNotes}"
         }
+        */
+        sh "npm i -g @vue/cli"
+        sh "npm i -g cordova"
+        sh "npm run cordova-prepare"
+        sh "npm run cordova-build-only-www-android"
         sh "cd src-cordova && bundle update --verbose fastlane && cd .."
 
-        withCredentials(bindings: [string(credentialsId: 'AndroidKeystorePassword', variable: 'YONA_KEYSTORE_PASSWORD'),
-            string(credentialsId: 'AndroidKeyPassword', variable: 'YONA_KEY_PASSWORD'),
-            file(credentialsId: 'AndroidKeystore', variable: 'YONA_KEYSTORE_PATH'),
-            string(credentialsId: 'FabricApiKey', variable: 'FABRIC_API_KEY'),
-            string(credentialsId: 'FabricBuildSecret', variable: 'FABRIC_BUILD_SECRET')]) {
-          writeFile file: "app/fabric.properties", text: "apiSecret="+"$FABRIC_BUILD_SECRET"+"\n"+"apiKey="+"$FABRIC_API_KEY"
-          sh './gradlew clean testDevelopmentDebugUnitTest app:assemble'
-          sh 'rm app/fabric.properties'
+        withCredentials(bindings: [
+            file(credentialsId: 'FirebaseAppConfig', variable: 'ANDDROID-FIREBASE-CONFIG')
+        ]) {
+            sh "cp "+$ANDDROID-FIREBASE-CONFIG+" src-cordova/google-services.json"
+            sh './gradlew clean testDevelopmentDebugUnitTest app:assemble'
+            sh 'rm src-cordova/google-services.json'
         }
+
         sh 'git config --global user.email build@yona.nu'
         sh 'git config --global user.name yonabuild'
         sh 'git add app/version.properties'
