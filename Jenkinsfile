@@ -33,6 +33,8 @@ pipeline {
           writeFile file: "src-cordova/fastlane/metadata/android/en-US/changelogs/${env.NEW_VERSION_CODE}.txt", text: "${enReleaseNotes}"
         }
 
+        sh "rm -rf node_modules"
+        sh "cd src-cordova && rm -rf plugins && rm -rf node_modules && cd .."
         sh "npm install"
 
         withCredentials(bindings: [
