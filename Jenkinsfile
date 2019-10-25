@@ -32,18 +32,19 @@ pipeline {
           writeFile file: "src-cordova/fastlane/metadata/android/nl-NL/changelogs/${env.NEW_VERSION_CODE}.txt", text: "${nlReleaseNotes}"
           writeFile file: "src-cordova/fastlane/metadata/android/en-US/changelogs/${env.NEW_VERSION_CODE}.txt", text: "${enReleaseNotes}"
         }
-        
+
         sh "npm install"
 
         withCredentials(bindings: [
-            file(credentialsId: 'FirebaseAppConfig', variable: 'ANDDROID-FIREBASE-CONFIG')
+            file(credentialsId: 'FirebaseAppConfig', variable: 'ANDDROID_FIREBASE_CONFIG')
         ]) {
-            sh "cp "+$ANDDROID-FIREBASE-CONFIG+" src-cordova/google-services.json"
+            sh "cp ${ANDDROID_FIREBASE_CONFIG} src-cordova/google-services.json"
             sh "npm run cordova-prepare"
             sh "cd src-cordova && bundle update --verbose fastlane && cd .."
             sh "npm run cordova-build-android"
-            sh 'cd src-cordova/platforms/android/ && ./gradlew clean testDevelopmentDebugUnitTest app:assemble && cd ..'
+            sh 'cd src-cordova/platforms/android/ && ./gradlew clean app:assemble && cd ..'
             sh 'rm src-cordova/platforms/android/google-services.json'
+            sh 'rm src-cordova/google-services.json'
         }
 
         sh 'git config --global user.email build@yona.nu'

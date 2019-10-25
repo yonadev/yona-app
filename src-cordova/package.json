@@ -33,9 +33,7 @@
     "cordova-plugin-yona-crop": "file:../plugins/CropAvatarPlugin",
     "cordova-plugin-yona-services": "file:../plugins/YonaServicesPlugin",
     "cordova-support-android-plugin": "^1.0.1",
-    "cordova-support-google-services": "https://github.com/LuisEGR/cordova-support-google-services.git"
-  },
-  "devDependencies": {
+    "cordova-support-google-services": "https://github.com/LuisEGR/cordova-support-google-services.git",
     "compare-func": "^1.3.2"
   },
   "cordova": {
