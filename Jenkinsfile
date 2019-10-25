@@ -34,7 +34,8 @@ pipeline {
         }
 
         sh "rm -rf node_modules"
-        sh "cd src-cordova && rm -rf plugins && rm -rf node_modules && cd .."
+        sh "cd src-cordova && rm -rf plugins && rm -rf node_modules && rm -rf platforms && cd .."
+        sh "cd src-cordova && npm install && cd .."
         sh "npm install"
 
         withCredentials(bindings: [
