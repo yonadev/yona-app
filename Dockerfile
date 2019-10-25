@@ -44,10 +44,10 @@ RUN ${ANDROID_HOME}/tools/bin/sdkmanager "extras;android;m2repository" "extras;g
 
 RUN gem install fastlane
 
-ADD id_rsa $HOME/.ssh/id_rsa
-ADD id_rsa.pub $HOME/.ssh/id_rsa.pub
-ADD adbkey $HOME/.android/adbkey
-ADD adbkey.pub $HOME/.android/adbkey.pub
+#ADD id_rsa $HOME/.ssh/id_rsa
+#ADD id_rsa.pub $HOME/.ssh/id_rsa.pub
+#ADD adbkey $HOME/.android/adbkey
+#ADD adbkey.pub $HOME/.android/adbkey.pub
 
 ADD https://services.gradle.org/distributions/gradle-${VERSION_GRADLE}-bin.zip /gradle.zip
 RUN unzip /gradle.zip -d /opt/gradle && rm -rf /gradle.zip
