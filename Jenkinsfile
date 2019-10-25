@@ -1,8 +1,8 @@
 pipeline {
   agent {
-    docker {
+    dockerfile {
+      filename 'Dockerfile'
       label 'yona'
-      dockerfile true
     }
   }
   stages {
@@ -32,17 +32,18 @@ pipeline {
           writeFile file: "src-cordova/fastlane/metadata/android/nl-NL/changelogs/${env.NEW_VERSION_CODE}.txt", text: "${nlReleaseNotes}"
           writeFile file: "src-cordova/fastlane/metadata/android/en-US/changelogs/${env.NEW_VERSION_CODE}.txt", text: "${enReleaseNotes}"
         }
-
-        sh "npm run cordova-prepare"
-        sh "npm run cordova-build-only-www-android"
-        sh "cd src-cordova && bundle update --verbose fastlane && cd .."
+n
+        sh "npm install"
 
         withCredentials(bindings: [
             file(credentialsId: 'FirebaseAppConfig', variable: 'ANDDROID-FIREBASE-CONFIG')
         ]) {
             sh "cp "+$ANDDROID-FIREBASE-CONFIG+" src-cordova/google-services.json"
-            sh './gradlew clean testDevelopmentDebugUnitTest app:assemble'
-            sh 'rm src-cordova/google-services.json'
+            sh "npm run cordova-prepare"
+            sh "cd src-cordova && bundle update --verbose fastlane && cd .."
+            sh "npm run cordova-build-android"
+            sh 'cd src-cordova/platforms/android/ && ./gradlew clean testDevelopmentDebugUnitTest app:assemble && cd ..'
+            sh 'rm src-cordova/platforms/android/google-services.json'
         }
 
         sh 'git config --global user.email build@yona.nu'
