@@ -39,6 +39,7 @@ pipeline {
             file(credentialsId: 'FirebaseAppConfig', variable: 'ANDDROID_FIREBASE_CONFIG')
         ]) {
             sh "cp ${ANDDROID_FIREBASE_CONFIG} src-cordova/google-services.json"
+            sh "cd src-cordova && npm i -D compare-func && cd .."
             sh "npm run cordova-prepare"
             sh "cd src-cordova && bundle update --verbose fastlane && cd .."
             sh "npm run cordova-build-android"
