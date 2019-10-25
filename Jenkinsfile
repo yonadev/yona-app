@@ -39,6 +39,9 @@ pipeline {
         sh "npm install"
 
         withCredentials(bindings: [
+            string(credentialsId: 'AndroidKeystorePassword', variable: 'YONA_KEYSTORE_PASSWORD'),
+            string(credentialsId: 'AndroidKeyPassword', variable: 'YONA_KEY_PASSWORD'),
+            file(credentialsId: 'AndroidKeystore', variable: 'YONA_KEYSTORE_PATH'),
             file(credentialsId: 'FirebaseAppConfig', variable: 'ANDDROID_FIREBASE_CONFIG')
         ]) {
             sh "cp ${ANDDROID_FIREBASE_CONFIG} src-cordova/google-services.json"
@@ -46,7 +49,7 @@ pipeline {
             sh "npm run cordova-prepare"
             sh "cd src-cordova && bundle update --verbose fastlane && cd .."
             sh "npm run cordova-build-android"
-            sh 'cd src-cordova/platforms/android/ && ./gradlew clean app:assemble && cd ..'
+            sh "cd src-cordova && cordova build android --release --keystore=${YONA_KEYSTORE_PATH} --storePassword=${YONA_KEYSTORE_PASSWORD} --alias=Yona --password=${YONA_KEY_PASSWORD} && cd .."
             sh 'rm src-cordova/platforms/android/google-services.json'
             sh 'rm src-cordova/google-services.json'
         }
