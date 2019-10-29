@@ -13,7 +13,8 @@
   "author": "Apache Cordova Team",
   "license": "Apache-2.0",
   "dependencies": {
-    "cordova-android": "^8.0.0",
+    "compare-func": "^1.3.2",
+    "cordova-android": "^8.1.0",
     "cordova-plugin-androidx": "^1.0.2",
     "cordova-plugin-androidx-adapter": "^1.1.0",
     "cordova-plugin-camera": "4.1.0",
@@ -33,8 +34,7 @@
     "cordova-plugin-yona-crop": "file:../plugins/CropAvatarPlugin",
     "cordova-plugin-yona-services": "file:../plugins/YonaServicesPlugin",
     "cordova-support-android-plugin": "^1.0.1",
-    "cordova-support-google-services": "https://github.com/LuisEGR/cordova-support-google-services.git",
-    "compare-func": "^1.3.2"
+    "cordova-support-google-services": "https://github.com/LuisEGR/cordova-support-google-services.git"
   },
   "cordova": {
     "plugins": {
@@ -43,8 +43,14 @@
       "cordova-plugin-device": {},
       "cordova-plugin-permission": {},
       "cordova-plugin-network-information": {},
-      "cordova-plugin-firebase-crashlytics": {},
-      "cordova-plugin-firebase-messaging": {},
+      "cordova-plugin-firebase-crashlytics": {
+        "ANDROID_FIREBASE_CORE_VERSION": "16.0.8"
+      },
+      "cordova-plugin-firebase-messaging": {
+        "FIREBASE_CORE_VERSION": "17.0.+",
+        "FIREBASE_MESSAGING_VERSION": "19.0.+",
+        "ANDROIDX_CORE_VERSION": "1.0.+"
+      },
       "cordova-plugin-androidx": {},
       "cordova-plugin-androidx-adapter": {},
       "cordova-plugin-camera": {
