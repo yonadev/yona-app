@@ -49,10 +49,12 @@ const actions: ActionTree<LoginState, RootState> = {
       router.push({ name: "MeTimeLineDay" });
     }
   },
-  setLoggedOff({ commit, dispatch }): void {
+  setLoggedOff({ commit, state, dispatch }): void {
     commit("setLoggedOff");
-    dispatch("buddies/update", null, { root: true });
-    dispatch("challenges/update", null, { root: true });
+    if (state.isRegistered) {
+      dispatch("buddies/update", null, { root: true });
+      dispatch("challenges/update", null, { root: true });
+    }
     router.push({ name: "Login" });
   },
   setLastRoute({ commit, state }, customRoute): void {
@@ -68,6 +70,9 @@ const actions: ActionTree<LoginState, RootState> = {
   },
   resetLastRoute({ commit }): void {
     commit("setLastRoute", null);
+  },
+  setSoftRegistered({ commit }): void {
+    commit("setRegistered");
   },
   async setRegistered({ commit, dispatch }): Promise<void> {
     commit("setRegistered");

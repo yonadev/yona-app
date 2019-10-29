@@ -15,6 +15,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.List;
 
+import com.yona.plugin.services.api.db.DbSerializer;
+import com.yona.plugin.services.api.db.JsonSerializer;
 import com.yona.plugin.services.api.model.BaseEntity;
 import com.yona.plugin.services.listener.DataLoader;
 import com.yona.plugin.services.utils.Logger;
@@ -25,6 +27,10 @@ import com.yona.plugin.services.utils.Logger;
 class BaseDAO
 {
 
+    /**
+     * The Serializer.
+     */
+    final DbSerializer serializer = new JsonSerializer();
     private final SQLiteOpenHelper mOpenHelper;
 
     /**

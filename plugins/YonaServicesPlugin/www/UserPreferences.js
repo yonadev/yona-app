@@ -41,6 +41,18 @@ exports.setAppActivityUrl = createSetter(isString, "setAppActivityUrl");
 exports.setYonaPassword = createSetter(isString, "setYonaPassword");
 
 /**
+ * Gets the Migration data from the preferences.
+ *
+ * @function
+ * @param {Boolean} value The new value for the preference.
+ * @param {Function} [successCallback] A callback which is called if the operation is completed
+ * successfully. Invoked with `()`.
+ * @param {Function} [errorCallback] A callback which is called if an error occurs.
+ * Invoked with `(err)`.
+ */
+exports.getMigrationData = createGetter("getMigrationData");
+
+/**
  * Removes all values from the preferences.
  *
  * @param {Function} [successCallback] A callback which is called if the operation is completed
@@ -99,6 +111,20 @@ function createSetter(validator, action) {
     };
     exec(onSuccess, onError, SERVICE, action, [value]);
   };
+}
+
+function createGetter(action) {
+  return new Promise(function(resolve, reject) {
+    var onError = function(errMessage) {
+      reject(toError(errMessage));
+    };
+
+    var onSuccess = function(responseData) {
+      resolve(JSON.parse(responseData));
+    };
+
+    exec(onSuccess, onError, SERVICE, action, []);
+  });
 }
 
 function isFunction(value) {

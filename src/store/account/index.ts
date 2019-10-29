@@ -63,6 +63,52 @@ const actions: ActionTree<AccountState, RootState> = {
   setProperty({ commit, dispatch, state }, data): void {
     commit("setProperty", data);
   },
+  async migrateAppData({ commit, rootState, dispatch }) {
+    if (rootState.login.isRegistered) {
+      return true;
+    }
+
+    if (
+      // @ts-ignore
+      typeof cordova !== "undefined" &&
+      // @ts-ignore
+      typeof cordova.plugins !== "undefined" &&
+      // @ts-ignore
+      typeof cordova.plugins.UserPreferences !== "undefined"
+    ) {
+      // @ts-ignore
+      const userPreferences = cordova.plugins.UserPreferences;
+      const migrationData = await userPreferences.getMigrationData;
+
+      dispatch(
+        "login/setPincode",
+        {
+          pinCode: migrationData.passCode
+        },
+        { root: true }
+      );
+      dispatch(
+        "api/setLinks",
+        {
+          links: {
+            self: {
+              href: migrationData.selfHref
+            }
+          }
+        },
+        { root: true }
+      );
+      dispatch(
+        "api/setHeaderPassword",
+        {
+          yonaPassword: migrationData.passWord
+        },
+        { root: true }
+      );
+      dispatch("login/setSoftRegistered", null, { root: true });
+      await dispatch("setUserData");
+    }
+  },
   async setUserData({ commit, rootState, dispatch }) {
     if (rootState.api.links) {
       let user_response: any = await axios.get(

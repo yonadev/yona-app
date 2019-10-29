@@ -131,6 +131,7 @@ const app = new Vue({
       }
 
       this.$store.dispatch("app/setAppVersion");
+      await this.$store.dispatch("account/migrateAppData");
       this.$store.dispatch("account/setDefaultPermissions");
       this.$store.dispatch("login/resetLastRoute");
 
