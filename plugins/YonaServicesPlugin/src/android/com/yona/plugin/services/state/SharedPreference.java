@@ -206,6 +206,17 @@ public class SharedPreference
         return yonaPwd;
     }
 
+    /**
+     * Gets yona passcode.
+     *
+     * @return return yona passcode
+     */
+    public String getYonaPasscode()
+    {
+        return getUserPreferences().getString(AppConstant.YONA_PASSCODE, null);
+    }
+
+
     private String getDecryptedKey()
     {
         if (!TextUtils.isEmpty(getUserPreferences().getString(AppConstant.YONA_DATA, "")))

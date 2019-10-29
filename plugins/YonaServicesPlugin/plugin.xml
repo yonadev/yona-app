@@ -113,6 +113,9 @@
         <framework src="com.squareup.retrofit2:retrofit:2.0.2" />
         <framework src="com.squareup.okhttp3:okhttp:3.2.0" />
         <framework src="com.squareup.retrofit2:converter-gson:2.0.0" />
+        <framework src="org.codehaus.jackson:jackson-mapper-asl:1.9.13" />
+        <framework src="org.codehaus.jackson:jackson-core-asl:1.9.13" />
+        <framework src="yona-services.gradle" custom="true" type="gradleReference"/>
 
         <resource-file src="src/android/res/drawable/mdpi.png" target="res/drawable/notification.png" />
         <resource-file src="src/android/res/drawable/mdpi.png" target="res/drawable-mdpi/notification.png" />
