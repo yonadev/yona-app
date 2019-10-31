@@ -45,7 +45,7 @@ pipeline {
         ]) {
             sh "cp ${ANDDROID_FIREBASE_CONFIG} src-cordova/google-services.json"
             sh "npm run cordova-prepare"
-            cd "cd src-cordova && cordova-set-version -v=${env.VERSION_NAME} -b=${env.VERSION_CODE}"
+            sh "cd src-cordova && cordova-set-version --v=${env.VERSION_NAME} --b=${env.VERSION_CODE} && cd .."
             sh "cd src-cordova && bundle update --verbose fastlane && cd .."
             sh "cd src-cordova && cordova build android --release -- --keystore=${YONA_KEYSTORE_PATH} --storePassword=${YONA_KEYSTORE_PASSWORD} --alias=Yona --password=${YONA_KEY_PASSWORD} && cd .."
             sh 'rm src-cordova/platforms/android/google-services.json'
@@ -192,7 +192,7 @@ def incrementVersion() {
     versionProps['VERSION_CODE']=env.NEW_VERSION_CODE
     def versionPropsString = "#" + new Date() + "\n";
     def toKeyValue = {
-    it.collect { "$it.key=$it.value" } join "\n"
+        it.collect { "$it.key=$it.value" } join "\n"
     }
     versionPropsString += toKeyValue(versionProps)
     writeFile file: versionPropsFileName, text: versionPropsString
@@ -201,12 +201,15 @@ def incrementVersion() {
 
     if (!BRANCH_NAME) {
         def versionName = versionNameBase + " (local build!)"
+    } else {
+        versionNameBase += " build ${BUILD_NUMBER}"
     }
-    versionNameBase += " build ${BUILD_NUMBER}"
+
     if (BRANCH_NAME == "master") {
         def versionName = versionNameBase
+    } else {
+        def versionName = versionNameBase + " (${BRANCH_NAME})"
     }
-    def versionName = versionNameBase + " (${BRANCH_NAME})"
 
     def versionCode = versionNameBase.replace(".", "") + env.NEW_VERSION_CODE;
 
