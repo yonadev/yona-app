@@ -35,7 +35,6 @@ pipeline {
 
         sh "rm -rf node_modules"
         sh "cd src-cordova && rm -rf plugins && rm -rf node_modules && rm -rf platforms && cd .."
-        sh "cd src-cordova && npm install && cd .."
         sh "npm install"
 
         withCredentials(bindings: [
@@ -45,11 +44,9 @@ pipeline {
             file(credentialsId: 'FirebaseAppConfig', variable: 'ANDDROID_FIREBASE_CONFIG')
         ]) {
             sh "cp ${ANDDROID_FIREBASE_CONFIG} src-cordova/google-services.json"
-            sh "cd src-cordova && npm i -D compare-func && cd .."
             sh "npm run cordova-prepare"
             sh "cd src-cordova && bundle update --verbose fastlane && cd .."
-            sh "npm run cordova-build-android"
-            sh "cd src-cordova && cordova build android --release -- --keystore=${YONA_KEYSTORE_PATH} --storePassword=${YONA_KEYSTORE_PASSWORD} --alias=Yona --password=${YONA_KEY_PASSWORD} && cd .."
+            sh 'cd src-cordova && bundle exec fastlane --verbose build'
             sh 'rm src-cordova/platforms/android/google-services.json'
             sh 'rm src-cordova/google-services.json'
         }
@@ -188,14 +185,30 @@ pipeline {
 }
 
 def incrementVersion() {
-  def versionPropsFileName = "src-cordova/version.properties"
-  def versionProps = readProperties file: versionPropsFileName
-  env.NEW_VERSION_CODE = versionProps['VERSION_CODE'].toInteger() + 1
-  versionProps['VERSION_CODE']=env.NEW_VERSION_CODE
-  def versionPropsString = "#" + new Date() + "\n";
-  def toKeyValue = {
+    def versionPropsFileName = "src-cordova/version.properties"
+    def versionProps = readProperties file: versionPropsFileName
+    env.NEW_VERSION_CODE = versionProps['VERSION_CODE'].toInteger() + 1
+    versionProps['VERSION_CODE']=env.NEW_VERSION_CODE
+    def versionPropsString = "#" + new Date() + "\n";
+    def toKeyValue = {
     it.collect { "$it.key=$it.value" } join "\n"
-  }
-  versionPropsString += toKeyValue(versionProps)
-  writeFile file: versionPropsFileName, text: versionPropsString
+    }
+    versionPropsString += toKeyValue(versionProps)
+    writeFile file: versionPropsFileName, text: versionPropsString
+
+    def versionNameBase = "2.0"
+
+    if (!System.env.BRANCH_NAME) {
+        def versionName = versionNameBase + " (local build!)"
+    }
+    versionNameBase += " build $System.env.BUILD_NUMBER"
+    if (System.env.BRANCH_NAME == "master") {
+        def versionName = versionNameBase
+    }
+    def versionName = versionNameBase + " ($System.env.BRANCH_NAME)"
+
+    def versionCode = versionNameBase.replace(".", "") + env.NEW_VERSION_CODE;
+
+    env.VERSION_CODE = versionCode
+    env.VERSION_NAME = versionName
 }
