@@ -201,14 +201,10 @@ def incrementVersion() {
 
     if (!BRANCH_NAME) {
         def versionName = versionNameBase + " (local build!)"
+    } if (BRANCH_NAME == "master") {
+        def versionName = versionNameBase + " build ${BUILD_NUMBER}"
     } else {
-        versionNameBase += " build ${BUILD_NUMBER}"
-    }
-
-    if (BRANCH_NAME == "master") {
-        def versionName = versionNameBase
-    } else {
-        def versionName = versionNameBase + " (${BRANCH_NAME})"
+        def versionName = " build ${BUILD_NUMBER}" + " (${BRANCH_NAME})"
     }
 
     def versionCode = versionNameBase.replace(".", "") + env.NEW_VERSION_CODE;
