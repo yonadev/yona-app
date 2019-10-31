@@ -1,0 +1,1 @@
+De app wordt nu aangeboden als app bundle, en de versienummering is geautomatiseerd.
