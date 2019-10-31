@@ -25,7 +25,7 @@ platform :android do
   lane :build do
     gradle(
       project_dir: "platforms/android",
-      task: "assemble",
+      task: "bundle",
       build_type: "Release",
       print_command: false,
       properties: {
