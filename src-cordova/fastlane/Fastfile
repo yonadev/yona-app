@@ -16,29 +16,6 @@
 default_platform(:android)
 
 platform :android do
-  desc "Runs all the tests"
-  lane :test do
-    gradle(gradle_path: "platforms/android/gradlew", task: "test")
-  end
-
-  desc "Bundle and sign the app"
-  lane :build do
-    gradle(
-      project_dir: "platforms/android",
-      task: "assemble",
-      build_type: "Release",
-      print_command: false,
-      properties: {
-        "versionCode" => ENV['VERSION_CODE'],
-        "versionName" => ENV['VERSION_NAME'],
-        "android.injected.signing.store.file" => ENV['YONA_KEYSTORE_PATH'],
-        "android.injected.signing.store.password" => ENV['YONA_KEYSTORE_PASSWORD'],
-        "android.injected.signing.key.alias" => "Yona",
-        "android.injected.signing.key.password" => ENV['YONA_KEY_PASSWORD'],
-      }
-    )
-  end
-
   desc "Submit a new Alpha build to Google Play"
   lane :alpha do
     upload_to_play_store(track: 'alpha', apk: 'platforms/android/app/build/outputs/apk/release/app-release.apk')
