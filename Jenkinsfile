@@ -45,8 +45,9 @@ pipeline {
         ]) {
             sh "cp ${ANDDROID_FIREBASE_CONFIG} src-cordova/google-services.json"
             sh "npm run cordova-prepare"
+            cd "cd src-cordova && cordova-set-version -v=${env.VERSION_NAME} -b=${env.VERSION_CODE}"
             sh "cd src-cordova && bundle update --verbose fastlane && cd .."
-            sh "cd src-cordova && cordova build android --release -- --versionCode=${env.VERSION_CODE} --versionName=${env.VERSION_NAME} --keystore=${YONA_KEYSTORE_PATH} --storePassword=${YONA_KEYSTORE_PASSWORD} --alias=Yona --password=${YONA_KEY_PASSWORD} && cd .."
+            sh "cd src-cordova && cordova build android --release -- --keystore=${YONA_KEYSTORE_PATH} --storePassword=${YONA_KEYSTORE_PASSWORD} --alias=Yona --password=${YONA_KEY_PASSWORD} && cd .."
             sh 'rm src-cordova/platforms/android/google-services.json'
             sh 'rm src-cordova/google-services.json'
         }

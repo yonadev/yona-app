@@ -61,5 +61,6 @@ RUN apt-get -y install nodejs
 
 RUN npm install @vue/cli -g
 RUN npm install cordova -g
+RUN npm install cordova-set-version -g
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
