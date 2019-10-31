@@ -24,7 +24,7 @@ platform :android do
   desc "Bundle and sign the app"
   lane :build do
     gradle(
-      gradle_path: "../platforms/android/gradlew"
+      gradle_path: "../platforms/android/gradlew",
       task: "assemble",
       build_type: "Release",
       print_command: false,
