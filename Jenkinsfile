@@ -201,7 +201,7 @@ def incrementVersion() {
 
     if (!BRANCH_NAME) {
         def versionName = versionNameBase + " (local build!)"
-    } if (BRANCH_NAME == "master") {
+    } else if (BRANCH_NAME == "master") {
         def versionName = versionNameBase + " build ${BUILD_NUMBER}"
     } else {
         def versionName = " build ${BUILD_NUMBER}" + " (${BRANCH_NAME})"
