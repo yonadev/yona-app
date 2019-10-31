@@ -25,7 +25,7 @@ platform :android do
   lane :build do
     gradle(
       project_dir: "platforms/android",
-      task: "bundle",
+      task: "assemble",
       build_type: "Release",
       print_command: false,
       properties: {
@@ -41,7 +41,7 @@ platform :android do
 
   desc "Submit a new Alpha build to Google Play"
   lane :alpha do
-    upload_to_play_store(track: 'alpha', aab: 'platforms/android/app/build/outputs/bundle/release/app.aab')
+    upload_to_play_store(track: 'alpha', aab: 'platforms/android/app/build/outputs/apk/release/app-release.apk')
   end
 
   desc "Promote the Alpha build to Beta on Google Play"
