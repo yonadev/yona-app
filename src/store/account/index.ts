@@ -329,18 +329,12 @@ const actions: ActionTree<AccountState, RootState> = {
         .put(state.currentDevice._links.edit.href, {
           name: state.currentDevice.name,
           firebaseInstanceId
-        })
-        .catch(function(error: any) {
-          console.log(error);
         });
 
       //This will get the devices and set it through axios interceptor
       if (rootState.api.links) {
         await axios
-          .get(rootState.api.links["self"].href)
-          .catch((error: any) => {
-            console.log(error);
-          });
+          .get(rootState.api.links["self"].href);
       }
 
       if (response) {
