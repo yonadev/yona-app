@@ -140,6 +140,7 @@ const actions: ActionTree<AccountState, RootState> = {
 
       if (currentDevice) {
         commit("setCurrentDevice", currentDevice);
+        await dispatch("setFirebaseInstanceId");
 
         if (currentDevice._links["yona:postOpenAppEvent"]) {
           let OS = "ANDROID";
@@ -289,6 +290,38 @@ const actions: ActionTree<AccountState, RootState> = {
   },
   setAutoStart({ commit }, data): void {
     commit("setAutoStart", data);
+  },
+  async setFirebaseInstanceId({ dispatch, state }) {
+    let firebaseInstanceId = null;
+
+    if (!state.currentDevice) return false;
+
+    if (
+      //@ts-ignore
+      typeof cordova !== "undefined" &&
+      //@ts-ignore
+      typeof cordova.plugins !== undefined &&
+      //@ts-ignore
+      cordova.plugins.firebase
+    ) {
+      //@ts-ignore
+      await cordova.plugins.firebase.messaging.requestPermission({
+        forceShow: true
+      });
+
+      //@ts-ignore
+      firebaseInstanceId = await cordova.plugins.firebase.messaging.getToken();
+    }
+
+    if (!firebaseInstanceId) return false;
+
+    if (
+      state.currentDevice.firebaseInstanceId &&
+      state.currentDevice.firebaseInstanceId === firebaseInstanceId
+    )
+      return true;
+
+    await dispatch("updateCurrentDevice", firebaseInstanceId);
   },
   async updateCurrentDevice({ commit, state, rootState }, firebaseInstanceId) {
     if (state.currentDevice) {

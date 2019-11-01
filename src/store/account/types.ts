@@ -4,6 +4,7 @@ export interface AccountState {
   phonenumber: string;
   nickname: string | null;
   currentDevice: {
+    firebaseInstanceId: string | null;
     sslRootCertCN: boolean;
     name: string;
     vpnProfile: {
