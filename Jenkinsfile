@@ -29,8 +29,8 @@ pipeline {
           echo "English release notes: ${enReleaseNotes}"
           echo "Dutch release notes: ${nlReleaseNotes}"
           incrementVersion()
-          writeFile file: "src-cordova/fastlane/metadata/android/nl-NL/changelogs/${env.NEW_VERSION_CODE}.txt", text: "${nlReleaseNotes}"
-          writeFile file: "src-cordova/fastlane/metadata/android/en-US/changelogs/${env.NEW_VERSION_CODE}.txt", text: "${enReleaseNotes}"
+          writeFile file: "src-cordova/fastlane/metadata/android/nl-NL/changelogs/${env.VERSION_CODE}.txt", text: "${nlReleaseNotes}"
+          writeFile file: "src-cordova/fastlane/metadata/android/en-US/changelogs/${env.VERSION_CODE}.txt", text: "${enReleaseNotes}"
         }
 
         sh "rm -rf node_modules"
@@ -55,10 +55,10 @@ pipeline {
         sh 'git config --global user.email build@yona.nu'
         sh 'git config --global user.name yonabuild'
         sh 'git add src-cordova/version.properties'
-        sh "git add src-cordova/fastlane/metadata/android/nl-NL/changelogs/${env.NEW_VERSION_CODE}.txt"
-        sh "git add src-cordova/fastlane/metadata/android/en-US/changelogs/${env.NEW_VERSION_CODE}.txt"
+        sh "git add src-cordova/fastlane/metadata/android/nl-NL/changelogs/${env.VERSION_CODE}.txt"
+        sh "git add src-cordova/fastlane/metadata/android/en-US/changelogs/${env.VERSION_CODE}.txt"
         sh "git add src-cordova/Gemfile.lock"
-        sh 'git commit -m "Build $BUILD_NUMBER updated versionCode to $NEW_VERSION_CODE [ci skip]"'
+        sh 'git commit -m "Build $BUILD_NUMBER updated versionCode to $VERSION_CODE [ci skip]"'
         sh 'git push https://${GIT_USR}:${GIT_PSW}@github.com/yonadev/yona-app.git HEAD:$BRANCH_NAME'
         sh 'git tag -a $BRANCH_NAME-build-$BUILD_NUMBER -m "Jenkins"'
         sh 'git push https://${GIT_USR}:${GIT_PSW}@github.com/yonadev/yona-app.git --tags'
@@ -188,8 +188,8 @@ pipeline {
 def incrementVersion() {
     def versionPropsFileName = "src-cordova/version.properties"
     def versionProps = readProperties file: versionPropsFileName
-    env.NEW_VERSION_CODE = versionProps['VERSION_CODE'].toInteger() + 1
-    versionProps['VERSION_CODE']=env.NEW_VERSION_CODE
+    env.VERSION_CODE = versionProps['VERSION_CODE'].toInteger() + 1
+    versionProps['VERSION_CODE']=env.VERSION_CODE
     def versionPropsString = "#" + new Date() + "\n";
     def toKeyValue = {
         it.collect { "$it.key=$it.value" } join "\n"
@@ -204,6 +204,5 @@ def incrementVersion() {
         versionName = versionName + " (${BRANCH_NAME})"
     }
 
-    env.VERSION_CODE = env.NEW_VERSION_CODE
     env.VERSION_NAME = versionName
 }
