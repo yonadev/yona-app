@@ -204,6 +204,6 @@ def incrementVersion() {
         versionName = versionName + " (${BRANCH_NAME})"
     }
 
-    env.VERSION_CODE = versionCode
+    env.VERSION_CODE = env.NEW_VERSION_CODE
     env.VERSION_NAME = versionName
 }
