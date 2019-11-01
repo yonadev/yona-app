@@ -1,0 +1,1 @@
+Update de FirebaseInstanceId op de server als deze leeg of niet gelijk is aan het ID op het apparaat, dit verhelpt direct het probleem bij gebruikers die migreren.

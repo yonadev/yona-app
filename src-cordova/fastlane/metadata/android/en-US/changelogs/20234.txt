@@ -1,0 +1,1 @@
+Update FirebaseInstanceId on server when the saved value is not the same as the id on the device. Works for empty id's and changed id's.
