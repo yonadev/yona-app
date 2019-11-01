@@ -21,10 +21,6 @@
     <platform name="android">
         <hook type="after_prepare" src="scripts/apply-to-gradle.properties.js"/>
 
-        <!--<edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
-            <application android:theme="@style/Theme.AppCompat.Light"/>
-        </edit-config>-->
-
         <!-- js -->
         <js-module src="www/ServicesPlugin.js" name="YonaServices">
             <clobbers target="cordova.plugins.YonaServices"/>
