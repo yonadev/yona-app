@@ -40,6 +40,7 @@
         <resource-file src="res/production/strings.xml" target="app/src/main/res/production/strings.xml" />
         <preference name="AndroidPersistentFileLocation" value="Compatibility" />
         <preference name="AndroidLaunchMode" value="singleInstance" />
+        <custom-preference name="android-manifest/application/android:theme" value="@style/Theme.AppCompat.Light"/>
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
