@@ -1,0 +1,1 @@
+Problemen met AndroidManifest opgelost zodat App monitoring weer werkt.
