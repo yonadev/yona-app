@@ -60,7 +60,9 @@
             <preference name="KeepRunning" value="true"/>
         </config-file>
 
-        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+        <config-file target="AndroidManifest.xml" mode="merge" parent="/manifest/application">
+            <application android:theme="@style/Theme.AppCompat.Light"/>
+            
             <service android:enabled="true" android:exported="false"
                      android:name="com.yona.plugin.services.AppMonitoringService" android:stopWithTask="false"/>
 
