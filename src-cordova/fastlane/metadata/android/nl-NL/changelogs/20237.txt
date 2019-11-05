@@ -1,0 +1,1 @@
+Standaard notificatie icoon en kleur toegevoegd voor push notificaties.

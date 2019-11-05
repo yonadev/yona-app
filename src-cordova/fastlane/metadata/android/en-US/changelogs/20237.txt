@@ -1,0 +1,1 @@
+Add default notification icon and color for push notifications.
