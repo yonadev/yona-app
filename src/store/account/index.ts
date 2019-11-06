@@ -4,6 +4,7 @@ import { RootState } from "../types";
 import axios from "../../utils/axios/axios";
 import i18n from "../../utils/i18n";
 import Vue from "vue";
+import router from "@/router";
 
 export const state: AccountState = {
   firstname: "",
@@ -87,6 +88,19 @@ const actions: ActionTree<AccountState, RootState> = {
         },
         { root: true }
       );
+      if (migrationData.serverUrl) {
+        dispatch(
+          "api/setHost",
+          {
+            links: {
+              self: {
+                href: migrationData.serverUrl
+              }
+            }
+          },
+          { root: true }
+        );
+      }
       dispatch(
         "api/setLinks",
         {
@@ -105,8 +119,15 @@ const actions: ActionTree<AccountState, RootState> = {
         },
         { root: true }
       );
-      dispatch("login/setSoftRegistered", null, { root: true });
-      await dispatch("setUserData");
+      if (
+        migrationData.selfHref &&
+        migrationData.passWord &&
+        migrationData.passCode
+      ) {
+        dispatch("login/setSoftRegistered", null, { root: true });
+        await dispatch("setUserData");
+        router.push({ name: "Login" });
+      }
     }
   },
   async setUserData({ commit, rootState, dispatch }) {
@@ -325,16 +346,17 @@ const actions: ActionTree<AccountState, RootState> = {
   },
   async updateCurrentDevice({ commit, state, rootState }, firebaseInstanceId) {
     if (state.currentDevice) {
-      let response: any = await axios
-        .put(state.currentDevice._links.edit.href, {
+      let response: any = await axios.put(
+        state.currentDevice._links.edit.href,
+        {
           name: state.currentDevice.name,
           firebaseInstanceId
-        });
+        }
+      );
 
       //This will get the devices and set it through axios interceptor
       if (rootState.api.links) {
-        await axios
-          .get(rootState.api.links["self"].href);
+        await axios.get(rootState.api.links["self"].href);
       }
 
       if (response) {

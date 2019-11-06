@@ -110,8 +110,10 @@ public class UserPreferences extends CordovaPlugin {
                             String selfHref = authenticateDao.getUser().getLinks().getSelf().getHref();
                             String passCode = getSharedPreferences().getYonaPasscode();
                             String passWord = getSharedPreferences().getYonaPassword();
+                            String serverUrl = getSharedPreferences().getServerUrl();
 
                             JSONObject response = new JSONObject();
+                            response.put("serverUrl", serverUrl);
                             response.put("selfHref", selfHref);
                             response.put("passCode", passCode);
                             response.put("passWord", passWord);
