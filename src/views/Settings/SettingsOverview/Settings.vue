@@ -37,7 +37,7 @@
         </div>
       </router-link>
 
-      <div class="app_version">
+      <div class="app_version" @click="increaseCounter()">
         Version: {{ versionNumber }} {{ versionCode }}
       </div>
     </div>
@@ -47,15 +47,19 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import { State } from "vuex-class";
+import { State, Action } from "vuex-class";
 import { ApiState } from "@/store/api/types";
 import axios from "@/utils/axios/axios";
 
 @Component({})
 export default class Settings extends Vue {
   @State("api") api!: ApiState;
+  @Action("setHost", { namespace: "api" }) setHost: any;
+  @Action("setServerError", { namespace: "api" }) setServerError: any;
   @State(state => state.app.versionNumber) versionNumber!: string;
   @State(state => state.app.versionCode) versionCode!: number;
+  clickCounter: number = 0;
+  host: string = "";
 
   logEnabled: boolean = false;
 
@@ -65,6 +69,7 @@ export default class Settings extends Vue {
       //@ts-ignore
       this.logEnabled = await cordova.plugins.YonaServices.VPNLogEnabled();
     }
+    this.host = this.api.host;
   }
 
   contactUs() {
@@ -136,6 +141,88 @@ export default class Settings extends Vue {
     if (typeof cordova.plugins.YonaServices !== "undefined") {
       //@ts-ignore
       this.logEnabled = await cordova.plugins.YonaServices.toggleVPNLog();
+    }
+  }
+
+  increaseCounter() {
+    this.clickCounter++;
+
+    if (this.clickCounter >= 6) {
+      this.clickCounter = 0;
+      let self = this;
+      //@ts-ignore
+      if (navigator && navigator.notification) {
+        //@ts-ignore
+        navigator.notification.prompt(
+          "",
+          async (result: any) => {
+            if (result.buttonIndex === 1) {
+              //Cancel
+            } else if (result.buttonIndex === 2) {
+              await this.changeAPIUrl(result.input1);
+            }
+          },
+          self.$t("environment_alert_title"),
+          [self.$t("cancel"), self.$t("save")],
+          self.host
+        );
+      }
+    }
+  }
+
+  async changeAPIUrl(url: string) {
+    let self = this;
+
+    if (!url) {
+      url = self.host;
+    }
+
+    let response: any = await axios
+      .get(url + "/activityCategories/")
+      .catch(error => {
+        if (error) {
+          //@ts-ignore
+          if (navigator && navigator.notification) {
+            //@ts-ignore
+            navigator.notification.alert(
+              self.$t("environment_switch_error") + " " + self.api.host, // message
+              () => {}, // callback
+              self.$t("generic_alert_title"), // title
+              "Close" // buttonName
+            );
+          } else {
+            this.setServerError({
+              serverMessage:
+                self.$t("environment_switch_error") + " " + self.api.host
+            });
+          }
+
+          self.host = self.api.host;
+        }
+      });
+
+    if (response) {
+      self.host = url;
+
+      //@ts-ignore
+      if (navigator && navigator.notification) {
+        //@ts-ignore
+        navigator.notification.alert(
+          self.$t("new_environment_switch_success_msg") + " " + self.host, // message
+          () => {}, // callback
+          self.$t("generic_alert_title"), // title
+          "Close" // buttonName
+        );
+      } else {
+        this.setServerError({
+          serverMessage:
+            self.$t("new_environment_switch_success_msg") + " " + self.host
+        });
+      }
+
+      this.setHost({
+        host: self.host
+      });
     }
   }
 }
