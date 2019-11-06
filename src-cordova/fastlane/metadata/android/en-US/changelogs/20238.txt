@@ -1,0 +1,2 @@
+Migrate serverUrl on update, also disable Tour on upgrade. 
+Add easter egg for Bert on settings screen.

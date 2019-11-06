@@ -1,0 +1,2 @@
+ServerURL wordt nu ook gemigreerd na update, ook het Tour scherm wordt na migratie niet meer weergegeven.
+Easter Egg voor Bert toegevoegd op instellingen scherm.
