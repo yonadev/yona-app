@@ -58,6 +58,9 @@
             <meta-data
                 android:name="com.google.firebase.messaging.default_notification_color"
                 android:resource="@color/grape"/>
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_channel_id"
+                android:value="yona_notifications_channel"/>
         </config-file>
     </platform>
     <platform name="ios">
