@@ -1,0 +1,1 @@
+Notificatie icoon na eerste app gebruik nu correct.
