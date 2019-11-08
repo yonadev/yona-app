@@ -1,0 +1,1 @@
+Oplossing voor push notificaties op Android 8.0 en 8.1
