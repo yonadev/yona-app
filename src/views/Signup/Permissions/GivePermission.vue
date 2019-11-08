@@ -81,6 +81,14 @@ export default class GivePermission extends Vue {
 
         if (hasUsageAccess === "true") {
           //@ts-ignore
+          cordova.plugins.YonaServices.setDefaults({
+            title: this.$t("yona_notification_content"),
+            icon: "notification", // this will look for icon.png in platforms/android/res/drawable|mipmap
+            color: "6c2a58", // hex format like 'F14F4D'
+            channelName: this.$t("yona_service_notification_channel_name"),
+            allowClose: false
+          });
+          //@ts-ignore
           cordova.plugins.YonaServices.enable();
 
           self.setPermission({
