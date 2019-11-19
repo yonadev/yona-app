@@ -1,0 +1,1 @@
+Fixed app notifications for Android 8.0 - 8.1
