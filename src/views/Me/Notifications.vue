@@ -273,6 +273,20 @@ export default class Notifications extends Vue {
         this.api.links["yona:messages"].href
       );
     }
+
+    if (
+      //@ts-ignore
+      typeof cordova !== "undefined" &&
+      //@ts-ignore
+      typeof cordova.plugins !== undefined &&
+      //@ts-ignore
+      cordova.plugins.firebase
+    ) {
+      //@ts-ignore
+      await cordova.plugins.firebase.messaging.clearNotifications();
+      //@ts-ignore
+      await cordova.plugins.firebase.messaging.setBadge(0);
+    }
   }
 
   isFromPushNotification(notification: any) {
