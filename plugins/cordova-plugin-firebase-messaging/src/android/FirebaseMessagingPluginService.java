@@ -2,6 +2,7 @@ package by.chemerisuk.cordova.firebase;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -18,6 +19,7 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.yona.plugin.services.utils.Logger;
 
 import static android.content.ContentResolver.SCHEME_ANDROID_RESOURCE;
 
@@ -78,7 +80,7 @@ public class FirebaseMessagingPluginService extends FirebaseMessagingService {
         intent.putExtra(EXTRA_FCM_MESSAGE, remoteMessage);
         this.broadcastManager.sendBroadcast(intent);
 
-        if (FirebaseMessagingPlugin.isForceShow() && FirebaseMessagingPlugin.isBackground()) {
+        if (!FirebaseMessagingPlugin.isForeground()) {
             RemoteMessage.Notification notification = remoteMessage.getNotification();
             if (notification != null) {
                 showAlert(notification);
@@ -87,6 +89,11 @@ public class FirebaseMessagingPluginService extends FirebaseMessagingService {
     }
 
     private void showAlert(RemoteMessage.Notification notification) {
+        Intent intent = new Intent(this, FirebaseMessagingPluginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, this.defaultNotificationChannel);
         builder.setContentTitle(notification.getTitle());
         builder.setContentText(notification.getBody());
@@ -95,6 +102,7 @@ public class FirebaseMessagingPluginService extends FirebaseMessagingService {
         builder.setColor(this.defaultNotificationColor);
         // must set sound and priority in order to display alert
         builder.setSound(getNotificationSound(notification.getSound()));
+        builder.setContentIntent(pendingIntent);
         builder.setPriority(1);
 
         this.notificationManager.notify(0, builder.build());

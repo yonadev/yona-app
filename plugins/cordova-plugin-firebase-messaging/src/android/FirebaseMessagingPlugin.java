@@ -34,6 +34,7 @@ public class FirebaseMessagingPlugin extends ReflectiveCordovaPlugin {
 
     private JSONObject lastBundle;
     private boolean isBackground = false;
+    private boolean isForeground = false;
     private boolean forceShow = false;
     private CallbackContext tokenRefreshCallback;
     private CallbackContext foregroundCallback;
@@ -180,13 +181,25 @@ public class FirebaseMessagingPlugin extends ReflectiveCordovaPlugin {
     }
 
     @Override
+    public void onStart() {
+        this.isForeground = true;
+    }
+
+    @Override
     public void onPause(boolean multitasking) {
         this.isBackground = true;
+        this.isForeground = false;
     }
 
     @Override
     public void onResume(boolean multitasking) {
         this.isBackground = false;
+        this.isForeground = true;
+    }
+
+    @Override
+    public void onStop() {
+        this.isForeground = false;
     }
 
     static void sendNotification(RemoteMessage remoteMessage) {
@@ -234,6 +247,10 @@ public class FirebaseMessagingPlugin extends ReflectiveCordovaPlugin {
 
     static boolean isBackground() {
         return instance != null && instance.isBackground;
+    }
+
+    static boolean isForeground() {
+        return instance != null && instance.isForeground;
     }
 
     private void sendNotification(JSONObject notificationData, CallbackContext callbackContext) {
