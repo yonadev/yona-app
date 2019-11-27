@@ -1,7 +1,5 @@
 package com.yona.plugin.services;
 
-import org.json.JSONObject;
-
 import android.annotation.TargetApi;
 import android.app.*;
 import android.app.usage.UsageStats;
@@ -10,12 +8,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.SystemClock;
+import android.util.Log;
+
+import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import java.util.Date;
@@ -26,6 +25,7 @@ import java.util.TreeMap;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import nu.yona.app.R;
 import com.yona.plugin.services.api.manager.APIManager;
 import com.yona.plugin.services.api.model.Activity;
 import com.yona.plugin.services.api.receiver.YonaReceiver;
@@ -35,6 +35,8 @@ import com.yona.plugin.services.utils.AppUtils;
 import com.yona.plugin.services.utils.DateUtility;
 import com.yona.plugin.services.utils.Logger;
 
+import static com.yona.plugin.services.utils.AppConstant.APP_MONITOR_NOTIFICATION_ID;
+
 /**
  * Puts the service in a foreground state, where the system considers it to be
  * something the user is actively aware of and thus not a candidate for killing
@@ -42,20 +44,9 @@ import com.yona.plugin.services.utils.Logger;
  */
 public class AppMonitoringService extends Service {
 
-    private static final String LOG_TAG = "AppUsagePlugin";
-
-    // Fixed ID for the 'foreground' notification
-    public static final int NOTIFICATION_ID = -574543954;
-
     // Default title of the background notification
     private static String NOTIFICATION_TITLE =
             "Monitoring app usage";
-
-    // Default icon of the background notification
-    private static final String NOTIFICATION_ICON = "notification";
-
-    // Binder given to clients
-    private final IBinder binder = new ForegroundBinder();
 
     private static String currentApp;
 
@@ -71,32 +62,13 @@ public class AppMonitoringService extends Service {
 
     private static final YonaReceiver receiver = new YonaReceiver();
 
-    /**
-     * Allow clients to call on to the service.
-     */
+    @Nullable
     @Override
-    public IBinder onBind (Intent intent) {
-        return binder;
-    }
-
-    /**
-     * Class used for the client Binder.  Because we know this service always
-     * runs in the same process as its clients, we don't need to deal with IPC.
-     */
-    class ForegroundBinder extends Binder
+    public IBinder onBind(Intent intent)
     {
-        AppMonitoringService getService()
-        {
-            // Return this instance of AppMonitoringService
-            // so clients can call public methods
-            return AppMonitoringService.this;
-        }
+        return null;
     }
 
-    /**
-     * Put the service in a foreground state to prevent app from being killed
-     * by the OS.
-     */
     @Override
     public void onCreate()
     {
@@ -106,8 +78,64 @@ public class AppMonitoringService extends Service {
             NOTIFICATION_TITLE = "Monitort appgebruik";
         }
 
-        restartReceiver(getApplicationContext());
-        powerManager = ((PowerManager)getSystemService(Context.POWER_SERVICE));
+        restartReceiver();
+        powerManager = ((PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE));
+    }
+
+    private void restartReceiver()
+    {
+        SharedPreferences sp = getApplicationContext().getSharedPreferences(AppConstant.USER_PREFERENCE_KEY, Context.MODE_PRIVATE);
+        if (sp.getBoolean(AppConstant.TERMINATED_APP, false))
+        {
+            sp.edit().putBoolean(AppConstant.TERMINATED_APP, false).commit();
+            registerReceiver(getApplicationContext());
+        }
+
+        registerReceiver(getApplicationContext());
+    }
+
+    /**
+     * Prevent Android from stopping the background service automatically.
+     */
+    @Override
+    public int onStartCommand (Intent intent, int flags, int startId) {
+        Log.i(this.getClass().getName(), "onStartCommand");
+        scheduleMethod();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            displayActivityMonitoringNotification();
+        }
+        return START_NOT_STICKY;
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private void displayActivityMonitoringNotification()
+    {
+        Context context = getApplicationContext();
+        String pkgName  = context.getPackageName();
+        Intent intent   = context.getPackageManager().getLaunchIntentForPackage(pkgName);
+
+        int aRGB = Integer.parseInt("6c2a58", 16) + 0xFF000000;
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0 /* Request code */, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        Notification notification = new NotificationCompat.Builder(this, AppConstant.YONA_SERVICE_CHANNEL_ID)
+                .setColor(aRGB)
+                .setSmallIcon(R.drawable.notification)
+                .setContentTitle(NOTIFICATION_TITLE)
+                .setContentIntent(pendingIntent)
+                .setOngoing(true)
+                .setPriority(0)
+                .build();
+        startForeground(APP_MONITOR_NOTIFICATION_ID, notification);
+    }
+
+    private void removeActivityMonitoringNotification()
+    {
+        NotificationManager mNotificationManager = (NotificationManager)
+                this.getSystemService(NOTIFICATION_SERVICE);
+        mNotificationManager.cancel(APP_MONITOR_NOTIFICATION_ID);
     }
 
     /**
@@ -119,24 +147,8 @@ public class AppMonitoringService extends Service {
         shutdownScheduler();
         endTime = new Date();
         updateOnServer(previousAppName);
-        getNotificationManager().cancel(NOTIFICATION_ID);
-        stopForeground(true);
-
+        removeActivityMonitoringNotification();
         super.onDestroy();
-    }
-
-    /**
-     * Prevent Android from stopping the background service automatically.
-     */
-    @Override
-    public int onStartCommand (Intent intent, int flags, int startId) {
-        scheduleMethod();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-        {
-            startForeground(NOTIFICATION_ID, makeNotification());
-        }
-        return START_NOT_STICKY;
     }
 
     private static String printForegroundTask(Context context)
@@ -175,20 +187,6 @@ public class AppMonitoringService extends Service {
 		return currentApp;
 	}
 
-    private void restartReceiver(Context context)
-    {
-        SharedPreferences sp = getApplicationContext().getSharedPreferences(AppConstant.USER_PREFERENCE_KEY, Context.MODE_PRIVATE);
-
-        if (sp.getBoolean(AppConstant.TERMINATED_APP, false))
-        {
-            sp.edit().putBoolean(AppConstant.TERMINATED_APP, false).commit();
-            registerReceiver(context);
-        }
-
-        registerReceiver(context);
-    }
-
-
     /**
      * This will register receiver for different events like screen on-off, boot, connectivity etc.
      *
@@ -207,170 +205,6 @@ public class AppMonitoringService extends Service {
         filter.addAction(PowerManager.ACTION_DEVICE_IDLE_MODE_CHANGED);
 
         context.registerReceiver(receiver, filter);
-    }
-
-    /**
-     * Create a notification as the visible part to be able to put the service
-     * in a foreground state by using the default settings.
-     */
-    private Notification makeNotification()
-    {
-        return makeNotification(BackgroundMode.getSettings());
-    }
-
-    /**
-     * Create a notification as the visible part to be able to put the service
-     * in a foreground state.
-     *
-     * @param settings The config settings
-     */
-    private Notification makeNotification (JSONObject settings)
-    {
-        // use channelid for Oreo and higher
-        String CHANNEL_ID = "yona-appmonitoring";
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // The user-visible name of the channel.
-            CharSequence name = "yona-appmonitoring";
-            // The user-visible description of the channel.
-            String description = "yona-plugin-appmonitoring notification";
-
-            int importance = NotificationManager.IMPORTANCE_LOW;
-
-            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
-
-            // Configure the notification channel.
-            mChannel.setDescription(description);
-
-            getNotificationManager().createNotificationChannel(mChannel);
-        }
-        String title    = settings.optString("title", NOTIFICATION_TITLE);
-        boolean bigText = settings.optBoolean("bigText", false);
-        String subText = settings.optString("subText", "");
-
-        Context context = getApplicationContext();
-        String pkgName  = context.getPackageName();
-        Intent intent   = context.getPackageManager()
-                .getLaunchIntentForPackage(pkgName);
-
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setContentTitle(title)
-                .setOngoing(true)
-                .setSmallIcon(getIconResId(settings))
-                .setShowWhen(settings.optBoolean("showWhen", true));
-
-        if (!subText.equals("")) {
-            notification.setSubText(subText);
-        }
-
-        setColor(notification, settings);
-
-        if (intent != null) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            PendingIntent contentIntent = PendingIntent.getActivity(
-                    context, NOTIFICATION_ID, intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-            notification.setContentIntent(contentIntent);
-        }
-
-        return notification.build();
-    }
-
-    /**
-     * Update the notification.
-     *
-     * @param settings The config settings
-     */
-    protected void updateNotification (JSONObject settings)
-    {
-        boolean isSilent = settings.optBoolean("silent", false);
-
-        Notification notification = makeNotification(settings);
-        getNotificationManager().notify(NOTIFICATION_ID, notification);
-
-    }
-
-    /**
-     * Retrieves the resource ID of the sent icon name
-     *
-     * @param name Name of the resource to return
-     */
-    private int getIconResId(String name) {
-        int resId = getIconResId(name, "mipmap");
-
-        if (resId == 0) {
-            resId = getIconResId(name, "drawable");
-        }
-
-        if (resId == 0) {
-            resId = getIconResId("icon", "mipmap");
-        }
-
-        if (resId == 0) {
-            resId = getIconResId("icon", "drawable");
-        }
-
-
-        return resId;
-    }
-
-    /**
-     * Retrieves the resource ID of the app icon.
-     *
-     * @param settings A JSON dict containing the icon name.
-     */
-    private int getIconResId(JSONObject settings) {
-        String icon = settings.optString("icon", NOTIFICATION_ICON);
-
-        return getIconResId(icon);
-    }
-
-    /**
-     * Retrieve resource id of the specified icon.
-     *
-     * @param icon The name of the icon.
-     * @param type The resource type where to look for.
-     *
-     * @return The resource id or 0 if not found.
-     */
-    private int getIconResId (String icon, String type)
-    {
-        Resources res  = getResources();
-        String pkgName = getPackageName();
-
-        return res.getIdentifier(icon, type, pkgName);
-    }
-
-    /**
-     * Set notification color if its supported by the SDK.
-     *
-     * @param notification A Notification.Builder instance
-     * @param settings A JSON dict containing the color definition (red: FF0000)
-     */
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void setColor(NotificationCompat.Builder notification,
-                          JSONObject settings) {
-
-        String hex = settings.optString("color", null);
-
-        if (Build.VERSION.SDK_INT < 21 || hex == null)
-            return;
-
-        try {
-            int aRGB = Integer.parseInt(hex, 16) + 0xFF000000;
-            notification.setColor(aRGB);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Returns the shared notification service manager.
-     */
-    private NotificationManager getNotificationManager()
-    {
-        return (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     }
 
     private void scheduleMethod()
@@ -445,6 +279,7 @@ public class AppMonitoringService extends Service {
     @Override
     public void onTaskRemoved(Intent rootIntent)
     {
+        Logger.logd(AppMonitoringService.class, "Task removed");
         SharedPreferences sp = getApplicationContext().getSharedPreferences(AppConstant.USER_PREFERENCE_KEY, Context.MODE_PRIVATE);
         sp.edit().putBoolean(AppConstant.TERMINATED_APP, true).commit();
         shutdownScheduler();
@@ -475,6 +310,7 @@ public class AppMonitoringService extends Service {
 
     private void restartService()
     {
+        Logger.logd(AppMonitoringService.class, "RESTART SERVICE");
         Intent restartServiceIntent = new Intent(getApplicationContext(), this.getClass());
         restartServiceIntent.setPackage(getPackageName());
 

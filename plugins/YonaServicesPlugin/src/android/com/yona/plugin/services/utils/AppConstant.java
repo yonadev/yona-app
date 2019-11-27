@@ -34,6 +34,7 @@ public interface AppConstant
 
 	// Notifications Channel Id's
 	String YONA_VPN_CHANNEL_ID = "yona-vpn-channel";
+	String YONA_NOTIFICATION_CHANNEL_ID = "yona-notification-channel";
 	String YONA_SERVICE_CHANNEL_ID = "yona-service-channel";
 	String OLD_YONA_SERVICE_CHANNEL_ID = "yona-channel";
 
@@ -81,6 +82,7 @@ public interface AppConstant
 	// Notification Id's. Before changing them please ensure that existing notifications with old Id's are cancelled at-least once.
 	int APP_MONITOR_NOTIFICATION_ID = 1111;
 	int VPN_CONNECT_NOTIFICATION_ID = 1112;
+	int MESSAGE_NOTIFICATION_ID = 1113;
 
 	/**
 	 * The constant YONA_LONG_DATE_FORMAT.

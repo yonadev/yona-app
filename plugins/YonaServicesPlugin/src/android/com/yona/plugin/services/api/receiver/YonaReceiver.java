@@ -45,6 +45,7 @@ public class YonaReceiver extends BroadcastReceiver
 	public void onReceive(Context context, Intent intent)
 	{
 		Logger.logi(YonaReceiver.class, "Received intent");
+		Logger.logi(YonaReceiver.class, intent.getAction());
 		this.context = context;
 		switch (intent.getAction())
 		{
@@ -66,7 +67,7 @@ public class YonaReceiver extends BroadcastReceiver
 				handleRestartVPNBroadcast(context);
 				break;
 			case AppConstant.CONNECT_VPN:
-				//AppUtils.removeVPNConnectNotification(context);
+				AppUtils.removeVPNConnectNotification(context);
 				handleConnectVPNBroadcast(context);
 				break;
 			default:
@@ -95,7 +96,7 @@ public class YonaReceiver extends BroadcastReceiver
 	{
 		Logger.logi(YonaReceiver.class, "ACTION_SCREEN_ON");
 		startService(context);
-		// AppUtils.startVPN(context, false);
+		AppUtils.startVPN(context, false);
 	}
 
 	private void handleScreenOffBroadcast(Context context)
@@ -114,7 +115,7 @@ public class YonaReceiver extends BroadcastReceiver
 		if (isDeviceInteractive(context))
 		{
 			startService(context);
-			//AppUtils.startVPN(context, false);
+			AppUtils.startVPN(context, false);
 			cancelPendingWakeUpAlarms(context);
 		}
 		else
@@ -153,51 +154,11 @@ public class YonaReceiver extends BroadcastReceiver
 
 	private void startService(Context context)
 	{
-		if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 && hasPermission())
+		if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 && AppUtils.hasPermission(context))
 				|| Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1)
 		{
-			utilsStartService(context);
+			AppUtils.startService(context);
 		}
-	}
-
-	/**
-	 * Start service once user grant permission for application permission (for 5.1+ version)
-	 *
-	 * @param context the context
-	 */
-	public static void utilsStartService(Context context)
-	{
-		try
-		{
-			activityMonitorIntent = new Intent(context, AppMonitoringService.class);
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-			{
-				startAppMonitoringService(context, activityMonitorIntent);
-				cancelPendingWakeUpAlarms(context);
-			}
-			else
-			{
-				context.startService(activityMonitorIntent);
-			}
-		}
-		catch (Exception e)
-		{
-			Logger.loge(YonaReceiver.class, e.getMessage());
-		}
-	}
-
-
-	/**
-	 * Has permission boolean.
-	 *
-	 * @return false if user has not given permission for package access so far.
-	 */
-	@TargetApi(Build.VERSION_CODES.KITKAT)
-	public static boolean hasPermission()
-	{
-		//Todo: add proper check for hasPermission
-		return true;
-
 	}
 
 	private void handleRestartVPNBroadcast(Context context)

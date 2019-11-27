@@ -11,8 +11,9 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
 import android.os.Build;
-import android.os.IBinder;
 import android.provider.Settings;
+
+import androidx.core.app.NotificationManagerCompat;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -20,12 +21,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
 
-import com.yona.plugin.services.AppMonitoringService.ForegroundBinder;
 import com.yona.plugin.services.api.receiver.YonaReceiver;
 import com.yona.plugin.services.utils.AppUtils;
 import com.yona.plugin.services.utils.Logger;
 
-import static android.content.Context.BIND_AUTO_CREATE;
+import nu.yona.app.R;
 
 public class BackgroundMode extends CordovaPlugin {
 
@@ -46,23 +46,6 @@ public class BackgroundMode extends CordovaPlugin {
     // Service that keeps the app awake
     private AppMonitoringService service;
 
-    // Used to (un)bind the service to with the activity
-    private final ServiceConnection connection = new ServiceConnection()
-    {
-        @Override
-        public void onServiceConnected (ComponentName name, IBinder service)
-        {
-            ForegroundBinder binder = (ForegroundBinder) service;
-            BackgroundMode.this.service = binder.getService();
-            Logger.logi(BackgroundMode.class, "service connected");
-        }
-
-        @Override
-        public void onServiceDisconnected (ComponentName name)
-        {
-            Logger.logi(BackgroundMode.class, "service disconnected");
-        }
-    };
 
     /**
      * Executes the request.
@@ -98,6 +81,14 @@ public class BackgroundMode extends CordovaPlugin {
         } else if ( action.equalsIgnoreCase("postActivitiesToServer") ) {
             this.postActivitiesToServer(callback);
             return true;
+        } else if ( action.equalsIgnoreCase("createNotificationChannel") ) {
+            this.createNotificationChannel(callback);
+            return true;
+        } else if ( action.equalsIgnoreCase("showNotification") ) {
+            String title = args.optString(0);
+            String message = args.optString(1);
+            this.showNotification(callback, title, message);
+            return true;
         }
 
         return false;
@@ -119,16 +110,27 @@ public class BackgroundMode extends CordovaPlugin {
         if ( enabled ) {
             componentState = PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
             Logger.logi(BackgroundMode.class, "set Component enabled");
-            startService();
+            checkForNotificationPermission();
+            AppUtils.startService(context);
         } else {
             componentState = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
-            stopService();
+            AppUtils.stopService(context);
         }
 
         // Enable or Disable BootCompletedReceiver
         ComponentName yonaReceiver = new ComponentName(context, YonaReceiver.class);
         PackageManager pm = context.getPackageManager();
         pm.setComponentEnabledSetting(yonaReceiver, componentState, PackageManager.DONT_KILL_APP);
+    }
+
+    private void checkForNotificationPermission()
+    {
+        Context context = cordova.getActivity();
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O || (NotificationManagerCompat.from(context.getApplicationContext()).areNotificationsEnabled() && AppUtils.arePersistentNotificationsEnabled(context)))
+        {
+            return;
+        }
+        Logger.loge(BackgroundMode.class, "Yona cannot monitor app activity because notifications for the Yona application have been disabled. Enable notifications for Yona again in the device settings.");
     }
 
     private void checkUsageAccess(CallbackContext callbackContext) {
@@ -169,6 +171,18 @@ public class BackgroundMode extends CordovaPlugin {
         callbackContext.success("true");
     }
 
+    private void createNotificationChannel(CallbackContext callbackContext) {
+        Context context = this.cordova.getActivity().getApplicationContext();
+        AppUtils.createNotificationChanngel(context);
+        callbackContext.success("true");
+    }
+
+    private void showNotification(CallbackContext callbackContext, String title, String message) {
+        Context context = this.cordova.getActivity().getApplicationContext();
+        AppUtils.showNotification(context, message, title);
+        callbackContext.success("true");
+    }
+
     /**
      * Launch UsageStatsManager settings
      * @return
@@ -186,17 +200,6 @@ public class BackgroundMode extends CordovaPlugin {
             callbackContext.error(e.toString());
         }
 
-    }
-
-
-    /**
-     * Called when the activity will be destroyed.
-     */
-    @Override
-    public void onDestroy()
-    {
-        stopService();
-        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     /**
@@ -239,50 +242,7 @@ public class BackgroundMode extends CordovaPlugin {
     private void updateNotification(JSONObject settings)
     {
         if (isBind) {
-            service.updateNotification(settings);
+            //service.updateNotification(settings);
         }
-    }
-
-    /**
-     * Bind the activity to a background service and put them into foreground
-     * state.
-     */
-    private void startService()
-    {
-        Activity context = cordova.getActivity();
-
-        if (isDisabled || isBind)
-            return;
-
-        isBind = true;
-
-        Intent intent = new Intent(context, AppMonitoringService.class);
-
-        Logger.logi(BackgroundMode.class, "Start Service");
-
-        try {
-            context.bindService(intent, connection, BIND_AUTO_CREATE);
-            context.startService(intent);
-        } catch (Exception e) {
-            Logger.loge(BackgroundMode.class, e.getMessage());
-            isBind = false;
-        }
-    }
-
-    /**
-     * Bind the activity to a background service and put them into foreground
-     * state.
-     */
-    private void stopService()
-    {
-        Activity context = cordova.getActivity();
-        Intent intent    = new Intent(context, AppMonitoringService.class);
-
-        if (!isBind) return;
-
-        context.unbindService(connection);
-        context.stopService(intent);
-
-        isBind = false;
     }
 }
