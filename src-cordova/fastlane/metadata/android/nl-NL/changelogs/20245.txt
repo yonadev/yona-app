@@ -1,0 +1,1 @@
+App blijft nu ook na afsluiten draaien in achtergrond.
