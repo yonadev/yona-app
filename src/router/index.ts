@@ -324,29 +324,8 @@ export default new Router({
         },
         {
           path: "",
-          name: "FriendsAddTabs",
-          component: () =>
-            import("../views/Friends/FriendsAdd/FriendsAddTabs.vue"),
-          children: [
-            {
-              path: "add",
-              name: "FriendsAddManual",
-              component: () =>
-                import("../views/Friends/FriendsAdd/FriendsAddManual.vue"),
-              meta: {
-                prev: "FriendsOverview"
-              }
-            },
-            {
-              path: "addressbook",
-              name: "FriendsAddAddressBook",
-              component: () =>
-                import("../views/Friends/FriendsAdd/FriendsAddAddressBook.vue"),
-              meta: {
-                prev: "FriendsOverview"
-              }
-            }
-          ]
+          name: "FriendsAddManual",
+          component: () => import("../views/Friends/FriendsAdd/FriendsAdd.vue")
         },
         {
           path: ":buddy_href",

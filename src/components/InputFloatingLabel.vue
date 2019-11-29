@@ -61,7 +61,7 @@ export default class InputFloatingLabel extends Vue {
   }
 
   get isFilled(): boolean {
-    return this.value.length > 0;
+    return typeof this.value !== "undefined" && this.value.length > 0;
   }
 
   focusInput() {
