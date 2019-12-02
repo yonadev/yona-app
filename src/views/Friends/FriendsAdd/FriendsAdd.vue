@@ -136,8 +136,59 @@ export default class FriendsAddManual extends Vue {
     }
   }
 
+  hasReadContactsPermission(): Promise<boolean> {
+    //@ts-ignore
+    const Permission = window.plugins.Permission;
+    const permission = "android.permission.READ_CONTACTS";
+
+    return new Promise((resolve, reject) => {
+      Permission.has(
+        permission,
+        function(results: any) {
+          if (!results[permission]) {
+            resolve(false);
+          } else {
+            resolve(true);
+          }
+        },
+        (err: string) => reject(err)
+      );
+    });
+  }
+
+  requestReadContactsPermission(): Promise<boolean> {
+    //@ts-ignore
+    const Permission = window.plugins.Permission;
+    const permission = "android.permission.READ_CONTACTS";
+    return new Promise((resolve, reject) => {
+      Permission.request(
+        permission,
+        function(results: any) {
+          if (results[permission]) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        },
+        (err: string) => reject(err)
+      );
+    });
+  }
+
   async addFromAddressBook() {
     const self = this;
+
+    const hasPermission = await this.hasReadContactsPermission().catch(err =>
+      console.log(err)
+    );
+    let requestedSucces = null;
+    if (!hasPermission) {
+      this.setLogOffOnPause(false);
+      requestedSucces = await this.requestReadContactsPermission().catch(err =>
+        console.log(err)
+      );
+    }
+
     this.setLogOffOnPause(false);
     //@ts-ignore
     const contact = await cordova.plugins.ContactPicker.requestContact();

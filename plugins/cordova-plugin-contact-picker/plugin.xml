@@ -49,6 +49,10 @@ xmlns:android="http://schemas.android.com/apk/res/android"
             </feature>
         </config-file>
 
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.READ_CONTACTS" />
+        </config-file>
+
         <dependency id="cordova-support-android-plugin" version="~1.0.0"/>
 
         <source-file src="src/android/ContactPickerPlugin.java"
