@@ -1,0 +1,1 @@
+Permissie aanvraag voor READ_CONTACTS toegevoegd.
