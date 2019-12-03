@@ -1,0 +1,1 @@
+Added back button behaviour when clicking on notifications

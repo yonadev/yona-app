@@ -1,0 +1,1 @@
+Bij klikken op terugknop na klikken op notificatie wordt gebruiker nu teruggestuurd naar notificaties.
