@@ -384,6 +384,7 @@ export default class Notifications extends Vue {
         properties: {}
       });
     }
+    window.localStorage.setItem("previousRoute", "Notifications");
 
     if (
       notification["@type"] === "BuddyConnectRequestMessage" &&

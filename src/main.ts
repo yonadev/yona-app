@@ -265,7 +265,10 @@ const app = new Vue({
         "backbutton",
         function() {
           const currentRoute = self.$router.currentRoute;
-          if (currentRoute.meta.prev) {
+          const previousRoute = window.localStorage.getItem("previousRoute");
+          if (previousRoute === "Notifications") {
+            self.$router.back();
+          } else if (currentRoute.meta.prev) {
             const metaPrev = currentRoute.meta.prev;
 
             if (metaPrev === "actual") {

@@ -75,6 +75,11 @@ const install = (
 
   options.router.beforeEach((to, from, next) => rp.checkRouter(to, from, next));
 
+  options.router.afterEach((to, from) => {
+    if (from.name !== "Notifications")
+      window.localStorage.removeItem("previousRoute");
+  });
+
   return;
 };
 
