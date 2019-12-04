@@ -1,0 +1,1 @@
+We hebben de Yona-app van de grond af opnieuw opgebouwd. Hij is nu sneller, stabieler en de basis voor allerlei toekomstige features. Last but not least: je krijgt nu een melding als je een berichtje krijgt in Yona.
