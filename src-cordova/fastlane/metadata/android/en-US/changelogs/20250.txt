@@ -1,0 +1,1 @@
+We've rebuilt the Yona app from the ground up. Now it is faster, more stable and a good base for many future features. Last but not least: you now get a push notification when receiving a message in Yona.
