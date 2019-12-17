@@ -64,9 +64,7 @@ export default class RecoverSms extends Vue {
           "/admin/requestUserOverwrite/?mobileNumber=" +
           encodeURIComponent(this.account.phonenumber)
       )
-      .catch(error => {
-        console.log(error);
-      });
+      .catch();
     this.password = null;
     this.error = false;
     this.attempts = 0;

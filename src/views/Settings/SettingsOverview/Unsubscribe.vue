@@ -33,9 +33,7 @@ export default class Unsubscribe extends Vue {
     if (this.api.links) {
       let delete_response: any = await axios
         .delete(this.api.links["edit"].href)
-        .catch((error: any) => {
-          console.log(error);
-        });
+        .catch();
 
       await this.resetAll();
     }

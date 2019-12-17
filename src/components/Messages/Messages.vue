@@ -169,9 +169,7 @@ export default class Messages extends Vue {
 
         this.gettingMessages = true;
 
-        let messages: any = await axios.get(href).catch(error => {
-          console.log(error);
-        });
+        let messages: any = await axios.get(href).catch();
 
         this.loading = false;
 
@@ -229,9 +227,7 @@ export default class Messages extends Vue {
 
     let new_message_response: any = await axios
       .post(message_href, body)
-      .catch(error => {
-        console.log(error);
-      });
+      .catch();
 
     if (new_message_response) {
       this.threadMessages = [];

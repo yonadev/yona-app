@@ -427,9 +427,7 @@ export default class Notifications extends Vue {
       if (notification._links["yona:weekDetails"]) {
         let weekDetails: any = await axios
           .get(notification._links["yona:weekDetails"].href)
-          .catch(error => {
-            console.log(error);
-          });
+          .catch();
 
         if (weekDetails && weekDetails.data._links["yona:buddy"]) {
           this.$router.push({
@@ -452,9 +450,7 @@ export default class Notifications extends Vue {
       } else if (notification._links["yona:dayDetails"]) {
         let dayDetails: any = await axios
           .get(notification._links["yona:dayDetails"].href)
-          .catch(error => {
-            console.log(error);
-          });
+          .catch();
 
         if (dayDetails && dayDetails.data._links["yona:buddy"]) {
           this.$router.push({

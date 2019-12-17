@@ -63,9 +63,7 @@ export default class FriendsTimeLineDay extends Vue {
 
         this.gettingActivities = true;
 
-        let response: any = await axios.get(href).catch(error => {
-          console.log(error);
-        });
+        let response: any = await axios.get(href).catch();
 
         this.loading = false;
 

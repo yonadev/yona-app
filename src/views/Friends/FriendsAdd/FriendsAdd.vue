@@ -126,9 +126,7 @@ export default class FriendsAddManual extends Vue {
             }
           }
         })
-        .catch(error => {
-          console.log(error);
-        });
+        .catch();
 
       this.loading = false;
 
@@ -178,21 +176,16 @@ export default class FriendsAddManual extends Vue {
   async addFromAddressBook() {
     const self = this;
 
-    const hasPermission = await this.hasReadContactsPermission().catch(err =>
-      console.log(err)
-    );
+    const hasPermission = await this.hasReadContactsPermission().catch();
     let requestedSucces = null;
     if (!hasPermission) {
       this.setLogOffOnPause(false);
-      requestedSucces = await this.requestReadContactsPermission().catch(err =>
-        console.log(err)
-      );
+      requestedSucces = await this.requestReadContactsPermission().catch();
     }
 
     this.setLogOffOnPause(false);
     //@ts-ignore
     const contact = await cordova.plugins.ContactPicker.requestContact();
-    console.log(contact);
     if (contact) {
       if (contact.firstName) self.firstname = contact.firstName;
       else self.firstname = "";

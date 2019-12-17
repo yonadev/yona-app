@@ -117,11 +117,7 @@ export default class DetailedViewDay extends Vue {
   async mounted() {
     this.loading = true;
 
-    let detailed_response: any = await axios
-      .get(this.activity_link)
-      .catch(error => {
-        console.log(error);
-      });
+    let detailed_response: any = await axios.get(this.activity_link).catch();
 
     this.loading = false;
 

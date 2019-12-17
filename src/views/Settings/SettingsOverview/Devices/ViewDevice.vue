@@ -81,9 +81,7 @@ export default class Devices extends Vue {
           .put(self.device._links.edit.href, {
             name: self.device_name
           })
-          .catch((error: any) => {
-            console.log(error);
-          });
+          .catch();
 
         if (response && self.api.links) {
           await self.getDevices();
@@ -107,9 +105,7 @@ export default class Devices extends Vue {
           } else if (result === 2) {
             let response: any = await axios
               .delete(this.device._links.edit.href)
-              .catch((error: any) => {
-                console.log(error);
-              });
+              .catch();
 
             if (response && this.api.links) {
               await this.getDevices();
@@ -123,9 +119,7 @@ export default class Devices extends Vue {
     } else {
       let response: any = await axios
         .delete(this.device._links.edit.href)
-        .catch((error: any) => {
-          console.log(error);
-        });
+        .catch();
 
       if (response && this.api.links) {
         await this.getDevices();
@@ -136,9 +130,7 @@ export default class Devices extends Vue {
 
   async getDevices() {
     if (this.api.links) {
-      await axios.get(this.api.links["self"].href).catch((error: any) => {
-        console.log(error);
-      });
+      await axios.get(this.api.links["self"].href).catch();
     }
   }
 }

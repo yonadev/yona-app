@@ -56,11 +56,7 @@ export default class SmsValidation extends Vue {
           .post(this.api.links["yona:confirmMobileNumber"].href, {
             code: this.password
           })
-          .catch(error => {
-            if (error) {
-              console.log(error);
-            }
-          });
+          .catch();
 
         if (response.status == 200) {
           this.$router.push({ name: "SetPinCode" });

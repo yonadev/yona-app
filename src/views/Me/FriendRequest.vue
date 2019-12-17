@@ -80,9 +80,7 @@ export default class Notifications extends Vue {
         .get(this.notification._links["yona:userPhoto"].href, {
           responseType: "blob"
         })
-        .catch(error => {
-          console.log(error);
-        });
+        .catch();
 
       this.avatar = await URL.createObjectURL(photo_response.data);
     }
@@ -95,9 +93,7 @@ export default class Notifications extends Vue {
           message: "accepted"
         }
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch();
 
     if (response.status == 200) {
       this.getBuddies();
@@ -111,9 +107,7 @@ export default class Notifications extends Vue {
           message: "rejected"
         }
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch();
 
     if (response.status == 200) this.$router.push({ name: "Notifications" });
   }

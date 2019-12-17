@@ -146,9 +146,7 @@ export default class Profile extends Vue {
               mobileNumber: this.mobile,
               nickname: this.nickname
             })
-            .catch(error => {
-              console.log(error);
-            });
+            .catch();
 
           this.loading = false;
         }
@@ -195,18 +193,14 @@ export default class Profile extends Vue {
     if (this.api.links && this.api.links["yona:editUserPhoto"]) {
       let response: any = await axios
         .put(this.api.links["yona:editUserPhoto"].href, formData)
-        .catch(error => {
-          console.log(error);
-        });
+        .catch();
 
       if (response.status == 200) {
         let photo_response: any = await axios
           .get(response.data._links["yona:userPhoto"].href, {
             responseType: "arraybuffer"
           })
-          .catch(error => {
-            console.log(error);
-          });
+          .catch();
 
         if (photo_response) {
           //@ts-ignore

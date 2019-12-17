@@ -110,14 +110,10 @@ export default class GivePermission extends Vue {
         });
       } else if (this.permission === "store_files") {
         this.setLogOffOnPause(false);
-        const hasPermission = await this.hasFileWritePermission().catch(err =>
-          console.log(err)
-        );
+        const hasPermission = await this.hasFileWritePermission().catch();
         let requestedSucces = null;
         if (!hasPermission) {
-          requestedSucces = await this.requestFileWritePermission().catch(err =>
-            console.log(err)
-          );
+          requestedSucces = await this.requestFileWritePermission().catch();
         }
 
         this.setPermission({
@@ -138,7 +134,7 @@ export default class GivePermission extends Vue {
             const vpnProfilePath = await this.writeToFile(
               fileName,
               vpnProfile.data
-            ).catch(err => console.log(err));
+            ).catch();
 
             //@ts-ignore
             const vpnConfigured = await cordova.plugins.YonaServices.configureVPN(

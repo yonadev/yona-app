@@ -72,13 +72,7 @@ export default class Names extends Vue {
         yonaPassword: ""
       });
 
-      let userInfo: any = await axios
-        .get(this.buddy_invite.url)
-        .catch(error => {
-          if (error) {
-            console.log(error);
-          }
-        });
+      let userInfo: any = await axios.get(this.buddy_invite.url).catch();
 
       if (userInfo && userInfo.data) {
         this.setProperty({

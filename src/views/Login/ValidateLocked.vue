@@ -69,11 +69,7 @@ export default class SmsValidation extends Vue {
     ) {
       await axios
         .post(this.api.links["yona:resendPinResetConfirmationCode"].href, {})
-        .catch(error => {
-          if (error) {
-            console.log(error);
-          }
-        });
+        .catch();
       this.password = null;
       this.error = false;
       this.attempts = 0;
@@ -83,9 +79,7 @@ export default class SmsValidation extends Vue {
   async getLinks() {
     //Get new links
     if (this.api.links && this.api.links["self"]) {
-      await axios.get(this.api.links["self"].href).catch(error => {
-        console.log(error);
-      });
+      await axios.get(this.api.links["self"].href).catch();
     }
   }
 
@@ -119,11 +113,7 @@ export default class SmsValidation extends Vue {
               .post(this.api.links["yona:clearPinReset"].href, {
                 code: this.password
               })
-              .catch(error => {
-                if (error) {
-                  console.log(error);
-                }
-              });
+              .catch();
 
             await this.getLinks();
             this.resetLock();

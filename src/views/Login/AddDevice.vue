@@ -141,9 +141,7 @@ export default class AddDevice extends Vue {
                   }
                 }
               )
-              .catch(error => {
-                console.log(error);
-              });
+              .catch();
 
             if (response) {
               this.$router.push({ name: "SetPinCode" });

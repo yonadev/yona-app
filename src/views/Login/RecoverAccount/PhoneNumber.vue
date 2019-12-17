@@ -80,9 +80,7 @@ export default class PhoneNumber extends Vue {
               "/admin/requestUserOverwrite/?mobileNumber=" +
               encodeURIComponent(self.mobile)
           )
-          .catch(error => {
-            console.log(error);
-          });
+          .catch();
         self.loading = false;
         if (response) {
           //Successfull

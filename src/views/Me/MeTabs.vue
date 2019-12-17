@@ -63,9 +63,7 @@ export default class MeTabs extends Vue {
       this.loading = true;
       let messages = await axios
         .get(this.api.links["yona:messages"].href)
-        .catch((error: any) => {
-          console.log(error);
-        });
+        .catch();
 
       this.loading = false;
 

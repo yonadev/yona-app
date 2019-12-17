@@ -42,20 +42,14 @@ export default class AddDevice extends Vue {
         .put(this.api.links["yona:newDeviceRequest"].href, {
           newDeviceRequestPassword: this.OTP
         })
-        .catch(error => {
-          console.log(error);
-        });
+        .catch();
     }
   }
 
   //ToDo: This destroy also needs to be excecuted when user closes the app (Through cordova maybe?)
   async beforeDestroy() {
     if (this.api.links && this.api.links["yona:newDeviceRequest"]) {
-      await axios
-        .delete(this.api.links["yona:newDeviceRequest"].href)
-        .catch(error => {
-          console.log(error);
-        });
+      await axios.delete(this.api.links["yona:newDeviceRequest"].href).catch();
     }
   }
 
