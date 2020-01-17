@@ -60,12 +60,12 @@
       "cordova-plugin-deeplinks": {},
       "cordova-custom-config": {},
       "cordova-plugin-yona-services": {},
+      "cordova-plugin-contact-picker": {},
       "cordova-plugin-firebase-messaging": {
         "FIREBASE_ANALYTICS_VERSION": "17.2.+",
-        "FIREBASE_MESSAGING_VERSION": "20.0.+",
+        "FIREBASE_MESSAGING_VERSION": "20.1.+",
         "ANDROIDX_CORE_VERSION": "1.0.+"
-      },
-      "cordova-plugin-contact-picker": {}
+      }
     },
     "platforms": [
       "android"
