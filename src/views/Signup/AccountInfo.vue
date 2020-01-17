@@ -209,11 +209,17 @@ export default class AccountInfo extends Vue {
   @Watch("mobile")
   mobileChanged(val: string | null) {
     if (val) {
+      if (/\s/.test(val)) {
+        val = val.split(" ").join("");
+      }
       if (val.charAt(0) === "0" && val.charAt(1) === "6") {
         val = "+31" + val.substr(1);
-        this.mobile = val;
+      }
+      if (val.charAt(0) === "+" && val.charAt(3) === "0") {
+        val = val.substr(0, 3) + val.substr(4);
       }
 
+      this.mobile = val;
       this.setProperty({ phonenumber: val });
     }
   }
