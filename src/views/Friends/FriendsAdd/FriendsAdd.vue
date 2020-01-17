@@ -24,6 +24,7 @@
         <form @submit.prevent="addFriend()">
           <input-floating-label
             id="firstname"
+            :validate="{ required: true }"
             class="grey-bg-input"
             :label="$t('firstname')"
             type="text"
@@ -32,6 +33,7 @@
           ></input-floating-label>
           <input-floating-label
             id="lastname"
+            :validate="{ required: true }"
             class="grey-bg-input"
             :label="$t('lastname')"
             type="text"
@@ -40,6 +42,7 @@
           ></input-floating-label>
           <input-floating-label
             id="email"
+            :validate="{ required: true }"
             class="grey-bg-input"
             :label="$t('email')"
             type="email"
@@ -49,6 +52,7 @@
           <input-floating-label
             id="mobile"
             class="grey-bg-input"
+            :validate="{ required: true, mobile: true }"
             :label="$t('mobilenumber')"
             type="text"
             :value.sync="mobile"
@@ -101,37 +105,48 @@ export default class FriendsAddManual extends Vue {
   @Watch("mobile")
   mobileChanged(val: string | null) {
     if (val) {
-      if (val.charAt(0) == "0") {
-        val = "+31" + val.substr(1);
-        this.mobile = val;
+      if (/\s/.test(val)) {
+        val = val.split(" ").join("");
       }
+      if (val.charAt(0) === "0" && val.charAt(1) === "6") {
+        val = "+31" + val.substr(1);
+      }
+      if (val.charAt(0) === "+" && val.charAt(3) === "0") {
+        val = val.substr(0, 3) + val.substr(4);
+      }
+
+      this.mobile = val;
     }
   }
 
   async addFriend() {
-    if (this.api.embedded && !this.loading) {
-      this.loading = true;
-      let response: any = await axios
-        .post(this.api.embedded["yona:buddies"]._links.self.href, {
-          sendingStatus: "REQUESTED",
-          receivingStatus: "REQUESTED",
-          message: this.message,
-          _embedded: {
-            "yona:user": {
-              firstName: this.firstname,
-              lastName: this.lastname,
-              mobileNumber: this.mobile,
-              emailAddress: this.email,
-              nickname: this.nickname
-            }
-          }
-        })
-        .catch();
+    this.$validator.validate().then(async valid => {
+      if (valid) {
+        if (this.api.embedded && !this.loading) {
+          this.loading = true;
+          let response: any = await axios
+            .post(this.api.embedded["yona:buddies"]._links.self.href, {
+              sendingStatus: "REQUESTED",
+              receivingStatus: "REQUESTED",
+              message: this.message,
+              _embedded: {
+                "yona:user": {
+                  firstName: this.firstname,
+                  lastName: this.lastname,
+                  mobileNumber: this.mobile,
+                  emailAddress: this.email,
+                  nickname: this.nickname
+                }
+              }
+            })
+            .catch();
 
-      this.loading = false;
+          this.loading = false;
 
-      if (response) this.$router.push({ name: "FriendsOverview" });
-    }
+          if (response) this.$router.push({ name: "FriendsOverview" });
+        }
+      }
+    });
   }
 
   hasReadContactsPermission(): Promise<boolean> {
