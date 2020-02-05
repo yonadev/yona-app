@@ -1,0 +1,1 @@
+Probleem opgelost waarbij de app in een zeldzaam geval crashte bij het upgraden vanaf de oude app
