@@ -65,7 +65,7 @@ class SecurityKey
         }
         catch (GeneralSecurityException e)
         {
-            Logger.loge(SecurityKey.class, e.getMessage());
+            Logger.loge(SecurityKey.class, "Unexpected exception", e);
             throw new YonaRuntimeException(e);
         }
     }
