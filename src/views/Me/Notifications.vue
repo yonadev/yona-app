@@ -213,7 +213,7 @@
             </template>
             <template v-slot:right>
               <div class="item-delete">
-                <a @click="deleteNotification(day_index, index, notification)">
+                <a @click="deleteNotification(day_index, index, notification)" :disabled="loading">
                   <img :src="require('@/assets/images/icons/icn_trash.svg')" />
                 </a>
               </div>
@@ -298,18 +298,20 @@ export default class Notifications extends Vue {
     index: number,
     notification: any
   ) {
-    this.loading = true;
+    if(!this.loading) {
+      this.loading = true;
 
-    let notification_deleted: any = await axios.delete(
-      notification._links.edit.href
-    );
+      let notification_deleted: any = await axios.delete(
+              notification._links.edit.href
+      );
 
-    this.loading = false;
+      this.loading = false;
 
-    if (notification_deleted) {
-      //@ts-ignore
-      this.$refs["list" + day_index + index][0].closeActions();
-      this.all_notifications[day_index].notifications.splice(index, 1);
+      if (notification_deleted) {
+        //@ts-ignore
+        this.$refs["list" + day_index + index][0].closeActions();
+        this.all_notifications[day_index].notifications.splice(index, 1);
+      }
     }
   }
 
