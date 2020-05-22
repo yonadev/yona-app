@@ -298,11 +298,11 @@ export default class Notifications extends Vue {
     index: number,
     notification: any
   ) {
-    if(!this.loading) {
+    if (!this.loading) {
       this.loading = true;
 
       let notification_deleted: any = await axios.delete(
-              notification._links.edit.href
+          notification._links.edit.href
       );
 
       this.loading = false;

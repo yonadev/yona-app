@@ -10,7 +10,7 @@
         {{ $t("deleteusermessage") }}
       </p>
 
-      <a class="button is-rounded unsubscribe-button" @click="unsubscribe">{{
+      <a class="button is-rounded unsubscribe-button" @click="unsubscribe" :disabled="loading">{{
         $t("deleteuser")
       }}</a>
     </div>
@@ -28,14 +28,17 @@ import axios from "@/utils/axios/axios";
 export default class Unsubscribe extends Vue {
   @State("api") api!: ApiState;
   @Action("resetAll") resetAll: any;
+  loading: boolean = false;
 
   async unsubscribe() {
-    if (this.api.links) {
+    if (this.api.links && !this.loading) {
+      this.loading = true;
       let delete_response: any = await axios
         .delete(this.api.links["edit"].href)
         .catch();
 
       await this.resetAll();
+      this.loading = false;
     }
   }
 }
