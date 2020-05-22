@@ -7,9 +7,6 @@ pipeline {
   }
   stages {
     stage('Build') {
-      when {
-        not { changelog '.*\\[ci skip\\].*' }
-      }
       environment {
 		GITHUB_APP = credentials('github-app')
       }
@@ -78,12 +75,9 @@ pipeline {
     }
     stage('Upload to Google Play') {
       when {
-        allOf {
-          not { changelog '.*\\[ci skip\\].*' }
-          anyOf {
-            branch 'develop'
-            branch 'master'
-          }
+        anyOf {
+          branch 'develop'
+          branch 'master'
         }
       }
       steps {
@@ -103,11 +97,8 @@ pipeline {
     }
     stage('Decide release to beta') {
       when {
-        allOf {
-          not { changelog '.*\\[ci skip\\].*' }
-          anyOf {
-            branch 'master'
-          }
+        anyOf {
+          branch 'master'
         }
       }
       steps {
@@ -144,7 +135,6 @@ pipeline {
     stage('Decide release to production') {
       when {
         allOf {
-          not { changelog '.*\\[ci skip\\].*' }
           environment name: 'RELEASE_TO_BETA', value: 'yes'
           anyOf {
             branch 'master'
