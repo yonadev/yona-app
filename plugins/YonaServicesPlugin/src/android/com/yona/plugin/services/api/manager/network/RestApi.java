@@ -24,10 +24,11 @@ public interface RestApi
      *
      * @param url      the url
      * @param password the password
+     * @param appVersion the appversion
      * @param activity the activity
      * @return the call
      */
     @POST
-    Call<Void> postAppActivity(@Url String url, @Header(NetworkConstant.YONA_PASSWORD) String password, @Header(NetworkConstant.ACCEPT_LANGUAGE) String acceptLanguage, @Body AppActivity activity);
+    Call<Void> postAppActivity(@Url String url, @Header(NetworkConstant.YONA_PASSWORD) String password, @Header(NetworkConstant.YONA_APP_VERSION) String appVersion, @Header(NetworkConstant.ACCEPT_LANGUAGE) String acceptLanguage, @Body AppActivity activity);
 
 }

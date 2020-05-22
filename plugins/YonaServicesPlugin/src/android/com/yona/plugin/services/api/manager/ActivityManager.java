@@ -8,6 +8,8 @@
 
 package com.yona.plugin.services.api.manager;
 
+import android.content.Context;
+
 import java.util.Date;
 
 public interface ActivityManager
@@ -23,6 +25,8 @@ public interface ActivityManager
 
     /**
      * Post all db activities.
+     *
+     * @param context Context
      */
-    void postAllDBActivities();
+    void postAllDBActivities(Context context);
 }

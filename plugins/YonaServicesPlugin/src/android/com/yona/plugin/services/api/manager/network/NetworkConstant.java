@@ -27,6 +27,10 @@ public interface NetworkConstant
      */
     String CONTENT_TYPE = "Content-Type";
     /**
+     * The constant YONA_PASSWORD.
+     */
+    String YONA_APP_VERSION = "Yona-App-Version";
+    /**
      * The constant YONA_NEW_PASSWORD.
      */
     String YONA_NEW_PASSWORD = "Yona-NewDeviceRequestPassword";

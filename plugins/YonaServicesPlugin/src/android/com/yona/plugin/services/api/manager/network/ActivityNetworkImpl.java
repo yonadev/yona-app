@@ -30,15 +30,16 @@ public class ActivityNetworkImpl extends BaseImpl
      *
      * @param url          the url
      * @param yonaPassword the yona password
+     * @param appVersion   the app version
      * @param appActivity  the app activity
      * @param listener     the listener
      */
-    public void postAppActivity(String url, String yonaPassword, AppActivity appActivity, DataLoadListener listener)
+    public void postAppActivity(String url, String yonaPassword, String appVersion, AppActivity appActivity, DataLoadListener listener)
     {
         try
         {
 
-            getRestApi().postAppActivity(url, yonaPassword, Locale.getDefault().toString().replace('_', '-'), appActivity).enqueue(getCall(listener));
+            getRestApi().postAppActivity(url, yonaPassword, appVersion, Locale.getDefault().toString().replace('_', '-'), appActivity).enqueue(getCall(listener));
         }
         catch (Exception e)
         {

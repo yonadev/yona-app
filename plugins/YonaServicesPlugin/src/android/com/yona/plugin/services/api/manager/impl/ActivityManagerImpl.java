@@ -10,6 +10,8 @@ package com.yona.plugin.services.api.manager.impl;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
 import com.yona.plugin.services.api.db.DatabaseHelper;
 import com.yona.plugin.services.api.manager.ActivityManager;
@@ -73,12 +75,12 @@ public class ActivityManagerImpl implements ActivityManager
      */
 
     @Override
-    public void postAllDBActivities()
+    public void postAllDBActivities(Context context)
     {
-        postAppActivitiesBatchWise();
+        postAppActivitiesBatchWise(context);
     }
 
-    private void postAppActivitiesBatchWise()
+    private void postAppActivitiesBatchWise(Context context)
     { // recursive function posts until all activities are posted to the server .
         List<Activity> activityList = activityTrackerDAO.getActivities();
         if (activityList.isEmpty())
@@ -89,36 +91,45 @@ public class ActivityManagerImpl implements ActivityManager
         AppActivity appActivity = new AppActivity();
         appActivity.setDeviceDateTime(DateUtility.getLongFormatDate(new Date()));
         appActivity.setActivities(activityList);
-        postActivityOnServerAndDoNextBatch(appActivity);
+        postActivityOnServerAndDoNextBatch(context, appActivity);
     }
 
     private boolean isSyncAPICallDone = true;
 
-    private void postActivityOnServerAndDoNextBatch(AppActivity activity)
+    private void postActivityOnServerAndDoNextBatch(Context context, AppActivity activity)
     {
         if (!isSyncAPICallDone)
         {
             return;
         }
 
-        DataLoadListenerImpl dataLoadListenerImpl = new DataLoadListenerImpl<>((result) -> handlePostAppActivityOnSuccess(), (result) -> handlePostAppActivityOnFailure(result), null);
+        DataLoadListenerImpl dataLoadListenerImpl = new DataLoadListenerImpl<>((result) -> handlePostAppActivityOnSuccess(context), (result) -> handlePostAppActivityOnFailure(result), null);
         Logger.logi(ActivityManagerImpl.class, "post app activity: " + activity.toString());
 
         String serverUrl = sharedPreferences.getServerUrl();
         String appActivityUrl = sharedPreferences.getAppActivityUrl();
         String yonaPassword = sharedPreferences.getYonaPassword();
 
+        String appVersion = "";
+
+        try {
+            PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            appVersion = "ANDROID/" + pInfo.versionCode + "/" + pInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            Logger.loge(ActivityManagerImpl.class, "App version could not be found");
+        }
+
         if (serverUrl != null && appActivityUrl != null && yonaPassword != null) {
             Logger.logi(ActivityManagerImpl.class, "appActivityUrl: " + appActivityUrl);
 
-            activityNetwork.postAppActivity(appActivityUrl, yonaPassword, activity, dataLoadListenerImpl);
+            activityNetwork.postAppActivity(appActivityUrl, yonaPassword, appVersion, activity, dataLoadListenerImpl);
         }
     }
 
-    private Object handlePostAppActivityOnSuccess()
+    private Object handlePostAppActivityOnSuccess(Context context)
     {
         activityTrackerDAO.clearActivities();
-        postAppActivitiesBatchWise();
+        postAppActivitiesBatchWise(context);
         return null; // Dummy return value, to allow use as data load handler
     }
 

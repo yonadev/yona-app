@@ -146,7 +146,7 @@ public class AppUtils {
      */
     public static void sendLogToServer(Context context, long delayMilliseconds)
     {
-        new Handler().postDelayed(() -> APIManager.getInstance().getActivityManager(context).postAllDBActivities(), delayMilliseconds);
+        new Handler().postDelayed(() -> APIManager.getInstance().getActivityManager(context).postAllDBActivities(context), delayMilliseconds);
     }
 
     /**
