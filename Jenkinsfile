@@ -11,7 +11,7 @@ pipeline {
         not { changelog '.*\\[ci skip\\].*' }
       }
       environment {
-        GIT = credentials('github-yonabuild')
+		GITHUB_APP = credentials('github-app')
       }
       steps {
         checkout scm
@@ -59,9 +59,9 @@ pipeline {
         sh "git add src-cordova/fastlane/metadata/android/en-US/changelogs/${env.VERSION_CODE}.txt"
         sh "git add src-cordova/Gemfile.lock"
         sh 'git commit -m "Build $BUILD_NUMBER updated versionCode to $VERSION_CODE [ci skip]"'
-        sh 'git push https://${GIT_USR}:${GIT_PSW}@github.com/yonadev/yona-app.git HEAD:$BRANCH_NAME'
+        sh 'git push https://$x-access-token:${GITHUB_APP_PSW}@github.com/yonadev/yona-app.git HEAD:$BRANCH_NAME'
         sh 'git tag -a $BRANCH_NAME-build-$BUILD_NUMBER -m "Jenkins"'
-        sh 'git push https://${GIT_USR}:${GIT_PSW}@github.com/yonadev/yona-app.git --tags'
+        sh 'git push https://$x-access-token:${GITHUB_APP_PSW}@github.com/yonadev/yona-app.git --tags'
         archiveArtifacts 'src-cordova/platforms/android/app/build/outputs/apk/**/*.apk'
         script {
           env.BUILD_NUMBER_TO_DEPLOY = env.BUILD_NUMBER
