@@ -29,7 +29,7 @@
         :pincode.sync="password"
         :length="length"
       ></pin-code>
-      <p class="reset" @click="resendCode">
+      <p class="reset" @click="resendCode" :disabled="loading">
         {{ $t("sendotpagain") }}
       </p>
     </div>
@@ -64,14 +64,17 @@ export default class SmsValidation extends Vue {
 
   async resendCode() {
     if (
+      !this.loading &&
       this.api.links &&
       this.api.links["yona:resendPinResetConfirmationCode"]
     ) {
+      this.loading = true;
       await axios
         .post(this.api.links["yona:resendPinResetConfirmationCode"].href, {})
         .catch();
       this.password = null;
       this.error = false;
+      this.loading = false;
       this.attempts = 0;
     }
   }
