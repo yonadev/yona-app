@@ -20,7 +20,7 @@ export const state: AccountState = {
         "Deze data is compleet veilig en zal nooit gedeeld worden met derden.",
       icon: "tracking_icon_small.svg",
       is_allowed: false,
-      disabled: false
+      disabled: false,
     },
     autostart: {
       title: "Geef Yona toestemming om automatisch op te starten",
@@ -29,7 +29,7 @@ export const state: AccountState = {
         "Dit zorgt ervoor dat de Yona app altijd automatisch actief is.",
       icon: "store_files_icon_small.svg",
       is_allowed: false,
-      disabled: false
+      disabled: false,
     },
     certificate: {
       title: "Accepteer Yona certificaat",
@@ -38,15 +38,14 @@ export const state: AccountState = {
         "Het certificaat zorgt ervoor dat je data nergens weg kan lekken.",
       icon: "certificate_icon_small.svg",
       is_allowed: false,
-      disabled: true
+      disabled: true,
     },
     store_files: {
       title: "Geef Yona toestemming om bestanden op te slaan",
-      text:
-        "Yona wil bestanden op je telefoon bewaren. We zullen nooit bestanden van je telefoon bekijken of gegevens doorgeven aan derden.",
+      text: "Yona wil bestanden op je telefoon bewaren. We zullen nooit bestanden van je telefoon bekijken of gegevens doorgeven aan derden.",
       icon: "certificate_icon_small.svg",
       is_allowed: false,
-      disabled: false
+      disabled: false,
     },
     vpn: {
       title: "Activeer VPN verbinding",
@@ -55,9 +54,9 @@ export const state: AccountState = {
         "Ook hier is jouw toestemming nodig.",
       icon: "vpn_profile_icon_small.svg",
       is_allowed: false,
-      disabled: false
-    }
-  }
+      disabled: false,
+    },
+  },
 };
 
 const actions: ActionTree<AccountState, RootState> = {
@@ -84,7 +83,7 @@ const actions: ActionTree<AccountState, RootState> = {
       dispatch(
         "login/setPincode",
         {
-          pinCode: migrationData.passCode
+          pinCode: migrationData.passCode,
         },
         { root: true }
       );
@@ -94,9 +93,9 @@ const actions: ActionTree<AccountState, RootState> = {
           {
             links: {
               self: {
-                href: migrationData.serverUrl
-              }
-            }
+                href: migrationData.serverUrl,
+              },
+            },
           },
           { root: true }
         );
@@ -106,16 +105,16 @@ const actions: ActionTree<AccountState, RootState> = {
         {
           links: {
             self: {
-              href: migrationData.selfHref
-            }
-          }
+              href: migrationData.selfHref,
+            },
+          },
         },
         { root: true }
       );
       dispatch(
         "api/setHeaderPassword",
         {
-          yonaPassword: migrationData.passWord
+          yonaPassword: migrationData.passWord,
         },
         { root: true }
       );
@@ -132,7 +131,7 @@ const actions: ActionTree<AccountState, RootState> = {
   },
   async setUserData({ commit, rootState, dispatch }) {
     if (rootState.api.links) {
-      let user_response: any = await axios.get(
+      const user_response: any = await axios.get(
         rootState.api.links["self"].href
       );
 
@@ -147,7 +146,7 @@ const actions: ActionTree<AccountState, RootState> = {
         firstname: data.firstName,
         lastname: data.lastName,
         phonenumber: data.mobileNumber,
-        nickname: data.nickname
+        nickname: data.nickname,
       });
 
       let currentDevice = null;
@@ -171,18 +170,18 @@ const actions: ActionTree<AccountState, RootState> = {
             OS = device.platform.toUpperCase();
           }
 
-          let openApp: any = await axios
+          const openApp: any = await axios
             .post(currentDevice._links["yona:postOpenAppEvent"].href, {
               operatingSystem: OS,
               appVersion: rootState.app.versionNumber,
-              appVersionCode: rootState.app.versionCode
+              appVersionCode: rootState.app.versionCode,
             })
-            .catch(error => {
+            .catch((error) => {
               dispatch("resetAll", null, { root: true });
               dispatch(
                 "api/setServerError",
                 {
-                  serverMessage: i18n.t("error_device_not_Found")
+                  serverMessage: i18n.t("error_device_not_Found"),
                 },
                 { root: true }
               );
@@ -209,10 +208,10 @@ const actions: ActionTree<AccountState, RootState> = {
         }
 
         if (rootState.api.links["yona:userPhoto"]) {
-          let photo_response: any = await axios.get(
+          const photo_response: any = await axios.get(
             rootState.api.links["yona:userPhoto"].href,
             {
-              responseType: "arraybuffer"
+              responseType: "arraybuffer",
             }
           );
 
@@ -226,7 +225,7 @@ const actions: ActionTree<AccountState, RootState> = {
               "user_image",
               JSON.stringify({
                 type: "me",
-                src: "data:image/png;base64," + userPhoto
+                src: "data:image/png;base64," + userPhoto,
               })
             );
           }
@@ -240,7 +239,7 @@ const actions: ActionTree<AccountState, RootState> = {
                 type: "me",
                 text:
                   user_response.data.firstName.charAt(0) +
-                  user_response.data.lastName.charAt(0)
+                  user_response.data.lastName.charAt(0),
               })
             );
           }
@@ -252,7 +251,7 @@ const actions: ActionTree<AccountState, RootState> = {
         dispatch(
           "api/setServerError",
           {
-            serverMessage: i18n.t("error_device_not_Found")
+            serverMessage: i18n.t("error_device_not_Found"),
           },
           { root: true }
         );
@@ -268,16 +267,16 @@ const actions: ActionTree<AccountState, RootState> = {
       typeof cordova.plugins.YonaServices !== "undefined"
     ) {
       //@ts-ignore
-      cordova.plugins.YonaServices.checkUsageAccess().then(function(
+      cordova.plugins.YonaServices.checkUsageAccess().then(function (
         hasUsageAccess: string
       ) {
         commit("setPermission", {
           key: "tracking",
-          value: hasUsageAccess === "true"
+          value: hasUsageAccess === "true",
         });
       });
       //@ts-ignore
-      cordova.plugins.YonaServices.checkAppStartSettings().then(function(
+      cordova.plugins.YonaServices.checkAppStartSettings().then(function (
         isAvailable: string
       ) {
         commit("setAutoStart", isAvailable !== "true");
@@ -286,10 +285,10 @@ const actions: ActionTree<AccountState, RootState> = {
       const Permission = window.plugins.Permission;
       const permission = "android.permission.WRITE_EXTERNAL_STORAGE";
 
-      let hasPermission = await new Promise((resolve, reject) => {
+      const hasPermission = await new Promise((resolve, reject) => {
         Permission.has(
           permission,
-          function(results: any) {
+          function (results: any) {
             if (!results[permission]) {
               resolve(false);
             } else {
@@ -302,7 +301,7 @@ const actions: ActionTree<AccountState, RootState> = {
 
       commit("setPermission", {
         key: "store_files",
-        value: hasPermission === true
+        value: hasPermission === true,
       });
     }
   },
@@ -313,44 +312,32 @@ const actions: ActionTree<AccountState, RootState> = {
     commit("setAutoStart", data);
   },
   async setFirebaseInstanceId({ dispatch, state }) {
-    let firebaseInstanceId = null;
+    const firebaseInstanceId = null;
 
     if (!state.currentDevice) return false;
 
-    if (
-      //@ts-ignore
-      typeof cordova !== "undefined" &&
-      //@ts-ignore
-      typeof cordova.plugins !== undefined &&
-      //@ts-ignore
-      cordova.plugins.firebase
-    ) {
-      //@ts-ignore
-      await cordova.plugins.firebase.messaging.requestPermission({
-        forceShow: true
+    if (typeof (window as any).FirebasePlugin !== "undefined") {
+      return (<any>window).FirebasePlugin.getToken(async function (
+        fcmToken: string
+      ) {
+        if (!fcmToken) {
+          return false;
+        } else {
+          await dispatch("updateCurrentDevice", firebaseInstanceId);
+          return true;
+        }
       });
-
-      //@ts-ignore
-      firebaseInstanceId = await cordova.plugins.firebase.messaging.getToken();
     }
 
-    if (!firebaseInstanceId) return false;
-
-    if (
-      state.currentDevice.firebaseInstanceId &&
-      state.currentDevice.firebaseInstanceId === firebaseInstanceId
-    )
-      return true;
-
-    await dispatch("updateCurrentDevice", firebaseInstanceId);
+    return false;
   },
   async updateCurrentDevice({ commit, state, rootState }, firebaseInstanceId) {
     if (state.currentDevice) {
-      let response: any = await axios.put(
+      const response: any = await axios.put(
         state.currentDevice._links.edit.href,
         {
           name: state.currentDevice.name,
-          firebaseInstanceId
+          firebaseInstanceId,
         }
       );
 
@@ -363,7 +350,7 @@ const actions: ActionTree<AccountState, RootState> = {
         commit("setCurrentDevice", response.data);
       }
     }
-  }
+  },
 };
 
 const mutations: MutationTree<AccountState> = {
@@ -397,7 +384,7 @@ const mutations: MutationTree<AccountState> = {
   },
   setAutoStart(state, value) {
     Vue.set(state.permissions.autostart, "disabled", value);
-  }
+  },
 };
 
 const getters: GetterTree<AccountState, RootState> = {
@@ -416,7 +403,7 @@ const getters: GetterTree<AccountState, RootState> = {
       return true;
     }
     return false;
-  }
+  },
 };
 
 const namespaced: boolean = true;
@@ -425,5 +412,5 @@ export const account: Module<AccountState, RootState> = {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

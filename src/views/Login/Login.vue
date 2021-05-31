@@ -34,8 +34,8 @@ import { ApiState } from "@/store/api/types";
 
 @Component({
   components: {
-    PinCode
-  }
+    PinCode,
+  },
 })
 export default class Login extends Vue {
   @State("login") login!: LoginState;

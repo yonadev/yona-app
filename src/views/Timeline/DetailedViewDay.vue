@@ -80,8 +80,8 @@ import { ApiState } from "@/store/api/types";
   components: {
     Messages,
     ProfilePic,
-    UiControl
-  }
+    UiControl,
+  },
 })
 export default class DetailedViewDay extends Vue {
   @Prop() activity_link!: string;
@@ -150,7 +150,7 @@ export default class DetailedViewDay extends Vue {
     if (link && link.href)
       this.$router.push({
         name: this.buddy_href ? "FriendsDetailedViewDay" : "DetailedViewDay",
-        params: { buddy_href: this.buddy_href, activity_link: link.href }
+        params: { buddy_href: this.buddy_href, activity_link: link.href },
       });
   }
 
@@ -164,7 +164,7 @@ export default class DetailedViewDay extends Vue {
       "WOENSDAG",
       "DONDERDAG",
       "VRIJDAG",
-      "ZATERDAG"
+      "ZATERDAG",
     ];
     let months = [
       "JANUARI",
@@ -178,7 +178,7 @@ export default class DetailedViewDay extends Vue {
       "SEPTEMBER",
       "OKTOBER",
       "NOVEMBER",
-      "DECEMBER"
+      "DECEMBER",
     ];
 
     if (now.getDate() === date_obj.getDate()) date = this.$t("today");

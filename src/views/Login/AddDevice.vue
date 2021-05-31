@@ -61,8 +61,8 @@ import { Validator } from "vee-validate";
 
 @Component({
   components: {
-    InputFloatingLabel
-  }
+    InputFloatingLabel,
+  },
 })
 export default class AddDevice extends Vue {
   loading: boolean = false;
@@ -71,8 +71,8 @@ export default class AddDevice extends Vue {
   passcode: string | null = "";
   device_name: string | null = "";
   @State("api") api!: ApiState;
-  @State(state => state.app.versionNumber) versionNumber!: string;
-  @State(state => state.app.versionCode) versionCode!: number;
+  @State((state) => state.app.versionNumber) versionNumber!: string;
+  @State((state) => state.app.versionCode) versionCode!: number;
 
   @Watch("mobile")
   async mobileChanged(val: string | null) {
@@ -84,8 +84,21 @@ export default class AddDevice extends Vue {
     }
   }
 
+  getFirebaseToken() {
+    return new Promise(function (resolve, reject) {
+      (window as any).FirebasePlugin.getToken(
+        function (fcmToken: string) {
+          resolve(fcmToken);
+        },
+        function (error: string) {
+          reject(error);
+        }
+      );
+    });
+  }
+
   async checkPasscode() {
-    this.$validator.validate().then(async valid => {
+    this.$validator.validate().then(async (valid) => {
       if (valid && !this.loading) {
         this.loading = true;
 
@@ -108,21 +121,8 @@ export default class AddDevice extends Vue {
 
             let firebaseInstanceId = null;
 
-            if (
-              //@ts-ignore
-              typeof cordova !== "undefined" &&
-              //@ts-ignore
-              typeof cordova.plugins !== undefined &&
-              //@ts-ignore
-              cordova.plugins.firebase
-            ) {
-              //@ts-ignore
-              await cordova.plugins.firebase.messaging.requestPermission({
-                forceShow: true
-              });
-
-              //@ts-ignore
-              firebaseInstanceId = await cordova.plugins.firebase.messaging.getToken();
+            if (typeof (window as any).FirebasePlugin !== "undefined") {
+              firebaseInstanceId = await this.getFirebaseToken();
             }
 
             let response: any = await axios
@@ -133,12 +133,12 @@ export default class AddDevice extends Vue {
                   name: this.device_name,
                   appVersion: this.versionNumber,
                   appVersionCode: this.versionCode,
-                  firebaseInstanceId
+                  firebaseInstanceId,
                 },
                 {
                   headers: {
-                    "Yona-NewDeviceRequestPassword": this.passcode
-                  }
+                    "Yona-NewDeviceRequestPassword": this.passcode,
+                  },
                 }
               )
               .catch();

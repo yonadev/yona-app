@@ -5,8 +5,8 @@
       params: {
         category: goal._links['yona:activityCategory'].href,
         goal_url: goal._links.self.href,
-        type
-      }
+        type,
+      },
     }"
   >
     <div class="grey-bg-button">

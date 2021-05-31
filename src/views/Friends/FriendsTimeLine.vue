@@ -28,13 +28,13 @@ import { Buddy } from "@/store/buddies/types";
 
 @Component({
   components: {
-    UiControlsLabel
-  }
+    UiControlsLabel,
+  },
 })
 export default class FriendsTimeLine extends Vue {
   @State("api") api!: ApiState;
   @Action("update", { namespace: "buddies" }) update: any;
-  @State(state => state.buddies.buddies) buddies!: Buddy[];
+  @State((state) => state.buddies.buddies) buddies!: Buddy[];
   buddies_activities: any = [];
   gettingActivities: boolean = false;
   nextActivities: string = "";

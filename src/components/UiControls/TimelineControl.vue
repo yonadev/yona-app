@@ -5,8 +5,8 @@
         <div
           v-if="
             goal &&
-              goal['@type'] === 'BudgetGoal' &&
-              this.goal.maxDurationMinutes === 0
+            goal['@type'] === 'BudgetGoal' &&
+            this.goal.maxDurationMinutes === 0
           "
         >
           <img
@@ -26,8 +26,8 @@
         <no-go-control
           v-if="
             goal &&
-              goal['@type'] === 'BudgetGoal' &&
-              this.goal.maxDurationMinutes === 0
+            goal['@type'] === 'BudgetGoal' &&
+            this.goal.maxDurationMinutes === 0
           "
           :username="username"
           :goal="goal"
@@ -66,8 +66,8 @@ import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
     NoGoControl,
     SpreadControl,
     TimeBucketControl,
-    TimeFrameControl
-  }
+    TimeFrameControl,
+  },
 })
 export default class TimelineControl extends Vue {
   @Prop() user_image!: string;

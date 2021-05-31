@@ -32,13 +32,13 @@ import TimeFrameControl from "./Controls/TimeFrameControl.vue";
     NoGoControl,
     SpreadControl,
     TimeBucketControl,
-    TimeFrameControl
-  }
+    TimeFrameControl,
+  },
 })
 export default class UiControl extends Vue {
   @Prop() type!: string;
   @Prop({
-    default: ""
+    default: "",
   })
   buddy_href!: string;
   @Prop() day_activity!: {

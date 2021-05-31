@@ -7,29 +7,29 @@ export default {
   props: {
     data: {
       type: Array,
-      required: true
+      required: true,
     },
     goal: {
       type: Array,
-      required: true
+      required: true,
     },
     blockSize: {
       type: Number,
-      default: 15
+      default: 15,
     },
     growDuration: {
       type: Number,
-      default: 0.5
+      default: 0.5,
     },
     max: {
       type: Number,
-      default: -Infinity
+      default: -Infinity,
     },
     min: {
       type: Number,
-      default: Infinity
+      default: Infinity,
     },
-    height: Number
+    height: Number,
   },
 
   render(h) {
@@ -39,7 +39,7 @@ export default {
     const props = this.$props;
 
     props.size = {
-      height: viewHeight
+      height: viewHeight,
     };
     props.id = "vue-columns-" + this._uid;
     props.offset = 0;
@@ -49,19 +49,19 @@ export default {
       {
         attrs: {
           width: "100%",
-          height: `${viewHeight * 2 + 2}px`
-        }
+          height: `${viewHeight * 2 + 2}px`,
+        },
       },
       [
         h(Column, {
           props,
-          ref: "path"
+          ref: "path",
         }),
         h(Labels, {
           props,
-          ref: "path_labels"
-        })
+          ref: "path_labels",
+        }),
       ]
     );
-  }
+  },
 };

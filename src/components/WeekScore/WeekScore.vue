@@ -22,7 +22,7 @@
             week_activity.dayActivities[day_of_week].goalAccomplished,
           failed:
             week_activity.dayActivities[day_of_week] &&
-            !week_activity.dayActivities[day_of_week].goalAccomplished
+            !week_activity.dayActivities[day_of_week].goalAccomplished,
         }"
       >
         <router-link
@@ -34,8 +34,8 @@
                 week_activity.dayActivities[day_of_week]._links[
                   'yona:dayDetails'
                 ].href,
-              buddy_href
-            }
+              buddy_href,
+            },
           }"
         >
           <span class="date">
@@ -76,11 +76,11 @@ export default class WeekScore extends Vue {
   @Prop() week_number!: string;
   @Prop() title!: string;
   @Prop({
-    default: false
+    default: false,
   })
   detailed!: boolean;
   @Prop({
-    default: ""
+    default: "",
   })
   buddy_href!: string;
 
@@ -100,11 +100,11 @@ export default class WeekScore extends Vue {
     "WEDNESDAY",
     "THURSDAY",
     "FRIDAY",
-    "SATURDAY"
+    "SATURDAY",
   ];
   day_initial_of_week: { nl: string[]; en: string[] } = {
     nl: ["zo", "ma", "di", "wo", "do", "vr", "za"],
-    en: ["sun", "mon", "tue", "wed", "thu", "fri", "sat"]
+    en: ["sun", "mon", "tue", "wed", "thu", "fri", "sat"],
   };
 
   get controlGoal() {
@@ -140,9 +140,7 @@ export default class WeekScore extends Vue {
   }
 
   getDate(index: any) {
-    return moment(this.week_number, moment.ISO_8601)
-      .day(index)
-      .get("date");
+    return moment(this.week_number, moment.ISO_8601).day(index).get("date");
   }
 }
 </script>

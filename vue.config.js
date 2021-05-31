@@ -8,16 +8,16 @@ module.exports = {
       locale: "nl",
       fallbackLocale: "en",
       localeDir: "locales",
-      enableInSFC: false
+      enableInSFC: false,
     },
-    cordovaPath: "src-cordova"
+    cordovaPath: "src-cordova",
   },
 
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     config.module
       .rule("vue")
       .use("vue-svg-inline-loader-corejs3")
       .loader("vue-svg-inline-loader-corejs3")
       .options({});
-  }
+  },
 };

@@ -8,14 +8,14 @@
       v-for="buddy in buddies"
       :key="'accepted' + buddy._embedded['yona:user'].nickname"
       :class="{
-        'grey-bg-div': buddy && buddy.receivingStatus === userStatus.Accepted
+        'grey-bg-div': buddy && buddy.receivingStatus === userStatus.Accepted,
       }"
     >
       <router-link
         v-if="buddy && buddy.receivingStatus === userStatus.Accepted"
         :to="{
           name: 'FriendTimeLineDay',
-          params: { buddy_href: buddy._links.self.href }
+          params: { buddy_href: buddy._links.self.href },
         }"
         tag="div"
         class="columns is-mobile is-vcentered"
@@ -47,7 +47,7 @@
       v-for="(buddy, index) in buddies"
       :key="'requested' + index"
       :class="{
-        'grey-bg-div': buddy && buddy.receivingStatus === userStatus.Requested
+        'grey-bg-div': buddy && buddy.receivingStatus === userStatus.Requested,
       }"
     >
       <div
@@ -88,15 +88,15 @@ import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
 @Component({
   components: {
     ProfilePic,
-    UiControlsLabel
-  }
+    UiControlsLabel,
+  },
 })
 export default class FriendsOverview extends Vue {
   @State("api") api!: ApiState;
   @Action("update", { namespace: "buddies" }) update: any;
   buddies_activities: {} = {};
   loading: boolean = false;
-  @State(state => state.buddies.buddies) buddies!: Buddy[];
+  @State((state) => state.buddies.buddies) buddies!: Buddy[];
   userStatus = userStatus;
   @Action("getBuddies", { namespace: "buddies" }) getBuddies: any;
 

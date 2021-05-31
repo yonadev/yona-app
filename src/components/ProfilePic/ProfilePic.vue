@@ -2,7 +2,7 @@
   <span>
     <img width="100%" v-if="pic_data && pic_data.src" :src="pic_data.src" />
     <svg
-      style="min-height:2.5rem;min-width:2.5rem;"
+      style="min-height: 2.5rem; min-width: 2.5rem"
       viewBox="0 0 50 50"
       v-else-if="pic_data"
     >
@@ -31,7 +31,7 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 
 @Component({
-  components: {}
+  components: {},
 })
 export default class ProfilePic extends Vue {
   @Prop() src!: string;

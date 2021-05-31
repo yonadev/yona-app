@@ -67,14 +67,14 @@ import { ApiState } from "@/store/api/types";
 
 @Component({
   components: {
-    InputFloatingLabel
-  }
+    InputFloatingLabel,
+  },
 })
 export default class AccountInfo extends Vue {
   @State("account") account!: AccountState;
   @State("api") api!: ApiState;
-  @State(state => state.app.versionNumber) versionNumber!: string;
-  @State(state => state.app.versionCode) versionCode!: number;
+  @State((state) => state.app.versionNumber) versionNumber!: string;
+  @State((state) => state.app.versionCode) versionCode!: number;
   @Action("setProperty", { namespace: "account" }) setProperty: any;
   @Action("setHeaderPassword", { namespace: "api" }) setHeaderPassword: any;
   @Prop() buddy_invite!: any;
@@ -89,9 +89,22 @@ export default class AccountInfo extends Vue {
     this.nickname = this.account.nickname;
   }
 
+  getFirebaseToken() {
+    return new Promise(function (resolve, reject) {
+      (window as any).FirebasePlugin.getToken(
+        function (fcmToken: string) {
+          resolve(fcmToken);
+        },
+        function (error: string) {
+          reject(error);
+        }
+      );
+    });
+  }
+
   async checkTelNumber() {
     let self = this;
-    this.$validator.validate().then(async valid => {
+    this.$validator.validate().then(async (valid) => {
       if (valid && !this.loading) {
         this.loading = true;
 
@@ -104,28 +117,14 @@ export default class AccountInfo extends Vue {
 
         let firebaseInstanceId = null;
 
-        if (
-          //@ts-ignore
-          typeof cordova !== "undefined" &&
-          //@ts-ignore
-          typeof cordova.plugins !== undefined &&
-          //@ts-ignore
-          cordova.plugins.firebase
-        ) {
-          //@ts-ignore
-          await cordova.plugins.firebase.messaging.requestPermission({
-            forceShow: true
-          });
-
-          //@ts-ignore
-          firebaseInstanceId = await cordova.plugins.firebase.messaging.getToken();
+        if (typeof (window as any).FirebasePlugin !== "undefined") {
+          firebaseInstanceId = await this.getFirebaseToken();
         }
-
         let response: any;
 
         if (this.buddy_invite && this.buddy_invite.url) {
           this.setHeaderPassword({
-            yonaPassword: ""
+            yonaPassword: "",
           });
 
           response = await axios
@@ -138,9 +137,9 @@ export default class AccountInfo extends Vue {
               deviceOperatingSystem: OS,
               deviceAppVersion: this.versionNumber,
               deviceAppVersionCode: this.versionCode,
-              deviceFirebaseInstanceId: firebaseInstanceId
+              deviceFirebaseInstanceId: firebaseInstanceId,
             })
-            .catch(error => {
+            .catch((error) => {
               self.loading = false;
               if (error.response.data) {
                 self.server_error = error.response.data.message;
@@ -157,9 +156,9 @@ export default class AccountInfo extends Vue {
               deviceOperatingSystem: OS,
               deviceAppVersion: this.versionNumber,
               deviceAppVersionCode: this.versionCode,
-              deviceFirebaseInstanceId: firebaseInstanceId
+              deviceFirebaseInstanceId: firebaseInstanceId,
             })
-            .catch(error => {
+            .catch((error) => {
               self.loading = false;
               if (
                 error.response.data.code === "error.user.exists" ||

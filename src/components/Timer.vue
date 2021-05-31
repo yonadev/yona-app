@@ -40,7 +40,7 @@ export default class PinCode extends Vue {
   }
 }
 
-Vue.filter("twoDigits", function(value: any) {
+Vue.filter("twoDigits", function (value: any) {
   if (value.toString().length <= 1) return "0" + value.toString();
 
   return value.toString();

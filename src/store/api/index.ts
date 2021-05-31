@@ -11,7 +11,7 @@ export const state: ApiState = {
   serverMessage: "",
   online: true,
   links: {},
-  embedded: {}
+  embedded: {},
 };
 
 const actions: ActionTree<ApiState, RootState> = {
@@ -31,7 +31,7 @@ const actions: ActionTree<ApiState, RootState> = {
   setOffline({ commit, dispatch }): any {
     commit("setOnlineStatus", false);
     dispatch("setServerError", {
-      serverMessage: i18n.t("connectionnotavailable")
+      serverMessage: i18n.t("connectionnotavailable"),
     });
   },
   setLocale({ commit }, locale): void {
@@ -57,7 +57,7 @@ const actions: ActionTree<ApiState, RootState> = {
       deviceUUID = device.uuid;
     }
     commit("setDeviceID", deviceUUID);
-  }
+  },
 };
 
 const mutations: MutationTree<ApiState> = {
@@ -84,7 +84,7 @@ const mutations: MutationTree<ApiState> = {
   },
   setDeviceID(state, payload: ApiState) {
     state.deviceUUID = payload.deviceUUID;
-  }
+  },
 };
 
 const getters: GetterTree<ApiState, RootState> = {
@@ -96,7 +96,7 @@ const getters: GetterTree<ApiState, RootState> = {
   },
   embedded(state) {
     return state.embedded;
-  }
+  },
 };
 
 const namespaced: boolean = true;
@@ -105,5 +105,5 @@ export const api: Module<ApiState, RootState> = {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

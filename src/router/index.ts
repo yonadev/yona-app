@@ -8,13 +8,13 @@ export default new Router({
       path: "/",
       redirect: "/welcome/tour",
       name: "Start",
-      component: () => import("../views/Start.vue")
+      component: () => import("../views/Start.vue"),
     },
     {
       path: "/welcome",
       component: () => import("../views/Welcome/AbstractWelcome.vue"),
       meta: {
-        public: true
+        public: true,
       },
       children: [
         {
@@ -22,8 +22,8 @@ export default new Router({
           name: "Tour",
           component: () => import("../views/Welcome/Tour.vue"),
           meta: {
-            public: true
-          }
+            public: true,
+          },
         },
         {
           path: "choose",
@@ -31,10 +31,10 @@ export default new Router({
           component: () => import("../views/Welcome/Choose.vue"),
           meta: {
             public: true,
-            prev: "Tour"
-          }
-        }
-      ]
+            prev: "Tour",
+          },
+        },
+      ],
     },
     {
       path: "/auth",
@@ -46,8 +46,8 @@ export default new Router({
           component: () => import("../views/Login/Login.vue"),
           meta: {
             public: true,
-            login: true
-          }
+            login: true,
+          },
         },
         {
           path: "locked",
@@ -55,8 +55,8 @@ export default new Router({
           component: () => import("../views/Login/Locked.vue"),
           meta: {
             public: true,
-            locked: true
-          }
+            locked: true,
+          },
         },
         {
           path: "wait",
@@ -64,8 +64,8 @@ export default new Router({
           component: () => import("../views/Login/WaitLocked.vue"),
           meta: {
             public: true,
-            pinReset: true
-          }
+            pinReset: true,
+          },
         },
         {
           path: "validatelocked",
@@ -73,8 +73,8 @@ export default new Router({
           component: () => import("../views/Login/ValidateLocked.vue"),
           meta: {
             public: true,
-            pinReset: true
-          }
+            pinReset: true,
+          },
         },
         {
           path: "add",
@@ -82,15 +82,15 @@ export default new Router({
           component: () => import("../views/Login/AddDevice.vue"),
           meta: {
             public: true,
-            prev: "Choose"
-          }
+            prev: "Choose",
+          },
         },
         {
           path: "recover",
           component: () =>
             import("../views/Login/RecoverAccount/AbstractRecoverAccount.vue"),
           meta: {
-            public: true
+            public: true,
           },
           children: [
             {
@@ -100,8 +100,8 @@ export default new Router({
                 import("../views/Login/RecoverAccount/PhoneNumber.vue"),
               meta: {
                 public: true,
-                prev: "AccountInfo"
-              }
+                prev: "AccountInfo",
+              },
             },
             {
               path: "sms",
@@ -110,18 +110,18 @@ export default new Router({
                 import("../views/Login/RecoverAccount/RecoverSms.vue"),
               meta: {
                 public: true,
-                prev: "PhoneNumber"
-              }
-            }
-          ]
-        }
-      ]
+                prev: "PhoneNumber",
+              },
+            },
+          ],
+        },
+      ],
     },
     {
       path: "/signup",
       component: () => import("../views/Signup/AbstractSignUp.vue"),
       meta: {
-        public: true
+        public: true,
       },
       children: [
         {
@@ -131,8 +131,8 @@ export default new Router({
           props: true,
           meta: {
             public: true,
-            prev: "Choose"
-          }
+            prev: "Choose",
+          },
         },
         {
           path: "accountinfo",
@@ -141,8 +141,8 @@ export default new Router({
           props: true,
           meta: {
             public: true,
-            prev: "Names"
-          }
+            prev: "Names",
+          },
         },
         {
           path: "validation",
@@ -150,15 +150,15 @@ export default new Router({
           component: () => import("../views/Signup/SmsValidation.vue"),
           meta: {
             public: true,
-            prev: "Names"
-          }
+            prev: "Names",
+          },
         },
         {
           path: "pincode",
           component: () =>
             import("../views/Signup/Pincode/AbstractSetPinCode.vue"),
           meta: {
-            public: true
+            public: true,
           },
           children: [
             {
@@ -168,8 +168,8 @@ export default new Router({
               meta: {
                 public: true,
                 pinreset: true,
-                prev: "actual"
-              }
+                prev: "actual",
+              },
             },
             {
               path: "confirm",
@@ -179,10 +179,10 @@ export default new Router({
               meta: {
                 public: true,
                 pinreset: true,
-                prev: "SetPinCode"
-              }
-            }
-          ]
+                prev: "SetPinCode",
+              },
+            },
+          ],
         },
         {
           path: "permissions",
@@ -194,8 +194,8 @@ export default new Router({
               name: "Intro",
               component: () => import("../views/Signup/Permissions/Intro.vue"),
               meta: {
-                permission: true
-              }
+                permission: true,
+              },
             },
             {
               path: "permission",
@@ -203,12 +203,12 @@ export default new Router({
               component: () =>
                 import("../views/Signup/Permissions/GivePermission.vue"),
               meta: {
-                permission: true
-              }
-            }
-          ]
-        }
-      ]
+                permission: true,
+              },
+            },
+          ],
+        },
+      ],
     },
     {
       path: "/me",
@@ -225,8 +225,8 @@ export default new Router({
               component: () => import("../views/Me/Tabs/Day.vue"),
               meta: {
                 parent: "MeTabs",
-                position: 1
-              }
+                position: 1,
+              },
             },
             {
               path: "week",
@@ -235,18 +235,18 @@ export default new Router({
               meta: {
                 parent: "MeTabs",
                 position: 2,
-                prev: "MeTimeLineDay"
-              }
-            }
-          ]
+                prev: "MeTimeLineDay",
+              },
+            },
+          ],
         },
         {
           path: "profile",
           name: "Profile",
           component: () => import("../views/Me/Profile.vue"),
           meta: {
-            prev: "MeTimeLineDay"
-          }
+            prev: "MeTimeLineDay",
+          },
         },
         {
           path: "notifications",
@@ -254,8 +254,8 @@ export default new Router({
           component: () => import("../views/Me/Notifications.vue"),
           props: true,
           meta: {
-            prev: "MeTimeLineDay"
-          }
+            prev: "MeTimeLineDay",
+          },
         },
         {
           path: "read-notification",
@@ -263,8 +263,8 @@ export default new Router({
           component: () => import("../views/Me/ReadNotification.vue"),
           props: true,
           meta: {
-            prev: "Notifications"
-          }
+            prev: "Notifications",
+          },
         },
         {
           path: "friendrequest",
@@ -272,8 +272,8 @@ export default new Router({
           component: () => import("../views/Me/FriendRequest.vue"),
           props: true,
           meta: {
-            prev: "Notifications"
-          }
+            prev: "Notifications",
+          },
         },
         {
           path: "detailed-day/:activity_link",
@@ -281,8 +281,8 @@ export default new Router({
           component: () => import("../views/Timeline/DetailedViewDay.vue"),
           props: true,
           meta: {
-            prev: "MeTimeLineDay"
-          }
+            prev: "MeTimeLineDay",
+          },
         },
         {
           path: "detailed-week/:activity_link",
@@ -290,10 +290,10 @@ export default new Router({
           component: () => import("../views/Timeline/DetailedViewWeek.vue"),
           props: true,
           meta: {
-            prev: "MeTimeLineWeek"
-          }
-        }
-      ]
+            prev: "MeTimeLineWeek",
+          },
+        },
+      ],
     },
     {
       path: "/friends",
@@ -309,23 +309,23 @@ export default new Router({
               name: "FriendsTimeLine",
               component: () => import("../views/Friends/FriendsTimeLine.vue"),
               meta: {
-                prev: "MeTimeLineDay"
-              }
+                prev: "MeTimeLineDay",
+              },
             },
             {
               path: "overview",
               name: "FriendsOverview",
               component: () => import("../views/Friends/FriendsOverview.vue"),
               meta: {
-                prev: "FriendsTimeLine"
-              }
-            }
-          ]
+                prev: "FriendsTimeLine",
+              },
+            },
+          ],
         },
         {
           path: "",
           name: "FriendsAddManual",
-          component: () => import("../views/Friends/FriendsAdd/FriendsAdd.vue")
+          component: () => import("../views/Friends/FriendsAdd/FriendsAdd.vue"),
         },
         {
           path: ":buddy_href",
@@ -337,8 +337,8 @@ export default new Router({
               component: () => import("../views/Friends/Friend/Profile.vue"),
               props: true,
               meta: {
-                prev: "FriendsOverview"
-              }
+                prev: "FriendsOverview",
+              },
             },
             {
               path: "detailed-day/:activity_link",
@@ -346,8 +346,8 @@ export default new Router({
               component: () => import("../views/Timeline/DetailedViewDay.vue"),
               props: true,
               meta: {
-                prev: "FriendTimeLineDay"
-              }
+                prev: "FriendTimeLineDay",
+              },
             },
             {
               path: "detailed-week/:activity_link",
@@ -355,8 +355,8 @@ export default new Router({
               component: () => import("../views/Timeline/DetailedViewWeek.vue"),
               props: true,
               meta: {
-                prev: "FriendTimeLineWeek"
-              }
+                prev: "FriendTimeLineWeek",
+              },
             },
             {
               path: "timeline",
@@ -372,8 +372,8 @@ export default new Router({
                     import("../views/Friends/Friend/TimeLine/Tabs/Day.vue"),
                   props: true,
                   meta: {
-                    prev: "FriendsProfile"
-                  }
+                    prev: "FriendsProfile",
+                  },
                 },
                 {
                   path: "week",
@@ -382,14 +382,14 @@ export default new Router({
                     import("../views/Friends/Friend/TimeLine/Tabs/Week.vue"),
                   props: true,
                   meta: {
-                    prev: "FriendTimeLineDay"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                    prev: "FriendTimeLineDay",
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
     },
     {
       path: "/challenges",
@@ -406,8 +406,8 @@ export default new Router({
                 import("../views/Challenges/ChallengesOverview.vue"),
               props: true,
               meta: {
-                prev: "MeTimeLineDay"
-              }
+                prev: "MeTimeLineDay",
+              },
             },
             {
               path: ":type/chooseCategory",
@@ -416,10 +416,10 @@ export default new Router({
                 import("../views/Challenges/ChallengesCategoryChoose.vue"),
               props: true,
               meta: {
-                prev: "ChallengesOverview"
-              }
-            }
-          ]
+                prev: "ChallengesOverview",
+              },
+            },
+          ],
         },
         {
           path: "setup",
@@ -433,12 +433,12 @@ export default new Router({
               component: () => import("../views/Challenges/Setup/Setup.vue"),
               props: true,
               meta: {
-                prev: "ChallengesOverview"
-              }
-            }
-          ]
-        }
-      ]
+                prev: "ChallengesOverview",
+              },
+            },
+          ],
+        },
+      ],
     },
     {
       path: "/settings",
@@ -447,7 +447,9 @@ export default new Router({
         {
           path: "overview",
           component: () =>
-            import("../views/Settings/SettingsOverview/AbstractSettingsOverview.vue"),
+            import(
+              "../views/Settings/SettingsOverview/AbstractSettingsOverview.vue"
+            ),
           children: [
             {
               path: "",
@@ -455,8 +457,8 @@ export default new Router({
               component: () =>
                 import("../views/Settings/SettingsOverview/Settings.vue"),
               meta: {
-                prev: "MeTimeLineDay"
-              }
+                prev: "MeTimeLineDay",
+              },
             },
             {
               path: "privacy",
@@ -464,8 +466,8 @@ export default new Router({
               component: () =>
                 import("../views/Settings/SettingsOverview/Privacy.vue"),
               meta: {
-                prev: "Settings"
-              }
+                prev: "Settings",
+              },
             },
             {
               path: "unsubscribe",
@@ -473,53 +475,61 @@ export default new Router({
               component: () =>
                 import("../views/Settings/SettingsOverview/Unsubscribe.vue"),
               meta: {
-                prev: "Settings"
-              }
+                prev: "Settings",
+              },
             },
             {
               path: "devices-overview",
               component: () =>
-                import("../views/Settings/SettingsOverview/Devices/AbstractDevices.vue"),
+                import(
+                  "../views/Settings/SettingsOverview/Devices/AbstractDevices.vue"
+                ),
               children: [
                 {
                   path: "devices",
                   name: "Devices",
                   component: () =>
-                    import("../views/Settings/SettingsOverview/Devices/Devices.vue"),
+                    import(
+                      "../views/Settings/SettingsOverview/Devices/Devices.vue"
+                    ),
                   meta: {
-                    prev: "Settings"
-                  }
+                    prev: "Settings",
+                  },
                 },
                 {
                   path: "adddevice",
                   name: "SettingsAddDevice",
                   component: () =>
-                    import("../views/Settings/SettingsOverview/Devices/AddDevice.vue"),
+                    import(
+                      "../views/Settings/SettingsOverview/Devices/AddDevice.vue"
+                    ),
                   meta: {
-                    prev: "Devices"
-                  }
+                    prev: "Devices",
+                  },
                 },
                 {
                   path: "viewdevice",
                   name: "ViewDevice",
                   component: () =>
-                    import("../views/Settings/SettingsOverview/Devices/ViewDevice.vue"),
+                    import(
+                      "../views/Settings/SettingsOverview/Devices/ViewDevice.vue"
+                    ),
                   props: true,
                   meta: {
-                    prev: "Devices"
-                  }
-                }
-              ]
-            }
-          ]
+                    prev: "Devices",
+                  },
+                },
+              ],
+            },
+          ],
         },
         {
           path: "checkpin",
           name: "CheckPinCode",
           component: () => import("../views/Settings/PinCode/CheckPinCode.vue"),
           meta: {
-            prev: "Settings"
-          }
+            prev: "Settings",
+          },
         },
         {
           path: "changepin/:wrong_pincode",
@@ -528,8 +538,8 @@ export default new Router({
             import("../views/Settings/PinCode/ChangePinCode.vue"),
           props: true,
           meta: {
-            prev: "Settings"
-          }
+            prev: "Settings",
+          },
         },
         {
           path: "confirmpin/:pincode",
@@ -538,21 +548,21 @@ export default new Router({
             import("../views/Settings/PinCode/ConfirmNewPinCode.vue"),
           props: true,
           meta: {
-            prev: "ChangePinCode"
-          }
+            prev: "ChangePinCode",
+          },
         },
         {
           path: "changelocked",
           name: "ChangeLocked",
-          component: () => import("../views/Settings/PinCode/ChangeLocked.vue")
+          component: () => import("../views/Settings/PinCode/ChangeLocked.vue"),
         },
         {
           path: "changewaitlocked",
           name: "ChangeWaitLocked",
           component: () =>
-            import("../views/Settings/PinCode/ChangeWaitLocked.vue")
-        }
-      ]
-    }
-  ]
+            import("../views/Settings/PinCode/ChangeWaitLocked.vue"),
+        },
+      ],
+    },
+  ],
 });

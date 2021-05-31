@@ -123,7 +123,7 @@ import { Buddy } from "@/store/buddies/types";
 import { Getter } from "vuex-class";
 
 @Component({
-  components: { ProfilePic }
+  components: { ProfilePic },
 })
 export default class Messages extends Vue {
   @Prop({ default: "" }) message_link!: string;
@@ -146,7 +146,7 @@ export default class Messages extends Vue {
       this.threadMessages.push({
         threadHeadMessageId: this.thread.threadHeadMessageId,
         reply_link: this.thread._links["yona:reply"].href,
-        messages: [this.thread]
+        messages: [this.thread],
       });
 
       this.replying = true;
@@ -198,7 +198,7 @@ export default class Messages extends Vue {
                   reply_link: message._links["yona:reply"]
                     ? message._links["yona:reply"].href
                     : "",
-                  messages: [message]
+                  messages: [message],
                 });
               }
             });
@@ -215,13 +215,13 @@ export default class Messages extends Vue {
       message_href = this.replyingMessage.reply_link;
       body = {
         properties: {
-          message: this.newMessage
-        }
+          message: this.newMessage,
+        },
       };
     } else {
       message_href = this.message_link;
       body = {
-        message: this.newMessage
+        message: this.newMessage,
       };
     }
 

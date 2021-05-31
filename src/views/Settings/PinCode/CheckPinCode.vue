@@ -37,8 +37,8 @@ import { LoginState } from "@/store/login/types";
 
 @Component({
   components: {
-    PinCode
-  }
+    PinCode,
+  },
 })
 export default class CheckPinCode extends Vue {
   @State("login") login!: LoginState;
@@ -81,7 +81,7 @@ export default class CheckPinCode extends Vue {
         this.setLoggedIn({ view: "changePin" });
         this.$router.push({
           name: "ChangePinCode",
-          params: { wrong_pincode: "false" }
+          params: { wrong_pincode: "false" },
         });
       } else {
         this.increaseLoginAttempts({ view: "changePin" });

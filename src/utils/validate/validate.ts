@@ -10,5 +10,5 @@ Validator.extend("mobile", {
     const phoneNumber = parsePhoneNumberFromString(value);
 
     return phoneNumber !== undefined && phoneNumber.isValid();
-  }
+  },
 });

@@ -25,8 +25,8 @@ import { LoginState } from "@/store/login/types";
 
 @Component({
   components: {
-    Timer
-  }
+    Timer,
+  },
 })
 export default class WaitLocked extends Vue {
   @State("login") login!: LoginState;

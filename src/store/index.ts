@@ -15,37 +15,37 @@ const debug = process.env.NODE_ENV !== "production";
 //Todo: switch to different storage solution for iOS
 const vuexLocal = new VuexPersistence<RootState>({
   storage: window.localStorage,
-  reducer: state => ({
+  reducer: (state) => ({
     api: {
       ...state.api,
-      serverMessage: ""
+      serverMessage: "",
     },
     login: {
       ...state.login,
       isLoggedIn: false,
-      online: true
+      online: true,
     },
     account: {
       ...state.account,
       permissions: {
         tracking: {
-          is_allowed: state.account.permissions.vpn.is_allowed
+          is_allowed: state.account.permissions.vpn.is_allowed,
         },
         autostart: {
-          is_allowed: state.account.permissions.autostart.is_allowed
+          is_allowed: state.account.permissions.autostart.is_allowed,
         },
         certificate: {
-          is_allowed: state.account.permissions.certificate.is_allowed
+          is_allowed: state.account.permissions.certificate.is_allowed,
         },
         store_files: {
-          is_allowed: state.account.permissions.store_files.is_allowed
+          is_allowed: state.account.permissions.store_files.is_allowed,
         },
         vpn: {
-          is_allowed: state.account.permissions.vpn.is_allowed
-        }
-      }
-    }
-  })
+          is_allowed: state.account.permissions.vpn.is_allowed,
+        },
+      },
+    },
+  }),
 });
 
 Vue.use(Vuex);
@@ -57,7 +57,7 @@ const initialState: RootState = {
   account: { ...account_state },
   login: { ...login_state },
   challenges: { ...challenges_state },
-  buddies: { ...buddies_state }
+  buddies: { ...buddies_state },
 };
 
 const storeOptions: StoreOptions<RootState> = {
@@ -67,21 +67,13 @@ const storeOptions: StoreOptions<RootState> = {
     api,
     login,
     challenges,
-    buddies
+    buddies,
   },
   actions: {
     async resetAll({ commit, dispatch }) {
       commit("resetAll");
-      if (
-        //@ts-ignore
-        typeof cordova !== "undefined" &&
-        //@ts-ignore
-        typeof cordova.plugins !== "undefined" &&
-        //@ts-ignore
-        cordova.plugins.firebase
-      ) {
-        //@ts-ignore
-        await cordova.plugins.firebase.messaging.revokeToken();
+      if (typeof (window as any).FirebasePlugin !== "undefined") {
+        (<any>window).FirebasePlugin.unregister();
       }
 
       if (
@@ -90,8 +82,9 @@ const storeOptions: StoreOptions<RootState> = {
         //@ts-ignore
         typeof cordova.plugins.SharedPreferences !== "undefined"
       ) {
-        // @ts-ignore
-        const sharedPreferences = cordova.plugins.SharedPreferences.getInstance();
+        const sharedPreferences =
+          // @ts-ignore
+          cordova.plugins.SharedPreferences.getInstance();
         sharedPreferences.clear();
       }
       if (
@@ -110,7 +103,7 @@ const storeOptions: StoreOptions<RootState> = {
       await dispatch("account/setDefaultPermissions", null, { root: true });
 
       router.push({ name: "Tour" });
-    }
+    },
   },
   mutations: {
     resetAll(state) {
@@ -120,12 +113,12 @@ const storeOptions: StoreOptions<RootState> = {
       Vue.set(state, "login", initialState.login);
       Vue.set(state, "challenges", initialState.challenges);
       Vue.set(state, "buddies", initialState.buddies);
-    }
+    },
   },
-  strict: debug
+  strict: debug,
 };
 
 export default new Vuex.Store<RootState>({
   ...storeOptions,
-  plugins: [vuexLocal.plugin]
+  plugins: [vuexLocal.plugin],
 });

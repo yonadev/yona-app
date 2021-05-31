@@ -19,8 +19,8 @@ export default {
       "g",
       {
         attrs: {
-          transform: `scale(1,1) translate(0,${size.height})`
-        }
+          transform: `scale(1,1) translate(0,${size.height})`,
+        },
       },
       [
         h(
@@ -32,8 +32,8 @@ export default {
               "font-size": text_size,
               id: `label-text-start`,
               x: 0,
-              y: size.height
-            }
+              y: size.height,
+            },
           },
           exceeded ? goal - spend : "0"
         ),
@@ -48,11 +48,11 @@ export default {
                     "font-size": text_size,
                     id: `label-text-8`,
                     x: `${bar_width}%`,
-                    y: size.height
-                  }
+                    y: size.height,
+                  },
                 },
                 "0"
-              )
+              ),
             ]
           : []),
         h(
@@ -64,12 +64,12 @@ export default {
               "font-size": text_size,
               id: `label-text-goal`,
               x: "100%",
-              y: size.height
-            }
+              y: size.height,
+            },
           },
           goal
-        )
+        ),
       ]
     );
-  }
+  },
 };

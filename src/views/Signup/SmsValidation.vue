@@ -40,8 +40,8 @@ import { ApiState } from "@/store/api/types";
 
 @Component({
   components: {
-    PinCode
-  }
+    PinCode,
+  },
 })
 export default class SmsValidation extends Vue {
   @State("api") api!: ApiState;
@@ -54,7 +54,7 @@ export default class SmsValidation extends Vue {
       if (this.api.links) {
         let response: any = await axios
           .post(this.api.links["yona:confirmMobileNumber"].href, {
-            code: this.password
+            code: this.password,
           })
           .catch();
 

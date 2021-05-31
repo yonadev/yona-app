@@ -22,7 +22,7 @@ import { ApiState } from "@/store/api/types";
 import { Watch } from "vue-property-decorator";
 
 @Component({
-  components: { ProfilePic }
+  components: { ProfilePic },
 })
 export default class MeTabs extends Vue {
   @State("api") api!: ApiState;

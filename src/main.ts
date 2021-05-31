@@ -28,12 +28,12 @@ const veeLocales: {
 } = {
   nl: {
     locale: nl,
-    dictionary: dictionaryNl
+    dictionary: dictionaryNl,
   },
   en: {
     locale: en,
-    dictionary: dictionaryEn
-  }
+    dictionary: dictionaryEn,
+  },
 };
 
 const dictionary = {
@@ -60,8 +60,8 @@ const dictionary = {
       }
 
       return message;
-    }
-  }
+    },
+  },
 };
 
 Validator.localize(i18n.locale, veeLocales[i18n.locale].locale); // changes the locale
@@ -92,7 +92,7 @@ Vue.directive("fixed-scroll", {
       }
     };
     window.addEventListener("scroll", f);
-  }
+  },
 });
 
 import VueObserveVisibility from "vue-observe-visibility";
@@ -114,12 +114,10 @@ const app = new Vue({
   router,
   store,
   i18n,
-  render: h => h(App),
+  render: (h) => h(App),
   methods: {
     async init() {
       const self = this;
-      //@ts-ignore
-      const crashlytics = FirebaseCrashlytics.initialise();
 
       //@ts-ignore
       const networkState = navigator.connection.type;
@@ -165,26 +163,8 @@ const app = new Vue({
         }
       }
 
-      if (
-        //@ts-ignore
-        typeof cordova !== "undefined" &&
-        //@ts-ignore
-        typeof cordova.plugins !== undefined &&
-        //@ts-ignore
-        cordova.plugins.firebase
-      ) {
-        //@ts-ignore
-        cordova.plugins.firebase.messaging.onBackgroundMessage(function(
-          payload: any
-        ) {
-          self.$store.dispatch("login/setLastRoute", {
-            name: "Notifications",
-            params: { messageId: payload.messageId },
-            query: ""
-          });
-        });
-        //@ts-ignore
-        cordova.plugins.firebase.messaging.onMessage(function(payload: any) {
+      if (typeof (<any>window).FirebasePlugin !== "undefined") {
+        (<any>window).FirebasePlugin.onMessageReceived(function (payload: any) {
           //@ts-ignore
           if (navigator && navigator.notification) {
             //@ts-ignore
@@ -194,7 +174,7 @@ const app = new Vue({
                 if (result === 2) {
                   self.$router.push({
                     name: "Notifications",
-                    params: { messageId: payload.messageId }
+                    params: { messageId: payload.messageId },
                   });
                 }
               },
@@ -206,21 +186,16 @@ const app = new Vue({
             if (confirm(self.$t("new_notification"))) {
               self.$router.push({
                 name: "Notifications",
-                params: { messageId: payload.messageId }
+                params: { messageId: payload.messageId },
               });
             }
           }
         });
 
-        //@ts-ignore
-        cordova.plugins.firebase.messaging.onTokenRefresh(async function() {
-          let firebaseInstanceId = null;
-          //@ts-ignore
-          firebaseInstanceId = await cordova.plugins.firebase.messaging.getToken();
-          self.$store.dispatch(
-            "account/updateCurrentDevice",
-            firebaseInstanceId
-          );
+        (<any>window).FirebasePlugin.onTokenRefresh(function (
+          fcmToken: string
+        ) {
+          self.$store.dispatch("account/updateCurrentDevice", fcmToken);
         });
       }
 
@@ -236,7 +211,7 @@ const app = new Vue({
           icon: "notification", // this will look for icon.png in platforms/android/res/drawable|mipmap
           color: "6c2a58", // hex format like 'F14F4D'
           channelName: this.$t("yona_service_notification_channel_name"),
-          allowClose: false
+          allowClose: false,
         });
 
         if (self.$store.state.account.permissions.tracking.is_allowed) {
@@ -253,17 +228,17 @@ const app = new Vue({
       //@ts-ignore
       if (typeof universalLinks !== "undefined") {
         //@ts-ignore
-        universalLinks.subscribe(null, function(eventData) {
+        universalLinks.subscribe(null, function (eventData) {
           self.$router.push({
             name: "Names",
-            params: { buddy_invite: eventData }
+            params: { buddy_invite: eventData },
           });
         });
       }
 
       document.addEventListener(
         "backbutton",
-        function() {
+        function () {
           const currentRoute = self.$router.currentRoute;
           const previousRoute = window.localStorage.getItem("previousRoute");
           if (previousRoute === "Notifications") {
@@ -305,8 +280,8 @@ const app = new Vue({
     },
     resume() {
       EventBus.$emit("device-ready");
-    }
-  }
+    },
+  },
 }).$mount("#app");
 
 document.addEventListener("deviceready", app.init);

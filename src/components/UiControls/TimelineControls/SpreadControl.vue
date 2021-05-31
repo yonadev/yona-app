@@ -18,8 +18,8 @@ import Bars from "../Charts/bars";
 
 @Component({
   components: {
-    Bars
-  }
+    Bars,
+  },
 })
 export default class SpreadControl extends Vue {
   @Prop() goal!: TimeZoneGoal;

@@ -43,8 +43,8 @@ import { Prop } from "vue-property-decorator";
 
 @Component({
   components: {
-    VueSlider
-  }
+    VueSlider,
+  },
 })
 export default class Setup extends Vue {
   @Action("saveGoal", { namespace: "challenges" }) saveGoal: any;
@@ -55,14 +55,14 @@ export default class Setup extends Vue {
   setupData: {
     maxDurationMinutes: number;
   } = {
-    maxDurationMinutes: 0
+    maxDurationMinutes: 0,
   };
 
   sliderOption: Object = {
     min: 0,
     max: 240,
     interval: 5,
-    tooltip: "none"
+    tooltip: "none",
   };
 
   loading: boolean = false;
@@ -87,27 +87,27 @@ export default class Setup extends Vue {
           "@type": "BudgetGoal",
           _links: {
             "yona:activityCategory": {
-              href: this.category
-            }
+              href: this.category,
+            },
           },
-          maxDurationMinutes: this.setupData.maxDurationMinutes
-        }
+          maxDurationMinutes: this.setupData.maxDurationMinutes,
+        },
       });
     } else {
       saved = await this.saveGoal({
         "@type": "BudgetGoal",
         _links: {
           "yona:activityCategory": {
-            href: this.category
-          }
+            href: this.category,
+          },
         },
-        maxDurationMinutes: this.setupData.maxDurationMinutes
+        maxDurationMinutes: this.setupData.maxDurationMinutes,
       });
     }
     if (saved) {
       this.$router.push({
         name: "ChallengesOverview",
-        params: { type: "credit" }
+        params: { type: "credit" },
       });
     } else {
       this.loading = false;

@@ -30,8 +30,8 @@ import PinCode from "@/components/PinCode.vue";
 
 @Component({
   components: {
-    PinCode
-  }
+    PinCode,
+  },
 })
 export default class SetPinCode extends Vue {
   @Action("setPincode", { namespace: "login" }) setPincode: any;

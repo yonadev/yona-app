@@ -14,8 +14,8 @@
           name: buddy_href ? 'FriendsDetailedViewWeek' : 'DetailedViewWeek',
           params: {
             buddy_href,
-            activity_link: week_activity._links['yona:weekDetails'].href
-          }
+            activity_link: week_activity._links['yona:weekDetails'].href,
+          },
         }"
       >
         <week-score
@@ -36,35 +36,27 @@ import moment from "moment";
 
 @Component({
   components: {
-    WeekScore
-  }
+    WeekScore,
+  },
 })
 export default class UiControlsLabel extends Vue {
   @Prop() week_activities!: string;
   @Prop({
-    default: ""
+    default: "",
   })
   buddy_href!: string;
 
   getWeekLabel(date: any) {
-    let now = moment(new Date())
-      .weekday(0)
-      .week();
-    let week = moment(date, moment.ISO_8601)
-      .weekday(0)
-      .week();
+    let now = moment(new Date()).weekday(0).week();
+    let week = moment(date, moment.ISO_8601).weekday(0).week();
 
     if (now === week) return this.$t("this_week");
     else if (now - 1 === week) return this.$t("last_week");
     else
       return (
-        moment(date, moment.ISO_8601)
-          .isoWeekday(0)
-          .format("D MMMM") +
+        moment(date, moment.ISO_8601).isoWeekday(0).format("D MMMM") +
         " - " +
-        moment(date, moment.ISO_8601)
-          .isoWeekday(6)
-          .format("D MMMM")
+        moment(date, moment.ISO_8601).isoWeekday(6).format("D MMMM")
       );
   }
 }

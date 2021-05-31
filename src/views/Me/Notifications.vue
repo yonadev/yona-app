@@ -20,7 +20,7 @@
           class="grey-bg-div notification"
           :class="{
             'is-not-read': !notification.isRead,
-            'push-notification': isFromPushNotification(notification)
+            'push-notification': isFromPushNotification(notification),
           }"
         >
           <swipe-out :ref="'list' + day_index + index">
@@ -35,7 +35,7 @@
                     class="img-wrapper"
                     v-if="
                       notification &&
-                        notification['@type'] === 'GoalConflictMessage'
+                      notification['@type'] === 'GoalConflictMessage'
                     "
                   >
                     <img
@@ -58,7 +58,7 @@
                   <div
                     v-if="
                       notification &&
-                        notification['@type'] === 'BuddyConnectRequestMessage'
+                      notification['@type'] === 'BuddyConnectRequestMessage'
                     "
                   >
                     <span class="is-block has-text-left title">
@@ -72,7 +72,7 @@
                   <div
                     v-else-if="
                       notification &&
-                        notification['@type'] === 'BuddyConnectResponseMessage'
+                      notification['@type'] === 'BuddyConnectResponseMessage'
                     "
                   >
                     <span class="is-block has-text-left title">
@@ -90,7 +90,7 @@
                   <div
                     v-else-if="
                       notification &&
-                        notification['@type'] === 'BuddyDisconnectMessage'
+                      notification['@type'] === 'BuddyDisconnectMessage'
                     "
                   >
                     <span class="is-block has-text-left title">
@@ -105,7 +105,7 @@
                   <div
                     v-else-if="
                       notification &&
-                        notification['@type'] === 'BuddyInfoChangeMessage'
+                      notification['@type'] === 'BuddyInfoChangeMessage'
                     "
                   >
                     <span class="is-block has-text-left title">
@@ -120,7 +120,7 @@
                   <div
                     v-else-if="
                       notification &&
-                        notification['@type'] === 'GoalConflictMessage'
+                      notification['@type'] === 'GoalConflictMessage'
                     "
                   >
                     <span class="is-block has-text-left title">
@@ -133,7 +133,7 @@
                   <div
                     v-else-if="
                       notification &&
-                        notification['@type'] === 'ActivityCommentMessage'
+                      notification['@type'] === 'ActivityCommentMessage'
                     "
                   >
                     <span class="is-block has-text-left title">
@@ -158,7 +158,7 @@
                   <div
                     v-else-if="
                       notification &&
-                        notification['@type'] === 'GoalChangeMessage'
+                      notification['@type'] === 'GoalChangeMessage'
                     "
                   >
                     <span class="is-block has-text-left title">
@@ -180,7 +180,7 @@
                   <div
                     v-else-if="
                       notification &&
-                        notification['@type'] === 'BuddyDeviceChangeMessage'
+                      notification['@type'] === 'BuddyDeviceChangeMessage'
                     "
                   >
                     <span class="is-block has-text-left title">
@@ -195,7 +195,7 @@
                   class="column is-2"
                   v-if="
                     notification &&
-                      notification['@type'] === 'BuddyConnectRequestMessage'
+                    notification['@type'] === 'BuddyConnectRequestMessage'
                   "
                 >
                   <div class="img-wrapper">
@@ -213,7 +213,10 @@
             </template>
             <template v-slot:right>
               <div class="item-delete">
-                <a @click="deleteNotification(day_index, index, notification)" :disabled="loading">
+                <a
+                  @click="deleteNotification(day_index, index, notification)"
+                  :disabled="loading"
+                >
                   <img :src="require('@/assets/images/icons/icn_trash.svg')" />
                 </a>
               </div>
@@ -254,8 +257,8 @@ interface Notification {
   components: {
     ProfilePic,
     SwipeList,
-    SwipeOut
-  }
+    SwipeOut,
+  },
 })
 export default class Notifications extends Vue {
   @State("api") api!: ApiState;
@@ -273,19 +276,8 @@ export default class Notifications extends Vue {
         this.api.links["yona:messages"].href
       );
     }
-
-    if (
-      //@ts-ignore
-      typeof cordova !== "undefined" &&
-      //@ts-ignore
-      typeof cordova.plugins !== undefined &&
-      //@ts-ignore
-      cordova.plugins.firebase
-    ) {
-      //@ts-ignore
-      await cordova.plugins.firebase.messaging.clearNotifications();
-      //@ts-ignore
-      await cordova.plugins.firebase.messaging.setBadge(0);
+    if (typeof (window as any).FirebasePlugin !== "undefined") {
+      (window as any).FirebasePlugin.clearAllNotifications();
     }
   }
 
@@ -302,7 +294,7 @@ export default class Notifications extends Vue {
       this.loading = true;
 
       let notification_deleted: any = await axios.delete(
-          notification._links.edit.href
+        notification._links.edit.href
       );
 
       this.loading = false;
@@ -348,7 +340,7 @@ export default class Notifications extends Vue {
                 } else {
                   self.all_notifications.push({
                     date: this.getDayLabel(notification.creationTime),
-                    notifications: [notification]
+                    notifications: [notification],
                   });
                 }
               }
@@ -383,7 +375,7 @@ export default class Notifications extends Vue {
   async goTo(notification: any) {
     if (!notification.isRead) {
       await axios.post(notification._links["yona:markRead"].href, {
-        properties: {}
+        properties: {},
       });
     }
     window.localStorage.setItem("previousRoute", "Notifications");
@@ -394,7 +386,7 @@ export default class Notifications extends Vue {
     ) {
       this.$router.push({
         name: "FriendRequest",
-        params: { notification: notification }
+        params: { notification: notification },
       });
     } else if (
       notification["@type"] === "BuddyInfoChangeMessage" ||
@@ -403,7 +395,7 @@ export default class Notifications extends Vue {
     ) {
       this.$router.push({
         name: "FriendsProfile",
-        params: { buddy_href: notification._links["yona:buddy"].href }
+        params: { buddy_href: notification._links["yona:buddy"].href },
       });
     } else if (notification["@type"] === "GoalConflictMessage") {
       if (notification._links["yona:buddy"]) {
@@ -411,16 +403,16 @@ export default class Notifications extends Vue {
           name: "FriendsDetailedViewDay",
           params: {
             activity_link: notification._links["yona:dayDetails"].href,
-            buddy_href: notification._links["yona:buddy"].href
-          }
+            buddy_href: notification._links["yona:buddy"].href,
+          },
         });
       } else {
         this.$router.push({
           name: "DetailedViewDay",
           params: {
             activity_link: notification._links["yona:dayDetails"].href,
-            url: notification.url ? notification.url : ""
-          }
+            url: notification.url ? notification.url : "",
+          },
         });
       }
     } else if (notification["@type"] === "ActivityCommentMessage") {
@@ -437,16 +429,16 @@ export default class Notifications extends Vue {
             params: {
               buddy_href: notification._links["yona:buddy"].href,
               activity_link: notification._links["yona:weekDetails"].href,
-              thread: notification
-            }
+              thread: notification,
+            },
           });
         } else {
           this.$router.push({
             name: "DetailedViewWeek",
             params: {
               activity_link: notification._links["yona:weekDetails"].href,
-              thread: notification
-            }
+              thread: notification,
+            },
           });
         }
       } else if (notification._links["yona:dayDetails"]) {
@@ -460,8 +452,8 @@ export default class Notifications extends Vue {
             params: {
               buddy_href: notification._links["yona:buddy"].href,
               activity_link: notification._links["yona:dayDetails"].href,
-              thread: notification
-            }
+              thread: notification,
+            },
           });
         } else {
           this.$router.push({
@@ -469,8 +461,8 @@ export default class Notifications extends Vue {
             params: {
               activity_link: notification._links["yona:dayDetails"].href,
               url: notification.url ? notification.url : "",
-              thread: notification
-            }
+              thread: notification,
+            },
           });
         }
       }
@@ -478,13 +470,13 @@ export default class Notifications extends Vue {
       if (notification._links["yona:buddy"].href) {
         this.$router.push({
           name: "FriendTimeLineDay",
-          params: { buddy_href: notification._links["yona:buddy"].href }
+          params: { buddy_href: notification._links["yona:buddy"].href },
         });
       }
     } else if (notification["@type"] === "SystemMessage") {
       this.$router.push({
         name: "ReadNotification",
-        params: { notification: notification }
+        params: { notification: notification },
       });
     }
   }
@@ -506,7 +498,7 @@ export default class Notifications extends Vue {
           "WOENSDAG",
           "DONDERDAG",
           "VRIJDAG",
-          "ZATERDAG"
+          "ZATERDAG",
         ],
         months: [
           "JANUARI",
@@ -520,8 +512,8 @@ export default class Notifications extends Vue {
           "SEPTEMBER",
           "OKTOBER",
           "NOVEMBER",
-          "DECEMBER"
-        ]
+          "DECEMBER",
+        ],
       },
       en: {
         days: [
@@ -531,7 +523,7 @@ export default class Notifications extends Vue {
           "WEDNESDAY",
           "THURSDAY",
           "FRIDAY",
-          "SATURDAY"
+          "SATURDAY",
         ],
         months: [
           "JANUARY",
@@ -545,9 +537,9 @@ export default class Notifications extends Vue {
           "SEPTEMBER",
           "OCTOBER",
           "NOVEMBER",
-          "DECEMBER"
-        ]
-      }
+          "DECEMBER",
+        ],
+      },
     };
 
     if (now.getDate() === date_obj.getDate()) date = this.$t("today");

@@ -43,8 +43,8 @@ import { ApiState } from "@/store/api/types";
 
 @Component({
   components: {
-    InputFloatingLabel
-  }
+    InputFloatingLabel,
+  },
 })
 export default class PhoneNumber extends Vue {
   @State("account") account!: AccountState;
@@ -69,7 +69,7 @@ export default class PhoneNumber extends Vue {
 
   checkTelNumber() {
     let self = this;
-    this.$validator.validate().then(async valid => {
+    this.$validator.validate().then(async (valid) => {
       if (valid && !self.loading) {
         self.loading = true;
         this.setProperty({ phonenumber: self.mobile });

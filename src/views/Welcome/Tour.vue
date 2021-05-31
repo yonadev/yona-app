@@ -58,17 +58,17 @@ export default class Tour extends Vue {
   private slides: Array<Object> = [
     {
       title: "Transparantie",
-      text: "Persoonlijke keuze om transparant te zijn..."
+      text: "Persoonlijke keuze om transparant te zijn...",
     },
     { title: "Delen", text: "Je doelen delen met de persoon die je vertrouwt" },
     {
       title: "Grenzen",
-      text: "Grenzen afspreken en daar anderen in betrekken"
+      text: "Grenzen afspreken en daar anderen in betrekken",
     },
     {
       title: "Tijdsbesteding",
-      text: "Controle houden over de tijd die je online bent"
-    }
+      text: "Controle houden over de tijd die je online bent",
+    },
   ];
 
   //Cycle hooks
@@ -83,7 +83,7 @@ export default class Tour extends Vue {
       mouseDrag: true,
       autoplay: true,
       autoplayTimeout: 4000,
-      autoplayButtonOutput: false
+      autoplayButtonOutput: false,
     });
   }
 }

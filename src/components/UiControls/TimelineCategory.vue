@@ -23,8 +23,8 @@
             name: 'FriendsDetailedViewDay',
             params: {
               activity_link: user_activity._links['yona:dayDetails'].href,
-              buddy_href: user_activity._links['yona:buddy'].href
-            }
+              buddy_href: user_activity._links['yona:buddy'].href,
+            },
           }"
         >
           <timeline-control
@@ -53,8 +53,8 @@
           :to="{
             name: 'DetailedViewDay',
             params: {
-              activity_link: user_activity._links['yona:dayDetails'].href
-            }
+              activity_link: user_activity._links['yona:dayDetails'].href,
+            },
           }"
         >
           <timeline-control
@@ -81,8 +81,8 @@ import { AccountState } from "@/store/account/types";
 
 @Component({
   components: {
-    TimelineControl
-  }
+    TimelineControl,
+  },
 })
 export default class TimelineCategory extends Vue {
   @State("account") account!: AccountState;
@@ -118,7 +118,7 @@ export default class TimelineCategory extends Vue {
   detailedViewUser(link: string) {
     this.$router.push({
       name: "DetailedViewDay",
-      params: { activity_link: link }
+      params: { activity_link: link },
     });
   }
 

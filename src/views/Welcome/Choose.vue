@@ -85,7 +85,7 @@ export default class Choose extends Vue {
 
     let response: any = await axios
       .get(url + "/activityCategories/")
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           //@ts-ignore
           if (navigator && navigator.notification) {
@@ -99,7 +99,7 @@ export default class Choose extends Vue {
           } else {
             this.setServerError({
               serverMessage:
-                self.$t("environment_switch_error") + " " + self.api.host
+                self.$t("environment_switch_error") + " " + self.api.host,
             });
           }
 
@@ -122,12 +122,12 @@ export default class Choose extends Vue {
       } else {
         this.setServerError({
           serverMessage:
-            self.$t("new_environment_switch_success_msg") + " " + self.host
+            self.$t("new_environment_switch_success_msg") + " " + self.host,
         });
       }
 
       this.setHost({
-        host: self.host
+        host: self.host,
       });
     }
   }

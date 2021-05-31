@@ -46,8 +46,8 @@ import { ApiState } from "@/store/api/types";
 
 @Component({
   components: {
-    PinCode
-  }
+    PinCode,
+  },
 })
 export default class SmsValidation extends Vue {
   @State("api") api!: ApiState;
@@ -95,9 +95,9 @@ export default class SmsValidation extends Vue {
       if (this.api.links && this.api.links["yona:verifyPinReset"]) {
         let response: any = await axios
           .post(this.api.links["yona:verifyPinReset"].href, {
-            code: this.password
+            code: this.password,
           })
-          .catch(error => {
+          .catch((error) => {
             if (error) {
               self.password = null;
               self.loading = false;
@@ -114,7 +114,7 @@ export default class SmsValidation extends Vue {
           if (response.status == 200) {
             await axios
               .post(this.api.links["yona:clearPinReset"].href, {
-                code: this.password
+                code: this.password,
               })
               .catch();
 

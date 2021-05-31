@@ -12,7 +12,7 @@ import BottomMenu from "@/components/BottomMenu.vue";
 import { Action } from "vuex-class";
 
 @Component({
-  components: { BottomMenu }
+  components: { BottomMenu },
 })
 export default class AbstractFriends extends Vue {
   @Action("getBuddies", { namespace: "buddies" }) getBuddies: any;
