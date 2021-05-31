@@ -93,7 +93,7 @@ interface timeEntry {
 }
 
 @Component({
-  components: { SwipeList, SwipeOut }
+  components: { SwipeList, SwipeOut },
 })
 export default class Setup extends Vue {
   @Action("saveGoal", { namespace: "challenges" }) saveGoal: any;
@@ -105,17 +105,17 @@ export default class Setup extends Vue {
   setupData: {
     items: timeEntry[];
   } = {
-    items: []
+    items: [],
   };
 
   mounted() {
     if (this.goal) {
-      this.setupData.items = this.goal.zones.map(zone => {
+      this.setupData.items = this.goal.zones.map((zone) => {
         return {
           id: Math.random(),
           from: zone.split("-")[0],
           to: zone.split("-")[1],
-          swiped: false
+          swiped: false,
         };
       });
     }
@@ -128,7 +128,7 @@ export default class Setup extends Vue {
       id: Math.random(),
       from: response.startTime,
       to: response.endTime,
-      swiped: false
+      swiped: false,
     });
   }
 
@@ -142,7 +142,7 @@ export default class Setup extends Vue {
     startTime: string | null,
     endTime: string | null
   ): Promise<{ startTime: string; endTime: string }> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       if (
         //@ts-ignore
         typeof cordova !== "undefined" &&
@@ -155,7 +155,7 @@ export default class Setup extends Vue {
         cordova.plugins.TimePicker.pick(
           {
             startTime,
-            endTime
+            endTime,
           },
           resolve
         );
@@ -182,18 +182,18 @@ export default class Setup extends Vue {
       "@type": "TimeZoneGoal",
       _links: {
         "yona:activityCategory": {
-          href: this.category
-        }
+          href: this.category,
+        },
       },
-      zones: this.setupData.items.map(zone => {
+      zones: this.setupData.items.map((zone) => {
         return `${zone.from}-${zone.to}`;
-      })
+      }),
     };
 
     if (this.goal && this.goal._links.edit) {
       saved = await this.updateGoal({
         url: this.goal._links.edit.href,
-        data
+        data,
       });
     } else {
       saved = await this.saveGoal(data);
@@ -202,7 +202,7 @@ export default class Setup extends Vue {
     if (saved) {
       this.$router.push({
         name: "ChallengesOverview",
-        params: { type: "timezone" }
+        params: { type: "timezone" },
       });
     } else {
       this.loading = false;

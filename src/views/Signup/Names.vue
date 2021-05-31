@@ -55,8 +55,8 @@ import axios from "@/utils/axios/axios";
 
 @Component({
   components: {
-    InputFloatingLabel
-  }
+    InputFloatingLabel,
+  },
 })
 export default class Names extends Vue {
   @State("account") account!: AccountState;
@@ -69,7 +69,7 @@ export default class Names extends Vue {
   async mounted() {
     if (this.buddy_invite && this.buddy_invite.url) {
       this.setHeaderPassword({
-        yonaPassword: ""
+        yonaPassword: "",
       });
 
       let userInfo: any = await axios.get(this.buddy_invite.url).catch();
@@ -79,7 +79,7 @@ export default class Names extends Vue {
           firstname: userInfo.data.firstName,
           lastname: userInfo.data.lastName,
           phonenumber: userInfo.data.mobileNumber,
-          nickname: userInfo.data.nickname
+          nickname: userInfo.data.nickname,
         });
       }
     }
@@ -89,14 +89,14 @@ export default class Names extends Vue {
   }
 
   validateFields() {
-    this.$validator.validate().then(valid => {
+    this.$validator.validate().then((valid) => {
       if (valid) {
         if (this.buddy_invite && this.buddy_invite.url) {
           this.$router.push({
             name: "AccountInfo",
             params: {
-              buddy_invite: this.buddy_invite
-            }
+              buddy_invite: this.buddy_invite,
+            },
           });
         } else {
           this.$router.push({ name: "AccountInfo" });

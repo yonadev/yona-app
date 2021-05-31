@@ -107,8 +107,8 @@ import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
 @Component({
   components: {
     ProfilePic,
-    InputFloatingLabel
-  }
+    InputFloatingLabel,
+  },
 })
 export default class Profile extends Vue {
   @State("account") account!: AccountState;
@@ -144,7 +144,7 @@ export default class Profile extends Vue {
               firstName: this.firstname,
               lastName: this.lastname,
               mobileNumber: this.mobile,
-              nickname: this.nickname
+              nickname: this.nickname,
             })
             .catch();
 
@@ -166,7 +166,7 @@ export default class Profile extends Vue {
         quality: 50,
         // @ts-ignore
         destinationType: Camera.DestinationType.FILE_URI,
-        correctOrientation: true
+        correctOrientation: true,
       });
     }
   }
@@ -198,7 +198,7 @@ export default class Profile extends Vue {
       if (response.status == 200) {
         let photo_response: any = await axios
           .get(response.data._links["yona:userPhoto"].href, {
-            responseType: "arraybuffer"
+            responseType: "arraybuffer",
           })
           .catch();
 
@@ -212,7 +212,7 @@ export default class Profile extends Vue {
             "user_image",
             JSON.stringify({
               type: "me",
-              src: "data:image/png;base64," + userPhoto
+              src: "data:image/png;base64," + userPhoto,
             })
           );
           self.edit = false;

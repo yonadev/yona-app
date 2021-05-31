@@ -26,8 +26,8 @@ import WeekScoreLabel from "@/components/WeekScore/WeekScoreLabel.vue";
 
 @Component({
   components: {
-    WeekScoreLabel
-  }
+    WeekScoreLabel,
+  },
 })
 export default class MeTimeLineWeek extends Vue {
   @State("api") api!: ApiState;

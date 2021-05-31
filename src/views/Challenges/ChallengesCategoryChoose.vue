@@ -13,7 +13,7 @@
         :key="index"
         :to="{
           name: 'ChallengesSetup',
-          params: { category: activityCategory._links.self.href, type: type }
+          params: { category: activityCategory._links.self.href, type: type },
         }"
       >
         <div class="grey-bg-button">

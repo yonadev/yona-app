@@ -19,9 +19,8 @@ class RouteProtect {
     const pinIsReset = this.store.state.login.pinIsReset;
     const pinIsSet = this.store.state.login.pinIsSet;
 
-    const hasAllPermissions: boolean = this.store.getters[
-      "account/hasAllPermissions"
-    ];
+    const hasAllPermissions: boolean =
+      this.store.getters["account/hasAllPermissions"];
 
     if (!registered && !to.meta.public) {
       return next({ name: "Tour" });
@@ -84,6 +83,6 @@ const install = (
 };
 
 const plugin: PluginObject<AuthOptions> = {
-  install
+  install,
 };
 export default plugin;

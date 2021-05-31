@@ -1,5 +1,7 @@
 function genPoints(inArr, { height }, { min, max }) {
-  const arr = inArr.map(item => (typeof item === "number" ? item : item.value));
+  const arr = inArr.map((item) =>
+    typeof item === "number" ? item : item.value
+  );
   const gridX = 100 / (arr.length - 1);
   const gridY = height / max + 0.001;
 
@@ -9,7 +11,7 @@ function genPoints(inArr, { height }, { min, max }) {
     return {
       x: `${index * gridX}%`,
       y: value * gridY,
-      v: color
+      v: color,
     };
   });
 }
@@ -22,7 +24,7 @@ function genGoalPoints(arr, length, { width }) {
     points.push({
       x: `${i * gridX}%`,
       y: 2,
-      v: arr.indexOf(i) > -1 ? "#d5d5d5" : "#f3f3f3"
+      v: arr.indexOf(i) > -1 ? "#d5d5d5" : "#f3f3f3",
     });
   }
 
@@ -40,8 +42,8 @@ export function genBars(_this, arr, h) {
           x: item.x,
           y: 0,
           width: 1,
-          height: item.y
-        }
+          height: item.y,
+        },
       },
       [
         h("animate", {
@@ -50,10 +52,10 @@ export function genBars(_this, arr, h) {
             from: 0,
             to: item.y,
             dur: `${_this.growDuration}s`,
-            fill: "freeze"
-          }
+            fill: "freeze",
+          },
         }),
-        h("title", {}, [item.v])
+        h("title", {}, [item.v]),
       ]
     );
   });
@@ -68,7 +70,7 @@ export default {
     "id",
     "growDuration",
     "max",
-    "min"
+    "min",
   ],
 
   render(h) {
@@ -77,7 +79,7 @@ export default {
     const dataArr = data.map((item, index) => {
       return {
         value: item,
-        color: goal.indexOf(index) > -1 ? "#0074b9" : "#f43d89"
+        color: goal.indexOf(index) > -1 ? "#0074b9" : "#f43d89",
       };
     });
 
@@ -88,10 +90,10 @@ export default {
       "g",
       {
         attrs: {
-          transform: `scale(1,-1) translate(0,-${this.size.height})`
-        }
+          transform: `scale(1,-1) translate(0,-${this.size.height})`,
+        },
       },
       [...bars]
     );
-  }
+  },
 };

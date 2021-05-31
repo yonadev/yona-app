@@ -88,8 +88,8 @@ import axios from "@/utils/axios/axios";
 
 @Component({
   components: {
-    InputFloatingLabel
-  }
+    InputFloatingLabel,
+  },
 })
 export default class FriendsAddManual extends Vue {
   @State("api") api!: ApiState;
@@ -120,7 +120,7 @@ export default class FriendsAddManual extends Vue {
   }
 
   async addFriend() {
-    this.$validator.validate().then(async valid => {
+    this.$validator.validate().then(async (valid) => {
       if (valid) {
         if (this.api.embedded && !this.loading) {
           this.loading = true;
@@ -135,9 +135,9 @@ export default class FriendsAddManual extends Vue {
                   lastName: this.lastname,
                   mobileNumber: this.mobile,
                   emailAddress: this.email,
-                  nickname: this.nickname
-                }
-              }
+                  nickname: this.nickname,
+                },
+              },
             })
             .catch();
 
@@ -157,7 +157,7 @@ export default class FriendsAddManual extends Vue {
     return new Promise((resolve, reject) => {
       Permission.has(
         permission,
-        function(results: any) {
+        function (results: any) {
           if (!results[permission]) {
             resolve(false);
           } else {
@@ -176,7 +176,7 @@ export default class FriendsAddManual extends Vue {
     return new Promise((resolve, reject) => {
       Permission.request(
         permission,
-        function(results: any) {
+        function (results: any) {
           if (results[permission]) {
             resolve(true);
           } else {

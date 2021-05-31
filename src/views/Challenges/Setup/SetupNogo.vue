@@ -37,15 +37,15 @@ export default class Setup extends Vue {
       "@type": "BudgetGoal",
       _links: {
         "yona:activityCategory": {
-          href: this.category
-        }
+          href: this.category,
+        },
       },
-      maxDurationMinutes: 0
+      maxDurationMinutes: 0,
     });
     if (saved) {
       this.$router.push({
         name: "ChallengesOverview",
-        params: { type: "nogo" }
+        params: { type: "nogo" },
       });
     } else {
       this.loading = false;

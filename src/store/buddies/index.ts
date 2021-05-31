@@ -6,7 +6,7 @@ import axios from "@/utils/axios/axios";
 
 export const state: BuddiesState = {
   loaded: false,
-  buddies: []
+  buddies: [],
 };
 
 const actions: ActionTree<BuddiesState, RootState> = {
@@ -36,7 +36,7 @@ const actions: ActionTree<BuddiesState, RootState> = {
           const userPhotoResponse: any = await axios.get(
             buddy._embedded["yona:user"]._links["yona:userPhoto"].href,
             {
-              responseType: "arraybuffer"
+              responseType: "arraybuffer",
             }
           );
 
@@ -50,7 +50,7 @@ const actions: ActionTree<BuddiesState, RootState> = {
               buddy._embedded["yona:user"]._links.self.href,
               JSON.stringify({
                 type: "buddy",
-                src: "data:image/png;base64," + userPhoto
+                src: "data:image/png;base64," + userPhoto,
               })
             );
             hasPhoto = true;
@@ -64,13 +64,13 @@ const actions: ActionTree<BuddiesState, RootState> = {
               type: "buddy",
               text:
                 buddy._embedded["yona:user"].firstName.charAt(0) +
-                buddy._embedded["yona:user"].lastName.charAt(0)
+                buddy._embedded["yona:user"].lastName.charAt(0),
             })
           );
         }
       })
     );
-  }
+  },
 };
 
 const mutations: MutationTree<BuddiesState> = {
@@ -81,29 +81,29 @@ const mutations: MutationTree<BuddiesState> = {
       state.buddies = [];
     }
     state.loaded = true;
-  }
+  },
 };
 
 const getters: GetterTree<BuddiesState, RootState> = {
   buddy(state: BuddiesState) {
     return (href: string) =>
-      state.buddies.find(buddy => {
+      state.buddies.find((buddy) => {
         return buddy._links.self.href === href;
       });
   },
   goal(state: BuddiesState) {
     return (buddyHref: string, href: string) => {
-      const buddy = state.buddies.find(buddy => {
+      const buddy = state.buddies.find((buddy) => {
         return buddy._links.self.href === buddyHref;
       });
 
       if (buddy) {
         return buddy._embedded["yona:user"]._embedded["yona:goals"]._embedded[
           "yona:goals"
-        ].find(buddyGoal => buddyGoal._links.self.href === href);
+        ].find((buddyGoal) => buddyGoal._links.self.href === href);
       }
     };
-  }
+  },
 };
 
 const namespaced: boolean = true;
@@ -112,5 +112,5 @@ export const buddies: Module<BuddiesState, RootState> = {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

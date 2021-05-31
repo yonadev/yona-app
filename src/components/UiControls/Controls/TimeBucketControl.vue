@@ -28,8 +28,8 @@ import { ActivityCategory, BudgetGoal } from "@/store/challenges/types";
 
 @Component({
   components: {
-    Bucket
-  }
+    Bucket,
+  },
 })
 export default class TimeBucketControl extends Vue {
   @Prop() goal!: BudgetGoal;

@@ -1,5 +1,7 @@
 function genPoints(inArr) {
-  const arr = inArr.map(item => (typeof item === "number" ? item : item.value));
+  const arr = inArr.map((item) =>
+    typeof item === "number" ? item : item.value
+  );
   const gridX = 100 / (arr.length - 1);
 
   return arr
@@ -10,7 +12,7 @@ function genPoints(inArr) {
         x: `${index * gridX}%`,
         width: `${(value / 15) * gridX}%`,
         v: color,
-        animate: true
+        animate: true,
       };
     })
     .filter(({ width }) => {
@@ -20,12 +22,12 @@ function genPoints(inArr) {
 
 function genGoalPoints(inArr, length) {
   const gridX = 100 / (length - 1);
-  return inArr.map(value => {
+  return inArr.map((value) => {
     return {
       x: `${value * gridX}%`,
       width: `${gridX + 0.2}%`,
       v: "#95be18",
-      animate: false
+      animate: false,
     };
   });
 }
@@ -42,8 +44,8 @@ function genColumns(_this, arr, h) {
           x: item.x,
           y: 0,
           width: item.width,
-          height
-        }
+          height,
+        },
       },
       ...(item.animate
         ? [
@@ -54,10 +56,10 @@ function genColumns(_this, arr, h) {
                   from: 0,
                   to: item.width,
                   dur: `${_this.growDuration}s`,
-                  fill: "freeze"
-                }
-              })
-            ]
+                  fill: "freeze",
+                },
+              }),
+            ],
           ]
         : [])
     );
@@ -72,8 +74,8 @@ function genBackground({ width, height }, h) {
       x: 0,
       y: 0,
       width: "100%",
-      height
-    }
+      height,
+    },
   });
 }
 
@@ -86,7 +88,7 @@ export default {
     "id",
     "growDuration",
     "max",
-    "min"
+    "min",
   ],
 
   render(h) {
@@ -96,7 +98,7 @@ export default {
     const dataArr = data.map((item, index) => {
       return {
         value: item,
-        color: goal.indexOf(index) > -1 ? "#0074b9" : "#f43d89"
+        color: goal.indexOf(index) > -1 ? "#0074b9" : "#f43d89",
       };
     });
 
@@ -109,10 +111,10 @@ export default {
       "g",
       {
         attrs: {
-          transform: `scale(1,-1) translate(0,-${this.size.height})`
-        }
+          transform: `scale(1,-1) translate(0,-${this.size.height})`,
+        },
       },
       [background, ...bars]
     );
-  }
+  },
 };

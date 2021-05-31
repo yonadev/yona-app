@@ -22,17 +22,14 @@
             ? 'FriendsDetailedViewDay'
             : 'DetailedViewDay',
           params: {
-            buddy_href:
-              buddy_href || (day_activity._links['yona:buddy'] || null),
-            activity_link: day_activity._links['yona:dayDetails'].href
-          }
+            buddy_href: buddy_href || day_activity._links['yona:buddy'] || null,
+            activity_link: day_activity._links['yona:dayDetails'].href,
+          },
         }"
       >
         <ui-control
           :day_activity="day_activity"
-          :buddy_href="
-            buddy_href || (day_activity._links['yona:buddy'] || null)
-          "
+          :buddy_href="buddy_href || day_activity._links['yona:buddy'] || null"
           type="simple"
         ></ui-control>
       </router-link>
@@ -49,13 +46,13 @@ import TimelineCategory from "./TimelineCategory.vue";
 @Component({
   components: {
     UiControl,
-    TimelineCategory
-  }
+    TimelineCategory,
+  },
 })
 export default class UiControlsLabel extends Vue {
   @Prop() day_activities!: string;
   @Prop({
-    default: ""
+    default: "",
   })
   buddy_href!: string;
 
@@ -76,7 +73,7 @@ export default class UiControlsLabel extends Vue {
           "WOENSDAG",
           "DONDERDAG",
           "VRIJDAG",
-          "ZATERDAG"
+          "ZATERDAG",
         ],
         months: [
           "JANUARI",
@@ -90,8 +87,8 @@ export default class UiControlsLabel extends Vue {
           "SEPTEMBER",
           "OKTOBER",
           "NOVEMBER",
-          "DECEMBER"
-        ]
+          "DECEMBER",
+        ],
       },
       en: {
         days: [
@@ -101,7 +98,7 @@ export default class UiControlsLabel extends Vue {
           "WEDNESDAY",
           "THURSDAY",
           "FRIDAY",
-          "SATURDAY"
+          "SATURDAY",
         ],
         months: [
           "JANUARY",
@@ -115,9 +112,9 @@ export default class UiControlsLabel extends Vue {
           "SEPTEMBER",
           "OCTOBER",
           "NOVEMBER",
-          "DECEMBER"
-        ]
-      }
+          "DECEMBER",
+        ],
+      },
     };
 
     if (now.getDate() === date_obj.getDate()) date = this.$t("today");

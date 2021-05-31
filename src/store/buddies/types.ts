@@ -4,7 +4,7 @@ export enum userStatus {
   NotRequested = "NOT_REQUESTED",
   Requested = "REQUESTED",
   Accepted = "ACCEPTED",
-  Rejected = "REJECTED"
+  Rejected = "REJECTED",
 }
 
 export interface Buddy {

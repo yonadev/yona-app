@@ -52,15 +52,15 @@
       <time-bucket-control
         v-if="
           week_activity &&
-            controlGoal['@type'] === 'BudgetGoal' &&
-            controlGoal.maxDurationMinutes > 0
+          controlGoal['@type'] === 'BudgetGoal' &&
+          controlGoal.maxDurationMinutes > 0
         "
         class="ui-control"
         :goal="controlGoal"
         :dayActivity="{
           totalActivityDurationMinutes:
             week_activity.totalActivityDurationMinutes /
-            Object.keys(week_activity.dayActivities).length
+            Object.keys(week_activity.dayActivities).length,
         }"
         title="Gemiddeld"
       ></time-bucket-control>
@@ -103,8 +103,8 @@ import Messages from "@/components/Messages/Messages.vue";
     TimeBucketControl,
     SpreadControl,
     WeekScore,
-    UiControl
-  }
+    UiControl,
+  },
 })
 export default class DetailedViewWeek extends Vue {
   @Prop() activity_link!: string;
@@ -179,29 +179,21 @@ export default class DetailedViewWeek extends Vue {
     if (link && link.href)
       this.$router.push({
         name: this.buddy_href ? "FriendsDetailedViewWeek" : "DetailedViewWeek",
-        params: { buddy_href: this.buddy_href, activity_link: link.href }
+        params: { buddy_href: this.buddy_href, activity_link: link.href },
       });
   }
 
   getWeekLabel(date: any) {
-    let now = moment(new Date())
-      .weekday(0)
-      .week();
-    let week = moment(date, moment.ISO_8601)
-      .weekday(0)
-      .week();
+    let now = moment(new Date()).weekday(0).week();
+    let week = moment(date, moment.ISO_8601).weekday(0).week();
 
     if (now === week) return "DEZE WEEK";
     else if (now - 1 === week) return "VORIGE WEEK";
     else
       return (
-        moment(date, moment.ISO_8601)
-          .isoWeekday(0)
-          .format("D MMMM") +
+        moment(date, moment.ISO_8601).isoWeekday(0).format("D MMMM") +
         " - " +
-        moment(date, moment.ISO_8601)
-          .isoWeekday(6)
-          .format("D MMMM")
+        moment(date, moment.ISO_8601).isoWeekday(6).format("D MMMM")
       );
   }
 }

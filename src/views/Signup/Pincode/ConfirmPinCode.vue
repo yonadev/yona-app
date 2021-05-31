@@ -38,8 +38,8 @@ import { LoginState } from "@/store/login/types";
 
 @Component({
   components: {
-    PinCode
-  }
+    PinCode,
+  },
 })
 export default class ConfirmPinCode extends Vue {
   @State("login") login!: LoginState;

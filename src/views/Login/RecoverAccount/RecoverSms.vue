@@ -9,7 +9,7 @@
         {{ $t("accountlogin") }}
       </p>
       <div class="progress-bar">
-        <div class="progress" style="width:33%;"></div>
+        <div class="progress" style="width: 33%"></div>
       </div>
       <p class="icon-text">
         {{ $t("accountloginsecuritymessage") }}
@@ -43,14 +43,14 @@ import { ApiState } from "@/store/api/types";
 
 @Component({
   components: {
-    PinCode
-  }
+    PinCode,
+  },
 })
 export default class RecoverSms extends Vue {
   @State("account") account!: AccountState;
   @State("api") api!: ApiState;
-  @State(state => state.app.versionNumber) versionNumber!: string;
-  @State(state => state.app.versionCode) versionCode!: number;
+  @State((state) => state.app.versionNumber) versionNumber!: string;
+  @State((state) => state.app.versionCode) versionCode!: number;
 
   password: number | null = null;
   length: number = 4;
@@ -70,11 +70,24 @@ export default class RecoverSms extends Vue {
     this.attempts = 0;
   }
 
+  getFirebaseToken() {
+    return new Promise(function (resolve, reject) {
+      (window as any).FirebasePlugin.getToken(
+        function (fcmToken: string) {
+          resolve(fcmToken);
+        },
+        function (error: string) {
+          reject(error);
+        }
+      );
+    });
+  }
+
   @Watch("password")
   onChildChanged(val: number) {
     if (val && val.toString().length === this.length) {
       let self = this;
-      this.$validator.validate().then(async valid => {
+      this.$validator.validate().then(async (valid) => {
         if (valid) {
           let OS = "ANDROID";
           //@ts-ignore
@@ -85,21 +98,8 @@ export default class RecoverSms extends Vue {
 
           let firebaseInstanceId = null;
 
-          if (
-            //@ts-ignore
-            typeof cordova !== "undefined" &&
-            //@ts-ignore
-            typeof cordova.plugins !== undefined &&
-            //@ts-ignore
-            cordova.plugins.firebase
-          ) {
-            //@ts-ignore
-            await cordova.plugins.firebase.messaging.requestPermission({
-              forceShow: true
-            });
-
-            //@ts-ignore
-            firebaseInstanceId = await cordova.plugins.firebase.messaging.getToken();
+          if (typeof (window as any).FirebasePlugin !== "undefined") {
+            firebaseInstanceId = await this.getFirebaseToken();
           }
 
           let response: any = await axios
@@ -114,10 +114,10 @@ export default class RecoverSms extends Vue {
                 deviceOperatingSystem: OS,
                 deviceAppVersion: this.versionNumber,
                 deviceAppVersionCode: this.versionCode,
-                deviceFirebaseInstanceId: firebaseInstanceId
+                deviceFirebaseInstanceId: firebaseInstanceId,
               }
             )
-            .catch(error => {
+            .catch((error) => {
               if (error) {
                 self.password = null;
                 if (error.response.status == 400) {

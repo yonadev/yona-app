@@ -13,9 +13,8 @@
             :to="{ name: 'ChallengesOverview', params: { type: 'credit' } }"
             active-class="is-active"
             :class="{
-              'router-link-exact-active is-active router-link-active': sub.subIsActive(
-                ['/challenges/credit/chooseCategory']
-              )
+              'router-link-exact-active is-active router-link-active':
+                sub.subIsActive(['/challenges/credit/chooseCategory']),
             }"
           >
             <a>
@@ -42,9 +41,8 @@
             :to="{ name: 'ChallengesOverview', params: { type: 'timezone' } }"
             active-class="is-active"
             :class="{
-              'router-link-exact-active is-active router-link-active': sub.subIsActive(
-                ['/challenges/timezone/chooseCategory']
-              )
+              'router-link-exact-active is-active router-link-active':
+                sub.subIsActive(['/challenges/timezone/chooseCategory']),
             }"
           >
             <a>
@@ -71,9 +69,8 @@
             :to="{ name: 'ChallengesOverview', params: { type: 'nogo' } }"
             active-class="is-active"
             :class="{
-              'router-link-exact-active is-active router-link-active': sub.subIsActive(
-                ['/challenges/nogo/chooseCategory']
-              )
+              'router-link-exact-active is-active router-link-active':
+                sub.subIsActive(['/challenges/nogo/chooseCategory']),
             }"
           >
             <a>

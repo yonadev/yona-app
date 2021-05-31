@@ -7,7 +7,7 @@ import axios from "@/utils/axios/axios";
 export const state: ChallengesState = {
   loaded: false,
   activityCategories: [],
-  goals: []
+  goals: [],
 };
 
 const actions: ActionTree<ChallengesState, RootState> = {
@@ -27,7 +27,7 @@ const actions: ActionTree<ChallengesState, RootState> = {
     if (rootState.api.embedded != null) {
       const response = await axios
         .get(rootState.api.embedded["yona:goals"]._links.self.href)
-        .catch(error => {
+        .catch((error) => {
           return false;
         });
       commit("setGoals", response);
@@ -37,7 +37,7 @@ const actions: ActionTree<ChallengesState, RootState> = {
     if (rootState.api.embedded != null) {
       const response = await axios
         .post(rootState.api.embedded["yona:goals"]._links.self.href, data)
-        .catch(error => {
+        .catch((error) => {
           return false;
         });
 
@@ -47,7 +47,7 @@ const actions: ActionTree<ChallengesState, RootState> = {
   },
   async updateGoal({ commit, rootState, dispatch }, { url, data }) {
     if (rootState.api.embedded != null) {
-      const response = await axios.put(url, data).catch(error => {
+      const response = await axios.put(url, data).catch((error) => {
         return false;
       });
 
@@ -57,14 +57,14 @@ const actions: ActionTree<ChallengesState, RootState> = {
   },
   async deleteGoal({ commit, rootState, dispatch }, goalUrl) {
     if (rootState.api.embedded != null) {
-      const response = await axios.delete(goalUrl).catch(error => {
+      const response = await axios.delete(goalUrl).catch((error) => {
         return false;
       });
 
       dispatch("getGoals");
       return true;
     }
-  }
+  },
 };
 
 const mutations: MutationTree<ChallengesState> = {
@@ -73,25 +73,25 @@ const mutations: MutationTree<ChallengesState> = {
   },
   setGoals(state, { data }) {
     state.goals = data._embedded["yona:goals"];
-  }
+  },
 };
 
 const getters: GetterTree<ChallengesState, RootState> = {
   activityCategory(state) {
     return (href: string) =>
-      state.activityCategories.find(activityCategory => {
+      state.activityCategories.find((activityCategory) => {
         return activityCategory._links.self.href === href;
       });
   },
   goal(state) {
     return (href: string) =>
-      state.goals.find(goal => {
+      state.goals.find((goal) => {
         return goal._links.self.href === href;
       });
   },
   goalsByType(state) {
     return (type: string, historyItem: boolean = false) =>
-      state.goals.filter(goal => {
+      state.goals.filter((goal) => {
         switch (type) {
           case "NoGoGoal":
             return (
@@ -116,9 +116,9 @@ const getters: GetterTree<ChallengesState, RootState> = {
       });
   },
   unusedCategories(state) {
-    return state.activityCategories.filter(activityCategory => {
+    return state.activityCategories.filter((activityCategory) => {
       return (
-        state.goals.filter(goal => {
+        state.goals.filter((goal) => {
           return (
             goal._links["yona:activityCategory"].href ===
             activityCategory._links.self.href
@@ -126,7 +126,7 @@ const getters: GetterTree<ChallengesState, RootState> = {
         }).length === 0
       );
     });
-  }
+  },
 };
 
 const namespaced: boolean = true;
@@ -135,5 +135,5 @@ export const challenges: Module<ChallengesState, RootState> = {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

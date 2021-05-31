@@ -14,8 +14,8 @@ import { TimeZoneGoal } from "@/store/challenges/types";
 
 @Component({
   components: {
-    Columns
-  }
+    Columns,
+  },
 })
 export default class TimeFrameControl extends Vue {
   @Prop() goal!: TimeZoneGoal;

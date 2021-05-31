@@ -8,7 +8,7 @@ export default {
     "id",
     "growDuration",
     "max",
-    "min"
+    "min",
   ],
 
   render(h) {
@@ -21,8 +21,8 @@ export default {
       "g",
       {
         attrs: {
-          transform: `scale(1,1) translate(0,${size.height + offset} )`
-        }
+          transform: `scale(1,1) translate(0,${size.height + offset} )`,
+        },
       },
       [
         h("image", {
@@ -33,8 +33,8 @@ export default {
             x: 0,
             y: size.height - icon_size,
             width: icon_size,
-            height: icon_size
-          }
+            height: icon_size,
+          },
         }),
         h(
           "text",
@@ -45,8 +45,8 @@ export default {
               "font-size": text_size,
               id: `label-text-4`,
               x: `${100 / 6}%`,
-              y: size.height
-            }
+              y: size.height,
+            },
           },
           "04:00"
         ),
@@ -59,8 +59,8 @@ export default {
               "font-size": text_size,
               id: `label-text-8`,
               x: `${100 / 3}%`,
-              y: size.height
-            }
+              y: size.height,
+            },
           },
           "08:00"
         ),
@@ -72,8 +72,8 @@ export default {
             x: `${100 / 2}%`,
             y: size.height - icon_size,
             width: icon_size * 1.1,
-            height: icon_size * 1.1
-          }
+            height: icon_size * 1.1,
+          },
         }),
         h(
           "text",
@@ -84,8 +84,8 @@ export default {
               "font-size": text_size,
               id: `label-text-16`,
               x: `${(100 / 6) * 4}%`,
-              y: size.height
-            }
+              y: size.height,
+            },
           },
           "16:00"
         ),
@@ -98,8 +98,8 @@ export default {
               "font-size": text_size,
               id: `label-text-20`,
               x: `${(100 / 6) * 5}%`,
-              y: size.height
-            }
+              y: size.height,
+            },
           },
           "20:00"
         ),
@@ -111,10 +111,10 @@ export default {
             x: `${100}%`,
             y: size.height - icon_size,
             width: icon_size,
-            height: icon_size
-          }
-        })
+            height: icon_size,
+          },
+        }),
       ]
     );
-  }
+  },
 };

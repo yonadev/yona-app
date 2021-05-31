@@ -11,7 +11,7 @@
         <span v-else>
           {{
             $t("nogogoalbeyond", {
-              minutes: dayActivity.totalMinutesBeyondGoal
+              minutes: dayActivity.totalMinutesBeyondGoal,
             })
           }}
         </span>

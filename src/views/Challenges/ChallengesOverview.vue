@@ -38,13 +38,13 @@ import { Prop } from "vue-property-decorator";
 import {
   ActivityCategory,
   ChallengesState,
-  Goal
+  Goal,
 } from "@/store/challenges/types";
 
 import ChallengesLabel from "@/components/Challenges/ChallengesLabel.vue";
 
 @Component({
-  components: { ChallengesLabel }
+  components: { ChallengesLabel },
 })
 export default class Add extends Vue {
   @State("challenges") challenges!: ChallengesState;

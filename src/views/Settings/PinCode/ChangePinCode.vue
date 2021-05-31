@@ -37,8 +37,8 @@ import PinCode from "../../../components/PinCode.vue";
 
 @Component({
   components: {
-    PinCode
-  }
+    PinCode,
+  },
 })
 export default class ChangePinCode extends Vue {
   @Prop() wrong_pincode!: any;
@@ -50,7 +50,7 @@ export default class ChangePinCode extends Vue {
     if (val && val.toString().length === this.length) {
       this.$router.push({
         name: "ConfirmNewPinCode",
-        params: { pincode: val }
+        params: { pincode: val },
       });
     }
   }

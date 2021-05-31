@@ -38,7 +38,7 @@
               "
             />
             <img
-              v-else=""
+              v-else
               class="check not-allowed"
               :src="
                 require('@/assets/images/signup/permission/icon_check_white.svg')
@@ -78,8 +78,9 @@ export default class Intro extends Vue {
       //@ts-ignore
       typeof cordova.plugins.YonaServices !== "undefined"
     ) {
-      //@ts-ignore
-      const hasUsageAccess = await cordova.plugins.YonaServices.checkUsageAccess();
+      const hasUsageAccess =
+        //@ts-ignore
+        await cordova.plugins.YonaServices.checkUsageAccess();
 
       if (hasUsageAccess === "true") {
         //@ts-ignore
@@ -87,7 +88,7 @@ export default class Intro extends Vue {
 
         this.setPermission({
           key: "tracking",
-          value: true
+          value: true,
         });
 
         return true;

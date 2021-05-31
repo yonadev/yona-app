@@ -56,8 +56,8 @@ export default class Settings extends Vue {
   @State("api") api!: ApiState;
   @Action("setHost", { namespace: "api" }) setHost: any;
   @Action("setServerError", { namespace: "api" }) setServerError: any;
-  @State(state => state.app.versionNumber) versionNumber!: string;
-  @State(state => state.app.versionCode) versionCode!: number;
+  @State((state) => state.app.versionNumber) versionNumber!: string;
+  @State((state) => state.app.versionCode) versionCode!: number;
   clickCounter: number = 0;
   host: string = "";
 
@@ -115,7 +115,7 @@ export default class Settings extends Vue {
               `${OS} version: ${OS_ver} <br/>` +
               `Device brand: ${brand} <br/>` +
               `Device model: ${model} <br/>`,
-            isHtml: true
+            isHtml: true,
           });
         },
         self.$t("usercredential"),
@@ -179,7 +179,7 @@ export default class Settings extends Vue {
 
     let response: any = await axios
       .get(url + "/activityCategories/")
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           //@ts-ignore
           if (navigator && navigator.notification) {
@@ -193,7 +193,7 @@ export default class Settings extends Vue {
           } else {
             this.setServerError({
               serverMessage:
-                self.$t("environment_switch_error") + " " + self.api.host
+                self.$t("environment_switch_error") + " " + self.api.host,
             });
           }
 
@@ -216,12 +216,12 @@ export default class Settings extends Vue {
       } else {
         this.setServerError({
           serverMessage:
-            self.$t("new_environment_switch_success_msg") + " " + self.host
+            self.$t("new_environment_switch_success_msg") + " " + self.host,
         });
       }
 
       this.setHost({
-        host: self.host
+        host: self.host,
       });
     }
   }

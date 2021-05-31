@@ -44,7 +44,7 @@ import { Buddy } from "@/store/buddies/types";
 import { Prop } from "vue-property-decorator";
 
 @Component({
-  components: { ProfilePic }
+  components: { ProfilePic },
 })
 export default class FriendTimeLineTabs extends Vue {
   @Prop() buddy_href!: string;

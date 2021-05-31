@@ -10,9 +10,7 @@ package com.yona.plugin.services.utils;
 
 import android.util.Log;
 
-import com.crashlytics.android.Crashlytics;
-
-import io.fabric.sdk.android.Fabric;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 /**
  * A common Logger implementation to support logging mechanism in application.
@@ -23,38 +21,28 @@ public class Logger
 
 	public static void logi(Class<?> originClass, String message)
 	{
-		if (Fabric.isInitialized())
-		{
-			Crashlytics.log(Log.INFO, originClass.getName(), message);
-		}
+		FirebaseCrashlytics.getInstance().log(message);
+
 		Log.i(originClass.getName(), message);
 	}
 
 	public static void loge(Class<?> originClass, String message)
 	{
-		if (Fabric.isInitialized())
-		{
-			Crashlytics.log(Log.ERROR, originClass.getName(), message);
-		}
+		FirebaseCrashlytics.getInstance().log(message);
 		Log.e(originClass.getName(), message);
 	}
 
 	public static void loge(Class<?> originClass, String message, Exception exception)
 	{
-		if (Fabric.isInitialized())
-		{
-			Crashlytics.log(Log.ERROR, originClass.getName(), message);
-			Crashlytics.logException(exception);
-		}
+		FirebaseCrashlytics.getInstance().log(message);
+		FirebaseCrashlytics.getInstance().recordException(exception);
+
 		Log.e(originClass.getName(), message, exception);
 	}
 
 	public static void logd(Class<?> originClass, String message)
 	{
-		if (Fabric.isInitialized())
-		{
-			Crashlytics.log(Log.DEBUG, originClass.getName(), message);
-		}
+		FirebaseCrashlytics.getInstance().log(message);
 		Log.d(originClass.getName(), message);
 	}
 }

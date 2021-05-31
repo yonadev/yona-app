@@ -40,7 +40,7 @@ export default class AddDevice extends Vue {
     if (this.api.links && this.api.links["yona:newDeviceRequest"]) {
       await axios
         .put(this.api.links["yona:newDeviceRequest"].href, {
-          newDeviceRequestPassword: this.OTP
+          newDeviceRequestPassword: this.OTP,
         })
         .catch();
     }

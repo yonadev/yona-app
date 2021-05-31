@@ -18,7 +18,7 @@
               >
                 {{
                   notification._embedded["yona:user"].firstName.charAt(0) +
-                    notification._embedded["yona:user"].lastName.charAt(0)
+                  notification._embedded["yona:user"].lastName.charAt(0)
                 }}
               </text>
             </svg>
@@ -67,7 +67,7 @@ import { Prop } from "vue-property-decorator";
 import { Action } from "vuex-class";
 
 @Component({
-  components: {}
+  components: {},
 })
 export default class Notifications extends Vue {
   @Prop() notification!: any;
@@ -78,7 +78,7 @@ export default class Notifications extends Vue {
     if (this.notification && this.notification._links["yona:userPhoto"]) {
       let photo_response: any = await axios
         .get(this.notification._links["yona:userPhoto"].href, {
-          responseType: "blob"
+          responseType: "blob",
         })
         .catch();
 
@@ -90,8 +90,8 @@ export default class Notifications extends Vue {
     let response: any = await axios
       .post(this.notification._links["yona:accept"].href, {
         properties: {
-          message: "accepted"
-        }
+          message: "accepted",
+        },
       })
       .catch();
 
@@ -104,8 +104,8 @@ export default class Notifications extends Vue {
     let response: any = await axios
       .post(this.notification._links["yona:reject"].href, {
         properties: {
-          message: "rejected"
-        }
+          message: "rejected",
+        },
       })
       .catch();
 

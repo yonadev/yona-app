@@ -31,8 +31,8 @@ import { Buddy } from "@/store/buddies/types";
 
 @Component({
   components: {
-    WeekScoreLabel
-  }
+    WeekScoreLabel,
+  },
 })
 export default class FriendsTimeLineWeek extends Vue {
   @Prop() buddy_href!: string;

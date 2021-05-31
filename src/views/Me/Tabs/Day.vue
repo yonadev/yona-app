@@ -26,8 +26,8 @@ import UiControlsLabel from "@/components/UiControls/UiControlsLabel.vue";
 
 @Component({
   components: {
-    UiControlsLabel
-  }
+    UiControlsLabel,
+  },
 })
 export default class MeTimeLineDay extends Vue {
   @State("api") api!: ApiState;

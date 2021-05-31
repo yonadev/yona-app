@@ -10,9 +10,12 @@
         {{ $t("deleteusermessage") }}
       </p>
 
-      <a class="button is-rounded unsubscribe-button" @click="unsubscribe" :disabled="loading">{{
-        $t("deleteuser")
-      }}</a>
+      <a
+        class="button is-rounded unsubscribe-button"
+        @click="unsubscribe"
+        :disabled="loading"
+        >{{ $t("deleteuser") }}</a
+      >
     </div>
   </div>
 </template>

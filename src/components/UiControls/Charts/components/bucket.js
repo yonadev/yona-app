@@ -23,8 +23,8 @@ function genColumn(_this, h) {
             x: `${bar_width}%`,
             y: 0,
             width: `${100 - bar_width}%`,
-            height
-          }
+            height,
+          },
         },
         [
           h("animate", {
@@ -33,9 +33,9 @@ function genColumn(_this, h) {
               from: `${100 - bar_width}%`,
               to: 0,
               dur: `1s`,
-              fill: "freeze"
-            }
-          })
+              fill: "freeze",
+            },
+          }),
         ]
       ),
       h(
@@ -48,8 +48,8 @@ function genColumn(_this, h) {
             x: exceeded ? `${bar_width * -1}%` : 0,
             y: 0,
             width: 0,
-            height
-          }
+            height,
+          },
         },
         [
           h("animate", {
@@ -59,11 +59,11 @@ function genColumn(_this, h) {
               to: `${bar_width}%`,
               dur: `1s`,
               begin: `1s`,
-              fill: "freeze"
-            }
-          })
+              fill: "freeze",
+            },
+          }),
         ]
-      )
+      ),
     ];
   } else {
     return [
@@ -76,8 +76,8 @@ function genColumn(_this, h) {
             x: 0,
             y: 0,
             width: "100%",
-            height
-          }
+            height,
+          },
         },
         [
           h("animate", {
@@ -86,11 +86,11 @@ function genColumn(_this, h) {
               from: "100%",
               to: `${bar_width}%`,
               dur: `1s`,
-              fill: "freeze"
-            }
-          })
+              fill: "freeze",
+            },
+          }),
         ]
-      )
+      ),
     ];
   }
 }
@@ -103,8 +103,8 @@ function genBackground({ width, height }, h) {
       x: 0,
       y: 0,
       width: "100%",
-      height
-    }
+      height,
+    },
   });
 }
 
@@ -121,10 +121,10 @@ export default {
       "g",
       {
         attrs: {
-          transform: `scale(1,-1) translate(0,-${this.size.height})`
-        }
+          transform: `scale(1,-1) translate(0,-${this.size.height})`,
+        },
       },
       [background, ...column]
     );
-  }
+  },
 };

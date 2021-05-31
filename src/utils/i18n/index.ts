@@ -10,7 +10,7 @@ function loadLocaleInfo() {
     /[A-Za-z0-9-_,\s]+\.json$/i
   );
   const messages: { [key: string]: {} } = {};
-  locales.keys().forEach(key => {
+  locales.keys().forEach((key) => {
     const matched = key.match(/([A-Za-z0-9-_]+)\./i);
     if (matched && matched.length > 1) {
       const locale = matched[1];
@@ -25,13 +25,13 @@ const { id, messages } = loadLocaleInfo();
 
 const i18n = new VueI18n({
   locale: "en",
-  messages
+  messages,
 });
 
 if (module.hot) {
   module.hot.accept(id, () => {
     const { messages } = loadLocaleInfo();
-    Object.keys(messages).forEach(locale => {
+    Object.keys(messages).forEach((locale) => {
       i18n.setLocaleMessage(locale, messages[locale]);
     });
   });

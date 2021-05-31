@@ -50,7 +50,7 @@ import { ApiState } from "@/store/api/types";
 import axios from "@/utils/axios/axios";
 
 @Component({
-  components: { ProfilePic }
+  components: { ProfilePic },
 })
 export default class MeTabs extends Vue {
   @State("account") account!: AccountState;
@@ -91,7 +91,7 @@ export default class MeTabs extends Vue {
       const userPhotoResponse: any = await axios.get(
         message._links["yona:userPhoto"].href,
         {
-          responseType: "arraybuffer"
+          responseType: "arraybuffer",
         }
       );
 
@@ -105,7 +105,7 @@ export default class MeTabs extends Vue {
           message._links["yona:userPhoto"].href,
           JSON.stringify({
             type: "buddy",
-            src: "data:image/png;base64," + userPhoto
+            src: "data:image/png;base64," + userPhoto,
           })
         );
         hasPhoto = true;
@@ -119,7 +119,7 @@ export default class MeTabs extends Vue {
           type: "buddy",
           text:
             message._embedded["yona:user"].firstName.charAt(0) +
-            message._embedded["yona:user"].lastName.charAt(0)
+            message._embedded["yona:user"].lastName.charAt(0),
         })
       );
     }

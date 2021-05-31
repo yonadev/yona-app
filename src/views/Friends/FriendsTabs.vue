@@ -43,8 +43,8 @@ import UiControlsLabel from "@/components/UiControls/UiControlsLabel.vue";
 
 @Component({
   components: {
-    UiControlsLabel
-  }
+    UiControlsLabel,
+  },
 })
 export default class FriendsTabs extends Vue {
   @Action("update", { namespace: "buddies" }) update: any;

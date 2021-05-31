@@ -30,8 +30,8 @@ import { Buddy } from "@/store/buddies/types";
 
 @Component({
   components: {
-    UiControlsLabel
-  }
+    UiControlsLabel,
+  },
 })
 export default class FriendsTimeLineDay extends Vue {
   @Prop() buddy_href!: string;

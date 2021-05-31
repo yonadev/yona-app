@@ -6,7 +6,7 @@ import Vue from "vue/types/vue";
 
 export const state: AppState = {
   versionNumber: "1.0.8",
-  versionCode: 10008
+  versionCode: 10008,
 };
 
 const actions: ActionTree<AppState, RootState> = {
@@ -26,7 +26,7 @@ const actions: ActionTree<AppState, RootState> = {
       const versionCode = await cordova.plugins.AppVersion.getVersionCode();
       commit("setVersionCode", versionCode);
     }
-  }
+  },
 };
 
 const mutations: MutationTree<AppState> = {
@@ -35,7 +35,7 @@ const mutations: MutationTree<AppState> = {
   },
   setVersionCode(state, code) {
     state.versionCode = code;
-  }
+  },
 };
 
 const getters: GetterTree<AppState, RootState> = {
@@ -44,7 +44,7 @@ const getters: GetterTree<AppState, RootState> = {
   },
   versionCode(state) {
     return state.versionCode;
-  }
+  },
 };
 
 const namespaced: boolean = true;
@@ -53,5 +53,5 @@ export const app: Module<AppState, RootState> = {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

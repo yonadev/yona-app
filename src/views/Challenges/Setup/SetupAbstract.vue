@@ -45,7 +45,7 @@ import { Action, Getter, State } from "vuex-class";
 import {
   ActivityCategory,
   ChallengesState,
-  Goal
+  Goal,
 } from "@/store/challenges/types";
 import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/antd.css";
@@ -57,8 +57,8 @@ interface HeaderDataInterface {
 
 @Component({
   components: {
-    VueSlider
-  }
+    VueSlider,
+  },
 })
 export default class Setup extends Vue {
   @State("challenges") challenges!: ChallengesState;
@@ -78,19 +78,19 @@ export default class Setup extends Vue {
 
   headerData: HeaderDataInterface = {
     text: "",
-    title: ""
+    title: "",
   };
 
   get headerText(): any {
     switch (this.type) {
       case "credit":
         return this.$t("budgetgoalheadersubtext", {
-          category: this.activityCategory(this.category).name
+          category: this.activityCategory(this.category).name,
         });
 
       case "timezone":
         return this.$t("timezonegoalheadersubtext", {
-          category: this.activityCategory(this.category).name
+          category: this.activityCategory(this.category).name,
         });
 
       case "nogo":
@@ -104,7 +104,7 @@ export default class Setup extends Vue {
     switch (this.type) {
       case "credit":
         return this.$t("challengesdetail", {
-          type: this.$t("challengescredit")
+          type: this.$t("challengescredit"),
         });
 
       case "timezone":
@@ -154,7 +154,7 @@ export default class Setup extends Vue {
 
               this.$router.push({
                 name: "ChallengesOverview",
-                params: { type: this.type }
+                params: { type: this.type },
               });
             }
           }
@@ -163,9 +163,9 @@ export default class Setup extends Vue {
         [self.$t("No"), self.$t("Yes")]
       );
     } else {
-      let confirm_response: any = confirm(self.$t(
-        "challengedeletemsg"
-      ) as string);
+      let confirm_response: any = confirm(
+        self.$t("challengedeletemsg") as string
+      );
       if (confirm_response) {
         if (goal._links.edit) {
           await this.deleteGoal(goal._links.edit.href);
@@ -174,7 +174,7 @@ export default class Setup extends Vue {
 
           this.$router.push({
             name: "ChallengesOverview",
-            params: { type: this.type }
+            params: { type: this.type },
           });
         }
       }

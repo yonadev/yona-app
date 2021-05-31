@@ -7,18 +7,18 @@ export default {
   props: {
     goal: {
       type: Number,
-      required: true
+      required: true,
     },
     spend: {
       type: Number,
       required: true,
-      default: 0
+      default: 0,
     },
     growDuration: {
       type: Number,
-      default: 0.5
+      default: 0.5,
     },
-    height: Number
+    height: Number,
   },
 
   render(h) {
@@ -27,7 +27,7 @@ export default {
     const props = this.$props;
 
     props.size = {
-      height: viewHeight
+      height: viewHeight,
     };
     props.offset = 0;
     props.id = "vue-bucket-" + this._uid;
@@ -37,19 +37,19 @@ export default {
       {
         attrs: {
           width: "100%",
-          height: `${viewHeight * 2}px`
-        }
+          height: `${viewHeight * 2}px`,
+        },
       },
       [
         h(Bucket, {
           props,
-          ref: "path"
+          ref: "path",
         }),
         h(Labels, {
           props,
-          ref: "path_labels"
-        })
+          ref: "path_labels",
+        }),
       ]
     );
-  }
+  },
 };

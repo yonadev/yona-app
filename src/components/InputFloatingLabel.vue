@@ -5,7 +5,7 @@
       :class="{
         'is-focused': isFocused || isFilled,
         'is-disabled': disabled,
-        'has-error': errors.has(id)
+        'has-error': errors.has(id),
       }"
     >
       <input

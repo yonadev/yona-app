@@ -36,8 +36,8 @@ import { Action } from "vuex-class";
 
 @Component({
   components: {
-    PinCode
-  }
+    PinCode,
+  },
 })
 export default class ConfirmPinCode extends Vue {
   @Prop() pincode!: any;
@@ -55,7 +55,7 @@ export default class ConfirmPinCode extends Vue {
       } else {
         this.$router.push({
           name: "ChangePinCode",
-          params: { wrong_pincode: "true" }
+          params: { wrong_pincode: "true" },
         });
       }
     }

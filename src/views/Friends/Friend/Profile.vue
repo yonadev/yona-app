@@ -79,8 +79,8 @@ import ProfilePic from "@/components/ProfilePic/ProfilePic.vue";
 @Component({
   components: {
     ProfilePic,
-    InputFloatingLabel
-  }
+    InputFloatingLabel,
+  },
 })
 export default class FriendsProfile extends Vue {
   loading: boolean = false;

@@ -76,8 +76,9 @@ export default class GivePermission extends Vue {
         this.permission === "tracking" &&
         !(this.account.permissions as any)[this.permission].is_allowed
       ) {
-        //@ts-ignore
-        const hasUsageAccess = await cordova.plugins.YonaServices.checkUsageAccess();
+        const hasUsageAccess =
+          //@ts-ignore
+          await cordova.plugins.YonaServices.checkUsageAccess();
 
         if (hasUsageAccess === "true") {
           //@ts-ignore
@@ -86,14 +87,14 @@ export default class GivePermission extends Vue {
             icon: "notification", // this will look for icon.png in platforms/android/res/drawable|mipmap
             color: "6c2a58", // hex format like 'F14F4D'
             channelName: this.$t("yona_service_notification_channel_name"),
-            allowClose: false
+            allowClose: false,
           });
           //@ts-ignore
           cordova.plugins.YonaServices.enable();
 
           self.setPermission({
             key: self.permission,
-            value: hasUsageAccess === "true"
+            value: hasUsageAccess === "true",
           });
         } else {
           this.setLogOffOnPause(false);
@@ -106,7 +107,7 @@ export default class GivePermission extends Vue {
         cordova.plugins.YonaServices.openAppStartSettings(false);
         this.setPermission({
           key: this.permission,
-          value: true
+          value: true,
         });
       } else if (this.permission === "store_files") {
         this.setLogOffOnPause(false);
@@ -118,7 +119,7 @@ export default class GivePermission extends Vue {
 
         this.setPermission({
           key: this.permission,
-          value: hasPermission === true || requestedSucces === true
+          value: hasPermission === true || requestedSucces === true,
         });
       } else if (this.permission === "vpn") {
         if (this.account.currentDevice) {
@@ -136,33 +137,32 @@ export default class GivePermission extends Vue {
               vpnProfile.data
             ).catch();
 
-            //@ts-ignore
-            const vpnConfigured = await cordova.plugins.YonaServices.configureVPN(
-              {
+            const vpnConfigured =
+              //@ts-ignore
+              await cordova.plugins.YonaServices.configureVPN({
                 ...this.account.currentDevice.vpnProfile,
-                vpnProfilePath: vpnProfilePath
-              }
-            );
+                vpnProfilePath: vpnProfilePath,
+              });
 
             this.setLogOffOnPause(false);
 
             this.setPermission({
               key: this.permission,
-              value: vpnConfigured === true
+              value: vpnConfigured === true,
             });
           }
         }
       } else {
         this.setPermission({
           key: this.permission,
-          value: true
+          value: true,
         });
       }
     } else {
       //In browser
       this.setPermission({
         key: this.permission,
-        value: true
+        value: true,
       });
     }
 
@@ -175,18 +175,18 @@ export default class GivePermission extends Vue {
       window.resolveLocalFileSystemURL(
         //@ts-ignore
         cordova.file.dataDirectory,
-        function(directoryEntry: any) {
+        function (directoryEntry: any) {
           directoryEntry.getFile(
             fileName,
             { create: true },
-            function(fileEntry: any) {
+            function (fileEntry: any) {
               fileEntry.createWriter(
-                function(fileWriter: any) {
-                  fileWriter.onwriteend = function() {
+                function (fileWriter: any) {
+                  fileWriter.onwriteend = function () {
                     resolve(fileEntry.nativeURL);
                   };
 
-                  fileWriter.onerror = function(e: Error) {
+                  fileWriter.onerror = function (e: Error) {
                     reject(e.toString());
                   };
 
@@ -212,7 +212,7 @@ export default class GivePermission extends Vue {
     return new Promise((resolve, reject) => {
       Permission.has(
         permission,
-        function(results: any) {
+        function (results: any) {
           if (!results[permission]) {
             resolve(false);
           } else {
@@ -231,7 +231,7 @@ export default class GivePermission extends Vue {
     return new Promise((resolve, reject) => {
       Permission.request(
         permission,
-        function(results: any) {
+        function (results: any) {
           if (results[permission]) {
             resolve(true);
           } else {

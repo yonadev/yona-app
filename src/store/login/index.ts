@@ -16,7 +16,7 @@ export const state: LoginState = {
   loginAttempts: 0,
   locked_timer: 0,
   lastRoute: null,
-  logOffOnPause: true
+  logOffOnPause: true,
 };
 
 const actions: ActionTree<LoginState, RootState> = {
@@ -62,7 +62,7 @@ const actions: ActionTree<LoginState, RootState> = {
       commit("setLastRoute", {
         name: router.currentRoute.name,
         params: router.currentRoute.params,
-        query: router.currentRoute.query
+        query: router.currentRoute.query,
       });
     } else if (customRoute) {
       commit("setLastRoute", customRoute);
@@ -119,7 +119,7 @@ const actions: ActionTree<LoginState, RootState> = {
   },
   setLogOffOnPause({ commit }, bool): void {
     commit("setLogOffOnPause", bool);
-  }
+  },
 };
 
 const mutations: MutationTree<LoginState> = {
@@ -162,13 +162,13 @@ const mutations: MutationTree<LoginState> = {
   },
   setLogOffOnPause(state, bool: boolean) {
     state.logOffOnPause = bool;
-  }
+  },
 };
 
 const getters: GetterTree<LoginState, RootState> = {
   pinCode(state) {
     return state.pinCode;
-  }
+  },
 };
 
 const namespaced: boolean = true;
@@ -177,5 +177,5 @@ export const login: Module<LoginState, RootState> = {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

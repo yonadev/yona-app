@@ -58,7 +58,7 @@ import { ApiState } from "@/store/api/types";
 import InputFloatingLabel from "@/components/InputFloatingLabel.vue";
 
 @Component({
-  components: { InputFloatingLabel }
+  components: { InputFloatingLabel },
 })
 export default class Devices extends Vue {
   @State("api") api!: ApiState;
@@ -75,11 +75,11 @@ export default class Devices extends Vue {
 
   async updateDevice() {
     let self = this;
-    this.$validator.validate().then(async valid => {
+    this.$validator.validate().then(async (valid) => {
       if (valid) {
         let response: any = await axios
           .put(self.device._links.edit.href, {
-            name: self.device_name
+            name: self.device_name,
           })
           .catch();
 

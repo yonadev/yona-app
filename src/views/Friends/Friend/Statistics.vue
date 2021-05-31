@@ -1,7 +1,5 @@
 <template>
-  <div>
-    Friend - Statistics
-  </div>
+  <div>Friend - Statistics</div>
 </template>
 
 <script lang="ts">
