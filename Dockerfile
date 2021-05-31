@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.10.0
+FROM phusion/baseimage:focal-1.0.0
 LABEL maintainer="Anton Vink <anton@b2it.nl>"
 
 CMD ["/sbin/my_init"]
